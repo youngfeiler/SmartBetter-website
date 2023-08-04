@@ -1,6 +1,6 @@
 $(document).ready(function() {
             // When the element with ID "delete-form" is clicked
-            $("#delete-form").on("click", function(event) {
+            $("#delete-strategy").on("click", function(event) {
                 event.preventDefault(); // Prevent default behavior of the button
 
                 // Show the user input popup
@@ -10,7 +10,7 @@ $(document).ready(function() {
             // Function to show the user input popup
             function showUserInputPopup() {
                 // Create a popup to ask for user input
-                var userInput = prompt("Please enter your input:");
+                var userInput = prompt("Please enter a strategy to delete:");
 
                 // If the user clicks "Cancel" or enters an empty input, do nothing
                 if (userInput === null || userInput.trim() === '') {
@@ -19,7 +19,7 @@ $(document).ready(function() {
 
                 // Send the user input to the Flask function
                 $.ajax({
-                    url: "/get_input",
+                    url: "/delete-strategy",
                     type: "POST",
                     data: { user_input: userInput },
                     success: function(response) {
