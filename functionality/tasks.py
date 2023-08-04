@@ -45,6 +45,8 @@ def make_strategy(name, min_ev, min_odds, max_odds, min_min_com, max_min_com, nu
     bettable_books=bettable_books
   )
 
+  return
+
   
 @celery.task
 def start_model_runner():
