@@ -12,6 +12,7 @@ class model_runner():
     def __init__(self):
       self = self
       self.model_objs_dir = 'models/model_objs/'
+      #test
 
       self.amount_of_models = None
       self.list_of_model_names = None
