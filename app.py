@@ -186,6 +186,21 @@ def make_strategy():
 
     
   return render_template('strategy_maker.html')
+@app.route('/get_input', methods=['POST', 'GET'])
+def get_input():
+    if request.method == 'POST':
+        # Get the input from the form data
+        user_input = request.form.get('user_input')
+        db = database()
+        db.delete_user_strategy(session['user_id'], user_input)
+        # Do something with the user_input, for example, save it to a database
+        # Replace this part with your desired logic
+
+        # Return a success response
+        return jsonify({"status": "success", "message": "User input saved successfully", "user_input": user_input})
+
+    return render_template('get_input.html')
+
 
 @app.route('/check_if_text_allowed', methods=['GET','POST'])
 def check_if_text_allowed():

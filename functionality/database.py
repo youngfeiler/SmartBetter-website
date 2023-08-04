@@ -154,12 +154,14 @@ class database():
       strategies = this_user.get_strategies_associated_with_user()
       return strategies
     
-    def delete_user_strategy(self, user, strategy_name):
+    def delete_user_strategy(self, username, strategy_name):
        # delete the strategy from the user_strategy_names.csv
-
-       # delete the strategy from models
-
-       # delete the live_performance_data from performance folder 
+       this_user = User(username)
+       this_user.delete_strategy_to_user(username, strategy_name)
+       os.remove(f'models/model_objs/{strategy_name}.pth')
+       os.remove(f'models/encoders/{strategy_name}.pkl')
+       os.remove(f'models/scalers/{strategy_name}.pkl')
+       os.remove(f"models/params/{strategy_name}.pkl")
        pass
 
     def check_if_strategy_exists_and_handle_duplicate(self, input_name, input_strat_params):
