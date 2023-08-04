@@ -22,10 +22,11 @@ class User():
       df.loc[len(df)] = info_row
       df.to_csv('users/user_strategy_names.csv', index=False)
     
-    def delete_strategy_to_user(username, strategy_name):
+    def delete_strategy_to_user(self, username, strategy_name):
       df = pd.read_csv('users/user_strategy_names.csv')
       df = df[~((df['username'] == username) & (df['strategy_name'] == strategy_name))]
       df.to_csv('users/user_strategy_names.csv', index=False)
+      print(strategy_name)
       return df
 
     def get_strategies_associated_with_user(self):
