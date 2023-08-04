@@ -186,7 +186,7 @@ def make_strategy():
 
     
   return render_template('strategy_maker.html')
-@app.route('/get_input', methods=['POST', 'GET'])
+@app.route('/delete-strategy', methods=['POST', 'GET'])
 def get_input():
     if request.method == 'POST':
         # Get the input from the form data
