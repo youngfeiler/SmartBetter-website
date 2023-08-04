@@ -91,6 +91,7 @@ class model_runner():
         combined_market_extra_df = preprocess(market_odds_df)
         self.market_odds = combined_market_extra_df
         self.stacked_df = make_stacked_df(combined_market_extra_df)
+
         for strategy_name, strategy_dict in self.model_storage.items():
 
             this_model_raw_data_point = strategy_dict['data_collector'].format(self.stacked_df)
@@ -115,7 +116,10 @@ class model_runner():
                 
 
         # Once we've ran, we should send a batch of texts
-        self.send_texts(self.text_list)
+        try:
+          self.send_texts(self.text_list)
+        except:
+          print("couldn't send texts...")
         self.result_updater_instace.update_results() 
         self.database_instance.update_winning_teams_data()
         self.database_instance.update_strategy_performance_files()
