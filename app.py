@@ -235,4 +235,4 @@ def update_text_alert():
  
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8000)
