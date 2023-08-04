@@ -104,7 +104,7 @@ class model_runner():
               ind_list = []
               for idx, pred in enumerate(predictions):
                 pred_float = pred.detach().numpy()[0]
-                print(f'{strategy_name} {pred_float} {strategy_dict["pred_thresh"]}')
+                
                 if pred_float >= strategy_dict['pred_thresh']:
                 #if pred_float >= -100:
                   ind_list.append(idx)

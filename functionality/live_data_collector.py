@@ -50,6 +50,7 @@ class data_collector():
         self.df['average_market_odds'] = row_avg
 
     def filter_by_minutes_since_commence(self):
+        
         self.df = self.df[self.df['minutes_since_commence'] >= self.min_minutes_since_commence]
         self.df = self.df[self.df['minutes_since_commence'] <= self.max_minutes_since_commence]
 
