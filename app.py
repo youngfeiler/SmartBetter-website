@@ -21,6 +21,7 @@ def create_app():
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
     app.live_dashboard_runner_instance = live_dashboard_runner()
+
     return app
 
 app = create_app()
@@ -244,9 +245,7 @@ def live_dashboard():
 @app.route('/get_live_dash_data')
 def get_live_dash_data():
     app.live_dashboard_runner_instance.make_live_dash_data()
-
     data = app.live_dashboard_runner_instance.display_df
-
     new_data = data.copy(deep=True)
 
     new_data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
