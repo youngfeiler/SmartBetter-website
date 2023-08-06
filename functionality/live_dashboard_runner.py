@@ -72,7 +72,6 @@ class live_dashboard_runner():
         combined_market_extra_df = preprocess(market_odds_df)
         self.market_odds = combined_market_extra_df
         self.stacked_df = make_stacked_df(combined_market_extra_df)
-        self.stacked_df.to_csv('/Users/stefanfeiler/Desktop/stacked_in_mr.csv')
 
         for strategy_name, strategy_dict in self.model_storage.items():
 
