@@ -1,60 +1,28 @@
-import os
-import time as ttime
-import torch
-import pickle
-from .database import database
+import requests 
+import numpy 
+import pandas as pd
 from .live_data_collector import data_collector
-from .util import *
-from .result_updater import result_updater
-from .texter import texter
+from .util import get_odds, preprocess, make_stacked_df
+import pickle
+import torch
+import time 
 
-class model_runner():
+class live_dashboard_runner():
     def __init__(self):
-      self = self
-      self.model_objs_dir = 'models/model_objs/'
-      #test
+        self = self
+        self.model_storage = {} 
+        self.store_model_info()
+        self.display_df = pd.DataFrame()
 
-      self.amount_of_models = None
-      self.list_of_model_names = None
-      self.list_of_models = None
-      self.list_of_encoders = None
-      self.list_of_scalers = None
-      self.list_of_params = None
-
-      self.model_storage = {}
-      self.database_instance = database()
-      self.result_updater_instace = result_updater()
-      self.amount_of_models = self.set_amount_of_models()
-
-      self.check_amount_of_models()
-
-      self.run()
-
-    def set_amount_of_models(self):
-      return len(os.listdir(self.model_objs_dir))
-
-    def check_amount_of_models(self):
-      new_model_count = len(os.listdir(self.model_objs_dir))
-
-      if new_model_count >= self.amount_of_models:
-         self.set_amount_of_models()
-         self.store_model_info()
 
     def store_model_info(self):
-      for strat_obj_filename in os.listdir(self.model_objs_dir):
-        if strat_obj_filename == '.DS_Store':
-         pass
-        else:
-         strat_name = strat_obj_filename.split('.pth')[0]
-
-         if strat_name not in self.model_storage:
-          loaded_model = torch.load(f'models/model_objs/{strat_obj_filename}')
+          loaded_model = torch.load(f'models/model_objs/SmartBetterModel.pth')
           loaded_model.eval()
-          with open(f'models/encoders/{strat_name}.pkl', 'rb') as f:
+          with open(f'models/encoders/SmartBetterModel.pkl', 'rb') as f:
             loaded_encoder = pickle.load(f)
-          with open(f'models/scalers/{strat_name}.pkl', 'rb') as f:
+          with open(f'models/scalers/SmartBetterModel.pkl', 'rb') as f:
             loaded_scaler = pickle.load(f)
-          with open(f'models/params/{strat_name}.pkl', 'rb') as f:
+          with open(f'models/params/SmartBetterModel.pkl', 'rb') as f:
             loaded_ordered_params_dict = pickle.load(f)
             loaded_params_dict = dict(loaded_ordered_params_dict)
             
@@ -78,16 +46,12 @@ class model_runner():
             'pred_thresh': loaded_params_dict['pred_thresh']
             }
           
-          self.model_storage[strat_name] = this_model_dict
+          self.model_storage['SmartBetterModel'] = this_model_dict
+    
+    def make_live_dash_data(self):
+        # somewhere in here, need to filter the highest bettable odds as only those that have been updated within the last 10 seconds 
 
-    def run(self):
-      i = 1
-      while i <=9999:
-        self.check_amount_of_models()
         market_odds_df = get_odds()
-
-        self.text_list = []
-
         combined_market_extra_df = preprocess(market_odds_df)
         self.market_odds = combined_market_extra_df
         self.stacked_df = make_stacked_df(combined_market_extra_df)
@@ -95,6 +59,7 @@ class model_runner():
         for strategy_name, strategy_dict in self.model_storage.items():
 
             this_model_raw_data_point = strategy_dict['data_collector'].format(self.stacked_df)
+
             if this_model_raw_data_point is not False:
               
               input_tensor = torch.tensor(this_model_raw_data_point.values, dtype=torch.float32)
@@ -104,28 +69,16 @@ class model_runner():
               ind_list = []
               for idx, pred in enumerate(predictions):
                 pred_float = pred.detach().numpy()[0]
-                
+    
                 if pred_float >= strategy_dict['pred_thresh']:
                 #if pred_float >= -100:
                   ind_list.append(idx)
-                  print(f'Bet Found! {strategy_name}')
 
               if len(ind_list) > 0:
                 bet_list = self.get_team_odds_book(this_model_raw_data_point, ind_list, strategy_dict)
-                self.handle_bets(bet_list, self.stacked_df, strategy_name, strategy_dict['params']['bettable_books'])
                 
-
-        # Once we've ran, we should send a batch of texts
-        try:
-          self.send_texts(self.text_list)
-        except:
-          print("couldn't send texts...")
-        self.result_updater_instace.update_results() 
-        self.database_instance.update_winning_teams_data()
-        self.database_instance.update_strategy_performance_files()
-        print(f'Ran {i} times')
-        i+=1
-        ttime.sleep(300)
+                return self.handle_bets(bet_list, self.stacked_df, strategy_name, strategy_dict['params']['bettable_books'])
+              
 
 
     def format_sportsbook_names_from_column_names(self, cols):
@@ -154,45 +107,45 @@ class model_runner():
       team_data_decoded = self.decode('team_1', team_data, strategy['encoder'])
       info_data = pd.concat([numerical_data_unstandardized, team_data_decoded], axis=1)
       info_data = info_data.rename(columns={info_data.columns[-1]: 'team'})
+
       return info_data
 
     def handle_bets(self, bet_df, stacked_df, strategy_name, bettable_books):
-
-      self.text_list.append(strategy_name)
-
-      self.append_to_live_performance_sheet(bet_df, stacked_df, strategy_name, bettable_books)
-
-    def append_to_live_performance_sheet(self, bet_df, stacked_df, strategy_name, bettable_books):
-
-      live_results_df = pd.read_csv(f'live_performance_data/{strategy_name}.csv')
+      live_results_df = pd.read_csv(f'live_performance_data/demo model.csv')
+      return_df = pd.DataFrame()
 
       stacked_df = stacked_df.rename(columns={'team_1': 'team'})
 
-      
-      for idx, row in bet_df.iterrows():
-        team = row['team']
+      stacked_df = self.make_snapshot_time(stacked_df)
 
+      stacked_df = self.make_highest_bettable_odds(stacked_df, bettable_books)
+
+      for idx, row in bet_df.iterrows():
+
+        team = row['team']
         stacked_df_team = stacked_df[stacked_df['team'] == team]
 
         for sidx, srow in stacked_df_team.iterrows():
           if abs(srow['minutes_since_commence'] - row['minutes_since_commence']) <= 1:
+
             common_columns = stacked_df_team.columns.intersection(live_results_df.columns)
-
+            
             df_to_append = stacked_df[common_columns]
-
             row_to_append = df_to_append.iloc[sidx].to_frame().T
 
             row_to_append  = self.fill_extra_cols(row_to_append, bettable_books)
-            live_results_df = live_results_df.append(row_to_append, ignore_index=True)
             
-            live_results_df.to_csv(f'live_performance_data/{strategy_name}.csv', index=False)
+            return_df = return_df.append(row_to_append, ignore_index=True)
+      self.display_df = pd.concat([self.display_df, return_df]).tail(20)
+
+      return self.display_df     
 
     def fill_extra_cols(self, df, bettable_books):
-      subset_columns = [col for col in df.columns if any(item in col for item in bettable_books)]
-
-      df['highest_bettable_odds'] = df[subset_columns].max(axis=1)
 
       df['ev'] = ((1/df['average_market_odds'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds'])) * 100)
+      df = df[df['ev'] >=10]
+
+      df['ev'] = df['ev'].apply(lambda x: round(x, 2))
 
       game_id_to_commence_time = self.market_odds.set_index('game_id')['commence_time'].to_dict()
 
@@ -200,20 +153,75 @@ class model_runner():
 
       df['date'] = pd.to_datetime(df['date']).dt.date
 
+      def process_column_header(header):
+        book = header.split('_1_odds')[0].title()
+        return book
+            
+      def find_matching_columns(row):
+          return [process_column_header(col) for col in bettable_books if row[col+'_1_odds'] == row['highest_bettable_odds']]
+
+      df['sportsbooks_used'] = df.apply(find_matching_columns, axis=1)
+
       return df
+    
+    def make_snapshot_time(self, df):
+       df['snapshot_time'] = pd.to_datetime('now', utc=True)
+       df['snapshot_time'] = df['snapshot_time'] - pd.Timedelta(hours=7)
+       df['snapshot_time'] = df['snapshot_time'].dt.tz_localize(None)
+    
+       return df
+   
+    
+    def filter_by_lag_val(self, df, bettable_books):
+        
+        snap_time_col = df['snapshot_time']
+        
+        subset_columns = [col for col in df.columns if any(item in col for item in bettable_books)]
 
-    def send_texts(self, text_list):
+        time_cols = [col for col in subset_columns if '_1_time' in col]
+        odds_cols = [col for col in subset_columns if '_1_odds' in col]
+        odds_df = df[odds_cols]
 
-      texter_instance = texter(text_list)
-      texter_instance.send_batch_texts(text_list)
+        # Convert the bettable time columns to deltas
+        time_df = pd.DataFrame()
+        for col in time_cols:
+    
+            time_df[col] = pd.to_datetime(pd.to_datetime(df[col]).astype(str))
+        result_df = time_df.sub(snap_time_col, axis=0)
+    
+        result_df = result_df.abs()
+        mask = result_df <= pd.Timedelta(seconds=10)
+        mask.columns = odds_df.columns
+
+        odds_df_masked = odds_df.where(mask, 0)
+
+        time_cols = [x for x in df.columns if x.endswith('_time')]
+
+        result = df.drop(columns=time_cols)
+
+        result['highest_bettable_odds'] = odds_df_masked[odds_cols].max(axis=1)
+
+        return result
+    
+    
+    def make_highest_bettable_odds(self, df, bettable_books):
+       
+       df = self.filter_by_lag_val(df, bettable_books)
+
+       return df
 
 
-      
+
+    def run(self):
+      while True:
+
+           self.make_live_dash_data()
+           time.slep(5)
 
 
 
 
-
+    
 
 
 

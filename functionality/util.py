@@ -338,6 +338,19 @@ def american_to_decimal(american_odds):
 
         decimal = (100/abs(american_odds_int)) + 1
         return decimal
+    
+def decimal_to_american(decimal_odds):
+
+    decimal_odds_int = float(decimal_odds)
+
+    if decimal_odds_int >= 2:
+        american_odds = (decimal_odds_int-1) * 100
+        return int(american_odds)
+
+    elif decimal_odds_int < 2:
+        american_odds = -100 / (decimal_odds_int-1)
+        return int(american_odds)
+
 
 
 
