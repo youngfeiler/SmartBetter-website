@@ -61,7 +61,7 @@ def register():
         else:
             my_db.add_user(first_name, last_name, username, password, phone)
             users = my_db.users
-            return redirect(url_for('make_strategy'))
+            return redirect(url_for('live_dashboard'))
     return render_template('register.html', username_exists=False, form_data={})
 
 
