@@ -250,7 +250,6 @@ def get_live_dash_data():
 
     new_data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
 
-    print(new_data['snapshot_time'])
 
     data_json = new_data.to_dict(orient='records')
 
