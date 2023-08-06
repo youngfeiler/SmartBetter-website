@@ -5,32 +5,15 @@ from .live_data_collector import data_collector
 from .util import get_odds, preprocess, make_stacked_df
 import pickle
 import torch
-import pytz
-
-
-
-
-#for each of the 3 strategies we will host, take the user input from the site about which books they can bet 
-
-# Get the market odds 
-
-# do all the manipulation (have an input for bettable books so that the user can select. Each session should display its own model predictions)
-
-# make sure we only contain reallllly recent odds 
-
-# run that df through the models 
-
-# return the rows that it likes 
-
-# repeat after each 1s
+import time 
 
 class live_dashboard_runner():
     def __init__(self):
         self = self
-        self.model_storage = {}
-        # self.database_instance = database() 
+        self.model_storage = {} 
         self.store_model_info()
-        
+        self.display_df = pd.DataFrame()
+
 
     def store_model_info(self):
           loaded_model = torch.load(f'models/model_objs/SmartBetterModel.pth')
@@ -86,14 +69,14 @@ class live_dashboard_runner():
               ind_list = []
               for idx, pred in enumerate(predictions):
                 pred_float = pred.detach().numpy()[0]
-                
-                #if pred_float >= strategy_dict['pred_thresh']:
-                if pred_float >= -100:
+    
+                if pred_float >= strategy_dict['pred_thresh']:
+                #if pred_float >= -100:
                   ind_list.append(idx)
 
               if len(ind_list) > 0:
                 bet_list = self.get_team_odds_book(this_model_raw_data_point, ind_list, strategy_dict)
-
+                
                 return self.handle_bets(bet_list, self.stacked_df, strategy_name, strategy_dict['params']['bettable_books'])
               
 
@@ -128,7 +111,7 @@ class live_dashboard_runner():
       return info_data
 
     def handle_bets(self, bet_df, stacked_df, strategy_name, bettable_books):
-      live_results_df = pd.read_csv(f'live_performance_data/please_make_bets.csv')
+      live_results_df = pd.read_csv(f'live_performance_data/demo model.csv')
       return_df = pd.DataFrame()
 
       stacked_df = stacked_df.rename(columns={'team_1': 'team'})
@@ -140,23 +123,22 @@ class live_dashboard_runner():
       for idx, row in bet_df.iterrows():
 
         team = row['team']
-
         stacked_df_team = stacked_df[stacked_df['team'] == team]
 
         for sidx, srow in stacked_df_team.iterrows():
           if abs(srow['minutes_since_commence'] - row['minutes_since_commence']) <= 1:
 
             common_columns = stacked_df_team.columns.intersection(live_results_df.columns)
-
+            
             df_to_append = stacked_df[common_columns]
-
             row_to_append = df_to_append.iloc[sidx].to_frame().T
 
             row_to_append  = self.fill_extra_cols(row_to_append, bettable_books)
             
             return_df = return_df.append(row_to_append, ignore_index=True)
+      self.display_df = pd.concat([self.display_df, return_df]).tail(20)
 
-      return return_df     
+      return self.display_df     
 
     def fill_extra_cols(self, df, bettable_books):
 
@@ -186,15 +168,13 @@ class live_dashboard_runner():
        df['snapshot_time'] = pd.to_datetime('now', utc=True)
        df['snapshot_time'] = df['snapshot_time'] - pd.Timedelta(hours=7)
        df['snapshot_time'] = df['snapshot_time'].dt.tz_localize(None)
-
+    
        return df
    
     
     def filter_by_lag_val(self, df, bettable_books):
         
         snap_time_col = df['snapshot_time']
-
-        bettable_books.append('nordicbet')
         
         subset_columns = [col for col in df.columns if any(item in col for item in bettable_books)]
 
@@ -205,14 +185,12 @@ class live_dashboard_runner():
         # Convert the bettable time columns to deltas
         time_df = pd.DataFrame()
         for col in time_cols:
-            time_df[col] = pd.to_datetime(pd.to_datetime(df[col]).dt.time.astype(str))
-
+    
+            time_df[col] = pd.to_datetime(pd.to_datetime(df[col]).astype(str))
         result_df = time_df.sub(snap_time_col, axis=0)
-
+    
         result_df = result_df.abs()
-
         mask = result_df <= pd.Timedelta(seconds=10)
-
         mask.columns = odds_df.columns
 
         odds_df_masked = odds_df.where(mask, 0)
@@ -234,7 +212,11 @@ class live_dashboard_runner():
 
 
 
+    def run(self):
+      while True:
 
+           self.make_live_dash_data()
+           time.slep(5)
 
 
 
