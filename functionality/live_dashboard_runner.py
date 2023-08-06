@@ -5,15 +5,26 @@ from .live_data_collector import data_collector
 from .util import get_odds, preprocess, make_stacked_df
 import pickle
 import torch
+<<<<<<< HEAD
+import time
+=======
 import time 
+>>>>>>> cea8797b7b960e32c0c4f2af9885c62f117c1fb7
 
 class live_dashboard_runner():
     def __init__(self):
         self = self
+<<<<<<< HEAD
+        self.model_storage = {}
+        self.store_model_info()
+        self.display_df = pd.DataFrame()
+        
+=======
         self.model_storage = {} 
         self.store_model_info()
         self.display_df = pd.DataFrame()
 
+>>>>>>> cea8797b7b960e32c0c4f2af9885c62f117c1fb7
 
     def store_model_info(self):
           loaded_model = torch.load(f'models/model_objs/SmartBetterModel.pth')
@@ -129,15 +140,32 @@ class live_dashboard_runner():
           if abs(srow['minutes_since_commence'] - row['minutes_since_commence']) <= 1:
 
             common_columns = stacked_df_team.columns.intersection(live_results_df.columns)
+<<<<<<< HEAD
+
+
+            df_to_append = stacked_df[common_columns]
+            print(stacked_df['snapshot_time'])
+            df_to_append['snapshot_time'] = stacked_df['snapshot_time'] + pd.Timedelta(hours=7)
+
+=======
             
             df_to_append = stacked_df[common_columns]
+>>>>>>> cea8797b7b960e32c0c4f2af9885c62f117c1fb7
             row_to_append = df_to_append.iloc[sidx].to_frame().T
 
             row_to_append  = self.fill_extra_cols(row_to_append, bettable_books)
             
             return_df = return_df.append(row_to_append, ignore_index=True)
+<<<<<<< HEAD
+            return_df = return_df.sort_values(by='snapshot_time', ascending=False)
+
       self.display_df = pd.concat([self.display_df, return_df]).tail(20)
 
+
+=======
+      self.display_df = pd.concat([self.display_df, return_df]).tail(20)
+
+>>>>>>> cea8797b7b960e32c0c4f2af9885c62f117c1fb7
       return self.display_df     
 
     def fill_extra_cols(self, df, bettable_books):
@@ -196,6 +224,7 @@ class live_dashboard_runner():
         odds_df_masked = odds_df.where(mask, 0)
 
         time_cols = [x for x in df.columns if x.endswith('_time')]
+        time_cols.remove('snapshot_time')
 
         result = df.drop(columns=time_cols)
 
@@ -209,6 +238,11 @@ class live_dashboard_runner():
        df = self.filter_by_lag_val(df, bettable_books)
 
        return df
+    
+    def run(self):
+       while True:
+          self.make_live_dash_data()
+          time.sleep(5)
 
 
 

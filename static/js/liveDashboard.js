@@ -7,7 +7,13 @@ function updateTable(data) {
 
   data.forEach(row => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${row.ev}</td><td><b>${row.team}</b> against ${row.opponent}</td><td>${row.highest_bettable_odds}</td><td>${row.sportsbooks_used}</td><td>${convertToUserTimezone(row.date)}</td><td>${getCurrentTime()}</td>`;
+    tr.innerHTML = `
+    <td>${row.ev}</td>
+    <td><b>${row.team}</b> against ${row.opponent}</td>
+    <td>${row.highest_bettable_odds}</td>
+    <td>${row.sportsbooks_used}</td>
+    <td>${convertToUserTimezone(row.date)}</td>
+    <td>${convertToUserTimezoneUpdate(row.snapshot_time)}</td>`;
     tableBody.appendChild(tr);
   });
 }
@@ -28,6 +34,18 @@ function convertToUserTimezone(inputTime) {
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const userTime = new Date(dateObj.toLocaleString('en-US', { timeZone: userTimezone }));
   const options = { timeZone: userTimezone, weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
+  const formattedTime = userTime.toLocaleString('en-US', options);
+  return formattedTime;
+}
+
+function convertToUserTimezoneUpdate(inputTime) {
+  const dateObj = new Date(inputTime);
+  if (isNaN(dateObj)) {
+    return '';
+  }
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTime = new Date(dateObj.toLocaleString('en-US', { timeZone: userTimezone }));
+  const options = { timeZone: userTimezone, hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
   const formattedTime = userTime.toLocaleString('en-US', options);
   return formattedTime;
 }
@@ -58,6 +76,15 @@ function handleVisibilityChange() {
     stopUpdateInterval();
   }
 }
+
+
+
+function sendDataToFlask(name, email) {
+  $.post("/add_to_bet_tracker", { name: name, email: email }, function (data) {
+    console.log("Data submitted:", data);
+  });
+}
+
 
 document.addEventListener('visibilitychange', handleVisibilityChange);
 

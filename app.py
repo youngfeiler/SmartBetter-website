@@ -15,14 +15,13 @@ from functionality.tasks import celery
 
 def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
+    app.config['EXPLAIN_TEMPLATE_LOADING'] = True
     app.secret_key = 'to_the_moon'
-    app.config['SESSION_COOKIE_DURATION'] = 0
     app.secret_key = 'to_the_moon'
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
-    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
     app.live_dashboard_runner_instance = live_dashboard_runner()
-    print('initialized')
+
     return app
 
 app = create_app()
@@ -241,22 +240,22 @@ def live_dashboard():
 
   return render_template('live_dashboard.html')
 
+
+
 @app.route('/get_live_dash_data')
 def get_live_dash_data():
     app.live_dashboard_runner_instance.make_live_dash_data()
-
     data = app.live_dashboard_runner_instance.display_df
-    data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
+    new_data = data.copy(deep=True)
 
+    new_data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
 
-    # Convert DataFrame to a list of dictionaries (JSON serializable format)
-    data_json = data.to_dict(orient='records')
+    print(new_data['snapshot_time'])
+
+    data_json = new_data.to_dict(orient='records')
 
     # Return the data as JSON response
     return jsonify(data_json)
-
-
- 
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
