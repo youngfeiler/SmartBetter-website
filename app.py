@@ -6,8 +6,9 @@ import plotly as plotly
 from functionality.user import User
 from functionality.database import database
 from functionality.result_updater import result_updater
+from functionality.live_dashboard_runner import live_dashboard_runner
 import functionality.tasks as tasks
-from functionality.util import american_to_decimal
+from functionality.util import american_to_decimal, decimal_to_american
 import pandas as pd
 from functionality.tasks import celery
 
@@ -19,6 +20,8 @@ def create_app():
     app.secret_key = 'to_the_moon'
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
     return app
 
 app = create_app()
@@ -154,7 +157,6 @@ def make_strategy():
   if 'user_id' not in session:
         return redirect(url_for('login'))
         
-  
   if request.method == 'POST':
     form_data = request.form
     form_data_dict = dict(form_data)
@@ -232,7 +234,28 @@ def update_text_alert():
 
     return jsonify({'message': result})
 
+
+@app.route('/live_dashboard')
+def live_dashboard():
+
+  return render_template('live_dashboard.html')
+
+@app.route('/get_live_dash_data')
+def get_live_dash_data():
+    app.logger.debug('Called')
+    live_dashboard_runner_instance = live_dashboard_runner()
+    data = live_dashboard_runner_instance.make_live_dash_data()
+    data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
+
+
+    # Convert DataFrame to a list of dictionaries (JSON serializable format)
+    data_json = data.to_dict(orient='records')
+
+    # Return the data as JSON response
+    return jsonify(data_json)
+
+
  
 
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(debug=True, port=8000)

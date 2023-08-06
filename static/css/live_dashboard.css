@@ -1,0 +1,45 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color:#16242f;
+  color: #fefefe;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  padding: 10px;
+}
+
+th {
+  background-color: #16242f;
+  color: #ffffff;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #16242f;
+  color: #ffffff;
+}
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
