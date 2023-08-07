@@ -148,7 +148,6 @@ function fetchDataAndUpdateTable() {
         }
       })
       .catch(error => console.error('Error fetching data:', error));
-    addEventlisters();
     }
 }
 
@@ -176,7 +175,6 @@ function sendDataToFlask(name, email) {
 
 document.addEventListener('visibilitychange', handleVisibilityChange);
 
-//fetchDataAndUpdateTable();
 
 function startUpdateInterval() {
   if (!updateInterval) {
@@ -190,9 +188,6 @@ function stopUpdateInterval() {
   updateInterval = null;
 }
 
-//fetchDataAndUpdateTable();
-
-//startUpdateInterval();
 
 $(document).ready(
   startUpdateInterval
