@@ -75,7 +75,7 @@ def login():
     app.logger.debug(f'Login Result: {login_allowed}')
     if login_allowed:
         session['user_id'] = username
-        return redirect(url_for('profile'))
+        return redirect(url_for('live_dashboard'))
     elif not login_allowed:
         app.logger.debug("Invalid credentials. Rendering login page...")
         return render_template('login.html', incorrect_password=True, form_data=request.form)
@@ -237,9 +237,35 @@ def update_text_alert():
 
 @app.route('/live_dashboard')
 def live_dashboard():
+  if session['user_id'] is None:
+      return redirect(url_for('login'))
+  else:
+      return render_template('live_dashboard.html')
 
-  return render_template('live_dashboard.html')
 
+@app.route('/add_saved_bet', methods=['POST'])
+def add_saved_bet():
+    try:
+        data = request.json  # Get JSON data from the request
+        print(data)
+        # Access individual data fields from the JSON data
+        user = session['user_id']
+        data['user_name'] = user
+        myDatabase = database()
+        myDatabase.add_made_bet_to_db(data)
+
+
+
+        # Perform your desired actions with the data (e.g., save to a database)
+        # For example, you can create a new bet record in a database table
+
+        # Return a response indicating success
+        response = {'status_code': 'success', 'message': 'Bet saved successfully'}
+    except Exception as e:
+        # Handle any errors that may occur
+        response = {'status_code': 'error', 'message': str(e)}
+
+    return jsonify(response)
 
 
 @app.route('/get_live_dash_data')
@@ -249,7 +275,6 @@ def get_live_dash_data():
     new_data = data.copy(deep=True)
 
     new_data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
-
 
     data_json = new_data.to_dict(orient='records')
 

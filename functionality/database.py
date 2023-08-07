@@ -338,4 +338,18 @@ class database():
           df.to_csv('users/user_strategy_names.csv', index=False)
 
           return True
+    def add_made_bet_to_db(self, jayson):
+      print("started")
+      try:
+          # Read the existing CSV file, if it exists
+          df = pd.read_csv('users/placed_bets.csv')
+          print("tried")
+      except FileNotFoundError:
+          # If the file doesn't exist, create a new DataFrame
+          df = pd.DataFrame(columns=jayson.keys())
+          # Append the dictionary as a new row to the DataFrame
+      df = df.append(jayson, ignore_index=True)
+
+         # Write the DataFrame back to the CSV file
+      df.to_csv('users/placed_bets.csv', index=False)
 
