@@ -21,11 +21,12 @@ def create_app():
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
     print('create_app')
+    tasks.start_dashboard_runner.delay()
+
 
     return app
 
 app = create_app()
-tasks.start_dashboard_runner.delay()
 
 
 
