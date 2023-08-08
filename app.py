@@ -301,7 +301,6 @@ def bet_tracker():
         return redirect(url_for('register'))
     
 
-
 if __name__ == '__main__':
     app.run(debug=True, port=8080, use_reloader=False)
 

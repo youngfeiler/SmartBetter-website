@@ -109,9 +109,10 @@ class live_dashboard_runner():
 
     def handle_bets(self, bet_df, stacked_df, strategy_name, bettable_books):
       live_results_df = pd.read_csv(f'live_performance_data/demo model.csv')
+      
 
-      # return_df = pd.read_parquet('users/model_obs.parquet')
-      return_df = pd.DataFrame()
+      return_df = pd.read_csv('users/model_obs.csv')
+      # return_df = pd.DataFrame()
 
       stacked_df = stacked_df.rename(columns={'team_1': 'team'})
 
@@ -143,9 +144,9 @@ class live_dashboard_runner():
 
       self.display_df = pd.concat([self.display_df, return_df])
       
-      self.display_df.to_parquet('users/model_obs.parquet' , index=False)
+      self.display_df.to_csv('users/model_obs.csv', index=False)
 
-      print('made the parquet file')
+      print('made the csv file')
 
       return self.display_df     
 
