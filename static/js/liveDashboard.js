@@ -15,7 +15,7 @@ function updateTable(data) {
     <td>${row.highest_bettable_odds}</td>
     <td>${row.sportsbooks_used}</td>
     <td>${convertToUserTimezone(row.date)}</td>
-    <td>${convertToUserTimezoneUpdate(row.snapshot_time)}</td>
+    <td>${row.time_difference_formatted}</td>
     <td><button onclick = "editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>`;
     tableBody.appendChild(tr);
   });

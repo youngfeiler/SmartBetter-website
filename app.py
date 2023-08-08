@@ -11,6 +11,7 @@ import functionality.tasks as tasks
 from functionality.util import american_to_decimal, decimal_to_american
 import pandas as pd
 from functionality.tasks import celery
+import json
 
 
 def create_app():
@@ -272,6 +273,34 @@ def get_live_dash_data():
     data_json = data.to_dict(orient='records')
 
     return jsonify(data_json)
+
+@app.route('/get_unsettled_bet_data', methods=['GET'])
+def get_unsettled_bet_data():
+
+    user = session['user_id']
+
+    my_db = database()
+
+    data = my_db.get_unsettled_bet_data(user)
+
+    grouped_data = data.groupby('game_id').apply(lambda x: x.to_dict(orient='records'))
+
+    sorted_grouped_data = sorted(grouped_data.items(), key=lambda x: max(record['if_win'] for record in x[1]), reverse=True)
+
+    sorted_dict = {game_id: records for game_id, records in sorted_grouped_data}
+
+    return jsonify(sorted_dict)
+
+
+@app.route('/bet_tracker')
+def bet_tracker():
+    try:
+        if session['user_id'] is not None:
+            return render_template('bet_tracker.html')
+    except:
+        return redirect(url_for('register'))
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, use_reloader=False)

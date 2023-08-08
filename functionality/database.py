@@ -3,15 +3,12 @@ import pickle
 from .user import User
 from .util import map_commence_time_game_id, decimal_to_american
 import os
-import csv
 import shutil
 from .result_updater import result_updater
 import numpy as np
-import time as ttime
 from flask import jsonify
-from collections import Counter
-import json
-import ast
+import math
+import datetime
 
 class database():
     def __init__(self):
@@ -382,7 +379,125 @@ class database():
        
        first_20_rows = df_no_duplicates.head(20)
 
+       current_time = datetime.datetime.now() 
+
+       first_20_rows['current_time'] = current_time + pd.Timedelta(hours=6)
+
+       first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
+
+       def minutes_seconds(row):
+          seconds = int(float(row['time_difference_seconds']))
+
+          if seconds < 60:
+            row['time_difference_formatted'] = f'{seconds} sec'
+
+          elif seconds >= 60 and seconds < 3600:
+            minutes = math.floor(seconds / 60)
+            new_seconds = (seconds % 60)
+            row['time_difference_formatted'] = f'{minutes} min {new_seconds} sec'
+             
+          else:
+            hours = math.floor(seconds / 3600)
+            seconds_after_hour = seconds % 3600
+            new_minutes = math.floor(seconds_after_hour / 60)
+            new_seconds = seconds_after_hour % 60
+            row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+          return row
+       
+       first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
+
        return first_20_rows
+
+
+
+    def get_unsettled_bet_data(self, user):
+      df = pd.read_csv('users/placed_bets.csv')
+      scores_df = pd.read_csv('mlb_data/scores.csv')
+      df = df[df['user_name'] == user]
+
+      df['bet_profit'] = np.where(df['odds'] > 0, df['odds'], -100/(df['odds']/100))
+
+      result_updater_instance = result_updater()
+      result_updater_instance.update_results()
+
+      scores_df = scores_df[['game_id', 'winning_team']]
+      merged_df = df.merge(scores_df, on='game_id', how='left')
+
+      filtered_df = merged_df[merged_df['winning_team'].isna()]
+      grouped_df = filtered_df.groupby(['game_id', 'team'])
+
+      filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
+      filtered_df['average_odds'] = grouped_df['odds'].transform('mean')
+      filtered_df['highest_odds'] = grouped_df['odds'].transform('max')
+      filtered_df['p_l'] = grouped_df['bet_profit'].transform('sum')
+
+
+      game_id_df = filtered_df.drop_duplicates(subset=['team'])
+      game_id_df_grouped = game_id_df.groupby('game_id')
+
+
+      def calculate_if_win(group):
+        if len(group) == 2:
+            row1 = group.iloc[0]
+            row2 = group.iloc[1]
+            result1 = row1['p_l'] - (row2['amount_of_bets'] * 100)
+            result2 = row2['p_l'] - (row1['amount_of_bets'] * 100)
+            group.loc[group.index[0], 'if_win'] = result1
+            group.loc[group.index[1], 'if_win'] = result2
+
+            group.loc[group.index[0], 'team'] = row1['team'].split('v. ')[0]
+            group.loc[group.index[1], 'team'] = row2['team'].split('v. ')[0]
+
+        elif len(group) == 1:
+            row = group.iloc[0].copy()
+            row['ev'] = ''
+            row['team'] = group.iloc[0]['team'].split('v. ')[1]
+            row['odds'] = ''
+            row['sportsbook'] = ''
+            row['bet_profit'] = ''
+            row['amount_of_bets'] = ''
+            row['average_odds'] = ''
+            row['highest_odds'] = ''
+            row['p_l'] = ''
+            group = group.append(row, ignore_index=True) 
+            group.loc[group.index[0], 'if_win'] = group.iloc[0]['p_l']
+            group.loc[group.index[1], 'if_win'] = group.iloc[0]['amount_of_bets'] * -100
+            group.loc[group.index[0], 'team'] = group.iloc[0]['team'].split('v. ')[0]
+
+        return group
+      
+
+      game_id_df_grouped = game_id_df_grouped.apply(calculate_if_win).reset_index(drop=True)
+
+      game_id_df_grouped['if_win'] = round(game_id_df_grouped['if_win']/100,2)
+
+      game_id_df_grouped = game_id_df_grouped.drop(columns='winning_team')
+
+      return game_id_df_grouped
+    
+
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     

@@ -1,0 +1,42 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #16242f;
+  color: #fefefe;
+}
+
+.table-wrapper {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Adjust this value to control the vertical centering */
+}
+
+table {
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  width: 50%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+.border-top {
+  border-top: 2px solid #253c4d;
+  border-left: 2px solid #253c4d;
+  border-right: 2px solid #253c4d;
+}
+
+.border-r-l {
+  border-left: 2px solid #253c4d;
+  border-right: 2px solid #253c4d;
+}
+
+.pair-start {
+  padding-top: 10px;
+}

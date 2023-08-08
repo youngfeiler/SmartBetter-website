@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+
+{% block title %}SmartBetter Home{% endblock %}
+
+{% block content %}
+<title>SmartBetter - Live Dash</title>
+<link rel="stylesheet" href="static/css/bet_tracker.css">
+
+<main>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>If Win</th>
+          <th>Average Odds</th>
+          <th>Highest Odds</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<script src="static/js/unsettledBetTracker.js"></script>
+{% endblock %}
+
