@@ -21,11 +21,12 @@ def create_app():
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
     print('create_app')
-    
 
     return app
 
 app = create_app()
+tasks.start_dashboard_runner.delay()
+
 
 
 @app.route('/home')
@@ -272,7 +273,6 @@ def get_live_dash_data():
     return jsonify(data_json)
 
 if __name__ == '__main__':
-    tasks.start_dashboard_runner.delay()
     app.run(debug=True, port=8080, use_reloader=False)
 
     
