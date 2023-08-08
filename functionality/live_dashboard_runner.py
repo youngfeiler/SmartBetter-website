@@ -70,7 +70,7 @@ class live_dashboard_runner():
                 pred_float = pred.detach().numpy()[0]
     
                 if pred_float >= strategy_dict['pred_thresh']:
-                #if pred_float >= -100:
+                # if pred_float >= -100:
                   ind_list.append(idx)
 
               if len(ind_list) > 0:
@@ -78,8 +78,6 @@ class live_dashboard_runner():
                 
                 return self.handle_bets(bet_list, self.stacked_df, strategy_name, strategy_dict['params']['bettable_books'])
               
-
-
     def format_sportsbook_names_from_column_names(self, cols):
         formatted_cols = [col.split('_')[0] for col in cols]
         return formatted_cols[:-1]
@@ -111,6 +109,8 @@ class live_dashboard_runner():
 
     def handle_bets(self, bet_df, stacked_df, strategy_name, bettable_books):
       live_results_df = pd.read_csv(f'live_performance_data/demo model.csv')
+
+      # return_df = pd.read_parquet('users/model_obs.parquet')
       return_df = pd.DataFrame()
 
       stacked_df = stacked_df.rename(columns={'team_1': 'team'})
@@ -139,15 +139,21 @@ class live_dashboard_runner():
             
             return_df = return_df.append(row_to_append, ignore_index=True)
 
-      self.display_df = pd.concat([self.display_df, return_df]).tail(20)
-      self.display_df  =self.display_df.sort_values(by='snapshot_time', ascending=False)
+      print(len(return_df))
+
+      self.display_df = pd.concat([self.display_df, return_df])
+      
+      self.display_df.to_parquet('users/model_obs.parquet' , index=False)
+
+      print('made the parquet file')
+
       return self.display_df     
 
     def fill_extra_cols(self, df, bettable_books):
 
       df['ev'] = ((1/df['average_market_odds'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds'])) * 100)
       df = df[df['ev'] >=10]
-      #df = df[df['ev'] >=-10]
+      # df = df[df['ev'] >=-10]
 
       df['ev'] = df['ev'].apply(lambda x: round(x, 2))
 
@@ -174,8 +180,7 @@ class live_dashboard_runner():
        df['snapshot_time'] = df['snapshot_time'].dt.tz_localize(None)
     
        return df
-   
-    
+      
     def filter_by_lag_val(self, df, bettable_books):
         
         snap_time_col = df['snapshot_time']
@@ -207,8 +212,7 @@ class live_dashboard_runner():
         result['highest_bettable_odds'] = odds_df_masked[odds_cols].max(axis=1)
 
         return result
-    
-    
+     
     def make_highest_bettable_odds(self, df, bettable_books):
        
        df = self.filter_by_lag_val(df, bettable_books)
@@ -219,14 +223,6 @@ class live_dashboard_runner():
        while True:
           self.make_live_dash_data()
           time.sleep(5)
-
-
-
-    def run(self):
-      while True:
-
-           self.make_live_dash_data()
-           time.slep(5)
 
 
 

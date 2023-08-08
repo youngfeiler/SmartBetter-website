@@ -20,7 +20,8 @@ def create_app():
     app.secret_key = 'to_the_moon'
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
-    app.live_dashboard_runner_instance = live_dashboard_runner()
+    print('create_app')
+    
 
     return app
 
@@ -42,7 +43,6 @@ def profile():
         return render_template('profile.html')
   else:
         return redirect(url_for('login'))
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -85,13 +85,6 @@ def login():
 @app.route('/information')  
 def information():
   return render_template('information.html')
-
-@app.route('/test_func')
-def test_func():
-
-  test = tasks.start_model_runner.delay()
-
-  return render_template('profile.html')
 
 @app.route('/get_graph_data', methods=['GET', 'POST'])
 def get_graph_data():
@@ -187,6 +180,7 @@ def make_strategy():
 
     
   return render_template('strategy_maker.html')
+
 @app.route('/delete-strategy', methods=['POST', 'GET'])
 def get_input():
     if request.method == 'POST':
@@ -233,7 +227,6 @@ def update_text_alert():
 
     return jsonify({'message': result})
 
-
 @app.route('/live_dashboard')
 def live_dashboard():
   try:
@@ -242,9 +235,6 @@ def live_dashboard():
   except:
       return redirect(url_for('register'))
       
-      
-
-
 @app.route('/add_saved_bet', methods=['POST'])
 def add_saved_bet():
     try:
@@ -272,16 +262,17 @@ def add_saved_bet():
 
 @app.route('/get_live_dash_data')
 def get_live_dash_data():
-    app.live_dashboard_runner_instance.make_live_dash_data()
-    data = app.live_dashboard_runner_instance.display_df
-    new_data = data.copy(deep=True)
 
-    new_data['highest_bettable_odds'] = data['highest_bettable_odds'].map(decimal_to_american)
+    my_db = database()
 
-    data_json = new_data.to_dict(orient='records')
+    data = my_db.get_live_dash_data()
 
-    # Return the data as JSON response
+    data_json = data.to_dict(orient='records')
+
     return jsonify(data_json)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    tasks.start_dashboard_runner.delay()
+    app.run(debug=True, port=8080, use_reloader=False)
+
+    

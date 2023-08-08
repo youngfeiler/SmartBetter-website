@@ -1,7 +1,7 @@
 import pandas as pd
 import pickle
 from .user import User
-from .util import map_commence_time_game_id
+from .util import map_commence_time_game_id, decimal_to_american
 import os
 import csv
 import shutil
@@ -222,11 +222,11 @@ class database():
           def fill_na_with_winner(row):
             game_id = row['game_id']
             team = row['team']
-            opponenet = row['opponent']
+            opponent = row['opponent']
             winning_team = game_winners.get(game_id)
             if team == winning_team:
                 return 1
-            elif opponenet == winning_team:
+            elif opponent == winning_team:
                 return 0
             else:
                 return row['target']
@@ -338,18 +338,57 @@ class database():
           df.to_csv('users/user_strategy_names.csv', index=False)
 
           return True
+    
     def add_made_bet_to_db(self, jayson):
-      print("started")
       try:
-          # Read the existing CSV file, if it exists
           df = pd.read_csv('users/placed_bets.csv')
-          print("tried")
       except FileNotFoundError:
-          # If the file doesn't exist, create a new DataFrame
           df = pd.DataFrame(columns=jayson.keys())
-          # Append the dictionary as a new row to the DataFrame
       df = df.append(jayson, ignore_index=True)
-
-         # Write the DataFrame back to the CSV file
       df.to_csv('users/placed_bets.csv', index=False)
+
+    def get_live_dash_data(self):
+       df = pd.read_parquet('users/model_obs.parquet')
+       scores_df = pd.read_csv('mlb_data/scores.csv')
+       result_updater_instance = result_updater()
+       result_updater_instance.update_results()
+
+       scores_df = scores_df[['game_id', 'winning_team']]
+       merged_df = df.merge(scores_df, on='game_id', how='left')
+
+       filtered_df = merged_df[merged_df['winning_team'].isna()]
+
+       filtered_df['sportsbooks_used_string'] = filtered_df['sportsbooks_used'].astype(str)
+
+       df_sorted = filtered_df.sort_values(by='snapshot_time', ascending=False)
+
+       df_sorted = pd.DataFrame(df_sorted)
+
+       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used_string', 'date', 'snapshot_time']
+
+       df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
+
+
+       df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
+
+
+       # Convert the array column to a list column
+       df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(list)
+
+        # Drop the original array column if needed
+       df_no_duplicates = df_no_duplicates.drop(columns=['sportsbooks_used', 'sportsbooks_used_string', 'winning_team'])
+
+       df_no_duplicates.rename(columns={'sportsbooks_used_list': 'sportsbooks_used'}, inplace=True)
+       
+       first_20_rows = df_no_duplicates.head(20)
+
+       return first_20_rows
+
+
+    
+
+    
+       
+
+
 

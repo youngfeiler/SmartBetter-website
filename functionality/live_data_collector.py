@@ -68,8 +68,6 @@ class data_collector():
         self.df = self.df[self.df['ev'] >= self.min_ev]
         self.df = self.df[self.df['ev'] <= self.max_ev]
 
-        #self.df.drop('highest_bettable_odds', axis='columns')
-        #self.df.drop('highest_bettable_book', axis='columns')
         self.df.drop('ev', axis='columns')
 
     def filter_by_best_odds(self):

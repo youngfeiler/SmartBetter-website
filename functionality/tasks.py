@@ -1,6 +1,7 @@
 from .strategy_maker import strategy_maker
 from .model_runner import model_runner
 from .database import database
+from .live_dashboard_runner import live_dashboard_runner
 
 # from celery import Celery
 # from app import celery as my_celery
@@ -53,6 +54,16 @@ def start_model_runner():
   my_db = database()
 
   mr = model_runner()
+
+@celery.task
+def start_dashboard_runner():
+    
+    print('celery starting....')
+
+    live_dashboard_runner_instance = live_dashboard_runner()
+
+    live_dashboard_runner_instance.run()
+
 
 
 
