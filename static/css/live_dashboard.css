@@ -26,24 +26,60 @@ table {
 }
 
 th, td {
-  border: 1px solid #dddddd;
-  border-bottom: 1px #009879;
   padding: 10px;
-}
-
-th {
   background-color: #16242f;
   color: #ffffff;
 }
+tbody tr{
+	background-color: #16242f;
+  color: #ffffff;
+	outline: 3px solid #253c4d;
+}
 
-tbody tr:nth-of-type(even) {
+
+table.rounded-table {
+  outline: 3px solid #253c4d;
+  border-collapse: separate;
+  border-radius: 10px 10px 10px 10px;
+  width: 100%;
+}
+
+table.rounded-table td {
+  padding: 30px;
+	overflow-wrap: break-word;
+	white-space: normal;
+}
+
+.add-to-betslip-button {
+  width: 100%;     
+  height: 100%;    
+  padding: 0;     
+  margin: 0;
   background-color: #16242f;
   color: #ffffff;
+	border: none;
+	cursor: pointer; 
+  transition: background-color 0.3s, color 0.3s;
+	font-size: 14px;
+
 }
 
-tbody tr:last-of-type {
-  border-bottom: 2px solid #009879;
+.add-to-betslip-button:hover {
+  color: #f1f1f1; 
+	text-decoration: underline; 
 }
+
+table.rounded-table td input {
+  height: 40px; /* Set the desired height for the input elements */
+	font-size: 14px;
+  background-color: #16242f;
+  color: #ffffff;
+	border: none;
+
+
+
+}
+
 
 @media 
 only screen and (max-width: 760px),
