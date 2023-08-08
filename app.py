@@ -77,7 +77,6 @@ def login():
         session['user_id'] = username
         return redirect(url_for('live_dashboard'))
     elif not login_allowed:
-        app.logger.debug("Invalid credentials. Rendering login page...")
         return render_template('login.html', incorrect_password=True, form_data=request.form)
 
 
@@ -237,10 +236,13 @@ def update_text_alert():
 
 @app.route('/live_dashboard')
 def live_dashboard():
-  if session['user_id'] is None:
-      return redirect(url_for('login'))
-  else:
+  try:
+    if session['user_id'] is not None:
       return render_template('live_dashboard.html')
+  except:
+      return redirect(url_for('register'))
+      
+      
 
 
 @app.route('/add_saved_bet', methods=['POST'])
@@ -282,4 +284,4 @@ def get_live_dash_data():
     return jsonify(data_json)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=8080)
