@@ -99,6 +99,7 @@ function saveRow(button) {
         console.log('Error saving bet:', response.message);
       } else {
         console.log('Bet saved successfully:', response.message);
+        currentlyEditingRow = false;
       }
     },
     error: function(error) {
