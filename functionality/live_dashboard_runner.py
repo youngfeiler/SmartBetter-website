@@ -137,19 +137,13 @@ class live_dashboard_runner():
             row_to_append  = self.fill_extra_cols(row_to_append, bettable_books)
             
             return_df = return_df.append(row_to_append, ignore_index=True)
-
-      print(f'return: {len(return_df)}')
-      print(return_df['snapshot_time'])
+      print(len(return_df))
       return_df['snapshot_time'] = return_df['snapshot_time'].dt.strftime('%Y-%m-%d %H:%M:%S')
 
       save_df = pd.read_csv('users/model_obs.csv')
-      print(len(save_df))
 
       save_df = pd.concat([save_df, return_df])
 
-      print(save_df['snapshot_time'])
-
-      
       save_df.to_csv('users/model_obs.csv', index=False)
 
       return
