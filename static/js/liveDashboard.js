@@ -188,7 +188,6 @@ function stopUpdateInterval() {
   updateInterval = null;
 }
 
-//removed for refresh button
-// $(document).ready(
-// startUpdateInterval
-// );
+$(document).ready(
+  fetchDataAndUpdateTable
+);
