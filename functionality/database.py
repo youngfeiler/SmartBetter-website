@@ -390,7 +390,7 @@ class database():
 
        current_time = datetime.datetime.now() 
 
-       first_20_rows['current_time'] = current_time + pd.Timedelta(hours=6)
+       first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=6)
 
 
        first_20_rows['snapshot_time'].apply(pd.to_datetime)
