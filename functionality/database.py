@@ -362,7 +362,7 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
-       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used_string', 'date', 'snapshot_time']
+       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used_string', 'date']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 

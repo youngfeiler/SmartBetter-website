@@ -134,9 +134,9 @@ function editRow(button) {
 
 
 function fetchDataAndUpdateTable() {
-  console.log('this has been called');
-  console.log(currentlyEditingRow);
-  if (!currentlyEditingRow){
+  console.log('Fetching data and updating table...');
+  //remove if for refresh button
+  //if (!currentlyEditingRow){
     const url = '/get_live_dash_data?' + new Date().getTime();
     fetch(url)
       .then(response => response.json())
@@ -146,7 +146,7 @@ function fetchDataAndUpdateTable() {
         }
       })
       .catch(error => console.error('Error fetching data:', error));
-    }
+  //}
 }
 
 
@@ -170,9 +170,10 @@ function sendDataToFlask(name, email) {
   });
 }
 
-
-document.addEventListener('visibilitychange', handleVisibilityChange);
-
+//deleted for refresh button
+//document.addEventListener('visibilitychange', handleVisibilityChange);
+//added for refresh button
+document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
 function startUpdateInterval() {
   if (!updateInterval) {
@@ -186,7 +187,7 @@ function stopUpdateInterval() {
   updateInterval = null;
 }
 
-
-$(document).ready(
-  startUpdateInterval
-);
+//removed for refresh button
+// $().ready(
+// 
+// );
