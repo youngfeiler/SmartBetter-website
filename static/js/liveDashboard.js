@@ -88,6 +88,7 @@ function saveRow(button) {
   console.log(rowData);
   button.innerText = 'Edit';
   button.onclick = () => editRow(button);
+  row.classList.remove('editing-row');
 
   $.ajax({
     url: '/add_saved_bet',
@@ -113,7 +114,7 @@ function editRow(button) {
   currentlyEditingRow = true;
   const row = button.parentNode.parentNode;
   const cells = row.querySelectorAll('td:not(:last-child)');
-
+  row.classList.add('editing-row');
   cells.forEach(cell => {
       const oldValue = cell.textContent.trim();
       const input = document.createElement('input');
@@ -188,6 +189,6 @@ function stopUpdateInterval() {
 }
 
 //removed for refresh button
-// $().ready(
-// 
+// $(document).ready(
+// startUpdateInterval
 // );

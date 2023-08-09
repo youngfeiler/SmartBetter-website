@@ -147,5 +147,26 @@ only screen and (max-width: 760px),
 	border-color: #f1f1f1;
   }
   
+  /* ... (previous CSS code) */
+
+  table.rounded-table tr.editing-row td {
+	background-color: #263F52;
+	font-weight: bold;
+  }
+  
+  table.rounded-table td input {
+	height: 40px;
+	font-size: 14px;
+	background-color: #16242f;
+	color: #ffffff;
+	border: none;
+  
+	/* Add the following properties to control the input field's appearance */
+	width: 100%;
+	padding: 5px; /* Adjust padding as needed */
+	box-sizing: border-box; /* Include padding and border in the element's total width */
+  }
+  
+  /* ... (rest of the CSS code) */
   
   
