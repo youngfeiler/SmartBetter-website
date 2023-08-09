@@ -345,7 +345,8 @@ class database():
       df.to_csv('users/placed_bets.csv', index=False)
 
     def get_live_dash_data(self):
-       df = pd.read_parquet('users/model_obs.parquet')
+       df = pd.read_csv('users/model_obs.csv')
+
        scores_df = pd.read_csv('mlb_data/scores.csv')
        result_updater_instance = result_updater()
        result_updater_instance.update_results()
@@ -369,8 +370,16 @@ class database():
        df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
 
 
-       # Convert the array column to a list column
-       df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(list)
+       def convert_to_list(value):
+          if isinstance(value, str):
+              return [value]
+          elif isinstance(value, list):
+              return value
+          else:
+              return []
+
+       df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(convert_to_list)
+
 
         # Drop the original array column if needed
        df_no_duplicates = df_no_duplicates.drop(columns=['sportsbooks_used', 'sportsbooks_used_string', 'winning_team'])
@@ -382,6 +391,14 @@ class database():
        current_time = datetime.datetime.now() 
 
        first_20_rows['current_time'] = current_time + pd.Timedelta(hours=6)
+
+
+       first_20_rows['snapshot_time'].apply(pd.to_datetime)
+
+
+       first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
+
+       first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
 
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
 

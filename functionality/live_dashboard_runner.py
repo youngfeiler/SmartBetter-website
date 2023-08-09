@@ -48,8 +48,6 @@ class live_dashboard_runner():
           self.model_storage['SmartBetterModel'] = this_model_dict
     
     def make_live_dash_data(self):
-        # somewhere in here, need to filter the highest bettable odds as only those that have been updated within the last 10 seconds 
-
         market_odds_df = get_odds()
         combined_market_extra_df = preprocess(market_odds_df)
         self.market_odds = combined_market_extra_df
@@ -76,7 +74,7 @@ class live_dashboard_runner():
               if len(ind_list) > 0:
                 bet_list = self.get_team_odds_book(this_model_raw_data_point, ind_list, strategy_dict)
                 
-                return self.handle_bets(bet_list, self.stacked_df, strategy_name, strategy_dict['params']['bettable_books'])
+                self.handle_bets(bet_list, self.stacked_df, strategy_name, strategy_dict['params']['bettable_books'])
               
     def format_sportsbook_names_from_column_names(self, cols):
         formatted_cols = [col.split('_')[0] for col in cols]
@@ -109,8 +107,10 @@ class live_dashboard_runner():
 
     def handle_bets(self, bet_df, stacked_df, strategy_name, bettable_books):
       live_results_df = pd.read_csv(f'live_performance_data/demo model.csv')
+
+      return_df = pd.DataFrame()
       
-      return_df = pd.read_csv('users/model_obs.csv')
+      # return_df = pd.read_csv('users/model_obs.csv')
 
       stacked_df = stacked_df.rename(columns={'team_1': 'team'})
 
@@ -138,13 +138,21 @@ class live_dashboard_runner():
             
             return_df = return_df.append(row_to_append, ignore_index=True)
 
-      print(len(return_df))
+      print(f'return: {len(return_df)}')
+      print(return_df['snapshot_time'])
+      return_df['snapshot_time'] = return_df['snapshot_time'].dt.strftime('%Y-%m-%d %H:%M:%S')
 
-      self.display_df = pd.concat([self.display_df, return_df])
+      save_df = pd.read_csv('users/model_obs.csv')
+      print(len(save_df))
+
+      save_df = pd.concat([save_df, return_df])
+
+      print(save_df['snapshot_time'])
+
       
-      self.display_df.to_csv('users/model_obs.csv', index=False)
+      save_df.to_csv('users/model_obs.csv', index=False)
 
-      return self.display_df     
+      return
 
     def fill_extra_cols(self, df, bettable_books):
 
