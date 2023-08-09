@@ -109,8 +109,6 @@ class live_dashboard_runner():
       live_results_df = pd.read_csv(f'live_performance_data/demo model.csv')
 
       return_df = pd.DataFrame()
-      
-      # return_df = pd.read_csv('users/model_obs.csv')
 
       stacked_df = stacked_df.rename(columns={'team_1': 'team'})
 
@@ -138,7 +136,10 @@ class live_dashboard_runner():
             
             return_df = return_df.append(row_to_append, ignore_index=True)
       print(len(return_df))
+      print(return_df['snapshot_time'])
+
       return_df['snapshot_time'] = return_df['snapshot_time'].dt.strftime('%Y-%m-%d %H:%M:%S')
+      print(return_df['snapshot_time'])
 
       save_df = pd.read_csv('users/model_obs.csv')
 

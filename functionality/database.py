@@ -390,15 +390,15 @@ class database():
 
        current_time = datetime.datetime.now() 
 
-       first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=6)
-
+       first_20_rows['current_time'] = current_time + pd.Timedelta(hours=6)
 
        first_20_rows['snapshot_time'].apply(pd.to_datetime)
-
 
        first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
 
        first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
+
+       print(first_20_rows['snapshot_time'])
 
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
 
