@@ -1,7 +1,7 @@
 import pandas as pd
 import pickle
 from .user import User
-from .util import map_commence_time_game_id, decimal_to_american
+from .util import map_commence_time_game_id, decimal_to_american, american_to_decimal
 import os
 import shutil
 from .result_updater import result_updater
@@ -335,16 +335,40 @@ class database():
           df.to_csv('users/user_strategy_names.csv', index=False)
 
           return True
+       
+    def get_user_bank_roll(self, user):
+        df = pd.read_csv('users/login_info.csv')
+        user_df = df[df['username'] == user]
+        return user_df.loc[0,'bankroll']
+
+    def get_recommended_bet_size(self, user, df):
+       print("----------------------------------------------------------------------------------------------------")
+       df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
+       df['win_prob'] =  (1 / df['average_market_odds']) 
+       bankroll = self.get_user_bank_roll(user)
+       print(bankroll)
+       df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
+                          #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
+       df['bet_ampunt'] = df['bet_amount'].round(2)
+       return df
+       
+
+
+    
     
     def add_made_bet_to_db(self, jayson):
-      try:
-          df = pd.read_csv('users/placed_bets.csv')
-      except FileNotFoundError:
-          df = pd.DataFrame(columns=jayson.keys())
-      df = df.append(jayson, ignore_index=True)
-      df.to_csv('users/placed_bets.csv', index=False)
 
-    def get_live_dash_data(self):
+      df = pd.DataFrame(columns=jayson.keys())
+      df = df.append(jayson, ignore_index =True)
+      odds = int(df['odds'])
+      df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
+      print(df)
+      read_in = pd.read_csv('users/placed_bets.csv')
+      put_out = read_in.append(df, ignore_index=True)
+      put_out.to_csv('users/placed_bets.csv', index = False)
+      return
+    
+    def get_live_dash_data(self, user_name):
        df = pd.read_csv('users/model_obs.csv')
 
        scores_df = pd.read_csv('mlb_data/scores.csv')
@@ -422,7 +446,10 @@ class database():
           return row
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
+       print(first_20_rows)
 
+       first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
+       print(first_20_rows)
        return first_20_rows
 
 
@@ -432,7 +459,7 @@ class database():
       scores_df = pd.read_csv('mlb_data/scores.csv')
       df = df[df['user_name'] == user]
 
-      df['bet_profit'] = np.where(df['odds'] > 0, df['odds'], -100/(df['odds']/100))
+      df['bet_profit'] = np.where(df['odds'] > 0, (df['odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['odds']/100))
 
       result_updater_instance = result_updater()
       result_updater_instance.update_results()
@@ -440,7 +467,8 @@ class database():
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = df.merge(scores_df, on='game_id', how='left')
 
-      filtered_df = merged_df[merged_df['winning_team'].isna()]
+      #filtered_df = merged_df[merged_df['winning_team'].isna()]
+      filtered_df = merged_df
       grouped_df = filtered_df.groupby(['game_id', 'team'])
 
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
@@ -480,7 +508,6 @@ class database():
             group.loc[group.index[0], 'if_win'] = group.iloc[0]['p_l']
             group.loc[group.index[1], 'if_win'] = group.iloc[0]['amount_of_bets'] * -100
             group.loc[group.index[0], 'team'] = group.iloc[0]['team'].split('v. ')[0]
-
         return group
       
 
@@ -488,9 +515,44 @@ class database():
 
       game_id_df_grouped['if_win'] = round(game_id_df_grouped['if_win']/100,2)
 
-      game_id_df_grouped = game_id_df_grouped.drop(columns='winning_team')
-
+      game_id_df_grouped.to_csv('users/placed_bets.csv', index=False)
       return game_id_df_grouped
+    
+
+    def calculate_user_bankroll(self, username):
+      # get users/placed_bets.csv
+      placed_bets = pd.read_csv('users/placed_bets.csv')
+      # get users/login_info.csv
+      login_info = pd.read_csv('users/login_info.csv')
+      # get only rows where username equals username from login_info
+      current_bankroll = login_info[login_info['username'] == username].loc[0]['bankroll']
+      print(current_bankroll)
+      # get only rows in placed_bets where 'username' column= username
+      placed_bets = placed_bets[placed_bets['user_name'] == username]
+      # get only rows in placed_bets where 'winning_team' column = not null
+      scores_df = pd.read_csv('mlb_data/scores.csv')
+      result_updater_instance = result_updater()
+      result_updater_instance.update_results()
+
+      scores_df = scores_df[['game_id', 'winning_team']]
+      merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
+      print(merged_df.columns)
+      merged_df = merged_df[merged_df['winning_team_y'].notna()]
+  
+      merged_df['team_bet_on'] = [cell.split('v. ') for cell in merged_df['team']]
+      merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
+      merged_df['bet_result'] = np.where(merged_df['winning_team_y'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
+      # calculate total profit/loss of all bets in placed_bets 
+      total_profit_loss = merged_df['bet_result'].sum()
+      # add total profit/loss to current bankroll
+      new_bankroll = current_bankroll + total_profit_loss
+      # update users/login_info.csv with new bankroll
+      login_info[login_info['username'] == username].loc[0]['bankroll'] = new_bankroll
+      login_info.to_csv('users/login_info.csv', index=False)
+      print(new_bankroll)
+      return new_bankroll
+      
+
     
 
     

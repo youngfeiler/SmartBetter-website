@@ -268,7 +268,11 @@ def get_live_dash_data():
 
     my_db = database()
 
-    data = my_db.get_live_dash_data()
+    bankroll = my_db.calculate_user_bankroll(session["user_id"])
+    data = my_db.get_live_dash_data(session['user_id'])
+    print(data)
+
+    data['bankroll'] = bankroll
 
     data_json = data.to_dict(orient='records')
 

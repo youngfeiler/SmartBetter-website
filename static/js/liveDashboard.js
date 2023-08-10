@@ -2,6 +2,13 @@ let isPageVisible = true;
 let updateInterval;
 let currentlyEditingRow = false;
 
+
+function updatebankroll(data){
+  const bankroll = document.querySelector('#bankroll');
+  bankroll.innerHTML = 'Bankroll:';
+  bankroll.innerHTML  += `${data[0].bankroll}`;
+}
+
 function updateTable(data) {
   const tableBody = document.querySelector('#data-table tbody');
   tableBody.innerHTML = '';
@@ -10,12 +17,14 @@ function updateTable(data) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
     <td style = "display:none;">${row.game_id}</td>
+    <td style = "display:none;">${row.average_market_odds}</td>
     <td>${row.ev}</td>
     <td><b>${row.team}</b><br> v. ${row.opponent}</td>
     <td>${row.highest_bettable_odds}</td>
     <td>${row.sportsbooks_used}</td>
     <td>${convertToUserTimezone(row.date)}</td>
     <td>${row.time_difference_formatted}</td>
+    <td>${row.bet_amount}</td>
     <td><button onclick = "editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>`;
     tableBody.appendChild(tr);
   });
@@ -79,7 +88,7 @@ function saveRow(button) {
   let rowData = {};
   cells.forEach((cell, index) => {
     const input = cell.querySelector('input');
-    const columnName = ['game_id', 'ev', 'team', 'odds', 'sportsbook', 'game_date', 'time_updated']; // Replace with your column names
+    const columnName = ['game_id', 'average_market_odds', 'ev', 'team', 'odds', 'sportsbook', 'game_date', 'time_updated', 'bet_amount']; // Replace with your column names
     rowData[columnName[index]] = input.value;
     console.log(input.value);
 
@@ -144,6 +153,7 @@ function fetchDataAndUpdateTable() {
       .then(data => {
         if (isPageVisible) {
           updateTable(data);
+          updatebankroll(data);
         }
       })
       .catch(error => console.error('Error fetching data:', error));
