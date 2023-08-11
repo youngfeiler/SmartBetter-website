@@ -54,7 +54,6 @@ class live_dashboard_runner():
         self.stacked_df = make_stacked_df(combined_market_extra_df)
 
         for strategy_name, strategy_dict in self.model_storage.items():
-            print('running...')
 
             this_model_raw_data_point = strategy_dict['data_collector'].format(self.stacked_df)
 
@@ -67,8 +66,8 @@ class live_dashboard_runner():
               ind_list = []
               for idx, pred in enumerate(predictions):
                 pred_float = pred.detach().numpy()[0]
-                #if pred_float >= strategy_dict['pred_thresh']:
-                if pred_float >= -100:
+                if pred_float >= strategy_dict['pred_thresh']:
+                #if pred_float >= -100:
                   ind_list.append(idx)
 
               if len(ind_list) > 0:
@@ -136,10 +135,8 @@ class live_dashboard_runner():
             
             return_df = return_df.append(row_to_append, ignore_index=True)
       print(len(return_df))
-      print(return_df['snapshot_time'])
 
       return_df['snapshot_time'] = return_df['snapshot_time'].dt.strftime('%Y-%m-%d %H:%M:%S')
-      print(return_df['snapshot_time'])
 
       save_df = pd.read_csv('users/model_obs.csv')
 
@@ -152,8 +149,8 @@ class live_dashboard_runner():
     def fill_extra_cols(self, df, bettable_books):
 
       df['ev'] = ((1/df['average_market_odds'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds'])) * 100)
-      #df = df[df['ev'] >=10]
-      df = df[df['ev'] >=-10]
+      df = df[df['ev'] >=10]
+      #df = df[df['ev'] >=-10]
 
       df['ev'] = df['ev'].apply(lambda x: round(x, 2))
 
