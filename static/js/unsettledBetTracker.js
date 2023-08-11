@@ -2,6 +2,7 @@
 fetch('/get_unsettled_bet_data')
   .then(response => response.json())
   .then(data => {
+    console.log(data)
     const tableBody = document.querySelector('#table-body');
     let previousGameId = null;
 
