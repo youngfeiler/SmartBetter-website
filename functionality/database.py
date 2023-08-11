@@ -526,11 +526,11 @@ class database():
 
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
-      merged_df = merged_df[merged_df['winning_team_y'].notna()]
+      merged_df = merged_df[merged_df['winning_team'].notna()]
   
       merged_df['team_bet_on'] = [cell.split('v. ') for cell in merged_df['team']]
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
-      merged_df['bet_result'] = np.where(merged_df['winning_team_y'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
+      merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll

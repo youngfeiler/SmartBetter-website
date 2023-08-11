@@ -3,33 +3,37 @@ let updateInterval;
 let currentlyEditingRow = false;
 
 
+function updateTable(data) {
+  // if data only has one row and it's value at update is null
+  if (!(data.length === 1 && data[0].update === false)) {
+    const tableBody = document.querySelector('#data-table tbody');
+    tableBody.innerHTML = '';
+
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+      <td style="display:none;">${row.game_id}</td>
+      <td style="display:none;">${row.average_market_odds}</td>
+      <td  class="mobile-line-height">${row.ev}</td>
+      <td class="mobile-line-height"><b>${row.team}</b><br>v. ${row.opponent}</td>
+      <td class="mobile-line-height">${row.highest_bettable_odds}</td>
+      <td class="mobile-line-height">${row.sportsbooks_used}</td>
+      <td class="mobile-line-height hide-on-mobile">${convertToUserTimezone(row.date)}</td>
+      <td class="mobile-line-height">${row.time_difference_formatted}</td>
+      <td class="mobile-line-height">${row.bet_amount}</td>
+      <td class="mobile-line-height"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+}
+
 function updatebankroll(data){
   const bankroll = document.querySelector('#bankroll');
   bankroll.innerHTML = 'Bankroll:';
   bankroll.innerHTML  += `${data[0].bankroll}`;
 }
 
-function updateTable(data) {
-  const tableBody = document.querySelector('#data-table tbody');
-  tableBody.innerHTML = '';
-
-  data.forEach(row => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-    <td style="display:none;">${row.game_id}</td>
-    <td style="display:none;">${row.average_market_odds}</td>
-    <td  class="mobile-line-height">${row.ev}</td>
-    <td class="mobile-line-height"><b>${row.team}</b><br>v. ${row.opponent}</td>
-    <td class="mobile-line-height">${row.highest_bettable_odds}</td>
-    <td class="mobile-line-height">${row.sportsbooks_used}</td>
-    <td class="mobile-line-height hide-on-mobile">${convertToUserTimezone(row.date)}</td>
-    <td class="mobile-line-height">${row.time_difference_formatted}</td>
-    <td class="mobile-line-height">${row.bet_amount}</td>
-    <td class="mobile-line-height"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>
-    `;
-    tableBody.appendChild(tr);
-  });
-}
 
 
 function getCurrentTime() {

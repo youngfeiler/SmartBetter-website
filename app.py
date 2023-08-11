@@ -271,10 +271,14 @@ def get_live_dash_data():
 
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
     data = my_db.get_live_dash_data(session['user_id'])
-    print(data)
-
-    data['bankroll'] = bankroll
-
+    #if data is empty df 
+    if data.empty:
+        #append a row with data['bankroll'] = bankroll and data['update'] = false
+        #make data a new df with only two columns bankroll and update
+        data = pd.DataFrame(columns=['bankroll', 'update'])
+        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+    else:
+        data['bankroll'] = bankroll
     data_json = data.to_dict(orient='records')
 
     return jsonify(data_json)
