@@ -535,7 +535,7 @@ class database():
       # add total profit/loss to current bankroll
       new_bankroll = current_bankroll + total_profit_loss
       # update users/login_info.csv with new bankroll
-      login_info[login_info['username'] == username]['bankroll'].loc[0] = new_bankroll
+      login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
       login_info.to_csv('users/login_info.csv', index=False)
       return new_bankroll
       
