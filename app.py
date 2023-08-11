@@ -75,7 +75,7 @@ def login():
     password = request.form.get('password')
     my_db = database()
     login_allowed = my_db.check_login_credentials(username, password)
-    app.logger.debug(f'Login Result: {login_allowed}')
+    print(f'{username} login result: {login_allowed}')
     if login_allowed:
         session['user_id'] = username
         return redirect(url_for('live_dashboard'))
