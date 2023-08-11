@@ -342,11 +342,9 @@ class database():
         return user_df.loc[0,'bankroll']
 
     def get_recommended_bet_size(self, user, df):
-       print("----------------------------------------------------------------------------------------------------")
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
        df['win_prob'] =  (1 / df['average_market_odds']) 
        bankroll = self.get_user_bank_roll(user)
-       print(bankroll)
        df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
        df['bet_amount'] = df['bet_amount'].round(2)
@@ -362,7 +360,6 @@ class database():
       df = df.append(jayson, ignore_index =True)
       odds = int(df['odds'])
       df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
-      print(df)
       read_in = pd.read_csv('users/placed_bets.csv')
       put_out = read_in.append(df, ignore_index=True)
       put_out.to_csv('users/placed_bets.csv', index = False)
@@ -422,8 +419,6 @@ class database():
 
        first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
 
-       print(first_20_rows['snapshot_time'])
-
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
 
        def minutes_seconds(row):
@@ -446,10 +441,8 @@ class database():
           return row
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
-       print(first_20_rows)
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
-       print(first_20_rows)
        return first_20_rows
 
 
@@ -526,7 +519,6 @@ class database():
       login_info = pd.read_csv('users/login_info.csv')
       # get only rows where username equals username from login_info
       current_bankroll = login_info[login_info['username'] == username].loc[0]['bankroll']
-      print(current_bankroll)
       # get only rows in placed_bets where 'username' column= username
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       # get only rows in placed_bets where 'winning_team' column = not null
@@ -536,7 +528,6 @@ class database():
 
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
-      print(merged_df.columns)
       merged_df = merged_df[merged_df['winning_team_y'].notna()]
   
       merged_df['team_bet_on'] = [cell.split('v. ') for cell in merged_df['team']]
@@ -549,7 +540,6 @@ class database():
       # update users/login_info.csv with new bankroll
       login_info[login_info['username'] == username].loc[0]['bankroll'] = new_bankroll
       login_info.to_csv('users/login_info.csv', index=False)
-      print(new_bankroll)
       return new_bankroll
       
 
