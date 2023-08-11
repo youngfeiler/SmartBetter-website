@@ -21,14 +21,15 @@ def create_app():
     app.secret_key = 'to_the_moon'
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
-    #print('create_app')
-    #tasks.start_dashboard_runner.delay()
-
-
     return app
 
 app = create_app()
 
+
+@app.route('/test_func')
+def test_func():
+    tasks.start_dashboard_runner.delay()
+    return render_template('information.html')
 
 
 @app.route('/home')

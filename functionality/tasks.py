@@ -2,13 +2,7 @@ from .strategy_maker import strategy_maker
 from .model_runner import model_runner
 from .database import database
 from .live_dashboard_runner import live_dashboard_runner
-
-# from celery import Celery
-# from app import celery as my_celery
-import time
 from collections import OrderedDict
-import torch
-from celery.schedules import crontab
 
 
 from celery import Celery
@@ -59,21 +53,10 @@ def start_model_runner():
 
 @celery.task
 def start_dashboard_runner():
-    
-    print('celery starting....')
 
     live_dashboard_runner_instance = live_dashboard_runner()
 
     live_dashboard_runner_instance.run()
-
-
-@celery.on_after_configure.connect
-def setup_periodic_tasks(sender, **kwargs):
-    # Schedule the task to run once at app startup
-    sender.add_task(start_dashboard_runner.si(), countdown=1)
-
-    # Schedule the task to repeat every 5 seconds
-    sender.add_periodic_task(5.0, start_dashboard_runner.s(), name='every-5-seconds')
 
 
 
