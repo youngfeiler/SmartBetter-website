@@ -65,8 +65,8 @@ class data_collector():
 
         self.df['ev'] = ((1/self.df['average_market_odds'])*(100*self.df['highest_bettable_odds']-100)) - ((1-(1/self.df['average_market_odds'])) * 100)
 
-        #self.df = self.df[self.df['ev'] >= self.min_ev]
-        #self.df = self.df[self.df['ev'] <= self.max_ev]
+        self.df = self.df[self.df['ev'] >= self.min_ev]
+        self.df = self.df[self.df['ev'] <= self.max_ev]
 
         self.df.drop('ev', axis='columns')
 

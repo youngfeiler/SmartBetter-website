@@ -349,7 +349,7 @@ class database():
        print(bankroll)
        df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
-       df['bet_ampunt'] = df['bet_amount'].round(2)
+       df['bet_amount'] = df['bet_amount'].round(2)
        return df
        
 
