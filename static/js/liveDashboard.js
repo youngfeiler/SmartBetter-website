@@ -16,16 +16,17 @@ function updateTable(data) {
   data.forEach(row => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-    <td style = "display:none;">${row.game_id}</td>
-    <td style = "display:none;">${row.average_market_odds}</td>
-    <td>${row.ev}</td>
-    <td><b>${row.team}</b><br> v. ${row.opponent}</td>
-    <td>${row.highest_bettable_odds}</td>
-    <td>${row.sportsbooks_used}</td>
-    <td>${convertToUserTimezone(row.date)}</td>
-    <td>${row.time_difference_formatted}</td>
-    <td>${row.bet_amount}</td>
-    <td><button onclick = "editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>`;
+    <td style="display:none;">${row.game_id}</td>
+    <td style="display:none;">${row.average_market_odds}</td>
+    <td  class="mobile-line-height">${row.ev}</td>
+    <td class="mobile-line-height"><b>${row.team}</b><br>v. ${row.opponent}</td>
+    <td class="mobile-line-height">${row.highest_bettable_odds}</td>
+    <td class="mobile-line-height">${row.sportsbooks_used}</td>
+    <td class="mobile-line-height hide-on-mobile">${convertToUserTimezone(row.date)}</td>
+    <td class="mobile-line-height">${row.time_difference_formatted}</td>
+    <td class="mobile-line-height">${row.bet_amount}</td>
+    <td class="mobile-line-height"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>
+    `;
     tableBody.appendChild(tr);
   });
 }
@@ -181,9 +182,6 @@ function sendDataToFlask(name, email) {
   });
 }
 
-//deleted for refresh button
-//document.addEventListener('visibilitychange', handleVisibilityChange);
-//added for refresh button
 document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
 function startUpdateInterval() {
