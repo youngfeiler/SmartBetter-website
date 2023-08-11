@@ -350,10 +350,6 @@ class database():
        df['bet_amount'] = df['bet_amount'].round(2)
        return df
        
-
-
-    
-    
     def add_made_bet_to_db(self, jayson):
 
       df = pd.DataFrame(columns=jayson.keys())
@@ -455,16 +451,17 @@ class database():
       result_updater_instance.update_results()
 
       scores_df = scores_df[['game_id', 'winning_team']]
+
       merged_df = df.merge(scores_df, on='game_id', how='left')
 
-      filtered_df = merged_df[merged_df['winning_team'].isna()]
-      filtered_df = merged_df
+      filtered_df = merged_df[merged_df['winning_team_y'].isna()]
       grouped_df = filtered_df.groupby(['game_id', 'team'])
 
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
       filtered_df['average_odds'] = grouped_df['odds'].transform('mean')
       filtered_df['highest_odds'] = grouped_df['odds'].transform('max')
       filtered_df['p_l'] = grouped_df['bet_profit'].transform('sum')
+      filtered_df['total_bet_amount'] = grouped_df['bet_amount'].transform('sum')
 
 
       game_id_df = filtered_df.drop_duplicates(subset=['team'])
@@ -475,8 +472,8 @@ class database():
         if len(group) == 2:
             row1 = group.iloc[0]
             row2 = group.iloc[1]
-            result1 = row1['p_l'] - (row2['amount_of_bets'] * 100)
-            result2 = row2['p_l'] - (row1['amount_of_bets'] * 100)
+            result1 = row1['p_l'] - row2['total_bet_amount']
+            result2 = row2['p_l'] - row1['total_bet_amount']
             group.loc[group.index[0], 'if_win'] = result1
             group.loc[group.index[1], 'if_win'] = result2
 
@@ -494,19 +491,23 @@ class database():
             row['average_odds'] = ''
             row['highest_odds'] = ''
             row['p_l'] = ''
+            row['total_bet_amount'] = 0
             group = group.append(row, ignore_index=True) 
             group.loc[group.index[0], 'if_win'] = group.iloc[0]['p_l']
-            group.loc[group.index[1], 'if_win'] = group.iloc[0]['amount_of_bets'] * -100
+            group.loc[group.index[1], 'if_win'] = group.iloc[0]['total_bet_amount'] * -1
             group.loc[group.index[0], 'team'] = group.iloc[0]['team'].split('v. ')[0]
         return group
       
 
       game_id_df_grouped = game_id_df_grouped.apply(calculate_if_win).reset_index(drop=True)
 
-      game_id_df_grouped['if_win'] = round(game_id_df_grouped['if_win']/100,2)
+      game_id_df_grouped['if_win'] = round(game_id_df_grouped['if_win'],1)
+      game_id_df_grouped['average_odds'] = game_id_df_grouped['average_odds'].apply(lambda x: round(x, 0) if isinstance(x, (int, float)) else x)
 
-      game_id_df_grouped.to_csv('users/placed_bets.csv', index=False)
-      return game_id_df_grouped
+
+
+      return_df = game_id_df_grouped[['game_id', 'team', 'user_name', 'average_odds', 'highest_odds', 'if_win']]
+      return return_df
     
 
     def calculate_user_bankroll(self, username):

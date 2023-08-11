@@ -77,57 +77,72 @@ table.rounded-table td input {
 	border: none;
 }
 
-
-@media 
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
-
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr { 
-		display: block; 
-	}
-
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	tr { 
-    border-right: 1px solid #ffffff; 
-    border-left: 1px solid #ffffff; 
-    border-top: 1px solid #ffffff; 
-    border-bottom: 1px solid #009879; 
-  }
-	
-	td { 
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #ffffff; 
-		position: relative;
-		padding-left: 50%; 
-	}
-	
-	td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 8px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-	}
-	
-	td:nth-of-type(1):before { content: "% +EV"; }
-	td:nth-of-type(2):before { content: "Moneyline Bet"; }
-	td:nth-of-type(3):before { content: "Odds"; }
-	td:nth-of-type(4):before { content: "Sportsbook"; }
-	td:nth-of-type(5):before { content: "Game Date"; }
-	td:nth-of-type(6):before { content: "Time Updated"; }
+.mobile{
+	display: none;
 }
+
+@media (max-width: 767px) {
+	.mobile-line-height {
+    padding: 3px;
+    line-height: 1;
+  }
+	.container {
+			width: 100%;
+	}
+
+	table {
+			table-layout: fixed;
+			border-collapse: collapse; 
+	}
+	
+
+	th, td {
+			display: block;
+			width: 50%; 
+			box-sizing: border-box;
+			float: left;
+			margin: 0; 
+			border: none; /* Remove any default border */
+			font-size: 14px; /* Adjust font size to minimize spacing */
+	}
+
+	td[data-label]::before {
+			content: attr(data-label);
+			font-weight: bold;
+			display: block;
+			margin-bottom: 1px; /* Add a small margin at the bottom of labels */
+	}
+	td.hide-on-mobile {
+		display: none;
+}
+td.mobile-line-height{
+	padding: 3px;
+	line-height: 1;
+}
+
+	.table-container {
+			overflow: auto;
+	}
+
+	.rounded-table tr {
+			height: 50px; /* Set row height to 50px */
+			padding: 0; /* Remove padding */
+	}
+
+	.rounded-table td {
+			padding: 0; 
+			line-height: 1; 
+	}
+
+	.mobile-line-height{
+		padding: 3px;
+		line-height: 1;
+	}
+}
+
+
+
+
 #fetch-button {
 	margin-top: 20px;
 	margin-bottom: 20px; /* Add margin at the bottom */
@@ -139,34 +154,29 @@ only screen and (max-width: 760px),
 	border-radius: 10px;
 	cursor: pointer;
 	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-  }
+}
   
-  #fetch-button:hover {
+#fetch-button:hover {
 	color: #f1f1f1;
 	text-decoration: underline;
 	border-color: #f1f1f1;
-  }
-  
-  /* ... (previous CSS code) */
+}
 
-  table.rounded-table tr.editing-row td {
+table.rounded-table tr.editing-row td {
 	background-color: #263F52;
 	font-weight: bold;
-  }
+}
   
-  table.rounded-table td input {
+table.rounded-table td input {
 	height: 40px;
 	font-size: 14px;
 	background-color: #16242f;
 	color: #ffffff;
 	border: none;
-  
-	/* Add the following properties to control the input field's appearance */
 	width: 100%;
 	padding: 5px; /* Adjust padding as needed */
 	box-sizing: border-box; /* Include padding and border in the element's total width */
-  }
-  
-  /* ... (rest of the CSS code) */
+}
+
   
   

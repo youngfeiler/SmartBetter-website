@@ -294,6 +294,8 @@ def get_unsettled_bet_data():
 
     sorted_dict = {game_id: records for game_id, records in sorted_grouped_data}
 
+    print(sorted_dict)
+
     return jsonify(sorted_dict)
 
 
