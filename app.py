@@ -78,6 +78,7 @@ def login():
     print(f'{username} login result: {login_allowed}')
     if login_allowed:
         session['user_id'] = username
+        print(session['user_id'])
         return redirect(url_for('live_dashboard'))
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
