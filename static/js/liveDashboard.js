@@ -153,7 +153,7 @@ function fetchDataAndUpdateTable() {
       .then(data => {
         if (isPageVisible) {
           updateTable(data);
-          updatebankroll(data);
+        //  updatebankroll(data);
         }
       })
       .catch(error => console.error('Error fetching data:', error));
