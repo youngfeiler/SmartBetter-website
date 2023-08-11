@@ -339,7 +339,7 @@ class database():
     def get_user_bank_roll(self, user):
         df = pd.read_csv('users/login_info.csv')
         user_df = df[df['username'] == user]
-        return user_df.loc[0,'bankroll']
+        return user_df['bankroll'].iloc[0]
 
     def get_recommended_bet_size(self, user, df):
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
@@ -367,7 +367,6 @@ class database():
     
     def get_live_dash_data(self, user_name):
        df = pd.read_csv('users/model_obs.csv')
-
        scores_df = pd.read_csv('mlb_data/scores.csv')
        result_updater_instance = result_updater()
        result_updater_instance.update_results()
@@ -401,8 +400,6 @@ class database():
 
        df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(convert_to_list)
 
-
-        # Drop the original array column if needed
        df_no_duplicates = df_no_duplicates.drop(columns=['sportsbooks_used', 'sportsbooks_used_string', 'winning_team'])
 
        df_no_duplicates.rename(columns={'sportsbooks_used_list': 'sportsbooks_used'}, inplace=True)
@@ -460,7 +457,7 @@ class database():
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = df.merge(scores_df, on='game_id', how='left')
 
-      #filtered_df = merged_df[merged_df['winning_team'].isna()]
+      filtered_df = merged_df[merged_df['winning_team'].isna()]
       filtered_df = merged_df
       grouped_df = filtered_df.groupby(['game_id', 'team'])
 
@@ -518,7 +515,7 @@ class database():
       # get users/login_info.csv
       login_info = pd.read_csv('users/login_info.csv')
       # get only rows where username equals username from login_info
-      current_bankroll = login_info[login_info['username'] == username].loc[0]['bankroll']
+      current_bankroll = self.get_user_bank_roll(username)
       # get only rows in placed_bets where 'username' column= username
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       # get only rows in placed_bets where 'winning_team' column = not null
@@ -538,7 +535,7 @@ class database():
       # add total profit/loss to current bankroll
       new_bankroll = current_bankroll + total_profit_loss
       # update users/login_info.csv with new bankroll
-      login_info[login_info['username'] == username].loc[0]['bankroll'] = new_bankroll
+      login_info[login_info['username'] == username]['bankroll'].loc[0] = new_bankroll
       login_info.to_csv('users/login_info.csv', index=False)
       return new_bankroll
       
