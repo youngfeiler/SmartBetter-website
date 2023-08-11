@@ -54,7 +54,7 @@ class live_dashboard_runner():
         self.stacked_df = make_stacked_df(combined_market_extra_df)
 
         for strategy_name, strategy_dict in self.model_storage.items():
-
+            print('running...')
             this_model_raw_data_point = strategy_dict['data_collector'].format(self.stacked_df)
 
             if this_model_raw_data_point is not False:
