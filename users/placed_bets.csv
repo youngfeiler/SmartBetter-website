@@ -1,2 +1,1 @@
-game_id,ev,team,odds,sportsbook,game_date,time_updated,user_name,average_market_odds,bet_amount,bet_profit,winning_team,amount_of_bets,average_odds,highest_odds,p_l,if_win
-8325ed6a26d2dc45c64e3c38939b74d8,0.09,Colorado Rockies v. Los Angeles Dodgers,260,"['Barstool', 'Betmgm', 'Fanduel', 'Draftkings', 'Wynnbet']","Thu, Aug 10, 2023, 06:00 PM MDT",-21555 sec,TestUser,3.596666666666667,0.035645540742846614,0.0926784059314012,,,,,,
+game_id,ev,team,odds,sportsbook,game_date,time_updated,user_name,average_market_odds,bet_amount,bet_profit
