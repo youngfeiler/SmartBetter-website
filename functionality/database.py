@@ -454,7 +454,7 @@ class database():
 
       merged_df = df.merge(scores_df, on='game_id', how='left')
 
-      filtered_df = merged_df[merged_df['winning_team_y'].isna()]
+      filtered_df = merged_df[merged_df['winning_team'].isna()]
       grouped_df = filtered_df.groupby(['game_id', 'team'])
 
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
@@ -507,17 +507,16 @@ class database():
 
 
       return_df = game_id_df_grouped[['game_id', 'team', 'user_name', 'average_odds', 'highest_odds', 'if_win']]
+
+      print(return_df)
       return return_df
     
 
     def calculate_user_bankroll(self, username):
-      # get users/placed_bets.csv
       placed_bets = pd.read_csv('users/placed_bets.csv')
-      # get users/login_info.csv
       login_info = pd.read_csv('users/login_info.csv')
-      # get only rows where username equals username from login_info
+
       current_bankroll = self.get_user_bank_roll(username)
-      # get only rows in placed_bets where 'username' column= username
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       # get only rows in placed_bets where 'winning_team' column = not null
       scores_df = pd.read_csv('mlb_data/scores.csv')
@@ -526,11 +525,15 @@ class database():
 
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
-      merged_df = merged_df[merged_df['winning_team_y'].notna()]
+      merged_df = merged_df[merged_df['winning_team'].notna()]
   
-      merged_df['team_bet_on'] = [cell.split('v. ') for cell in merged_df['team']]
+      merged_df['team_bet_on'] = [cell.split(' v. ')[0] for cell in merged_df['team']]
+      print(merged_df['team_bet_on'])
+      print(merged_df['winning_team'])
+
+
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
-      merged_df['bet_result'] = np.where(merged_df['winning_team_y'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
+      merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
