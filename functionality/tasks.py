@@ -1,7 +1,7 @@
-from .strategy_maker import strategy_maker
-from .model_runner import model_runner
-from .database import database
-from .live_dashboard_runner import live_dashboard_runner
+#from .strategy_maker import strategy_maker
+#from .model_runner import model_runner
+#from .database import database
+#from .live_dashboard_runner import live_dashboard_runner
 
 # from celery import Celery
 # from app import celery as my_celery
@@ -9,7 +9,7 @@ import time
 from collections import OrderedDict
 import torch
 from celery.schedules import crontab
-
+from app import app
 
 from celery import Celery
 
