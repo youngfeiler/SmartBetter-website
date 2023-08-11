@@ -21,8 +21,8 @@ def create_app():
     app.secret_key = 'to_the_moon'
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
-    print('create_app')
-    tasks.start_dashboard_runner.delay()
+    #print('create_app')
+    #tasks.start_dashboard_runner.delay()
 
 
     return app
