@@ -13,9 +13,12 @@
 <main>
   <div class="container">
     <h2>SmartBetter-Approved +EV Bets</h2>
+      
     <p>Bets that our model has predicted are high-quality +EV bets. These are weighted in your favor so that you always win in the long run</p>
-    <p id = 'bankroll'>BankRoll</p>
+    <p id ='bankroll'>Bankroll: $</p>
     <button id="fetch-button">Update Table</button>
+    <button id="add-to-bankroll" class = "live-button" button onclick="addToBankroll(this)">Add to bankroll</button>
+    
     <table id="data-table" class="rounded-table">
       <thead>
         <tr>

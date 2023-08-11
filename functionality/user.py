@@ -5,9 +5,9 @@ class User():
         self.username = username
         self.password = ''
 
-    def create_user(self, firstname, lastname, username, password, phone):
+    def create_user(self, firstname, lastname, username, password, phone, bankroll):
       df = pd.read_csv('users/login_info.csv')
-      info_row = [firstname, lastname, self.username, password, phone]
+      info_row = [firstname, lastname, self.username, password, phone, bankroll]
 
       df.loc[len(df)] = info_row
 

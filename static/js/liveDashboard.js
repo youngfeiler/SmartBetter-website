@@ -30,7 +30,7 @@ function updateTable(data) {
 
 function updatebankroll(data){
   const bankroll = document.querySelector('#bankroll');
-  bankroll.innerHTML = 'Bankroll:';
+  bankroll.innerHTML = 'Bankroll: $';
   bankroll.innerHTML  += `${data[0].bankroll}`;
 }
 
@@ -203,3 +203,57 @@ function stopUpdateInterval() {
 $(document).ready(
   fetchDataAndUpdateTable
 );
+<<<<<<< HEAD
+=======
+
+const bankrollP = document.getElementById("bankroll");
+const addButton = document.getElementById("add-to-bankroll");
+
+addButton.addEventListener("click", addToBankroll);
+
+function addToBankroll() {
+  console.log('Editing bankroll:');
+  const existingInput = bankrollP.querySelector('input');
+  const existingSaveButton = bankrollP.querySelector('button');
+
+  if (existingInput) {
+    bankrollP.removeChild(existingInput);
+  }
+
+  if (existingSaveButton) {
+    bankrollP.removeChild(existingSaveButton);
+  }
+    
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.placeholder = "Amount to add or subtract from bankroll";
+  input.classList.add('bankroll-input'); // Add class to input
+
+  bankrollP.appendChild(input);
+
+  const saveButton = document.createElement('button');
+  saveButton.innerText = 'Save';
+  saveButton.classList.add('live-button'); // Add class to button
+  bankrollP.appendChild(saveButton);
+
+  saveButton.addEventListener("click", function() {
+    const amount = parseFloat(input.value);
+    console.log('Amount:', amount);
+
+    fetch('/add_to_bankroll', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Server response:', data);
+      bankrollP.removeChild(input);
+      bankrollP.removeChild(saveButton);
+      fetchDataAndUpdateTable();
+    });
+  });
+}
+>>>>>>> 4596139f0bc569d4a591733b79d2841b9aaec924
