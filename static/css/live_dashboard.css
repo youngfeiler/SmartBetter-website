@@ -178,5 +178,48 @@ table.rounded-table td input {
 	box-sizing: border-box; /* Include padding and border in the element's total width */
 }
 
+.live-button{
+	padding: 10px 25px;
+	font-size: 16px;
+	background-color: #16242f;
+	color: #ffffff;
+	border: 2px solid #ffffff;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.live-button:hover {
+	color: #f1f1f1;
+	text-decoration: underline;
+	border-color: #f1f1f1;
+}
+
+
+.bankroll-input{
+	padding: 5px;
+  margin-left:20px;
+  margin-right:20px;
+  position: relative;
+}
+
+.bankroll-input{
+  width: 10%;
+  font-size: 16px;
+  padding: 5px;
+  background-color: #16242f;
+  border: 1px solid #f1f1f1;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  color: #fefefe;
+}
+
+
+.bankroll-input:focus{
+  outline: none;
+  border: 1px solid #327ba3;
+  background-color: #16242f;
+}
+
   
   

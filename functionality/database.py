@@ -18,10 +18,10 @@ class database():
       df = pd.read_csv('users/login_info.csv')
       self.users= df['username'].tolist()
     
-    def add_user(self, firstname, lastname, username, password, phone):
+    def add_user(self, firstname, lastname, username, password, phone, bankroll):
        new_user = User(username)
 
-       new_user.create_user(firstname, lastname, username, password, phone)
+       new_user.create_user(firstname, lastname, username, password, phone, bankroll)
 
        self.users = self.get_all_usernames()
 
@@ -340,6 +340,23 @@ class database():
         df = pd.read_csv('users/login_info.csv')
         user_df = df[df['username'] == user]
         return user_df['bankroll'].iloc[0]
+
+    def add_to_bankroll(self, user, amount):
+         try:
+          df = pd.read_csv('users/login_info.csv')
+
+          user_df = df[df['username'] == user]
+
+          new_bankroll = float(user_df['bankroll'].iloc[0]) + float(amount)
+
+          df.loc[df['username'] == user, 'bankroll'] = new_bankroll
+    
+          df.to_csv('users/login_info.csv', index=False)
+
+          return True
+         except:
+            return False
+
 
     def get_recommended_bet_size(self, user, df):
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)

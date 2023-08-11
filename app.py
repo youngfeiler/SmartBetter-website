@@ -60,10 +60,11 @@ def register():
         username = request.form['username']
         password = request.form['password']
         phone = '+1' + str(request.form['phone_number'])
+        bankroll = request.form['bankroll']
         if username in users:
             return render_template('register.html', username_exists=True, form_data=request.form)
         else:
-            my_db.add_user(first_name, last_name, username, password, phone)
+            my_db.add_user(first_name, last_name, username, password, phone, bankroll)
             users = my_db.users
             return redirect(url_for('live_dashboard'))
     return render_template('register.html', username_exists=False, form_data={})
@@ -311,6 +312,21 @@ def bet_tracker():
             return render_template('bet_tracker.html')
     except:
         return redirect(url_for('register'))
+    
+@app.route('/add_to_bankroll', methods=['POST'])
+def add_to_bankroll():
+    data = request.get_json()
+    amount = data.get('amount')
+    database_instance = database()
+    username = session['user_id']
+    
+    if database_instance.add_to_bankroll(session['user_id'], amount):
+        new_bankroll = int(database_instance.get_user_bank_roll(username))
+        response_data = {'message': 'Bankroll updated successfully', 'new_bankroll': new_bankroll}
+    else:
+        response_data = {'error': 'Bankroll unable to be updated', 'bankroll': int(database_instance.get_user_bank_roll(username))}
+
+    return jsonify(response_data)
     
 
 if __name__ == '__main__':
