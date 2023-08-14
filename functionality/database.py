@@ -529,6 +529,7 @@ class database():
 
 
       return_df = game_id_df_grouped[['game_id', 'team', 'user_name', 'average_odds', 'highest_odds', 'if_win']]
+
       return return_df
     
 
@@ -538,8 +539,9 @@ class database():
       login_info = pd.read_csv('users/login_info.csv')
 
       current_bankroll = self.get_user_bank_roll(username)
+
       placed_bets = placed_bets[placed_bets['user_name'] == username]
-      # get only rows in placed_bets where 'winning_team' column = not null
+
       scores_df = pd.read_csv('mlb_data/scores.csv')
       result_updater_instance = result_updater()
       result_updater_instance.update_results()
