@@ -12,7 +12,7 @@ from functionality.util import american_to_decimal, decimal_to_american
 import pandas as pd
 from functionality.tasks import celery
 import json
-import timedelta
+from datetime import timedelta
 
 
 def create_app():
@@ -23,7 +23,7 @@ def create_app():
     app.config['SESSION_COOKIE_DURATION'] = 0
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Example: session lasts for 1 day
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
     return app
 
 app = create_app()
