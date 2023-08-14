@@ -545,7 +545,7 @@ class database():
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
   
-      merged_df['team_bet_on'] = [cell.split(' v. ')[0] for cell in merged_df['team']]
+      merged_df['team_bet_on'] = [cell.split('v. ')[0] for cell in merged_df['team']]
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
