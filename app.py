@@ -236,6 +236,8 @@ def update_text_alert():
 
 @app.route('/live_dashboard')
 def live_dashboard():
+  print('LIVE DASH')
+  print(session['user_id'])
   try:
     if session['user_id'] is not None:
       return render_template('live_dashboard.html')
