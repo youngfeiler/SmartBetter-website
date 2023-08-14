@@ -18,12 +18,11 @@ from datetime import timedelta
 def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     app.secret_key = 'to_the_moon'
-    app.config['EXPLAIN_TEMPLATE_LOADING'] = True
-    
+    # app.config['EXPLAIN_TEMPLATE_LOADING'] = True
     app.celery = celery
-    app.config['SESSION_COOKIE_SECURE'] = True
-    app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
+    # app.config['SESSION_COOKIE_SECURE'] = True
+    # app.config['SESSION_COOKIE_HTTPONLY'] = True
+    # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
     return app
 app = create_app()
 
