@@ -17,8 +17,9 @@ from datetime import timedelta
 
 def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
-    app.config['EXPLAIN_TEMPLATE_LOADING'] = True
     app.secret_key = 'to_the_moon'
+    app.config['EXPLAIN_TEMPLATE_LOADING'] = True
+    
     app.celery = celery
     app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
