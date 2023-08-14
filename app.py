@@ -12,15 +12,18 @@ from functionality.util import american_to_decimal, decimal_to_american
 import pandas as pd
 from functionality.tasks import celery
 import json
+import timedelta
 
 
 def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     app.config['EXPLAIN_TEMPLATE_LOADING'] = True
     app.secret_key = 'to_the_moon'
-    app.secret_key = 'to_the_moon'
     app.celery = celery
     app.config['SESSION_COOKIE_DURATION'] = 0
+    app.config['SESSION_COOKIE_SECURE'] = True
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Example: session lasts for 1 day
     return app
 
 app = create_app()
@@ -77,10 +80,11 @@ def login():
     password = request.form.get('password')
     my_db = database()
     login_allowed = my_db.check_login_credentials(username, password)
-    print(f'{username} login result: {login_allowed}')
+
+    # print(f'{username} login result: {login_allowed}')
     if login_allowed:
         session['user_id'] = username
-        print(session['user_id'])
+        # print(session['user_id'])
         return redirect(url_for('live_dashboard'))
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
@@ -273,10 +277,7 @@ def get_live_dash_data():
 
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
     data = my_db.get_live_dash_data(session['user_id'])
-    #if data is empty df 
     if data.empty:
-        #append a row with data['bankroll'] = bankroll and data['update'] = false
-        #make data a new df with only two columns bankroll and update
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
     else:
