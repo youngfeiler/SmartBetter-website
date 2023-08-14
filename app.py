@@ -81,14 +81,13 @@ def login():
     my_db = database()
     login_allowed = my_db.check_login_credentials(username, password)
 
-    # print(f'{username} login result: {login_allowed}')
+    print(f'{username} login result: {login_allowed}')
     if login_allowed:
         session['user_id'] = username
-        # print(session['user_id'])
-        return redirect(url_for('live_dashboard'))
+        print(session['user_id'])
+        return render_template('live_dashboard.html')
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
-
 
   return render_template('login.html')
 

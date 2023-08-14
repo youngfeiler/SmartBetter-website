@@ -586,10 +586,12 @@ class database():
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
-      new_bankroll = current_bankroll + total_profit_loss
+      new_bankroll = round(current_bankroll + total_profit_loss, 2)
       # update users/login_info.csv with new bankroll
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
       login_info.to_csv('users/login_info.csv', index=False)
+
+      
       return new_bankroll
       
 
