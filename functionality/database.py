@@ -574,7 +574,8 @@ class database():
             append_df[book][0] += row['bet_result']
           else:
             # If it doesn't, add the book as a new column
-            append_df[book][0] = 0
+            #make a new column that is named book 
+            append_df[book] = 0 
             append_df[book][0] += row['bet_result']
 
       #append append_df to profit_by_book
