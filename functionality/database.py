@@ -448,16 +448,11 @@ class database():
             new_minutes = math.floor(seconds_after_hour / 60)
             new_seconds = seconds_after_hour % 60
             row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
-
-          #add 6 hours to time difference formatted to account for time zone difference
-
           return row
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
-       print("first 20 rows")
-       print(first_20_rows)
        return first_20_rows
 
 
