@@ -45,7 +45,12 @@ class live_dashboard_runner():
             'pred_thresh': loaded_params_dict['pred_thresh']
             }
           
+          this_model_dict['params']['bettable_books'].remove('Bovada')
+          this_model_dict['params']['bettable_books'].remove('Twinspires')
+
+          
           self.model_storage['SmartBetterModel'] = this_model_dict
+
     
     def make_live_dash_data(self):
         print('running...')
