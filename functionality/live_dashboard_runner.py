@@ -48,6 +48,7 @@ class live_dashboard_runner():
           self.model_storage['SmartBetterModel'] = this_model_dict
     
     def make_live_dash_data(self):
+        print('running...')
         market_odds_df = get_odds()
         combined_market_extra_df = preprocess(market_odds_df)
         self.market_odds = combined_market_extra_df
@@ -66,6 +67,8 @@ class live_dashboard_runner():
               ind_list = []
               for idx, pred in enumerate(predictions):
                 pred_float = pred.detach().numpy()[0]
+                print(pred_float)
+                print("bets exist")
                 if pred_float >= strategy_dict['pred_thresh']:
                 #if pred_float >= -100:
                   ind_list.append(idx)

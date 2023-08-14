@@ -380,10 +380,10 @@ class database():
     
     def get_live_dash_data(self, user_name):
        df = pd.read_csv('users/model_obs.csv')
-       scores_df = pd.read_csv('mlb_data/scores.csv')
        result_updater_instance = result_updater()
        result_updater_instance.update_results()
-
+       scores_df = pd.read_csv('mlb_data/scores.csv')
+       
        scores_df = scores_df[['game_id', 'winning_team']]
        merged_df = df.merge(scores_df, on='game_id', how='left')
 
@@ -395,13 +395,13 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
+
        columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used_string', 'date']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
 
        df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
-
 
        def convert_to_list(value):
           if isinstance(value, str):
@@ -430,7 +430,7 @@ class database():
        first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
 
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
-
+       
        def minutes_seconds(row):
           seconds = int(float(row['time_difference_seconds']))
 
@@ -448,11 +448,16 @@ class database():
             new_minutes = math.floor(seconds_after_hour / 60)
             new_seconds = seconds_after_hour % 60
             row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+
+          #add 6 hours to time difference formatted to account for time zone difference
+
           return row
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
+       print("first 20 rows")
+       print(first_20_rows)
        return first_20_rows
 
 
@@ -524,12 +529,11 @@ class database():
 
 
       return_df = game_id_df_grouped[['game_id', 'team', 'user_name', 'average_odds', 'highest_odds', 'if_win']]
-
-      print(return_df)
       return return_df
     
 
     def calculate_user_bankroll(self, username):
+      #this will also update the user's p/l for each book
       placed_bets = pd.read_csv('users/placed_bets.csv')
       login_info = pd.read_csv('users/login_info.csv')
 
@@ -545,12 +549,42 @@ class database():
       merged_df = merged_df[merged_df['winning_team'].notna()]
   
       merged_df['team_bet_on'] = [cell.split(' v. ')[0] for cell in merged_df['team']]
-      print(merged_df['team_bet_on'])
-      print(merged_df['winning_team'])
-
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
+      #call calculate_p_l_by_book
+      profit_by_book = pd.read_csv('users/profit_by_book.csv')
+      if username in profit_by_book['username'].values:
+          #if it does, remove the row
+          profit_by_book = profit_by_book[profit_by_book['username'] != username]
+      #make a new df called append_df with the same columns as profit_by_book
+      append_columns = profit_by_book.columns.to_list()
+      append_df = pd.DataFrame(columns = append_columns)
+      #add a row in append_df with 'username' as username and all of the other columns as 0
+      append_df.loc[0, 'username'] = username
+      #make all other columns at row 0 = 0
+      append_df = append_df.fillna(0)
+      #for each row in merged_df
+      for idx, row in merged_df.iterrows():
+
+        ls = row['sportsbook'].split(', ')
+        # for each element in ls replace [ and ] with nothing
+        ls = [element.replace('[', '').replace(']', '').replace("'","") for element in ls]
+        for book in ls:
+          # Check if the book already exists in append_df DataFrame columns
+          if book in append_df.columns:
+            # If it does, add the profit/loss to the existing value 
+            append_df[book][0] += row['bet_result']
+          else:
+            # If it doesn't, add the book as a new column
+            append_df[book][0] = 0
+            append_df[book][0] += row['bet_result']
+
+      #append append_df to profit_by_book
+      profit_by_book = profit_by_book.append(append_df, ignore_index=True)
+      profit_by_book.to_csv('users/profit_by_book.csv', index=False)
+
+
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
