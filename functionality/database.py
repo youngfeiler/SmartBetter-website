@@ -548,9 +548,12 @@ class database():
 
 
 
+
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
 
-      merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
+      # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
+      merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
+
 
       #call calculate_p_l_by_book
       profit_by_book = pd.read_csv('users/profit_by_book.csv')
@@ -585,6 +588,7 @@ class database():
       profit_by_book = profit_by_book.append(append_df, ignore_index=True)
       profit_by_book.to_csv('users/profit_by_book.csv', index=False)
       print(current_bankroll)
+      print(merged_df['bet_result'].sum())
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
