@@ -236,13 +236,11 @@ def update_text_alert():
 
 @app.route('/live_dashboard')
 def live_dashboard():
-  print('LIVE DASH')
-  print(session['user_id'])
-  try:
-    if session['user_id'] is not None:
-      return render_template('live_dashboard.html')
-  except:
-      return redirect(url_for('register'))
+    try:
+        if 'user_id' in session and session['user_id'] is not None:
+            return render_template('live_dashboard.html')
+    except KeyError:
+        return redirect(url_for('register'))
       
 @app.route('/add_saved_bet', methods=['POST'])
 def add_saved_bet():
