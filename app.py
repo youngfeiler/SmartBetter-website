@@ -239,7 +239,7 @@ def live_dashboard():
     try:
         if 'user_id' in session and session['user_id'] is not None:
             return render_template('live_dashboard.html')
-    except KeyError:
+    except:
         return redirect(url_for('register'))
       
 @app.route('/add_saved_bet', methods=['POST'])
