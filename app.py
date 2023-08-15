@@ -22,7 +22,7 @@ def create_app():
     app.celery = celery
     # app.config['SESSION_COOKIE_SECURE'] = True
     # app.config['SESSION_COOKIE_HTTPONLY'] = True
-    # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
     return app
 app = create_app()
 
