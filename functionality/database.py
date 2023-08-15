@@ -357,7 +357,6 @@ class database():
          except:
             return False
 
-
     def get_recommended_bet_size(self, user, df):
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
        df['win_prob'] =  (1 / df['average_market_odds']) 
@@ -455,8 +454,6 @@ class database():
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
        return first_20_rows
 
-
-
     def get_unsettled_bet_data(self, user):
       df = pd.read_csv('users/placed_bets.csv')
       scores_df = pd.read_csv('mlb_data/scores.csv')
@@ -475,10 +472,12 @@ class database():
       grouped_df = filtered_df.groupby(['game_id', 'team'])
 
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
-      filtered_df['average_odds'] = grouped_df['odds'].transform('mean')
       filtered_df['highest_odds'] = grouped_df['odds'].transform('max')
       filtered_df['p_l'] = grouped_df['bet_profit'].transform('sum')
       filtered_df['total_bet_amount'] = grouped_df['bet_amount'].transform('sum')
+      filtered_df['average_odds_dec'] = (filtered_df['p_l'] + filtered_df['total_bet_amount']) / filtered_df['total_bet_amount']
+      filtered_df['average_odds'] = filtered_df['average_odds_dec'].apply(decimal_to_american)
+
 
 
       game_id_df = filtered_df.drop_duplicates(subset=['team'])
@@ -527,7 +526,6 @@ class database():
 
       return return_df
     
-
     def calculate_user_bankroll(self, username):
       #this will also update the user's p/l for each book
       placed_bets = pd.read_csv('users/placed_bets.csv')
@@ -587,8 +585,6 @@ class database():
       #append append_df to profit_by_book
       profit_by_book = profit_by_book.append(append_df, ignore_index=True)
       profit_by_book.to_csv('users/profit_by_book.csv', index=False)
-      print(current_bankroll)
-      print(merged_df['bet_result'].sum())
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
@@ -600,6 +596,73 @@ class database():
       
       return new_bankroll
       
+    def get_user_performance_data(self, username):
+      result_updater_instance = result_updater()
+      result_updater_instance.update_results()
+      scores_df = pd.read_csv('mlb_data/scores.csv')
+      placed_bets = pd.read_csv('users/placed_bets.csv')
+      placed_bets = placed_bets[placed_bets['user_name'] == username]
+
+      scores_df = scores_df[['game_id', 'winning_team']]
+      merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
+      merged_df = merged_df[merged_df['winning_team'].notna()]
+      merged_df['team_bet_on'] = [cell.split('v. ')[0] for cell in merged_df['team']]
+
+      merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
+
+      merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
+
+      merged_df['game_date'] = pd.to_datetime(merged_df['game_date'])
+      merged_df['game_date'] = merged_df['game_date'].dt.date
+
+      print(merged_df)
+
+      grouped = merged_df.groupby('game_date')['bet_result'].sum()
+
+      print(grouped)
+
+
+      datapoints = []
+      wins = merged_df[merged_df['bet_result'] > 0]['bet_result'].count()
+      losses = merged_df[merged_df['bet_result'] < 0]['bet_result'].count()
+
+      total_p_l = merged_df['bet_result'].sum()
+
+      total_precision = round(wins/losses, 1)
+
+      best_day_profit = grouped.max()
+
+      worst_day_loss = grouped.min()
+
+      total_bets_placed = merged_df['bet_result'].count()
+
+      return_on_money = total_p_l / merged_df['bet_amount'].sum()
+
+      for date, result_sum in grouped.items():
+        formatted_date = date.strftime('%Y-%m-%d')
+
+        datapoints.append({
+            'date': formatted_date,
+            'daily_result': result_sum,
+            'total_p_l': total_p_l,
+            'total_precision': total_precision,
+            'best_day': best_day_profit,
+            'worst_day': worst_day_loss,
+            'total_bets_placed': total_bets_placed,
+            'return_on_money': return_on_money
+        })
+
+      return datapoints
+
+
+
+
+
+
+
+
+
+
 
     
 
