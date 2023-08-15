@@ -13,16 +13,16 @@
     <h2>Model Information</h2>
     <div class="feature">
       <h3>Historical MLB Dataset</h3>
-      <p>Each model is trained on 3 past seasons of MLB data. The data consists primaily of moneyline, head-to-head pricing in the MLB market. It trains to identify high-quality price discrepancies -- differences between what the market thinks an outcome should be priced and the price at which your sportsbook is offering that outcome. </p>
+      <p>Our model is trained on 3 past seasons of MLB data. The data primarily consists of moneyline, head-to-head pricing in the MLB market. It trains to identify <b>high-quality</b> price discrepancies -- differences between what the market thinks an outcome should be priced and the price at which a sportsbook is offering that outcome. </p>
 
        
       <p>The dataset is first filtered for +EV bets. These by themselves are profitable in the long run -- it's like getting 3:1 on 'red' at the roulette table when the probability is just around 50%.
 
-      The difference between SmartBetter and +EV betting sites is that our model trains to boost it's hit rate on +EV bets. Every time you win a +EV bet, you gain a winner and remove a loser, increasing money on money return dramatically. </p>
+      The difference between SmartBetter and other +EV betting sites is that our model trains to boost hit rate on those +EV bets. Every time you win a +EV bet, you gain a winner and remove a loser, increasing money on money return dramatically. </p>
       <h3>Example</h3>
       <p>
      Lets look at an example: 
-      The LA Dodgers are one of the biggest market teams in the MLB. This implies that they have more fans to bet on their games. Therefore, to keep their books balanced, DraftKings might artificially increase the odds for their opponent. This reduces exposure. Our models identify this pattern and tend to bet more frequently on small-market teams when they play large-market teams because they will frequently be underpriced. 
+      The LA Dodgers are one of the biggest market teams in the MLB. This implies that they have more fans to bet on their games. Therefore, to keep their books balanced, DraftKings might artificially increase the odds for their opponent, attracting customers whose betting inflows can be used to payout Dodgers betters should they win. Our dataset is full of examples like this (100k+). Our model trains to identify patterns within all of these observations and learns to identify which are high quality: It predicts <b>which</b> +EV bets have a true win probability significantly higher than the implied market odds.
       </p>
     </div>
     <div class="feature">
@@ -35,8 +35,6 @@
     </p>
   </section>
 </div>
-
-{% include "footer.html"  %}
 </body>
 
 </html>
