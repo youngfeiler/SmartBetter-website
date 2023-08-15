@@ -22,7 +22,7 @@ def create_app():
     app.celery = celery
     # app.config['SESSION_COOKIE_SECURE'] = True
     # app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
+    # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
     return app
 app = create_app()
 
@@ -269,6 +269,11 @@ def add_saved_bet():
 
     return jsonify(response)
 
+@app.route('/visualize')
+def visualize():
+    my_db = database()
+    my_db.get_user_performance_data('youngfeiler')
+    return redirect(url_for('register'))
 
 @app.route('/get_live_dash_data')
 def get_live_dash_data():
