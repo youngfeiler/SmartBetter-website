@@ -9,16 +9,17 @@ body {
 
 .table-wrapper {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: flex-start; /* Align content to the top */
+  align-items: center; /* Center horizontally */
   height: 100vh; /* Adjust this value to control the vertical centering */
 }
 
 table {
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
   width: 50%;
   border-collapse: collapse;
+  border-bottom: 2px solid #253c4d;
+  margin-top: 20px; /* Add margin for space from the top */
 }
 
 th, td {
