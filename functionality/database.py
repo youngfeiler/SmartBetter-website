@@ -633,7 +633,7 @@ class database():
 
       total_bets_placed = merged_df['bet_result'].count()
 
-      return_on_money = round(total_p_l / merged_df['bet_amount'].sum(),2)
+      return_on_money = round((total_p_l / merged_df['bet_amount'].sum())*100,2)
 
       for index, row in grouped.iterrows():
         formatted_date = row['game_date'].strftime('%Y-%m-%d')
