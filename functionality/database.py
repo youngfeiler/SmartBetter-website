@@ -552,6 +552,10 @@ class database():
       # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
 
+      test_df_user = merged_df[merged_df['user_name'] == 'youngfeiler']
+      test_df = test_df_user.groupby('game_date')['bet_result'].sum()
+      print(test_df)
+
 
       #call calculate_p_l_by_book
       profit_by_book = pd.read_csv('users/profit_by_book.csv')
@@ -597,62 +601,56 @@ class database():
       return new_bankroll
       
     def get_user_performance_data(self, username):
-      result_updater_instance = result_updater()
-      result_updater_instance.update_results()
       scores_df = pd.read_csv('mlb_data/scores.csv')
       placed_bets = pd.read_csv('users/placed_bets.csv')
       placed_bets = placed_bets[placed_bets['user_name'] == username]
-
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
       merged_df['team_bet_on'] = [cell.split('v. ')[0] for cell in merged_df['team']]
-
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
-
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
 
       merged_df['game_date'] = pd.to_datetime(merged_df['game_date'])
-      merged_df['game_date'] = merged_df['game_date'].dt.date
 
-      print(merged_df)
+      grouped = merged_df.groupby('game_date')['bet_result'].sum().reset_index()
 
-      grouped = merged_df.groupby('game_date')['bet_result'].sum()
-
-      print(grouped)
-
+      # Calculate the running cumulative sum
+      grouped['running_profit'] = grouped['bet_result'].cumsum() 
 
       datapoints = []
+
       wins = merged_df[merged_df['bet_result'] > 0]['bet_result'].count()
       losses = merged_df[merged_df['bet_result'] < 0]['bet_result'].count()
 
-      total_p_l = merged_df['bet_result'].sum()
+      total_p_l = round(merged_df['bet_result'].sum(),1)
 
       total_precision = round(wins/losses, 1)
 
-      best_day_profit = grouped.max()
+      best_day_profit = round(grouped['bet_result'].max(),1)
 
-      worst_day_loss = grouped.min()
+      worst_day_loss = round(grouped['bet_result'].min(),1)
 
       total_bets_placed = merged_df['bet_result'].count()
 
-      return_on_money = total_p_l / merged_df['bet_amount'].sum()
+      return_on_money = round(total_p_l / merged_df['bet_amount'].sum(),2)
 
-      for date, result_sum in grouped.items():
-        formatted_date = date.strftime('%Y-%m-%d')
+      for index, row in grouped.iterrows():
+        formatted_date = row['game_date'].strftime('%Y-%m-%d')
 
         datapoints.append({
             'date': formatted_date,
-            'daily_result': result_sum,
-            'total_p_l': total_p_l,
-            'total_precision': total_precision,
-            'best_day': best_day_profit,
-            'worst_day': worst_day_loss,
-            'total_bets_placed': total_bets_placed,
-            'return_on_money': return_on_money
+            'daily_result': float(row['bet_result']),
+            'running_p_l':float(row['running_profit']),
+            'total_p_l': float(total_p_l),
+            'total_precision': float(total_precision),
+            'best_day': float(best_day_profit),
+            'worst_day': float(worst_day_loss),
+            'total_bets_placed': int(total_bets_placed),
+            'return_on_money': float(return_on_money)
         })
 
-      return datapoints
+      return jsonify(datapoints)
 
 
 
