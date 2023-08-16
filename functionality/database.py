@@ -625,7 +625,7 @@ class database():
 
       total_p_l = round(merged_df['bet_result'].sum(),1)
 
-      total_precision = round(wins/losses, 1)
+      total_precision = round((wins/losses)*100, 1)
 
       best_day_profit = round(grouped['bet_result'].max(),1)
 
