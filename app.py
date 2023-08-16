@@ -237,7 +237,7 @@ def update_text_alert():
 @app.route('/live_dashboard')
 def live_dashboard():
     print('LIVE DASH')
-    print(session.get('user_id'))  # Using session.get() to avoid KeyError
+    print(session.get('user_id'))  
     user_id = session.get('user_id')
     
     if user_id is not None:
@@ -269,11 +269,13 @@ def add_saved_bet():
 
     return jsonify(response)
 
-@app.route('/visualize')
-def visualize():
+@app.route('/get_user_performance_data',  methods=['GET'])
+def get_user_performance_data():
     my_db = database()
-    my_db.get_user_performance_data('youngfeiler')
-    return redirect(url_for('register'))
+
+    data = my_db.get_user_performance_data(session.get('user_id'))
+    print(data)
+    return data
 
 @app.route('/get_live_dash_data')
 def get_live_dash_data():

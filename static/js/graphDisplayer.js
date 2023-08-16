@@ -1,27 +1,14 @@
 $(document).ready(function() {
-  // Function to handle hover effect
-  function handleTabHover(event) {
-    $(this).toggleClass("hovered");
+  function formatNumber(number) {
+    const absNumber = Math.abs(number);
+    const formattedNumber = absNumber.toLocaleString();
+    return (number >= 0) ? `+$${formattedNumber}` : `-$${formattedNumber}`;
   }
 
-  // Function to handle click event
-  function handleTabClick(event) {
-    // Remove active class from all tabs
-    $(".tab").removeClass("active");
-    // Set active class to the clicked tab
-    $(this).addClass("active");
-    const graphInfoEl = document.getElementById('graph-info-tab');
-    graphInfoEl.click();
-    const activeBetsEl = document.getElementById('active-bets-view');
-    activeBetsEl.click();
 
-    $('#day-info-tab').removeClass('active');
-    // Call the Python function and pass the button text
-    var strategy = $(this).text();
     $.ajax({
-      url: "/get_graph_data",
-      type: "POST",
-      data: JSON.stringify({ strategy: strategy }),
+      url: "/get_user_performance_data",
+      type: "GET",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(graphData) {
@@ -29,40 +16,41 @@ $(document).ready(function() {
           $('#graph').text(graphData.message).css('color', 'white');;
         } else {
         $('#graph').empty();
+        
         var xData = [];
         var yData = [];
         var infoData = [];
         var dayResultInfo = [];
-        var TotalPL;
+        var runningPL =[];
+        var totalPL;
         var totalPrecision;
         var bestDay;
         var worstDay;
         var totalBetsPlaced;
         var returnOnMoney;
 
-        // Extract data for x, y, and info
+        console.log(graphData)
         graphData.forEach(function(item) {
           xData.push(item.date);
-          yData.push(item.result_sum);
-          TotalPL = item.result_sum;
+          yData.push(item.running_p_l);
+          runningPL.push(item.running_p_l);
+          dailyPL = item.daily_result;
           totalPrecision = item.total_precision;
           bestDay = item.best_day;
           worstDay = item.worst_day;
           totalBetsPlaced = item.total_bets_placed;
           returnOnMoney = item.return_on_money;
-
-          var teamsInfo = "";
-          item.teams.forEach(function(team) {
-            teamsInfo += team.team + ": " + team.result + "<br>";
-          });
-
+          totalPL = item.total_p_l;
           var dayInfo = "";
-          item.day_results.forEach(function(day) {
-            dayInfo += "<b>Cumulative: $" + item.result_sum + "<br> <b>Day: $"+ day.daily_result;
-          });
-          infoData.push(teamsInfo);
+            dayInfo += "<b>Cumulative: $" + item.running_p_l + "<br> <b>Day: $"+ item.daily_result;
           dayResultInfo.push(dayInfo);
         });
+
+        const FormattedTotalPl = formatNumber(parseInt(totalPL));
+        var titleColor = (totalPL >= 0) ? '#00c805' : 'red';
+
+
+        console.log(yData)
 
         var trace = {
           x: xData,
@@ -71,46 +59,67 @@ $(document).ready(function() {
           hovertext: dayResultInfo,
           hoverinfo: 'text',
           marker: {
-            size: 10,
-            color : '#5ebde4',
+            size: 2,
+            color : titleColor,
           },
           hoverlabel: {
-            bgcolor: '#124d70', // Customize background color of the hover template
-            bordercolor: '#124d70', // Set the border color of the hover template
+            bgcolor: '#ffffff', // Customize background color of the hover template
+            bordercolor: '#ffffff', // Set the border color of the hover template
             font: {
-              color: 'white', // Customize text color of the hover template
-              size: 18, // Customize font size of the hover template
+              color: '#000000', // Customize text color of the hover template
+              size: 12, // Customize font size of the hover template
             },
           },
         };
 
         var layout = {
-          title: 'Running P/L by Day',
+          title: {
+            text: FormattedTotalPl,
+            font: {
+              family: 'Arial, sans-serif',
+              size: 24,
+              color: titleColor,
+              weight: 'bold'
+            }
+          },
+          showline: false,
+          titlefont: {
+            family: 'Arial, sans-serif',
+            size: 18,
+            color: 'black',
+            weight: 'bold' // Set the font weight to bold for axis title
+          },
           xaxis: {
-            title: 'Date',
-            linecolor: '#fefefe',
+            showgrid: false,
+            showline: false,
+            zeroline: false,
+            linecolor: '#000000',
             tickfont: {
-              color: '#fefefe',
+              color: '#000000',
+                weight: 'bold'
             },
             automargin: true,
           },
           yaxis: {
-            title: 'Running P/L'
+            showgrid: false,
+            showline: false, 
+            zeroline: false,
+            titlefont:{
+              weight: 'bold'
+            }
           },
           font: {
-            color: '#fefefe',
+            color: '#000000',
+            weight: 'bold',
           },
-          plot_bgcolor: '#16242f', // Change this to your desired background color
-          // You can also set the color of the plot area's border using `paper_bgcolor`
-          paper_bgcolor: '#16242f',
+          plot_bgcolor: '#ffffff',
+          paper_bgcolor: '#ffffff',
         };
 
 
         var graph = document.getElementById('graph');
         Plotly.newPlot(graph, [trace], layout);
 
-        var stratNameEl = document.getElementById('strategy-name');
-        stratNameEl.innerHTML = strategy;
 
         var overallStats = document.getElementById('overall-info-box');
 
@@ -123,7 +132,7 @@ $(document).ready(function() {
 
         worstDayEl.innerHTML = worstDay ;
         bestDayEl.innerHTML = "+"+bestDay;
-        totalPlEl.innerHTML = "+"+TotalPL ;
+        // totalPlEl.innerHTML = "+"+TotalPL ;
         precEl.innerHTML = totalPrecision + "%";
         totalBetsPlacedEl.innerHTML =totalBetsPlaced;
         returnOnMoneyEl.innerHTML = returnOnMoney + "%";
@@ -151,38 +160,4 @@ $(document).ready(function() {
       }}
     });
   }
-
-  
-
-  // // Event delegation for the hover effect
-  $(".tabs-container").on("mouseenter", ".tab", handleTabHover).on("mouseleave", ".tab", handleTabHover);
-
-  // Event delegation for the click effect
-  $(".tabs-container").on("click", ".tab", handleTabClick);
-
-  // // Show the default tab (Graph Information) on page load
-  $('#graph-info-list').show();
-  $('#day-info-list').hide();
-  
-
-
-  
-  // Function to handle tab click event
-  $('.tab.info').click(function() {
-
-    $('.tab.info').removeClass('active');
-
-    $(this).addClass('active');
-
-    var tabId = $(this).attr('id');
-
-    if (tabId === 'graph-info-tab') {
-      $('#info-list').show();
-      $('#day-info-list').hide();
-    } else if (tabId === 'day-info-tab') {
-      $('#info-list').hide();
-      $('#day-info-list').show();
-    }
-  });
-
-});
+)
