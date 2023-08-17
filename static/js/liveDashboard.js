@@ -158,7 +158,7 @@ function fetchDataAndUpdateTable() {
       .then(data => {
         if (isPageVisible) {
           updateTable(data);
-        //  updatebankroll(data);
+          updatebankroll(data);
         }
       })
       .catch(error => console.error('Error fetching data:', error));
@@ -203,8 +203,6 @@ function stopUpdateInterval() {
 $(document).ready(
   fetchDataAndUpdateTable
 );
-<<<<<<< HEAD
-=======
 
 const bankrollP = document.getElementById("bankroll");
 const addButton = document.getElementById("add-to-bankroll");
@@ -256,4 +254,3 @@ function addToBankroll() {
     });
   });
 }
->>>>>>> 4596139f0bc569d4a591733b79d2841b9aaec924
