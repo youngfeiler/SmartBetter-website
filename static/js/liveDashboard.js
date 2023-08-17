@@ -4,7 +4,6 @@ let currentlyEditingRow = false;
 
 
 function updateTable(data) {
-  // if data only has one row and it's value at update is null
   if (!(data.length === 1 && data[0].update === false)) {
     const tableBody = document.querySelector('#data-table tbody');
     tableBody.innerHTML = '';
@@ -14,14 +13,14 @@ function updateTable(data) {
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
       <td style="display:none;">${row.average_market_odds}</td>
-      <td  class="mobile-line-height">${row.ev}</td>
-      <td class="mobile-line-height"><b>${row.team}</b><br>v. ${row.opponent}</td>
-      <td class="mobile-line-height">${row.highest_bettable_odds}</td>
-      <td class="mobile-line-height">${row.sportsbooks_used}</td>
-      <td class="mobile-line-height hide-on-mobile">${convertToUserTimezone(row.date)}</td>
-      <td class="mobile-line-height">${row.time_difference_formatted}</td>
-      <td class="mobile-line-height">${row.bet_amount}</td>
-      <td class="mobile-line-height"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to Betslip</button></td>
+      <td before-data="+EV%: ">${row.ev}</td>
+      <td before-data="Team: " ><b>${row.team}</b><br><span class="mobile-no-display">v. ${row.opponent}</span></td>
+      <td before-data="Odds to Snipe: ">${row.highest_bettable_odds}</td>
+      <td before-data="Sportsbook with Odds">${row.sportsbooks_used}</td>
+      <td class="mobile-no-display">${convertToUserTimezone(row.date)}</td>
+      <td before-data="Time Since Odds Update: ">${row.time_difference_formatted}</td>
+      <td before-data="Recommended Bet Size: ">$${row.bet_amount}</td>
+      <td data-title="button"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to My Bets</button></td>
       `;
       tableBody.appendChild(tr);
     });
@@ -186,7 +185,6 @@ function sendDataToFlask(name, email) {
   });
 }
 
-document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
 function startUpdateInterval() {
   if (!updateInterval) {
@@ -199,10 +197,6 @@ function stopUpdateInterval() {
   clearInterval(updateInterval);
   updateInterval = null;
 }
-
-$(document).ready(
-  fetchDataAndUpdateTable
-);
 
 const bankrollP = document.getElementById("bankroll");
 const addButton = document.getElementById("add-to-bankroll");
@@ -254,3 +248,9 @@ function addToBankroll() {
     });
   });
 }
+
+$(document).ready(
+  fetchDataAndUpdateTable
+);
+
+document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);

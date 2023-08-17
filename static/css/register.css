@@ -29,7 +29,7 @@ header h1 {
   font-size: 30px;
   font-weight: bold;
   color: #f2f2f2;
-  margin-bottom: 20px; /* Add a margin at the bottom to separate from the paragraph */
+  margin-bottom: 20px;
 }
 
 header p {
@@ -90,8 +90,6 @@ form {
   outline: none;
   border: 1px solid #327ba3;
   background-color: #16242f;
-
-
 }
 
 .submit-button {
@@ -109,6 +107,6 @@ form {
 }
 
 .error-label {
-  color: #ff4c4c; /* Set the text color to red */
-  margin-bottom: 5px; /* Add 5px spacing between the error message and the input box below */
+  color: #ff4c4c;
+  margin-bottom: 5px; 
 }

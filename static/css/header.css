@@ -8,6 +8,7 @@ header {
   z-index: 1;
   border-bottom: 3px solid #253c4d;
   height: 50px;
+  overflow-x: auto;
 }
 
 a.logo {
