@@ -5,6 +5,7 @@ body {
   line-height: 1.6;
   background-color:#16242f;
   color: #fefefe;
+	overflow: none;
 }
 
 h1 {
@@ -80,68 +81,6 @@ table.rounded-table td input {
 .mobile{
 	display: none;
 }
-
-@media (max-width: 767px) {
-	.mobile-line-height {
-    padding: 3px;
-    line-height: 1;
-  }
-	.container {
-			width: 100%;
-	}
-
-	table {
-			table-layout: fixed;
-			border-collapse: collapse; 
-	}
-	
-
-	th, td {
-			display: block;
-			width: 50%; 
-			box-sizing: border-box;
-			float: left;
-			margin: 0; 
-			border: none; /* Remove any default border */
-			font-size: 14px; /* Adjust font size to minimize spacing */
-	}
-
-	td[data-label]::before {
-			content: attr(data-label);
-			font-weight: bold;
-			display: block;
-			margin-bottom: 1px; /* Add a small margin at the bottom of labels */
-	}
-	td.hide-on-mobile {
-		display: none;
-}
-td.mobile-line-height{
-	padding: 3px;
-	line-height: 1;
-}
-
-	.table-container {
-			overflow: auto;
-	}
-
-	.rounded-table tr {
-			height: 50px; /* Set row height to 50px */
-			padding: 0; /* Remove padding */
-	}
-
-	.rounded-table td {
-			padding: 0; 
-			line-height: 1; 
-	}
-
-	.mobile-line-height{
-		padding: 3px;
-		line-height: 1;
-	}
-}
-
-
-
 
 #fetch-button {
 	margin-top: 20px;
@@ -220,6 +159,69 @@ table.rounded-table td input {
   border: 1px solid #327ba3;
   background-color: #16242f;
 }
+
+@media (max-width: 767px) {
+  table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    box-sizing: border-box;
+  }
+
+  table thead tr {
+    display: none;
+  }
+
+  table tr {
+    margin-bottom: 5px;
+    padding: 0;
+    border: 3px solid #16242f;
+    border-radius: 10px;
+  }
+
+  table.rounded-table td {
+    text-align: right;
+    font-weight: bold;
+    display: block;
+    font-size: 12px;
+    position: relative;
+    margin: 0;
+    padding: 0px 0px;
+    height: 20px;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  table td::before {
+    content: attr(before-data);
+    float: left;
+    font-weight: bold;
+    font-size: 10px;
+    font-weight: normal;
+  }
+
+  table td.mobile-no-display {
+    display: none;
+  }
+
+  table.rounded-table td input {
+    height: 100%;
+    width: 100%;
+    font-size: 12px;
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    position: absolute; /* Add position: absolute */
+    top: 0; /* Align input to the top of the td */
+    left: 0; /* Align input to the left of the td */
+    z-index: 1;
+		text-align: right; /* Align text to the right within the input */
+  }
+}
+
 
   
   
