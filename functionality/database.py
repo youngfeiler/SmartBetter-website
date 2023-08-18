@@ -9,6 +9,7 @@ import numpy as np
 from flask import jsonify
 import math
 import datetime
+import ast
 
 class database():
     def __init__(self):
@@ -388,33 +389,35 @@ class database():
 
        filtered_df = merged_df[merged_df['winning_team'].isna()]
 
-       filtered_df['sportsbooks_used_string'] = filtered_df['sportsbooks_used'].astype(str)
+      #  print(filtered_df['sportsbooks_used'].dtype)
+
+      #  filtered_df['sportsbooks_used_string'] = filtered_df['sportsbooks_used'].astype(str)
 
        df_sorted = filtered_df.sort_values(by='snapshot_time', ascending=False)
 
        df_sorted = pd.DataFrame(df_sorted)
 
 
-       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used_string', 'date']
+       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used', 'date']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
 
        df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
 
-       def convert_to_list(value):
-          if isinstance(value, str):
-              return [value]
-          elif isinstance(value, list):
-              return value
-          else:
-              return []
+      #  def convert_to_list(value):
+      #     if isinstance(value, str):
+      #         return [value]
+      #     elif isinstance(value, list):
+      #         return value
+      #     else:
+      #         return []
 
-       df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(convert_to_list)
+      #  df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(convert_to_list)
 
-       df_no_duplicates = df_no_duplicates.drop(columns=['sportsbooks_used', 'sportsbooks_used_string', 'winning_team'])
+       df_no_duplicates = df_no_duplicates.drop(columns=['winning_team'])
 
-       df_no_duplicates.rename(columns={'sportsbooks_used_list': 'sportsbooks_used'}, inplace=True)
+      #  df_no_duplicates.rename(columns={'sportsbooks_used_list': 'sportsbooks_used'}, inplace=True)
        
        first_20_rows = df_no_duplicates.head(20)
 
@@ -448,6 +451,15 @@ class database():
             new_seconds = seconds_after_hour % 60
             row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
           return row
+
+       def format_list_of_strings(strings):
+           return ', '.join(strings[0])
+
+        # Apply the function to the desired column
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
+
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
+
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
