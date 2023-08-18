@@ -249,7 +249,6 @@ def live_dashboard():
 def add_saved_bet():
     try:
         data = request.json  # Get JSON data from the request
-        print(data)
         # Access individual data fields from the JSON data
         user = session['user_id']
         data['user_name'] = user
@@ -274,7 +273,6 @@ def get_user_performance_data():
     my_db = database()
 
     data = my_db.get_user_performance_data(session.get('user_id'))
-    print(data)
     return data
 
 @app.route('/get_live_dash_data')
@@ -308,7 +306,6 @@ def get_unsettled_bet_data():
 
     sorted_dict = {game_id: records for game_id, records in sorted_grouped_data}
 
-    print(sorted_dict)
 
     return jsonify(sorted_dict)
 

@@ -389,10 +389,6 @@ class database():
 
        filtered_df = merged_df[merged_df['winning_team'].isna()]
 
-      #  print(filtered_df['sportsbooks_used'].dtype)
-
-      #  filtered_df['sportsbooks_used_string'] = filtered_df['sportsbooks_used'].astype(str)
-
        df_sorted = filtered_df.sort_values(by='snapshot_time', ascending=False)
 
        df_sorted = pd.DataFrame(df_sorted)
