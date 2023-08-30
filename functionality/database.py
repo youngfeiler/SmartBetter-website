@@ -388,6 +388,7 @@ class database():
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
        df['win_prob'] =  (1 / df['average_market_odds']) 
        bankroll = self.get_user_bank_roll(user)
+       bankroll = float(bankroll)
        df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
        df['bet_amount'] = df['bet_amount'].round(2)
@@ -395,6 +396,9 @@ class database():
        
     def add_made_bet_to_db(self, jayson):
       conn = self.make_conn()
+      print(jayson)
+      #drop dollar sign from bet amount
+      jayson['bet_amount'] = jayson['bet_amount'].replace('$', '')
       df = pd.DataFrame(columns=jayson.keys())
       df = df.append(jayson, ignore_index =True)
       odds = int(df['odds'])
@@ -404,6 +408,7 @@ class database():
       put_out = read_in.append(df, ignore_index=True)
       #put_out.to_csv('users/placed_bets.csv', index = False)
       put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
+      print(put_out)
       conn.commit()  # Commit the changes
       conn.close()   # Close the connection
       return
