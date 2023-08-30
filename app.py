@@ -13,6 +13,19 @@ import pandas as pd
 from functionality.tasks import celery
 import json
 from datetime import timedelta
+import os
+import sqlite3
+
+# Connect to the SQLite database (or create if it doesn't exist)
+#create a functions that adds to the database by taking in a csv file string and adding it to the database
+def add_to_database(csv_file, conn,nm):
+    #pull csv file 
+    df = pd.read_csv(csv_file)
+    #add to database
+    df.to_sql(nm, conn, if_exists='replace', index=False)
+    #commit changes
+    conn.commit()
+
 
 
 def create_app():
@@ -23,6 +36,18 @@ def create_app():
     # app.config['SESSION_COOKIE_SECURE'] = True
     # app.config['SESSION_COOKIE_HTTPONLY'] = True
     # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
+
+    #adding all original data into the db 
+    conn = sqlite3.connect('smartbetter.db')
+
+    # Create a cursor to interact with the database
+    add_to_database('users/login_info.csv', conn, 'login_info')
+    add_to_database('users/placed_bets.csv', conn, 'placed_bets')
+    add_to_database('mlb_data/scores.csv', conn, 'scores')
+    add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
+
+
+
     return app
 app = create_app()
 
