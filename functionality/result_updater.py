@@ -11,8 +11,9 @@ class result_updater():
       self.REGIONS = 'us,eu,uk'
       self.ODDS_FORMAT = 'decimal'
       self.DATE_FORMAT = 'iso'
-      self.conn = sqlite3.connect('smartbetter.db')
-
+  def make_conn(self):
+        conn = sqlite3.connect('smartbetter.db')
+        return conn
 
   def pull_scores(self):
     self.scores_df = ''
@@ -43,7 +44,8 @@ class result_updater():
      try:
       scores_dict = self.pull_scores()
       #df = pd.read_csv('mlb_data/scores.csv')
-      df = pd.read_sql('SELECT * FROM scores', self.conn)
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM scores', conn)
       for each in scores_dict:
             if each['completed'] == False:
                 pass
@@ -64,9 +66,14 @@ class result_updater():
       df_unique_game_id = df.drop_duplicates(subset=['game_id'])
       #df_unique_game_id.to_csv('mlb_data/scores.csv', index=False)
       df_unique_game_id.to_sql('scores', self.conn, if_exists='replace', index=False)
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
+
       return True
      except:
         print("Live results couldn't be updated. Trying agiain in 5 min... ")
+        conn.commit()  # Commit the changes
+        conn.close()   # Close the connection
         return False
 
 
