@@ -124,7 +124,8 @@ def convert_times_to_mst(df):
     return df 
 
 def make_my_game_id(df):
-    extra_info_df = pd.read_csv('mlb_data/mlb_extra_info.csv')
+    #extra_info_df = pd.read_csv('mlb_data/mlb_extra_info.csv')
+    extra_info_df = pd.read_sql('SELECT * FROM mlb_extra_info', self.conn)
 
     extra_info_df['home_team_final'] = extra_info_df[['home_team', 'away_team']].min(axis=1)
     extra_info_df['away_team_final'] = extra_info_df[['home_team', 'away_team']].max(axis=1)

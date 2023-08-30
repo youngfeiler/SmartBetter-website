@@ -1,17 +1,21 @@
 import pandas as pd
+import sqlite3
 
 class User():
     def __init__(self, username):
         self.username = username
         self.password = ''
+        self.conn = sqlite3.connect('smartbetter.db')
 
     def create_user(self, firstname, lastname, username, password, phone, bankroll):
-      df = pd.read_csv('users/login_info.csv')
+      #df = pd.read_csv('users/login_info.csv')
+      df = pd.read_sql('SELECT * FROM login_info', self.conn)
       info_row = [firstname, lastname, self.username, password, phone, bankroll]
 
       df.loc[len(df)] = info_row
 
-      df.to_csv('users/login_info.csv', index=False)
+      #df.to_csv('users/login_info.csv', index=False)
+      df.to_sql('login_info', self.conn, if_exists='replace', index=False)
 
       self.add_strategy_to_user(self.username, 'SmartBetter low risk demo strategy')
 

@@ -43,6 +43,7 @@ def create_app():
     # Create a cursor to interact with the database
     add_to_database('users/login_info.csv', conn, 'login_info')
     add_to_database('users/placed_bets.csv', conn, 'placed_bets')
+    add_to_database('users/profit_by_books.csv', conn, 'placed_bets')
     add_to_database('mlb_data/scores.csv', conn, 'scores')
     add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
 
