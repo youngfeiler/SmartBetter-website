@@ -10,14 +10,22 @@ from flask import jsonify
 import math
 import datetime
 import ast
+import sqlite3
 
 class database():
     def __init__(self):
         self = self
+    def make_conn(self):
+        conn = sqlite3.connect('smartbetter.db')
+        return conn
 
     def get_all_usernames(self):
-      df = pd.read_csv('users/login_info.csv')
+      conn = self.make_conn()
+      query = "SELECT username FROM login_info"
+      df = pd.read_sql(query, conn)
       self.users= df['username'].tolist()
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
     
     def add_user(self, firstname, lastname, username, password, phone, bankroll):
        new_user = User(username)
@@ -27,13 +35,17 @@ class database():
        self.users = self.get_all_usernames()
 
     def check_login_credentials(self, username, password):
-      df = pd.read_csv('users/login_info.csv')
+      #df = pd.read_csv('users/login_info.csv')
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM login_info', conn)
       user_info = df[df['username'] == username]
       if user_info.empty:
         return False
       else:
         if password == user_info['password'].item():
           return True
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
 
     def make_data(self, strategy_name):
         full_df = self.get_data(strategy_name)
@@ -209,7 +221,12 @@ class database():
 
     def update_winning_teams_data(self):
 
-      scores_df = pd.read_csv('mlb_data/scores.csv')
+      #scores_df = pd.read_csv('mlb_data/scores.csv')
+      conn = self.make_conn()
+      scores_df = pd.read_sql('SELECT * FROM scores', conn)
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
+      
 
       game_winners = scores_df.set_index('game_id')['winning_team'].to_dict()
 
@@ -338,21 +355,30 @@ class database():
           return True
        
     def get_user_bank_roll(self, user):
-        df = pd.read_csv('users/login_info.csv')
+        #df = pd.read_csv('users/login_info.csv')
+        conn = self.make_conn()
+        df = pd.read_sql('SELECT * FROM login_info', conn)
         user_df = df[df['username'] == user]
+        conn.commit()  # Commit the changes
+        conn.close()   # Close the connection
         return user_df['bankroll'].iloc[0]
 
     def add_to_bankroll(self, user, amount):
          try:
-          df = pd.read_csv('users/login_info.csv')
+          conn = self.make_conn()
+          df = pd.read_sql('SELECT * FROM login_info', conn)
+          #df = pd.read_csv('users/login_info.csv')
 
           user_df = df[df['username'] == user]
 
           new_bankroll = float(user_df['bankroll'].iloc[0]) + float(amount)
 
           df.loc[df['username'] == user, 'bankroll'] = new_bankroll
-    
-          df.to_csv('users/login_info.csv', index=False)
+          #back to conn db 
+          df.to_sql('login_info', conn, if_exists='replace', index=False)
+          #df.to_csv('users/login_info.csv', index=False)
+          conn.commit()  # Commit the changes
+          conn.close()   # Close the connection
 
           return True
          except:
@@ -362,27 +388,38 @@ class database():
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
        df['win_prob'] =  (1 / df['average_market_odds']) 
        bankroll = self.get_user_bank_roll(user)
+       bankroll = float(bankroll)
        df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
        df['bet_amount'] = df['bet_amount'].round(2)
        return df
        
     def add_made_bet_to_db(self, jayson):
-
+      conn = self.make_conn()
+      print(jayson)
+      #drop dollar sign from bet amount
+      jayson['bet_amount'] = jayson['bet_amount'].replace('$', '')
       df = pd.DataFrame(columns=jayson.keys())
       df = df.append(jayson, ignore_index =True)
       odds = int(df['odds'])
       df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
-      read_in = pd.read_csv('users/placed_bets.csv')
+      #read_in = pd.read_csv('users/placed_bets.csv')
+      read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
       put_out = read_in.append(df, ignore_index=True)
-      put_out.to_csv('users/placed_bets.csv', index = False)
+      #put_out.to_csv('users/placed_bets.csv', index = False)
+      put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
+      print(put_out)
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
       return
     
     def get_live_dash_data(self, user_name):
        df = pd.read_csv('users/model_obs.csv')
+       conn = self.make_conn()
        result_updater_instance = result_updater()
        result_updater_instance.update_results()
-       scores_df = pd.read_csv('mlb_data/scores.csv')
+       #scores_df = pd.read_csv('mlb_data/scores.csv')
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
        
        scores_df = scores_df[['game_id', 'winning_team']]
        merged_df = df.merge(scores_df, on='game_id', how='left')
@@ -460,11 +497,16 @@ class database():
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
+       conn.commit()  # Commit the changes
+       conn.close()   # Close the connection
        return first_20_rows
 
     def get_unsettled_bet_data(self, user):
-      df = pd.read_csv('users/placed_bets.csv')
-      scores_df = pd.read_csv('mlb_data/scores.csv')
+      conn = self.make_conn()
+      #df = pd.read_csv('users/placed_bets.csv')
+      df = pd.read_sql('SELECT * FROM placed_bets', conn)
+      #scores_df = pd.read_csv('mlb_data/scores.csv')
+      scores_df = pd.read_sql('SELECT * FROM scores', conn)
       df = df[df['user_name'] == user]
 
       df['bet_profit'] = np.where(df['odds'] > 0, (df['odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['odds']/100))
@@ -531,19 +573,25 @@ class database():
 
 
       return_df = game_id_df_grouped[['game_id', 'team', 'user_name', 'average_odds', 'highest_odds', 'if_win']]
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
 
       return return_df
     
     def calculate_user_bankroll(self, username):
+      conn = self.make_conn()
       #this will also update the user's p/l for each book
-      placed_bets = pd.read_csv('users/placed_bets.csv')
-      login_info = pd.read_csv('users/login_info.csv')
+      #placed_bets = pd.read_csv('users/placed_bets.csv')
+      placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+      #login_info = pd.read_csv('users/login_info.csv')
+      login_info = pd.read_sql('SELECT * FROM login_info', conn)
 
       current_bankroll = self.get_user_bank_roll(username)
 
       placed_bets = placed_bets[placed_bets['user_name'] == username]
 
-      scores_df = pd.read_csv('mlb_data/scores.csv')
+      #scores_df = pd.read_csv('mlb_data/scores.csv')
+      scores_df = pd.read_sql('SELECT * FROM scores', conn)
       result_updater_instance = result_updater()
       result_updater_instance.update_results()
 
@@ -566,7 +614,9 @@ class database():
 
 
       #call calculate_p_l_by_book
-      profit_by_book = pd.read_csv('users/profit_by_book.csv')
+      #profit_by_book = pd.read_csv('users/profit_by_book.csv')
+      profit_by_book = pd.read_sql('SELECT * FROM profit_by_book', conn)
+
       if username in profit_by_book['username'].values:
           #if it does, remove the row
           profit_by_book = profit_by_book[profit_by_book['username'] != username]
@@ -596,21 +646,27 @@ class database():
 
       #append append_df to profit_by_book
       profit_by_book = profit_by_book.append(append_df, ignore_index=True)
-      profit_by_book.to_csv('users/profit_by_book.csv', index=False)
+      #profit_by_book.to_csv('users/profit_by_book.csv', index=False)
+      profit_by_book.to_sql('profit_by_book', conn, if_exists='replace', index=False)
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
-      new_bankroll = round(current_bankroll + total_profit_loss, 2)
+      new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
       # update users/login_info.csv with new bankroll
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
-      login_info.to_csv('users/login_info.csv', index=False)
-
+      #login_info.to_csv('users/login_info.csv', index=False)
+      login_info.to_sql('login_info', conn, if_exists='replace', index=False)
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
       
       return new_bankroll
       
     def get_user_performance_data(self, username):
-      scores_df = pd.read_csv('mlb_data/scores.csv')
-      placed_bets = pd.read_csv('users/placed_bets.csv')
+      #scores_df = pd.read_csv('mlb_data/scores.csv')
+      conn = self.make_conn()
+      scores_df = pd.read_sql('SELECT * FROM scores', conn)
+      #placed_bets = pd.read_csv('users/placed_bets.csv')
+      placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
@@ -657,7 +713,8 @@ class database():
             'total_bets_placed': int(total_bets_placed),
             'return_on_money': float(return_on_money)
         })
-
+      conn.commit()  # Commit the changes
+      conn.close()   # Close the connection
       return jsonify(datapoints)
 
 
