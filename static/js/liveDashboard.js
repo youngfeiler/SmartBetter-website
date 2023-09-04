@@ -4,11 +4,19 @@ let currentlyEditingRow = false;
 
 
 function updateTable(data) {
-  if (!(data.length === 1 && data[0].update === false)) {
+  const tableBody = document.querySelector('#data-table tbody');
+  tableBody.innerHTML = '';
+  const tr = document.createElement('tr');
+  tr.classList.add('center-text');
+  tr.innerHTML = `
+  <td colspan="4">No Approved Bets Available</td>`;
+  tableBody.appendChild(tr);
+  boolin = false;
+  if (!(data.length === 1 && data[0].update === false) && boolin) {
     const tableBody = document.querySelector('#data-table tbody');
-    tableBody.innerHTML = '';
-
+    
     data.forEach(row => {
+      tableBody.innerHTML = '';
       const tr = document.createElement('tr');
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
@@ -24,6 +32,10 @@ function updateTable(data) {
       `;
       tableBody.appendChild(tr);
     });
+  }
+  else
+  {
+    console.log('No update');
   }
 }
 
