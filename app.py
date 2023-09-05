@@ -115,7 +115,8 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
-  if session['user_id'] is not None:
+  user_id = session.get('user_id')
+  if user_id is not None:
       return redirect(url_for('live_dashboard'))
       
   if request.method == 'POST':
