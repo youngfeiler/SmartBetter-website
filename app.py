@@ -82,22 +82,44 @@ def register():
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
-        username = request.form['username']
+        username = request.form['email']
         password = request.form['password']
+        confirm_password = request.form['confirm_password']
         phone = '+1' + str(request.form['phone_number'])
         bankroll = request.form['bankroll']
+        
         if username in users:
-            return render_template('register.html', username_exists=True, form_data=request.form)
+            error_message = "Account with this Email already exists. Please try again."
+            return render_template('register.html', username_exists=True, form_data=request.form,error_message=error_message)
+        elif password != confirm_password:
+            error_message = "Passwords do not match. Please try again."
+            return render_template('register.html', username_exists=False, form_data=request.form, error_message=error_message)
         else:
             my_db.add_user(first_name, last_name, username, password, phone, bankroll)
             users = my_db.users
-            return redirect(url_for('live_dashboard'))
+            my_db = database()
+            login_allowed = my_db.check_login_credentials(username, password)
+
+            print(f'{username} login result: {login_allowed}')
+            if login_allowed:
+                session['user_id'] = username
+                print(session['user_id'])
+                return redirect(url_for('live_dashboard'))
+            elif not login_allowed:
+                error_message = "Email or password incorrect. Please try again."
+                return render_template('register.html', incorrect_password=True, form_data=request.form, error_message=error_message)     
+    
     return render_template('register.html', username_exists=False, form_data={})
+
 
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
+  if session['user_id'] is not None:
+      return redirect(url_for('live_dashboard'))
+      
   if request.method == 'POST':
+
     username = request.form.get('username')
     password = request.form.get('password')
     my_db = database()
