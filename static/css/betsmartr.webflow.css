@@ -891,6 +891,7 @@
   z-index: 5;
   width: 1030px;
   max-width: 100%;
+  background-color: rgba(0, 0, 0, 0);
   margin-left: auto;
   margin-right: auto;
   padding: 15px 20px;
@@ -898,7 +899,7 @@
 
 .navbar-logo-left-container.shadow-three {
   width: 100%;
-  height: 75px;
+  height: 65px;
   max-width: 1140px;
   background-color: #190e29;
   margin-bottom: 0;
@@ -914,11 +915,16 @@
 }
 
 .navbar-wrapper {
+  width: 940px;
+  height: 57.8125px;
+  color: #fff;
+  flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
   margin-top: -23px;
   font-family: Almarai, sans-serif;
   display: flex;
+  overflow: visible;
 }
 
 .nav-menu-two {
@@ -930,7 +936,7 @@
 }
 
 .nav-link {
-  color: #1a1b1f;
+  color: #fff;
   letter-spacing: .25px;
   margin-left: 5px;
   margin-right: 5px;
@@ -989,6 +995,8 @@
 }
 
 .nav-dropdown-icon {
+  color: #21ce99;
+  -webkit-text-stroke-color: white;
   margin-right: 10px;
 }
 
@@ -1047,11 +1055,17 @@
 }
 
 .button-primary {
+  width: 150.984px;
+  height: 44px;
   color: #fff;
   letter-spacing: 2px;
   text-transform: capitalize;
   background-color: #21ce99;
-  padding: 12px 25px;
+  border-radius: 4px;
+  margin-bottom: -16px;
+  margin-left: 25px;
+  margin-right: -64px;
+  padding: 12px 25px 12px 23px;
   font-size: 12px;
   line-height: 20px;
   transition: all .2s;
@@ -1070,6 +1084,49 @@
   width: 250px;
   margin-top: 5px;
   margin-left: -68px;
+}
+
+.text-block {
+  color: #fff;
+}
+
+.image-11 {
+  width: 200px;
+  height: auto;
+  margin-left: -111px;
+}
+
+.navbar {
+  color: #fff;
+  background-color: #190e29;
+  font-family: Almarai, sans-serif;
+}
+
+.nav-link-2, .nav-link-3, .nav-link-4 {
+  color: #fff;
+}
+
+.button-5 {
+  width: 150px;
+  height: 44px;
+  text-align: center;
+  background-color: #21ce99;
+  border-radius: 4px;
+  margin-left: 39px;
+  margin-right: -83px;
+  padding-top: 13px;
+  font-weight: 500;
+}
+
+.nav-menu {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.image-12 {
+  display: none;
 }
 
 @media screen and (max-width: 991px) {
@@ -1236,8 +1293,11 @@
   }
 
   .nav-link {
+    flex-direction: column;
+    align-items: flex-start;
     padding-left: 5px;
     padding-right: 5px;
+    display: flex;
   }
 
   .nav-dropdown-list.shadow-three.w--open {
@@ -1261,6 +1321,20 @@
 
   .icon {
     margin-top: 13px;
+  }
+
+  .image-11 {
+    width: 175px;
+    margin-top: 5px;
+    margin-left: 3px;
+  }
+
+  .button-5 {
+    width: 125px;
+    height: 35px;
+    margin-left: 4px;
+    margin-right: -10px;
+    padding-top: 9px;
   }
 }
 
@@ -1569,6 +1643,66 @@
   .image-10 {
     width: 200px;
     margin-top: 14px;
+  }
+
+  .image-11 {
+    width: 100px;
+    margin: 15px 14px -9px 13px;
+    display: none;
+    overflow: visible;
+  }
+
+  .nav-link-2 {
+    margin-left: -26px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+  }
+
+  .nav-link-3 {
+    padding-left: 13px;
+    padding-right: 10px;
+    font-size: 12px;
+  }
+
+  .nav-link-4 {
+    margin-right: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+  }
+
+  .button-5 {
+    width: 110px;
+    height: 35px;
+    margin-left: 10px;
+    margin-right: 16px;
+    padding-top: 8px;
+    font-size: 12px;
+  }
+
+  .nav-menu {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .image-12 {
+    width: 75px;
+    clear: none;
+    margin-left: 0;
+    margin-right: 31px;
+    display: block;
+    position: relative;
+    top: 0%;
+    bottom: auto;
+    left: -57%;
+    right: -84px;
+  }
+
+  .image-13 {
+    width: 75px;
+    margin-right: 56px;
   }
 }
 
@@ -1948,6 +2082,59 @@
 
   .icon {
     margin-top: 2px;
+  }
+
+  .image-11 {
+    display: none;
+  }
+
+  .nav-link-2 {
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 15px;
+  }
+
+  .nav-link-3 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .nav-link-4 {
+    margin-right: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .button-5 {
+    margin-left: 0;
+    margin-right: 10px;
+    display: none;
+  }
+
+  .image-12 {
+    width: 55px;
+    margin-left: 0;
+    margin-right: 0;
+    position: absolute;
+    left: -123px;
+    right: -59.297px;
+  }
+
+  .container-42 {
+    margin-left: 0;
+    margin-right: 9px;
+    padding-left: 0;
+  }
+
+  .image-13 {
+    width: 40px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    display: none;
+    position: relative;
+    left: -19px;
   }
 }
 
