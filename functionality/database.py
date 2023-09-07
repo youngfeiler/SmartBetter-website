@@ -430,11 +430,9 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
-
        columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used', 'date']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
-
 
        df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
 
@@ -489,10 +487,10 @@ class database():
            return ', '.join(strings[0])
 
         # Apply the function to the desired column
+       
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
-
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
