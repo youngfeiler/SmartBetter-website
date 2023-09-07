@@ -18,7 +18,7 @@
     <form id="registration-form" class="space-y-6" method="POST" action="/login">
       <div>
         <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-        <input type="text" id="username" name="username" class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ request.form.get('username', '') }}"required>
+        <input type="text" id="username" name="username" class="block w-full rounded-md border border-green-300 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ request.form.get('username', '') }}"required>
       </div>
 
       <div>
@@ -31,7 +31,7 @@
           {% if incorrect_password %}
           <div class="error-label">Wrong password, please try again</div>
           {% endif %}
-          <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border border-green-300 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
       
