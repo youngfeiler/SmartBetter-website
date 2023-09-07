@@ -11,7 +11,7 @@ function updateTable(data) {
   tr.innerHTML = `
   <td colspan="8">No Approved Bets Available</td>`;
   tableBody.appendChild(tr);
-  boolin = true;
+  boolin = false;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
     const tableBody = document.querySelector('#data-table tbody');
     
