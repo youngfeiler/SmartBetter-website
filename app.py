@@ -111,7 +111,9 @@ def register():
     
     return render_template('register.html', username_exists=False, form_data={})
 
-
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
@@ -291,7 +293,15 @@ def live_dashboard():
         return render_template('live_dashboard.html')
     else:
         return redirect(url_for('register'))
-      
+
+@app.route('/nfl')
+def nfl():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nfl.html')
+    else:
+        return redirect(url_for('register'))
+         
 @app.route('/add_saved_bet', methods=['POST'])
 def add_saved_bet():
     try:
@@ -329,6 +339,23 @@ def get_live_dash_data():
 
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
     data = my_db.get_live_dash_data(session['user_id'])
+    if data.empty:
+        data = pd.DataFrame(columns=['bankroll', 'update'])
+        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+    else:
+        data['bankroll'] = bankroll
+    data_json = data.to_dict(orient='records')
+
+    return jsonify(data_json)
+
+@app.route('/get_live_nfl_dash_data')
+def get_live_nfl_dash_data():
+
+    my_db = database()
+
+    bankroll = my_db.calculate_user_bankroll(session["user_id"])
+    print(bankroll)
+    data = my_db.get_live_nfl_dash_data(session['user_id'])
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
