@@ -1,0 +1,51 @@
+{% extends "header.html" %}
+
+<!-- {% block title %}SmartBetter Home{% endblock %} -->
+
+{% block content %}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SmartBettor - NFL</title>
+    <link rel="stylesheet" href="static/css/live_dashboard.css">
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+
+</head>
+
+<body>
+<main>
+  <div class="container">
+    <h2>SmartBettor-Approved +EV Bets</h2>
+      
+    <p>Bets that our model has predicted are high-quality +EV bets. These are weighted in your favor so that you always win in the long run</p>
+    <p id ='bankroll'>Bankroll: $</p>
+    <button id="fetch-button">Update Table</button>
+    <button id="add-to-bankroll" class = "live-button" button onclick="addToBankroll(this)">Add to bankroll</button>
+    
+    <table id="data-table" class="rounded-table">
+      <thead>
+        <tr>
+          <th data-label="Expected Value">% +EV</th>
+          <th data-label="Moneyline Bet">Moneyline Bet</th>
+          <th data-label="Odds">Odds to take</th>
+          <th data-label="Sportsbook">Sportsbooks with odds</th>
+          <th data-label="Game Date">Game date</th>
+          <th data-label="Time Updated">Time since update</th>
+          <th data-label="betsize">Recommended Bet Size</th>
+          <th data-label="Add to Bet Tracker">Add to Bet Tracker</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="static/js/liveNFLDashboard.js"></script>
+
+
+</body>
+</html>
+
+
+{% endblock %}
