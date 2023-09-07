@@ -15,6 +15,8 @@ import json
 from datetime import timedelta
 import os
 import sqlite3
+import stripe
+stripe.api_key = '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'
 
 # Connect to the SQLite database (or create if it doesn't exist)
 #create a functions that adds to the database by taking in a csv file string and adding it to the database
@@ -39,11 +41,11 @@ def create_app():
 
     #adding all original data into the db 
     conn = sqlite3.connect('smartbetter.db')
-    add_to_database('users/login_info.csv', conn, 'login_info')
-    add_to_database('users/placed_bets.csv', conn, 'placed_bets')
-    add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
-    add_to_database('mlb_data/scores.csv', conn, 'scores')
-    add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
+    # add_to_database('users/login_info.csv', conn, 'login_info')
+    # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
+    # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
+    # add_to_database('mlb_data/scores.csv', conn, 'scores')
+    # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
     conn.close()
 
 
@@ -60,6 +62,18 @@ def test_func():
 @app.route('/home')
 def home():
     return render_template('index.html')
+
+@app.route('/my-webhooks', methods=['POST'])
+def my_webhooks():
+    json_payload = json.loads(request.data)
+    try:
+        event = stripe.Event.construct_from(json_payload, stripe.api_key)
+    except:
+        return jsonify({'status': 'error', 'message': 'error'})
+    print(event.type)
+    print(type(event.data.object))
+    print(event.data.object.id)
+    return redirect(url_for('register'))
 
 @app.route('/')
 def index():
