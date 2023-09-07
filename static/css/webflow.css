@@ -21,6 +21,14 @@
 .w-icon-slider-right:before {
   content: "\e600";
 }
+
+.bold-text-11{
+  padding-top: 500px;
+  font-size: 12px;
+  text-decoration: none;
+  color: white;
+}
+
 .w-icon-slider-left:before {
   content: "\e601";
 }
