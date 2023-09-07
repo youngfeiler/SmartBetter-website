@@ -4,11 +4,19 @@ let currentlyEditingRow = false;
 
 
 function updateTable(data) {
-  if (!(data.length === 1 && data[0].update === false)) {
+  const tableBody = document.querySelector('#data-table tbody');
+  tableBody.innerHTML = '';
+  const tr = document.createElement('tr');
+  tr.classList.add('center-text');
+  tr.innerHTML = `
+  <td colspan="8">No Approved Bets Available</td>`;
+  tableBody.appendChild(tr);
+  boolin = true;
+  if (!(data.length === 1 && data[0].update === false) && boolin) {
     const tableBody = document.querySelector('#data-table tbody');
-    tableBody.innerHTML = '';
-
+    
     data.forEach(row => {
+      tableBody.innerHTML = '';
       const tr = document.createElement('tr');
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
@@ -17,13 +25,17 @@ function updateTable(data) {
       <td before-data="Team: " ><b>${row.team}</b><br><span class="mobile-no-display">v. ${row.opponent}</span></td>
       <td before-data="Odds to Snipe: ">${row.highest_bettable_odds}</td>
       <td before-data="Sportsbook with Odds">${row.sportsbooks_used}</td>
-      <td class="mobile-no-display">${convertToUserTimezone(row.date)}</td>
+      <td class="mobile-no-display">${row.date}</td>
       <td before-data="Time Since Odds Update: ">${row.time_difference_formatted}</td>
       <td before-data="Recommended Bet Size: ">${row.bet_amount}</td>
       <td data-title="button"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to My Bets</button></td>
       `;
       tableBody.appendChild(tr);
     });
+  }
+  else
+  {
+    console.log('No update');
   }
 }
 
@@ -44,6 +56,7 @@ function getCurrentTime() {
 }
 
 function convertToUserTimezone(inputTime) {
+  console.log(inputTime)
   const dateObj = new Date(inputTime);
   if (isNaN(dateObj)) {
     return '';
@@ -52,6 +65,8 @@ function convertToUserTimezone(inputTime) {
   const userTime = new Date(dateObj.toLocaleString('en-US', { timeZone: userTimezone }));
   const options = { timeZone: userTimezone, weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
   const formattedTime = userTime.toLocaleString('en-US', options);
+  console.log('user_time_next')
+  console.log(formattedTime)
   return formattedTime;
 }
 
