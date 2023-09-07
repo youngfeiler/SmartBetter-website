@@ -9,7 +9,7 @@ function updateTable(data) {
   const tr = document.createElement('tr');
   tr.classList.add('center-text');
   tr.innerHTML = `
-  <td colspan="8">No Approved Bets Available</td>`;
+  <td colspan="8">No Approved Bets Available Right Now</td>`;
   tableBody.appendChild(tr);
   boolin = false;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
