@@ -13,10 +13,9 @@ function updateTable(data) {
   tableBody.appendChild(tr);
   boolin = false;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
-    const tableBody = document.querySelector('#data-table tbody');
-    
+    const tableBody = document.querySelector('#data-table tbody');    tableBody.innerHTML = '';
+
     data.forEach(row => {
-      tableBody.innerHTML = '';
       const tr = document.createElement('tr');
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
@@ -30,6 +29,7 @@ function updateTable(data) {
       <td before-data="Recommended Bet Size: ">$${row.bet_amount}</td>
       <td data-title="button"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to My Bets</button></td>
       `;
+      console.log(row)
       tableBody.appendChild(tr);
     });
   }
