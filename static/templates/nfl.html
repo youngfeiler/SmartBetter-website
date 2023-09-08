@@ -10,15 +10,15 @@
     <title>SmartBettor - NFL</title>
     <link rel="stylesheet" href="static/css/live_dashboard.css">
     <link rel="icon" type="image/png" href="static/images/favicon.png">
-
+    <link href="static/css/betsmartr.webflow.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <main>
   <div class="container">
-    <h2>SmartBettor-Approved +EV Bets</h2>
-      
-    <p>Bets that our model has predicted are high-quality +EV bets. These are weighted in your favor so that you always win in the long run</p>
+    <h1 class="live-bets-header">Live Bets <span class="gradient-text">NFL</span></h1>
+
+    <p>These are bets that our model has identified and predicted with high confidence. They are weighted in your favor so that you win in the long run</p>
     <p id ='bankroll'>Bankroll: $</p>
     <button id="fetch-button">Update Table</button>
     <button id="add-to-bankroll" class = "live-button" button onclick="addToBankroll(this)">Add to bankroll</button>

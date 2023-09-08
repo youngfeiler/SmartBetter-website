@@ -207,8 +207,6 @@ class data_collector():
 
         if not self.from_stacked:
             self.stack_games()
-
-
         self.replace_missing_vals()
 
     def make_average_market_odds(self):
@@ -350,8 +348,6 @@ class data_collector():
 
         self.val_raw_data = self.val_raw_data[self.val_raw_data['highest_bettable_odds'] >= self.min_best_odds]
         self.val_raw_data = self.val_raw_data[self.val_raw_data['highest_bettable_odds'] <= self.max_best_odds]
-
-
 
     def filter_by_params(self):
         self.df = self.filter_by_lag(self.df)

@@ -498,6 +498,85 @@ class database():
        conn.commit()  # Commit the changes
        conn.close()   # Close the connection
        return first_20_rows
+    
+    def get_live_nfl_dash_data(self, user_name):
+       # Find the function that make this 
+       df = pd.read_csv('users/model_obs_nfl.csv')
+
+       # Updates results, need to include NFL results as well now
+       conn = self.make_conn()
+       result_updater_instance = result_updater()
+       result_updater_instance.update_results()
+       #scores_df = pd.read_csv('mlb_data/scores.csv')
+
+       # need to make a new sql db called nfl_scores
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       
+       scores_df = scores_df[['game_id', 'winning_team']]
+       merged_df = df.merge(scores_df, on='game_id', how='left')
+
+       filtered_df = merged_df[merged_df['winning_team'].isna()]
+
+       df_sorted = filtered_df.sort_values(by='snapshot_time', ascending=False)
+
+       df_sorted = pd.DataFrame(df_sorted)
+
+       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used', 'date']
+
+       df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
+
+       df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
+
+       df_no_duplicates = df_no_duplicates.drop(columns=['winning_team'])
+       
+       first_20_rows = df_no_duplicates.head(20)
+
+       current_time = datetime.datetime.now() 
+
+       first_20_rows['current_time'] = current_time 
+
+       first_20_rows['snapshot_time'].apply(pd.to_datetime)
+
+       first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
+
+       first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
+
+       first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
+       
+       def minutes_seconds(row):
+          seconds = int(float(row['time_difference_seconds']))
+
+          if seconds < 60:
+            row['time_difference_formatted'] = f'{seconds} sec'
+
+          elif seconds >= 60 and seconds < 3600:
+            minutes = math.floor(seconds / 60)
+            new_seconds = (seconds % 60)
+            row['time_difference_formatted'] = f'{minutes} min {new_seconds} sec'
+             
+          else:
+            hours = math.floor(seconds / 3600)
+            seconds_after_hour = seconds % 3600
+            new_minutes = math.floor(seconds_after_hour / 60)
+            new_seconds = seconds_after_hour % 60
+            row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+          return row
+
+       def format_list_of_strings(strings):
+           return ', '.join(strings[0])
+
+        # Apply the function to the desired column
+       
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
+
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
+       
+       first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
+
+       first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
+       conn.commit()  # Commit the changes
+       conn.close()   # Close the connection
+       return first_20_rows
 
     def get_unsettled_bet_data(self, user):
       conn = self.make_conn()
