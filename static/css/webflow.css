@@ -518,6 +518,7 @@ textarea.w-select {
   margin-left: auto;
   margin-right: auto;
   max-width: 940px;
+  width: 100%;
 }
 .w-container:before,
 .w-container:after {
@@ -1632,6 +1633,7 @@ textarea.w-select {
 .w-nav-menu {
   position: relative;
   float: right;
+  width: 100%;
 }
 [data-nav-menu-open] {
   display: block !important;
