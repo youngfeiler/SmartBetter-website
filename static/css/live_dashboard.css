@@ -6,20 +6,21 @@ body {
   background-color:#190e29;
   color: #fefefe;
 	overflow: none;
+  width: 100%;
 }
 
 h1 {
   font-size: 40px;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 p {
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
 .container {
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -88,7 +89,7 @@ table.rounded-table td input {
 }
 
 #fetch-button {
-	margin-top: 20px;
+	margin-top: 30px;
 	margin-bottom: 20px; /* Add margin at the bottom */
 	padding: 10px 20px;
 	font-size: 16px;
@@ -171,6 +172,7 @@ table.rounded-table td input {
     border-spacing: 0;
     border-collapse: collapse;
     box-sizing: border-box;
+    margin-top: 10px;
   }
 
   table thead tr {
@@ -178,21 +180,19 @@ table.rounded-table td input {
   }
 
   table tr {
-    margin-bottom: 5px;
-    padding: 0;
-    border: 3px solid #16242f;
-    border-radius: 10px;
+    display: block;
+    margin-bottom: 10px;
   }
 
   table.rounded-table td {
     text-align: right;
     font-weight: bold;
     display: block;
-    font-size: 12px;
+    font-size: 16px;
     position: relative;
     margin: 0;
     padding: 0px 0px;
-    height: 20px;
+    height: 30px;
     overflow-wrap: break-word;
     white-space: normal;
   }
@@ -201,11 +201,15 @@ table.rounded-table td input {
     content: attr(before-data);
     float: left;
     font-weight: bold;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: normal;
   }
 
-  table td.mobile-no-display {
+  .mobile-no-display {
+    display: none;
+  }
+
+  table td.mobile-no-display{
     display: none;
   }
 
@@ -219,11 +223,16 @@ table.rounded-table td input {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    position: absolute; /* Add position: absolute */
-    top: 0; /* Align input to the top of the td */
-    left: 0; /* Align input to the left of the td */
+    position: absolute;
+    top: 0;
+    left: 0;
     z-index: 1;
-		text-align: right; /* Align text to the right within the input */
+		text-align: right; 
+  }
+
+  .add-to-betslip-button{
+    border: 1px solid #253c4d;
+    background-color: #1e3342;
   }
 }
 
