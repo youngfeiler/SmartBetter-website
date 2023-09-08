@@ -169,7 +169,7 @@ function fetchDataAndUpdateTable() {
       .then(response => response.json())
       .then(data => {
         if (isPageVisible) {
-          //updateTable(data);
+          updateTable(data);
           updatebankroll(data);
         }
       })
