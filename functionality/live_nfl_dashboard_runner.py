@@ -343,8 +343,8 @@ class live_nfl_dashboard_runner():
 
         df['ev'] = ((1/df['average_market_odds_old'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds_old'])) * 100)
 
-        # df = df[df['ev'] >= self.model_storage['SmartBetterNFLModel']['params']['min_ev']]
-        df = df[df['ev'] >= 100]
+        df = df[df['ev'] >= self.model_storage['SmartBetterNFLModel']['params']['min_ev']]
+        # df = df[df['ev'] >= 100]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNFLModel']['params']['max_ev']]
 
