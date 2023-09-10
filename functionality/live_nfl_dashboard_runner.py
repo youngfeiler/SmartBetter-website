@@ -343,7 +343,10 @@ class live_nfl_dashboard_runner():
 
         df['ev'] = ((1/df['average_market_odds_old'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds_old'])) * 100)
 
+        print(self.model_storage['SmartBetterNFLModel']['params']['min_ev'])
+
         df = df[df['ev'] >= self.model_storage['SmartBetterNFLModel']['params']['min_ev']]
+
         # df = df[df['ev'] >= -100]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNFLModel']['params']['max_ev']]
@@ -473,7 +476,7 @@ class live_nfl_dashboard_runner():
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
-            filtered_df.to_csv('model_obs_nfl.csv', mode = 'a', header=False, index = False)
+            filtered_df.to_csv('users/model_obs_nfl.csv', mode = 'a', header=False, index = False)
             # filtered_df.to_csv('users/model_obs_nfl.csv', index = False)
             
             print(len(filtered_df))
