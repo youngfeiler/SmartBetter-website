@@ -472,8 +472,8 @@ class live_nfl_dashboard_runner():
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
-            # filtered_df.to_csv('model_obs_nfl.csv', mode = 'a', header=False, index = False)
-            filtered_df.to_csv('users/model_obs_nfl.csv', index = False)
+            filtered_df.to_csv('users/model_obs_nfl.csv', mode = 'a', header=False, index = False)
+           # filtered_df.to_csv('users/model_obs_nfl.csv', index = False)
             
             print(len(filtered_df))
           elif filtered_df.empty:
