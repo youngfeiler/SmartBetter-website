@@ -45,7 +45,7 @@ def create_app():
     # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
     # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
     # add_to_database('mlb_data/scores.csv', conn, 'scores')
-    # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
+    #add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
     conn.close()
 
 
