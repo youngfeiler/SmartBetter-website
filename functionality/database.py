@@ -5,6 +5,7 @@ from .util import map_commence_time_game_id, decimal_to_american, american_to_de
 import os
 import shutil
 from .result_updater import result_updater
+from .nfl_result_updater import nfl_result_updater
 import numpy as np
 from flask import jsonify
 import math
@@ -393,6 +394,16 @@ class database():
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
        df['bet_amount'] = df['bet_amount'].round(2)
        return df
+    
+    def get_recommended_bet_size_nfl(self, user, df):
+       df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
+       df['win_prob'] =  (1 / df['average_market_odds_old']) 
+       bankroll = self.get_user_bank_roll(user)
+       bankroll = float(bankroll)
+       df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
+                          #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
+       df['bet_amount'] = df['bet_amount'].round(2)
+       return df
        
     def add_made_bet_to_db(self, jayson):
       conn = self.make_conn()
@@ -502,17 +513,16 @@ class database():
     def get_live_nfl_dash_data(self, user_name):
        # Find the function that make this 
        df = pd.read_csv('users/model_obs_nfl.csv')
-
+ 
        # Updates results, need to include NFL results as well now
-       conn = self.make_conn()
-       result_updater_instance = result_updater()
+       result_updater_instance = nfl_result_updater()
        result_updater_instance.update_results()
-       #scores_df = pd.read_csv('mlb_data/scores.csv')
 
        # need to make a new sql db called nfl_scores
-       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       scores_df = pd.read_csv('mlb_data/scores.csv')
        
        scores_df = scores_df[['game_id', 'winning_team']]
+
        merged_df = df.merge(scores_df, on='game_id', how='left')
 
        filtered_df = merged_df[merged_df['winning_team'].isna()]
@@ -521,7 +531,17 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
-       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used', 'date']
+       def process_column_header(header):
+        book = header.split('_1_odds')[0].title()
+        return book
+
+       def find_matching_columns(row):
+          bettable_books = ['barstool', 'betfred', 'betmgm', 'betonlineag', 'betrivers', 'betus', 'circasports', 'draftkings', 'fanduel', 'foxbet','mybookieag', 'pinnacle', 'pointsbetus', 'unibet_us', 'williamhill_us', 'wynnbet']
+          return [process_column_header(col) for col in bettable_books if row[col+'_1_odds'] == row['highest_bettable_odds']]
+
+       df_sorted['sportsbooks_used'] = df_sorted.apply(find_matching_columns, axis=1)
+  
+       columns_to_compare = ['game_id', 'ev', 'team_1', 'opponent', 'highest_bettable_odds', 'commence_time']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
@@ -536,6 +556,7 @@ class database():
        first_20_rows['current_time'] = current_time 
 
        first_20_rows['snapshot_time'].apply(pd.to_datetime)
+
 
        first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
 
@@ -566,16 +587,19 @@ class database():
            return ', '.join(strings[0])
 
         # Apply the function to the desired column
-       
-       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
-       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
-       
+       print(first_20_rows['sportsbooks_used'])
+       print(type(first_20_rows['sportsbooks_used']))
+
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: ', '.join(x) if len(x) > 0 else '')
+
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
-       first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
-       conn.commit()  # Commit the changes
-       conn.close()   # Close the connection
+       first_20_rows = self.get_recommended_bet_size_nfl(user_name, first_20_rows)
+       first_20_rows['commence_time'] = first_20_rows['commence_time'].apply(pd.to_datetime)
+       first_20_rows['date'] = first_20_rows['commence_time'].dt.strftime('%m/%d/%Y')
+
+
        return first_20_rows
 
     def get_unsettled_bet_data(self, user):
@@ -585,6 +609,10 @@ class database():
       #scores_df = pd.read_csv('mlb_data/scores.csv')
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
       df = df[df['user_name'] == user]
+
+      df['odds'] = df['odds'].astype(float)
+      df['bet_amount'] = df['bet_amount'].astype(float)
+
 
       df['bet_profit'] = np.where(df['odds'] > 0, (df['odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['odds']/100))
 
@@ -677,15 +705,21 @@ class database():
       merged_df = merged_df[merged_df['winning_team'].notna()]
       merged_df['team_bet_on'] = [cell.split('v. ')[0] for cell in merged_df['team']]
 
-
-
-
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
+      merged_df['bet_amount'] = merged_df['bet_amount'].astype(float)
+
+
+      merged_df.to_csv('merged_df.csv', index=False)
 
       # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
 
       test_df_user = merged_df[merged_df['user_name'] == 'youngfeiler']
+
+      test_df_user.to_csv('test_df_user.csv', index=False)
+
+      test_df_user['bet_result'] = test_df_user['bet_result'].astype(float)
+
       test_df = test_df_user.groupby('game_date')['bet_result'].sum()
       print(test_df)
 
