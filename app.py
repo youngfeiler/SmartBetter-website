@@ -368,25 +368,16 @@ def get_live_nfl_dash_data():
     my_db = database()
 
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
-    print(bankroll)
-    ##
-    data = pd.DataFrame(columns=['bankroll'])
-    data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+
+    data = my_db.get_live_nfl_dash_data(session['user_id'])
+
+    if data.empty:
+        data = pd.DataFrame(columns=['bankroll', 'update'])
+        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+    else:
+        data['bankroll'] = bankroll
     data_json = data.to_dict(orient='records')
-    ##
-    # data = my_db.get_live_nfl_dash_data(session['user_id'])
-
-    # if data.empty:
-    #     data = pd.DataFrame(columns=['bankroll', 'update'])
-    #     data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
-    # else:
-    #      data['bankroll'] = bankroll
-    #      data = data.append({'bankroll': bankroll, 'update': true}
-    # data_json = data.to_dict(orient='records')
-
-    # return jsonify(data_json)
     return jsonify(data_json)
-
 
 @app.route('/get_unsettled_bet_data', methods=['GET'])
 def get_unsettled_bet_data():
