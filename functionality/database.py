@@ -551,7 +551,7 @@ class database():
        
        first_20_rows = df_no_duplicates.head(20)
 
-       current_time = datetime.datetime.now() + datetime.timedelta(hours=7)
+       current_time = datetime.datetime.now() - datetime.timedelta(hours=7)
 
        first_20_rows['current_time'] = current_time 
 
