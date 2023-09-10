@@ -2,6 +2,8 @@ from .strategy_maker import strategy_maker
 from .model_runner import model_runner
 from .database import database
 from .live_dashboard_runner import live_dashboard_runner
+from .live_nfl_dashboard_runner import live_nfl_dashboard_runner
+import time 
 from collections import OrderedDict
 from celery import Celery
 
@@ -51,10 +53,16 @@ def start_model_runner():
 
 @celery.task
 def start_dashboard_runner():
-
+    
     live_dashboard_runner_instance = live_dashboard_runner()
     
-    live_dashboard_runner_instance.run()
+    live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
+
+    while True:
+
+      live_dashboard_runner_instance.make_live_dash_data()
+      
+      live_nfl_dashboard_runner_instance.make_live_dash_data()
 
 
 
