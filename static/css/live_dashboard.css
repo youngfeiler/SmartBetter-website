@@ -29,18 +29,20 @@ table {
   width: 100%;
 }
 
+
 th, td {
   padding: 10px;
   background-color: #16242f;
   color: #ffffff;
+  text-align: center;
 }
 
 tbody tr{
+  padding: 10px;
 	background-color: #16242f;
   color: #ffffff;
 	outline: 3px solid #fefefe;
   border-radius: 0px 0px 10px 10px;
-
 }
 
 
@@ -87,6 +89,7 @@ table.rounded-table td input {
 .mobile{
 	display: none;
 }
+
 
 #fetch-button {
 	margin-top: 30px;
