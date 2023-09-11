@@ -56,7 +56,7 @@ app = create_app()
 @app.route('/test_func')
 def test_func():
     tasks.start_dashboard_runner.delay()
-    return render_template('information.html')
+    return render_template('index.html')
 
 
 @app.route('/home')
