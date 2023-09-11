@@ -41,11 +41,11 @@ def create_app():
 
     #adding all original data into the db 
     conn = sqlite3.connect('smartbetter.db')
-    # add_to_database('users/login_info.csv', conn, 'login_info')
-    # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
-    # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
-    # add_to_database('mlb_data/scores.csv', conn, 'scores')
-    #add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
+    add_to_database('users/login_info.csv', conn, 'login_info')
+    add_to_database('users/placed_bets.csv', conn, 'placed_bets')
+    add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
+    add_to_database('mlb_data/scores.csv', conn, 'scores')
+    add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
     conn.close()
 
 
