@@ -1,4 +1,21 @@
 firstname,lastname,username,password,phone,bankroll
-Stefan,Feiler,TestUser,Lacrosse32,+13035796207,200
-Micah,Blackburn,micah,password,+13036696669,500
-Stefan,Feiler,youngfeiler,password,+13035796207,200
+Stefan,Feiler,TestUser,Lacrosse32,13035796207,200.0
+Micah,Blackburn,micah,password,13036696669,200.0
+Stefan,Feiler,youngfeiler,password,13035796207,430.0
+Stefan,Feiler,stefan,test,13035796207,300.0
+Karsten,Nyarady,k_nyarady,Lacrosse2147!,114133888371,50.0
+Karsten,Nyarady,knyarady77,Lacrosse2147!,14133888371,50.0
+Karsten,Nyarady,ZynBoi,Lacrosse2147!,14133888371,50.0
+Tommy,Miller,Tommy.miller,hortonhearsalacrosse,13039010184,500.0
+Ethan,Wien,ogwieny,Limit1998!,19498787675,50000.0
+Henry,Dyer,henrydyer,Henry5303,13039167074,500.0
+Colin ,Flanders,Colinflanders,Overridge123!,17347301608,100.0
+Asher,Blackburn,ashmoneyman,Theashman1,13033598262,250.0
+Nico,Augustoni,nicothedon,#CUboulder2024,17205524048,100.0
+Beck,Lystad,Sbeckwes,Lystad12345!,19417805506,10.0
+Liam,McAndrew,LizardLocker,LizardLocker2,18282607115,225.0
+TJ,Williams,Tj1136,Tj1136,17204251306,1000.0
+TJ,Williams,twillia33,Basketball,17204251306,1000.0
+Benjamin,Bradshaw,ben21mem,WoofandBark21,18324546623,100.0
+ash,b,ash,b,17202802804,400.0
+m,d,m,d,17202802804,400.0

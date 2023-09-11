@@ -1,1 +1,524 @@
 game_id,ev,team,odds,sportsbook,game_date,time_updated,user_name,average_market_odds,bet_amount,bet_profit
+4bbf55bf0ffa8ad59ac1759698da0251,15.39,Chicago Cubsv. Toronto Blue Jays,175,"['Betmgm', 'Pointsbetus', 'Twinspires']","Fri, Aug 11, 2023, 06:00 PM MDT",1 min 12 sec,youngfeiler,2.3831578947368417,13.19,23.0825
+4bbf55bf0ffa8ad59ac1759698da0251,10.64,Toronto Blue Jaysv. Chicago Cubs,-120,['Draftkings'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.5094444444444448,23.94,19.950000000000003
+4bbf55bf0ffa8ad59ac1759698da0251,13.71,Toronto Blue Jaysv. Chicago Cubs,160,['Barstool'],"Fri, Aug 11, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.110555555555556,14.69,23.504
+4bbf55bf0ffa8ad59ac1759698da0251,18.13,Toronto Blue Jaysv. Chicago Cubs,390,['Draftkings'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,4.486666666666667,6.0,23.4
+66c556c55a8e3ca2f2d6628f43504b91,14.43,Tampa Bay Raysv. Cleveland Guardians,105,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.9226315789473685,18.0,18.9
+b526a87295ad387f8f585e27620b3970,19.08,Boston Red Soxv. Detroit Tigers,145,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",16 sec,youngfeiler,2.099444444444444,19.0,27.55
+b526a87295ad387f8f585e27620b3970,10.8,Detroit Tigersv. Boston Red Sox,-110,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",9 sec,youngfeiler,1.723888888888889,18.0,16.363636363636363
+66c556c55a8e3ca2f2d6628f43504b91,23.56,Cleveland Guardiansv. Tampa Bay Rays,130,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",6 sec,youngfeiler,1.7805263157894735,29.0,37.7
+b526a87295ad387f8f585e27620b3970,13.72,Detroit Tigersv. Boston Red Sox,-110,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.6444444444444446,24.2,22.0
+66c556c55a8e3ca2f2d6628f43504b91,10.98,Cleveland Guardiansv. Tampa Bay Rays,165,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.3878947368421053,10.0,16.5
+b526a87295ad387f8f585e27620b3970,17.06,Boston Red Soxv. Detroit Tigers,250,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",6 sec,youngfeiler,2.9472222222222224,10.0,25.0
+b526a87295ad387f8f585e27620b3970,11.53,Boston Red Soxv. Detroit Tigers,250,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",12 sec,youngfeiler,3.2277777777777774,6.0,15.0
+66c556c55a8e3ca2f2d6628f43504b91,12.73,Tampa Bay Raysv. Cleveland Guardians,140,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",2 sec,youngfeiler,2.3063157894736843,11.0,15.4
+4bbf55bf0ffa8ad59ac1759698da0251,11.44,Chicago Cubsv. Toronto Blue Jays,124,['Draftkings'],"Fri, Aug 11, 2023, 06:00 PM MDT",9 sec,youngfeiler,2.01,5.0,6.2
+4bbf55bf0ffa8ad59ac1759698da0251,16.98,Toronto Blue Jaysv. Chicago Cubs,110,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.880588235294118,21.0,23.1
+4bbf55bf0ffa8ad59ac1759698da0251,26.02,Chicago Cubsv. Toronto Blue Jays,140,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",6 sec,youngfeiler,1.9441176470588228,25.0,35.0
+f81e5f02293f7410ea4d352e7afe95d0,21.5,New York Yankeesv. Miami Marlins,1600,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,12.757142857142856,2.0,32.0
+66c556c55a8e3ca2f2d6628f43504b91,16.96,Tampa Bay Raysv. Cleveland Guardians,340,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",1 min 18 sec,youngfeiler,3.676315789473685,7.0,23.8
+66c556c55a8e3ca2f2d6628f43504b91,12.1,Tampa Bay Raysv. Cleveland Guardians,325,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",2 min 13 sec,youngfeiler,3.925,5.0,16.25
+4bbf55bf0ffa8ad59ac1759698da0251,11.71,Chicago Cubsv. Toronto Blue Jays,100,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",16 sec,youngfeiler,1.9694444444444448,10.0,10.0
+f13823972245ad82213e6ed4d76c50f6,10.61,Milwaukee Brewersv. Chicago White Sox,150,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",13 sec,youngfeiler,2.215,10.0,15.0
+f31529b02e419054477b2c39365a046d,11.48,Kansas City Royalsv. St. Louis Cardinals,210,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",1 sec,youngfeiler,2.5116666666666667,9.29,19.509
+f31529b02e419054477b2c39365a046d,10.98,Kansas City Royalsv. St. Louis Cardinals,230,['Fanduel'],"Fri, Aug 11, 2023, 06:00 PM MDT",11 sec,youngfeiler,2.928333333333333,8.0,18.4
+f31529b02e419054477b2c39365a046d,14.85,Kansas City Royalsv. St. Louis Cardinals,250,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",7 sec,youngfeiler,3.134444444444444,8.0,20.0
+f13823972245ad82213e6ed4d76c50f6,11.67,Milwaukee Brewersv. Chicago White Sox,140,['Draftkings'],"Fri, Aug 11, 2023, 06:00 PM MDT",17 sec,youngfeiler,2.193888888888889,12.0,16.8
+7df8cc13ebdc4a3b93e276e9bbe3b917,12.13,Philadelphia Philliesv. Minnesota Twins,400,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",5 sec,youngfeiler,4.236111111111112,5.0,20.0
+eb23205869f0cca74d3041572d3c7e5c,10.57,San Diego Padresv. Arizona Diamondbacks,160,"['Betmgm', 'Pointsbetus']","Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.3515,10.0,16.0
+bacdb9bc308d6addfdec45e629629c06,29.67,Washington Nationalsv. Oakland Athletics,105,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",1 sec,youngfeiler,1.6966666666666663,37.0,38.85
+f13823972245ad82213e6ed4d76c50f6,12.39,Milwaukee Brewersv. Chicago White Sox,165,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",2 sec,youngfeiler,2.313333333333333,10.0,16.5
+bacdb9bc308d6addfdec45e629629c06,11.45,Washington Nationalsv. Oakland Athletics,125,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.018888888888889,13.0,16.25
+bacdb9bc308d6addfdec45e629629c06,10.35,Washington Nationalsv. Oakland Athletics,120,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",8 sec,youngfeiler,2.038888888888889,12.0,14.4
+f31529b02e419054477b2c39365a046d,10.28,St. Louis Cardinalsv. Kansas City Royals,-450,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.1244444444444446,70.0,15.555555555555555
+f13823972245ad82213e6ed4d76c50f6,33.06,Milwaukee Brewersv. Chicago White Sox,320,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",2 sec,youngfeiler,3.006111111111112,16.0,51.2
+f13823972245ad82213e6ed4d76c50f6,20.31,Chicago White Soxv. Milwaukee Brewers,145,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.1611111111111105,45.0,65.25
+bacdb9bc308d6addfdec45e629629c06,22.74,Washington Nationalsv. Oakland Athletics,145,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.9961111111111112,23.0,33.35
+bacdb9bc308d6addfdec45e629629c06,17.24,Washington Nationalsv. Oakland Athletics,375,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",1 min 29 sec,micah,2.558888888888889,25.0,93.75
+f13823972245ad82213e6ed4d76c50f6,14.95,Chicago White Soxv. Milwaukee Brewers,290,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",5 sec,youngfeiler,3.392777777777778,7.0,20.3
+f13823972245ad82213e6ed4d76c50f6,11.9,Chicago White Soxv. Milwaukee Brewers,250,"['Betmgm', 'Fanduel']","Fri, Aug 11, 2023, 06:00 PM MDT",12 sec,micah,3.3066666666666653,13.0,32.5
+eb23205869f0cca74d3041572d3c7e5c,14.93,San Diego Padresv. Arizona Diamondbacks,450,['Bovada'],"Fri, Aug 11, 2023, 06:00 PM MDT",33 sec,youngfeiler,2.827777777777777,9.0,40.5
+eb23205869f0cca74d3041572d3c7e5c,10.53,San Diego Padresv. Arizona Diamondbacks,475,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",1 min 23 sec,micah,5.202222222222222,7.0,33.25
+f31529b02e419054477b2c39365a046d,13.3,Kansas City Royalsv. St. Louis Cardinals,500,"['Bovada', 'Pointsbetus']","Fri, Aug 11, 2023, 06:00 PM MDT",27 sec,micah,5.295555555555556,7.98,39.9
+34544b09097d9d5936bf982a7e256b1c,23.4,Texas Rangersv. San Francisco Giants,160,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",10 sec,micah,2.35,16.0,25.6
+bacdb9bc308d6addfdec45e629629c06,11.28,Washington Nationalsv. Oakland Athletics,-169,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",15 sec,micah,1.4288888888888889,50.77,30.0414201183432
+bacdb9bc308d6addfdec45e629629c06,21.17,Washington Nationalsv. Oakland Athletics,-125,['Pointsbetus'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,micah,1.485555555555556,5.0,4.0
+34544b09097d9d5936bf982a7e256b1c,11.68,San Francisco Giantsv. Texas Rangers,112,['Fanduel'],"Fri, Aug 11, 2023, 06:00 PM MDT",3 sec,micah,1.898333333333333,31.28,35.0336
+34544b09097d9d5936bf982a7e256b1c,37.44,San Francisco Giantsv. Texas Rangers,235,['Betmgm'],"Fri, Aug 11, 2023, 06:00 PM MDT",5 sec,micah,2.255555555555555,35.0,82.25
+2a01f3e17f9de2ed3b558cf827ecef58,11.0,Detroit Tigersv. Boston Red Sox,105,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",3 min 55 sec,youngfeiler,1.9023529411764708,22.0,23.1
+f4a5d0f4b11999acc6e76eac90730cb5,12.65,Philadelphia Philliesv. Minnesota Twins,135,['Draftkings'],"Sat, Aug 12, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.0860869565217395,14.0,18.9
+4923b16c75fc741d20471b6a9c78f7ed,10.16,Oakland Athleticsv. Washington Nationals,-150,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.470588235294118,25.0,16.666666666666668
+f4a5d0f4b11999acc6e76eac90730cb5,10.21,Minnesota Twinsv. Philadelphia Phillies,-105,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",7 sec,youngfeiler,1.7331250000000005,17.0,16.19047619047619
+4923b16c75fc741d20471b6a9c78f7ed,13.3,Oakland Athleticsv. Washington Nationals,105,['Draftkings'],"Sat, Aug 12, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.809375,14.98,15.729
+f6e37662ae796771effc8038499fbe92,38.4,Miami Marlinsv. New York Yankees,280,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.6733333333333333,20.0,56.0
+f6e37662ae796771effc8038499fbe92,20.51,Miami Marlinsv. New York Yankees,175,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",1 sec,youngfeiler,2.2820000000000005,18.0,31.5
+59934628035537fc1ce1eef5e58b11d3,10.56,Los Angeles Angelsv. Houston Astros,110,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",19 sec,youngfeiler,1.8993750000000005,15.0,16.5
+59934628035537fc1ce1eef5e58b11d3,10.29,Houston Astrosv. Los Angeles Angels,110,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",39 sec,youngfeiler,1.8587500000000008,14.0,15.4
+f4a5d0f4b11999acc6e76eac90730cb5,11.78,Minnesota Twinsv. Philadelphia Phillies,-210,['Betmgm'],"Sat, Aug 12, 2023, 06:00 PM MDT",1 min 12 sec,youngfeiler,1.341875,5.83,2.776190476190476
+f76ffba4729c2c7f48d0454780f11516,15.05,Los Angeles Dodgersv. Colorado Rockies,-298,['Draftkings'],"Sat, Aug 12, 2023 at 06:00 PM MDT",1 min 41 sec,youngfeiler,1.1821428571428572,60.0,20.13422818791946
+f76ffba4729c2c7f48d0454780f11516,15.05,Colorado Rockiesv. Los Angeles Dodgers,1000,['Betmgm'],"Sat, Aug 12, 2023 at 06:00 PM MDT",59 min 3 sec,youngfeiler,1.1821428571428572,7.0,70.0
+4bb8e282f3431e53e7fe6b4d21947a5a,11.95,San Francisco Giantsv. Texas Rangers,-150,['Twinspires'],"Sat, Aug 12, 2023, 06:00 PM MDT",29 sec,micah,1.5275000000000003,50.0,33.333333333333336
+4bb8e282f3431e53e7fe6b4d21947a5a,15.21,San Francisco Giantsv. Texas Rangers,-150,['Draftkings'],"Sat, Aug 12, 2023 at 06:00 PM MDT",7 sec,youngfeiler,1.4668750000000002,35.0,23.33333333333333
+4bb8e282f3431e53e7fe6b4d21947a5a,10.18,San Francisco Giantsv. Texas Rangers,-120,['Betmgm'],"Sat, Aug 12, 2023 at 06:00 PM MDT",12 sec,youngfeiler,1.6337499999999998,20.0,16.666666666666668
+4bb8e282f3431e53e7fe6b4d21947a5a,95.22,San Francisco Giantsv. Texas Rangers,650,['Betmgm'],"Sat, Aug 12, 2023 at 06:00 PM MDT",6 sec,youngfeiler,3.841875,22.0,143.0
+840b5298d93a9b5ab4cb31365073920f,48.61,Baltimore Oriolesv. Seattle Mariners,100,['Pointsbetus'],"Sat, Aug 12, 2023, 06:00 PM MDT",9 min 5 sec,micah,2.01875,72.91,72.91
+840b5298d93a9b5ab4cb31365073920f,48.61,Baltimore Oriolesv. Seattle Mariners,100,['Draftkings'],"Sat, Aug 12, 2023 at 06:00 PM MDT",11 min 57 sec,youngfeiler,2.01875,35.0,35.0
+a2d594e3bb8b6200f675e0f4e423aeeb,10.36,Miami Marlinsv. Houston Astros,150,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",38 sec,youngfeiler,2.265238095238096,15.0,22.5
+a2d594e3bb8b6200f675e0f4e423aeeb,13.5,Miami Marlinsv. Houston Astros,180,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.334736842105263,17.0,30.6
+a2d594e3bb8b6200f675e0f4e423aeeb,36.04,Houston Astrosv. Miami Marlins,180,['Barstool'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,micah,1.9847368421052631,30.0,54.0
+a2d594e3bb8b6200f675e0f4e423aeeb,36.04,Houston Astrosv. Miami Marlins,180,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.9847368421052631,45.0,81.0
+a2d594e3bb8b6200f675e0f4e423aeeb,12.41,Houston Astrosv. Miami Marlins,250,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,youngfeiler,3.113684210526316,10.0,25.0
+a2d594e3bb8b6200f675e0f4e423aeeb,10.07,Houston Astrosv. Miami Marlins,285,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",44 sec,youngfeiler,3.4978947368421056,8.0,22.8
+8a250718f528c8f70f1a1cb91406e533,10.44,New York Yankeesv. Atlanta Braves,185,['Pointsbetus'],"Sun, Aug 13, 2023, 06:00 PM MDT",18 sec,micah,2.5805263157894744,10.0,18.5
+8a250718f528c8f70f1a1cb91406e533,10.44,New York Yankeesv. Atlanta Braves,175,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",20 sec,youngfeiler,2.5805263157894744,10.0,17.5
+8a250718f528c8f70f1a1cb91406e533,15.09,Atlanta Bravesv. New York Yankees,-130,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",34 sec,youngfeiler,1.4857894736842103,46.0,35.38461538461539
+8a250718f528c8f70f1a1cb91406e533,15.09,Atlanta Bravesv. New York Yankees,-140,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",57 sec,micah,1.4857894736842103,30.0,21.42857142857143
+a2d594e3bb8b6200f675e0f4e423aeeb,10.3,Houston Astrosv. Miami Marlins,290,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",23 sec,youngfeiler,3.53578947368421,7.0,20.3
+b90652aaf50a2c9b58f6450116b2cc27,12.51,Pittsburgh Piratesv. New York Mets,210,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",0 sec,youngfeiler,2.622105263157895,13.0,27.3
+8a250718f528c8f70f1a1cb91406e533,10.17,New York Yankeesv. Atlanta Braves,155,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",45 sec,youngfeiler,2.17842105263158,15.0,23.25
+a2d594e3bb8b6200f675e0f4e423aeeb,20.2,Houston Astrosv. Miami Marlins,320,['Pointsbetus'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,youngfeiler,3.4110526315789467,13.0,41.6
+b90652aaf50a2c9b58f6450116b2cc27,12.85,Pittsburgh Piratesv. New York Mets,180,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.374736842105264,15.0,27.0
+b90652aaf50a2c9b58f6450116b2cc27,12.85,Pittsburgh Piratesv. New York Mets,168,['Fanduel'],"Sun, Aug 13, 2023, 06:00 PM MDT",17 sec,micah,2.374736842105264,11.48,19.2864
+b90652aaf50a2c9b58f6450116b2cc27,15.05,New York Metsv. Pittsburgh Pirates,-120,['Fanduel'],"Sun, Aug 13, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.5210526315789472,45.0,37.5
+d4df3968eb4310400b80b095ef821a6a,15.46,Oakland Athleticsv. St. Louis Cardinals,280,['Fanduel'],"Sun, Aug 13, 2023, 06:00 PM MDT",8 sec,micah,3.291111111111111,8.0,22.4
+b90652aaf50a2c9b58f6450116b2cc27,12.45,Pittsburgh Piratesv. New York Mets,120,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.0452631578947367,20.0,24.0
+b90652aaf50a2c9b58f6450116b2cc27,12.45,Pittsburgh Piratesv. New York Mets,129,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",3 sec,micah,2.0452631578947367,13.0,16.77
+b90652aaf50a2c9b58f6450116b2cc27,11.74,New York Metsv. Pittsburgh Pirates,-115,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.637777777777777,30.0,26.086956521739133
+b90652aaf50a2c9b58f6450116b2cc27,10.72,New York Metsv. Pittsburgh Pirates,100,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",17 sec,micah,1.688888888888889,20.0,20.0
+b90652aaf50a2c9b58f6450116b2cc27,11.76,Pittsburgh Piratesv. New York Mets,145,['Draftkings'],"Sun, Aug 13, 2023 at 06:00 PM MDT",54 sec,youngfeiler,2.192105263157895,20.0,29.0
+b90652aaf50a2c9b58f6450116b2cc27,13.19,Pittsburgh Piratesv. New York Mets,175,['Betmgm'],"Sun, Aug 13, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.4294736842105262,15.0,26.25
+b90652aaf50a2c9b58f6450116b2cc27,19.72,Pittsburgh Piratesv. New York Mets,200,"['Barstool', 'Pointsbetus']","Sun, Aug 13, 2023 at 06:00 PM MDT",48 sec,micah,2.5057894736842106,14.0,28.0
+d4df3968eb4310400b80b095ef821a6a,11.46,Oakland Athleticsv. St. Louis Cardinals,280,['Betmgm'],"Sun, Aug 13, 2023 at 06:00 PM MDT",18 sec,youngfeiler,3.3194444444444446,10.0,28.0
+a6a584f4453431a2838c63ab3279760f,11.65,Seattle Marinersv. Kansas City Royals,270,['Draftkings'],"Sun, Aug 13, 2023 at 06:00 PM MDT",7 sec,youngfeiler,3.4035,8.0,21.6
+d4df3968eb4310400b80b095ef821a6a,17.75,Oakland Athleticsv. St. Louis Cardinals,360,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",1 sec,youngfeiler,3.9066666666666654,10.0,36.0
+a2d594e3bb8b6200f675e0f4e423aeeb,22.32,Miami Marlinsv. Houston Astros,-125,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",5 sec,micah,1.471578947368421,20.0,16.0
+a2d594e3bb8b6200f675e0f4e423aeeb,22.32,Miami Marlinsv. Houston Astros,-110,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.471578947368421,60.0,54.54545454545454
+a2d594e3bb8b6200f675e0f4e423aeeb,16.08,Houston Astrosv. Miami Marlins,190,['Pointsbetus'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.4552631578947373,16.0,30.4
+a2d594e3bb8b6200f675e0f4e423aeeb,11.01,Houston Astrosv. Miami Marlins,200,['Pointsbetus'],"Sun, Aug 13, 2023, 06:00 PM MDT",2 sec,micah,2.5673684210526324,8.93,17.86
+a2d594e3bb8b6200f675e0f4e423aeeb,58.97,Houston Astrosv. Miami Marlins,500,['Pointsbetus'],"Sun, Aug 13, 2023, 06:00 PM MDT",47 sec,micah,3.774210526315789,17.69,88.45
+d4df3968eb4310400b80b095ef821a6a,11.36,St. Louis Cardinalsv. Oakland Athletics,100,['Barstool'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,micah,1.6433333333333335,35.0,35.0
+d4df3968eb4310400b80b095ef821a6a,11.36,St. Louis Cardinalsv. Oakland Athletics,-130,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",11 sec,youngfeiler,1.6433333333333335,28.0,21.538461538461537
+b90652aaf50a2c9b58f6450116b2cc27,13.2,Pittsburgh Piratesv. New York Mets,1100,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",39 sec,youngfeiler,12.014285714285714,2.0,22.0
+d4df3968eb4310400b80b095ef821a6a,15.3,Oakland Athleticsv. St. Louis Cardinals,330,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",29 sec,micah,3.755555555555556,25.0,82.5
+d4df3968eb4310400b80b095ef821a6a,11.11,Oakland Athleticsv. St. Louis Cardinals,300,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",41 sec,youngfeiler,4.050000000000001,20.0,60.0
+d4df3968eb4310400b80b095ef821a6a,11.38,Oakland Athleticsv. St. Louis Cardinals,425,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,youngfeiler,4.6688888888888895,6.0,25.5
+a6a584f4453431a2838c63ab3279760f,25.77,Seattle Marinersv. Kansas City Royals,1480,['Fanduel'],"Sun, Aug 13, 2023, 06:00 PM MDT",2 sec,micah,12.563076923076922,2.61,38.628
+a6a584f4453431a2838c63ab3279760f,25.77,Seattle Marinersv. Kansas City Royals,1200,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",14 sec,youngfeiler,12.563076923076922,3.0,36.0
+d4df3968eb4310400b80b095ef821a6a,21.83,St. Louis Cardinalsv. Oakland Athletics,-140,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",10 sec,youngfeiler,1.387222222222222,60.0,42.85714285714286
+d4df3968eb4310400b80b095ef821a6a,41.16,St. Louis Cardinalsv. Oakland Athletics,220,['Pointsbetus'],"Sun, Aug 13, 2023, 06:00 PM MDT",30 sec,micah,2.196111111111111,29.4,64.68
+d4df3968eb4310400b80b095ef821a6a,41.16,St. Louis Cardinalsv. Oakland Athletics,250,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",35 sec,youngfeiler,2.196111111111111,42.0,105.0
+fd1ad090d0ac25e50479cff9b65aba92,12.23,Arizona Diamondbacksv. Colorado Rockies,-238,['Barstool'],"Sun, Aug 13, 2023, 06:00 PM MDT",8 sec,youngfeiler,1.2652631578947369,14.0,5.882352941176471
+3b09b0c1027dbf2172f8acaff7d9c7f1,16.28,San Diego Padresv. Baltimore Orioles,150,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.021052631578948,25.0,37.5
+a6a584f4453431a2838c63ab3279760f,16.02,Seattle Marinersv. Kansas City Royals,320,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",3 sec,youngfeiler,3.62,10.0,32.0
+a6a584f4453431a2838c63ab3279760f,16.99,Seattle Marinersv. Kansas City Royals,320,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",1 sec,micah,3.5899999999999994,10.0,32.0
+fd1ad090d0ac25e50479cff9b65aba92,10.61,Arizona Diamondbacksv. Colorado Rockies,-260,['Bovada'],"Sun, Aug 13, 2023, 06:00 PM MDT",8 sec,youngfeiler,1.184375,76.0,29.23076923076923
+3b09b0c1027dbf2172f8acaff7d9c7f1,14.67,San Diego Padresv. Baltimore Orioles,200,['Draftkings'],"Sun, Aug 13, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.616315789473685,15.0,30.0
+fd1ad090d0ac25e50479cff9b65aba92,25.13,Arizona Diamondbacksv. Colorado Rockies,-115,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.4625,60.0,52.173913043478265
+fd1ad090d0ac25e50479cff9b65aba92,16.24,Arizona Diamondbacksv. Colorado Rockies,-114,"['Barstool', 'Betmgm']","Sun, Aug 13, 2023, 06:00 PM MDT",23 sec,micah,1.6087499999999997,55.0,48.245614035087726
+ce692180de4ef126fe0bc45a0747f490,18.71,San Francisco Giantsv. Tampa Bay Rays,479,"['Barstool', 'Betmgm']","Sun, Aug 13, 2023, 06:00 PM MDT",2 sec,micah,5.054374999999999,10.0,47.9
+ce692180de4ef126fe0bc45a0747f490,18.71,San Francisco Giantsv. Tampa Bay Rays,500,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",26 sec,youngfeiler,5.054374999999999,8.0,40.0
+a6a584f4453431a2838c63ab3279760f,14.08,Kansas City Royalsv. Seattle Mariners,625,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",53 sec,youngfeiler,2.06,8.0,50.0
+a6a584f4453431a2838c63ab3279760f,22.79,Seattle Marinersv. Kansas City Royals,120,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",32 sec,youngfeiler,1.8323529411764703,40.0,48.0
+a6a584f4453431a2838c63ab3279760f,15.31,Seattle Marinersv. Kansas City Royals,111,['Barstool'],"Sun, Aug 13, 2023, 06:00 PM MDT",8 sec,micah,1.9513333333333327,30.0,33.3
+ce692180de4ef126fe0bc45a0747f490,18.27,San Francisco Giantsv. Tampa Bay Rays,900,['Betmgm'],"Sun, Aug 13, 2023, 06:00 PM MDT",34 sec,youngfeiler,7.61,5.0,45.0
+62db533fdc66879c06016600a15dcc00,21.59,Houston Astrosv. Miami Marlins,130,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.8916666666666653,35.0,45.5
+62db533fdc66879c06016600a15dcc00,10.75,Houston Astrosv. Miami Marlins,125,['Pointsbetus'],"Mon, Aug 14, 2023 at 06:00 PM MDT",41 sec,micah,2.0316666666666667,12.9,16.125
+6e104c6643a09badaefa6be2a6f5ca2d,10.18,Cincinnati Redsv. Cleveland Guardians,210,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",17 sec,youngfeiler,2.704736842105263,11.0,23.1
+62db533fdc66879c06016600a15dcc00,14.56,Houston Astrosv. Miami Marlins,145,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.1822222222222227,20.0,29.0
+62db533fdc66879c06016600a15dcc00,15.0,Houston Astrosv. Miami Marlins,150,['Pointsbetus'],"Mon, Aug 14, 2023 at 06:00 PM MDT",40 sec,micah,2.1822222222222227,14.56,21.84
+dc4890df94e7c10598017e488757c759,10.79,Pittsburgh Piratesv. New York Mets,210,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.798,11.0,23.1
+dc4890df94e7c10598017e488757c759,10.99,New York Metsv. Pittsburgh Pirates,-165,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",15 sec,youngfeiler,1.4505882352941175,40.0,24.24242424242424
+62db533fdc66879c06016600a15dcc00,10.65,Houston Astrosv. Miami Marlins,320,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",3 sec,youngfeiler,3.841111111111111,7.0,22.4
+ca8216bba24ee690407c25978a298054,10.62,Boston Red Soxv. Washington Nationals,-150,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",13 sec,youngfeiler,1.4915789473684211,35.0,23.33333333333333
+62db533fdc66879c06016600a15dcc00,11.59,Houston Astrosv. Miami Marlins,190,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.5538888888888884,13.0,24.7
+930e53d6dabbff915b411fe2dcde4bfe,10.52,New York Yankeesv. Atlanta Braves,550,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",6 sec,youngfeiler,5.881111111111111,4.0,22.0
+ca8216bba24ee690407c25978a298054,11.07,Washington Nationalsv. Boston Red Sox,210,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",11 sec,youngfeiler,2.791052631578948,11.0,23.1
+62db533fdc66879c06016600a15dcc00,10.49,Miami Marlinsv. Houston Astros,-172,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",6 sec,youngfeiler,1.4300000000000004,40.0,23.25581395348837
+dc4890df94e7c10598017e488757c759,10.29,Pittsburgh Piratesv. New York Mets,102,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",1 sec,youngfeiler,1.813333333333333,20.0,20.4
+5d375be4559e63b7f3c7a927cb10c68f,10.52,Philadelphia Philliesv. Toronto Blue Jays,110,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",28 sec,youngfeiler,1.936315789473684,20.0,22.0
+6e104c6643a09badaefa6be2a6f5ca2d,21.47,Cincinnati Redsv. Cleveland Guardians,270,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.963684210526316,17.0,45.9
+dc4890df94e7c10598017e488757c759,12.95,Pittsburgh Piratesv. New York Mets,130,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",9 sec,youngfeiler,1.9477777777777776,23.0,29.9
+e8944672085f00e068dcba7ccf1c9140,21.62,Minnesota Twinsv. Detroit Tigers,114,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.6855555555555557,45.0,51.3
+dc4890df94e7c10598017e488757c759,13.87,Pittsburgh Piratesv. New York Mets,184,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.415,17.0,31.28
+dc4890df94e7c10598017e488757c759,11.31,Pittsburgh Piratesv. New York Mets,165,"['Betmgm', 'Pointsbetus']","Mon, Aug 14, 2023, 06:00 PM MDT",1 min 10 sec,micah,2.470555555555555,10.0,16.5
+e8944672085f00e068dcba7ccf1c9140,11.33,Minnesota Twinsv. Detroit Tigers,140,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.15578947368421,17.0,23.8
+e8944672085f00e068dcba7ccf1c9140,10.52,Minnesota Twinsv. Detroit Tigers,135,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",14 sec,micah,2.1715789473684204,10.0,13.5
+5d375be4559e63b7f3c7a927cb10c68f,13.46,Philadelphia Philliesv. Toronto Blue Jays,120,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",1 sec,micah,1.9389473684210523,17.0,20.4
+6e104c6643a09badaefa6be2a6f5ca2d,11.96,Cleveland Guardiansv. Cincinnati Reds,-142,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",9 sec,youngfeiler,1.5184210526315791,33.0,23.23943661971831
+6e104c6643a09badaefa6be2a6f5ca2d,30.29,Cincinnati Redsv. Cleveland Guardians,240,['Bovada'],"Mon, Aug 14, 2023, 06:00 PM MDT",22 sec,youngfeiler,2.609473684210527,25.0,60.0
+62db533fdc66879c06016600a15dcc00,10.48,Miami Marlinsv. Houston Astros,104,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",12 sec,micah,1.8827777777777777,14.55,15.132
+ca8216bba24ee690407c25978a298054,10.38,Boston Red Soxv. Washington Nationals,-165,['Betmgm'],"Mon, Aug 14, 2023 at 06:00 PM MDT",1 min 49 sec,youngfeiler,1.576315789473684,40.0,24.24242424242424
+5d375be4559e63b7f3c7a927cb10c68f,61.68,Toronto Blue Jaysv. Philadelphia Phillies,260,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",2 sec,micah,2.164736842105264,30.0,78.0
+5d375be4559e63b7f3c7a927cb10c68f,30.5,Toronto Blue Jaysv. Philadelphia Phillies,220,['Betmgm'],"Mon, Aug 14, 2023 at 06:00 PM MDT",24 sec,youngfeiler,2.4521052631578955,30.0,66.0
+e8944672085f00e068dcba7ccf1c9140,11.22,Minnesota Twinsv. Detroit Tigers,175,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",24 sec,micah,2.472631578947368,10.0,17.5
+ca8216bba24ee690407c25978a298054,19.68,Washington Nationalsv. Boston Red Sox,150,['Pointsbetus'],"Mon, Aug 14, 2023, 06:00 PM MDT",18 sec,micah,2.088888888888889,20.0,30.0
+2938aeec6fbf0c1f8139610788952cfc,12.3,Los Angeles Angelsv. Texas Rangers,194,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",2 sec,micah,2.6178947368421053,10.0,19.4
+5d375be4559e63b7f3c7a927cb10c68f,23.25,Toronto Blue Jaysv. Philadelphia Phillies,155,['Draftkings'],"Mon, Aug 14, 2023 at 06:00 PM MDT",7 sec,youngfeiler,2.028421052631579,30.0,46.5
+5d375be4559e63b7f3c7a927cb10c68f,23.25,Toronto Blue Jaysv. Philadelphia Phillies,145,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",29 sec,micah,2.028421052631579,20.0,29.0
+5d375be4559e63b7f3c7a927cb10c68f,17.31,Philadelphia Philliesv. Toronto Blue Jays,-112,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",50 sec,micah,1.8242105263157893,40.0,35.71428571428571
+7e721afef03fa70a1b0a04a0fdbe70b1,20.82,Kansas City Royalsv. Seattle Mariners,130,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",5 sec,youngfeiler,1.870555555555556,20.0,26.0
+62db533fdc66879c06016600a15dcc00,15.13,Miami Marlinsv. Houston Astros,275,['Bovada'],"Mon, Aug 14, 2023, 06:00 PM MDT",10 sec,youngfeiler,3.387368421052632,11.0,30.25
+e8944672085f00e068dcba7ccf1c9140,10.01,Minnesota Twinsv. Detroit Tigers,240,['Bovada'],"Mon, Aug 14, 2023, 06:00 PM MDT",1 sec,youngfeiler,3.181578947368422,9.0,21.6
+83a029a2ee070d3518aba42e3a8c8b20,15.32,Colorado Rockiesv. Arizona Diamondbacks,240,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",17 sec,youngfeiler,2.8616666666666664,14.0,33.6
+5d375be4559e63b7f3c7a927cb10c68f,41.03,Philadelphia Philliesv. Toronto Blue Jays,310,['Pointsbetus'],"Mon, Aug 14, 2023, 06:00 PM MDT",12 sec,youngfeiler,3.0489473684210533,20.0,62.0
+e8944672085f00e068dcba7ccf1c9140,11.99,Detroit Tigersv. Minnesota Twins,-118,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",25 sec,youngfeiler,1.7055555555555562,29.0,24.57627118644068
+dc4890df94e7c10598017e488757c759,18.89,New York Metsv. Pittsburgh Pirates,375,['Bovada'],"Mon, Aug 14, 2023, 06:00 PM MDT",16 sec,youngfeiler,2.943888888888889,6.0,22.5
+e8944672085f00e068dcba7ccf1c9140,14.89,Detroit Tigersv. Minnesota Twins,135,['Bovada'],"Mon, Aug 14, 2023, 06:00 PM MDT",25 sec,youngfeiler,1.9583333333333333,25.0,33.75
+62db533fdc66879c06016600a15dcc00,15.45,Houston Astrosv. Miami Marlins,-335,['Barstool'],"Mon, Aug 14, 2023, 06:00 PM MDT",17 sec,youngfeiler,1.1347368421052633,107.0,31.94029850746269
+5d375be4559e63b7f3c7a927cb10c68f,10.75,Philadelphia Philliesv. Toronto Blue Jays,520,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",19 sec,youngfeiler,6.0950000000000015,4.0,20.8
+83a029a2ee070d3518aba42e3a8c8b20,11.26,Colorado Rockiesv. Arizona Diamondbacks,170,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",1 min 27 sec,youngfeiler,2.471666666666666,13.0,22.1
+83a029a2ee070d3518aba42e3a8c8b20,11.26,Colorado Rockiesv. Arizona Diamondbacks,170,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",1 min 38 sec,youngfeiler,2.471666666666666,13.0,22.1
+e8944672085f00e068dcba7ccf1c9140,12.25,Detroit Tigersv. Minnesota Twins,1050,['Fanduel'],"Mon, Aug 14, 2023, 06:00 PM MDT",12 sec,youngfeiler,10.868666666666666,2.0,21.0
+61267bf7adf058eb4287b78f5f0de10f,25.93,Oakland Athleticsv. St. Louis Cardinals,1250,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",3 sec,youngfeiler,11.911111111111111,4.0,50.0
+83a029a2ee070d3518aba42e3a8c8b20,10.23,Colorado Rockiesv. Arizona Diamondbacks,210,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",2 min 28 sec,henrydyer,2.812222222222222,12.18,25.578
+7e721afef03fa70a1b0a04a0fdbe70b1,11.05,Kansas City Royalsv. Seattle Mariners,325,['Pointsbetus'],"Mon, Aug 14, 2023, 06:00 PM MDT",35 sec,youngfeiler,4.277222222222224,6.0,19.5
+61267bf7adf058eb4287b78f5f0de10f,12.86,Oakland Athleticsv. St. Louis Cardinals,1400,"['Betmgm', 'Fanduel']","Mon, Aug 14, 2023, 06:00 PM MDT",17 sec,henrydyer,12.404545454545454,2.47,34.580000000000005
+c17368144ab88614067c3c829ce43928,13.04,Chicago White Soxv. Chicago Cubs,210,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",17 sec,youngfeiler,2.8750000000000004,12.0,25.2
+2938aeec6fbf0c1f8139610788952cfc,37.3,Los Angeles Angelsv. Texas Rangers,1550,['Fanduel'],"Mon, Aug 14, 2023 at 06:00 PM MDT",35 sec,micah,12.017142857142858,3.61,55.955
+2938aeec6fbf0c1f8139610788952cfc,53.51,Los Angeles Angelsv. Texas Rangers,1200,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",6 sec,youngfeiler,12.377333333333334,6.0,72.0
+5b8e260609cf671450546a4dbf2e80d1,10.06,Baltimore Oriolesv. San Diego Padres,135,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",2 sec,micah,2.180555555555556,10.0,13.5
+5b8e260609cf671450546a4dbf2e80d1,15.87,Baltimore Oriolesv. San Diego Padres,160,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.243888888888889,20.0,32.0
+83a029a2ee070d3518aba42e3a8c8b20,12.19,Colorado Rockiesv. Arizona Diamondbacks,270,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",3 sec,youngfeiler,3.208888888888888,10.0,27.0
+83a029a2ee070d3518aba42e3a8c8b20,18.56,Arizona Diamondbacksv. Colorado Rockies,-109,['Draftkings'],"Mon, Aug 14, 2023, 08:00 PM EDT",33 sec,ashmoneyman,1.611052631578947,25.91,23.77064220183486
+c17368144ab88614067c3c829ce43928,12.41,Chicago Cubsv. Chicago White Sox,229,['Pointsbetus'],"Mon, Aug 14, 2023, 08:00 PM EDT",26 sec,ashmoneyman,2.935555555555556,6.59,15.0911
+c17368144ab88614067c3c829ce43928,12.41,Chicago Cubsv. Chicago White Sox,210,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",32 sec,youngfeiler,2.935555555555556,11.0,23.1
+83a029a2ee070d3518aba42e3a8c8b20,11.79,Colorado Rockiesv. Arizona Diamondbacks,160,['Barstool'],"Mon, Aug 14, 2023 at 06:00 PM MDT",4 sec,micah,2.4152631578947363,20.0,32.0
+83a029a2ee070d3518aba42e3a8c8b20,27.35,Colorado Rockiesv. Arizona Diamondbacks,250,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",9 sec,youngfeiler,2.748421052631579,23.0,57.5
+83a029a2ee070d3518aba42e3a8c8b20,10.24,Arizona Diamondbacksv. Colorado Rockies,-145,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",28 sec,youngfeiler,1.551111111111111,31.0,21.379310344827587
+83a029a2ee070d3518aba42e3a8c8b20,21.93,Colorado Rockiesv. Arizona Diamondbacks,250,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.4194444444444447,24.0,60.0
+83a029a2ee070d3518aba42e3a8c8b20,13.18,Arizona Diamondbacksv. Colorado Rockies,125,['Bovada'],"Mon, Aug 14, 2023, 06:00 PM MDT",5 sec,youngfeiler,1.943888888888889,23.0,28.75
+83a029a2ee070d3518aba42e3a8c8b20,36.61,Arizona Diamondbacksv. Colorado Rockies,400,['Draftkings'],"Mon, Aug 14, 2023, 06:00 PM MDT",4 sec,youngfeiler,3.66,20.0,80.0
+83a029a2ee070d3518aba42e3a8c8b20,21.98,Arizona Diamondbacksv. Colorado Rockies,400,"['Betmgm', 'Draftkings']","Mon, Aug 14, 2023 at 06:00 PM MDT",3 sec,micah,4.098888888888889,15.0,60.0
+c677b4f6f04e68a26b2f0bdcc8a9ecb6,29.79,Tampa Bay Raysv. San Francisco Giants,220,['Betmgm'],"Mon, Aug 14, 2023, 06:00 PM MDT",6 sec,youngfeiler,2.4655555555555555,29.0,63.8
+83a029a2ee070d3518aba42e3a8c8b20,129.93,Colorado Rockiesv. Arizona Diamondbacks,425,['Betmgm'],"Mon, Aug 14, 2023 at 06:00 PM MDT",1 min 9 sec,micah,2.283333333333333,10.0,42.5
+03ab70d192ef1b83af998d56ebca587b,46.21,Detroit Tigersv. Minnesota Twins,290,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.530555555555556,35.0,101.5
+03ab70d192ef1b83af998d56ebca587b,18.85,Detroit Tigersv. Minnesota Twins,410,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",5 sec,youngfeiler,4.29111111111111,9.0,36.9
+8850a9eabb170029b258eb019381f129,12.15,Pittsburgh Piratesv. New York Mets,210,['Fanduel'],"Tue, Aug 15, 2023 at 06:00 PM MDT",1 sec,youngfeiler,2.764210526315789,12.0,25.2
+8850a9eabb170029b258eb019381f129,11.07,New York Metsv. Pittsburgh Pirates,-190,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",5 sec,youngfeiler,1.3505263157894738,50.0,26.31578947368421
+8850a9eabb170029b258eb019381f129,10.16,Pittsburgh Piratesv. New York Mets,210,['Betmgm'],"Tue, Aug 15, 2023 at 06:00 PM MDT",37 sec,youngfeiler,2.8142105263157893,10.0,21.0
+03ab70d192ef1b83af998d56ebca587b,10.6,Detroit Tigersv. Minnesota Twins,376,['Betmgm'],"Tue, Aug 15, 2023 at 06:00 PM MDT",2 sec,youngfeiler,3.9783333333333335,10.0,37.6
+8850a9eabb170029b258eb019381f129,10.15,Pittsburgh Piratesv. New York Mets,229,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,nicothedon,2.995789473684211,2.14,4.9006
+8850a9eabb170029b258eb019381f129,10.76,Pittsburgh Piratesv. New York Mets,250,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",18 sec,youngfeiler,3.16,10.0,25.0
+8850a9eabb170029b258eb019381f129,14.21,Pittsburgh Piratesv. New York Mets,250,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",8 sec,micah,2.9768421052631573,9.0,22.5
+8850a9eabb170029b258eb019381f129,17.91,Pittsburgh Piratesv. New York Mets,420,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",8 sec,youngfeiler,4.409999999999999,9.0,37.8
+03ab70d192ef1b83af998d56ebca587b,14.1,Detroit Tigersv. Minnesota Twins,333,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",10 sec,youngfeiler,3.795,9.0,29.97
+8850a9eabb170029b258eb019381f129,14.87,Pittsburgh Piratesv. New York Mets,850,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",5 sec,youngfeiler,7.834736842105262,4.0,34.0
+03ab70d192ef1b83af998d56ebca587b,17.18,Detroit Tigersv. Minnesota Twins,340,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",35 sec,youngfeiler,3.755,10.0,34.0
+03ab70d192ef1b83af998d56ebca587b,16.84,Minnesota Twinsv. Detroit Tigers,108,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",39 sec,youngfeiler,1.8144444444444443,32.0,34.56
+03ab70d192ef1b83af998d56ebca587b,25.64,Minnesota Twinsv. Detroit Tigers,310,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",6 sec,youngfeiler,3.0244444444444447,12.0,37.2
+03ab70d192ef1b83af998d56ebca587b,17.84,Minnesota Twinsv. Detroit Tigers,450,['Pointsbetus'],"Tue, Aug 15, 2023 at 06:00 PM MDT",2 min 53 sec,micah,4.667222222222222,10.0,45.0
+4705342e437acbc9e7d1e91692ec3deb,10.58,Colorado Rockiesv. Arizona Diamondbacks,180,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",23 sec,youngfeiler,2.532105263157894,12.0,21.6
+4705342e437acbc9e7d1e91692ec3deb,11.56,Arizona Diamondbacksv. Colorado Rockies,-160,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.4521052631578946,40.0,25.0
+92bc66732b5cc57d304731c6499eeb25,28.97,San Francisco Giantsv. Tampa Bay Rays,152,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",0 sec,youngfeiler,1.9539285714285708,40.0,60.8
+4705342e437acbc9e7d1e91692ec3deb,15.25,Colorado Rockiesv. Arizona Diamondbacks,170,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",7 sec,youngfeiler,2.342631578947368,20.0,34.0
+4705342e437acbc9e7d1e91692ec3deb,15.25,Colorado Rockiesv. Arizona Diamondbacks,160,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",43 sec,micah,2.342631578947368,10.0,16.0
+92bc66732b5cc57d304731c6499eeb25,15.01,San Francisco Giantsv. Tampa Bay Rays,-110,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.6955555555555557,34.0,30.909090909090907
+92bc66732b5cc57d304731c6499eeb25,12.04,San Francisco Giantsv. Tampa Bay Rays,100,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",7 sec,youngfeiler,1.785,20.0,20.0
+92bc66732b5cc57d304731c6499eeb25,12.04,San Francisco Giantsv. Tampa Bay Rays,110,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",42 sec,micah,1.785,12.0,13.2
+92bc66732b5cc57d304731c6499eeb25,10.11,San Francisco Giantsv. Tampa Bay Rays,150,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",11 sec,youngfeiler,2.270555555555555,15.0,22.5
+4705342e437acbc9e7d1e91692ec3deb,14.12,Colorado Rockiesv. Arizona Diamondbacks,160,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,2.243157894736842,20.0,32.0
+4705342e437acbc9e7d1e91692ec3deb,10.07,Colorado Rockiesv. Arizona Diamondbacks,190,['Draftkings'],"Tue, Aug 15, 2023 at 06:00 PM MDT",10 min 32 sec,Sbeckwes,2.634736842105263,0.26,0.494
+92bc66732b5cc57d304731c6499eeb25,10.11,San Francisco Giantsv. Tampa Bay Rays,150,['Fanduel'],"Tue, Aug 15, 2023 at 06:00 PM MDT",20 min 15 sec,Sbeckwes,2.270555555555555,0.34,0.5100000000000001
+4705342e437acbc9e7d1e91692ec3deb,10.48,Arizona Diamondbacksv. Colorado Rockies,-130,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 min 44 sec,youngfeiler,1.6021052631578947,30.0,23.07692307692308
+4705342e437acbc9e7d1e91692ec3deb,22.35,Arizona Diamondbacksv. Colorado Rockies,196,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",13 sec,youngfeiler,2.5336842105263155,25.0,49.0
+92bc66732b5cc57d304731c6499eeb25,13.54,San Francisco Giantsv. Tampa Bay Rays,160,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 min 15 sec,youngfeiler,2.2900000000000005,18.0,28.8
+92bc66732b5cc57d304731c6499eeb25,13.05,San Francisco Giantsv. Tampa Bay Rays,250,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",10 sec,youngfeiler,3.1844444444444453,10.0,25.0
+4705342e437acbc9e7d1e91692ec3deb,10.2,Colorado Rockiesv. Arizona Diamondbacks,-160,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.4699999999999998,35.0,21.875
+92bc66732b5cc57d304731c6499eeb25,14.11,San Francisco Giantsv. Tampa Bay Rays,310,['Barstool'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,3.680555555555556,9.0,27.9
+4705342e437acbc9e7d1e91692ec3deb,15.78,Colorado Rockiesv. Arizona Diamondbacks,130,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",17 sec,youngfeiler,2.0383333333333327,30.0,39.0
+4705342e437acbc9e7d1e91692ec3deb,42.84,Colorado Rockiesv. Arizona Diamondbacks,450,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",46 sec,youngfeiler,3.850555555555556,20.0,90.0
+4705342e437acbc9e7d1e91692ec3deb,10.42,Colorado Rockiesv. Arizona Diamondbacks,350,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,3.8488888888888897,9.0,31.5
+4705342e437acbc9e7d1e91692ec3deb,12.66,Arizona Diamondbacksv. Colorado Rockies,170,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",19 sec,youngfeiler,2.3966666666666665,16.0,27.2
+4705342e437acbc9e7d1e91692ec3deb,12.66,Arizona Diamondbacksv. Colorado Rockies,170,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 min 6 sec,youngfeiler,2.3966666666666665,16.0,27.2
+4705342e437acbc9e7d1e91692ec3deb,23.04,Arizona Diamondbacksv. Colorado Rockies,250,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",30 sec,youngfeiler,2.519473684210526,23.0,57.5
+4705342e437acbc9e7d1e91692ec3deb,11.75,Arizona Diamondbacksv. Colorado Rockies,280,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",18 sec,youngfeiler,3.49,9.0,25.2
+4705342e437acbc9e7d1e91692ec3deb,10.57,Colorado Rockiesv. Arizona Diamondbacks,210,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 min 17 sec,youngfeiler,2.8942105263157893,10.0,21.0
+4705342e437acbc9e7d1e91692ec3deb,15.95,Colorado Rockiesv. Arizona Diamondbacks,490,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",13 sec,youngfeiler,4.571111111111111,7.0,34.3
+405368d612293cef246d66fb0e59e2e5,19.84,Cleveland Guardiansv. Cincinnati Reds,350,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",10 sec,youngfeiler,3.755,12.0,42.0
+eb6652c9d39ca824968333b3261dfa94,27.82,St. Louis Cardinalsv. Oakland Athletics,260,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,2.738181818181818,25.0,65.0
+eb6652c9d39ca824968333b3261dfa94,10.05,St. Louis Cardinalsv. Oakland Athletics,300,['Pointsbetus'],"Tue, Aug 15, 2023, 06:00 PM MDT",16 sec,youngfeiler,3.4529411764705884,8.0,24.0
+405368d612293cef246d66fb0e59e2e5,18.51,Cleveland Guardiansv. Cincinnati Reds,270,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",8 sec,youngfeiler,3.122105263157894,15.0,40.5
+405368d612293cef246d66fb0e59e2e5,12.82,Cleveland Guardiansv. Cincinnati Reds,290,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",8 sec,youngfeiler,3.501052631578947,9.0,26.1
+eb6652c9d39ca824968333b3261dfa94,17.86,St. Louis Cardinalsv. Oakland Athletics,260,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",7 sec,youngfeiler,2.927222222222221,12.0,31.2
+f7d9866ff06b61ac05ca2b91f93c51ee,11.78,Toronto Blue Jaysv. Philadelphia Phillies,-105,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,1.7444444444444442,26.0,24.76190476190476
+f7d9866ff06b61ac05ca2b91f93c51ee,20.2,Toronto Blue Jaysv. Philadelphia Phillies,130,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",14 sec,youngfeiler,1.955,32.0,41.6
+d7487366bc85a2641ec34fc61527e734,21.0,Miami Marlinsv. Houston Astros,940,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",40 sec,youngfeiler,8.43,5.0,47.0
+405368d612293cef246d66fb0e59e2e5,11.44,Cleveland Guardiansv. Cincinnati Reds,195,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,2.557368421052632,13.0,25.35
+405368d612293cef246d66fb0e59e2e5,10.55,Cleveland Guardiansv. Cincinnati Reds,200,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,2.713684210526316,11.0,22.0
+f7d9866ff06b61ac05ca2b91f93c51ee,10.31,Toronto Blue Jaysv. Philadelphia Phillies,124,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",8 sec,youngfeiler,2.085,16.0,19.84
+eb6652c9d39ca824968333b3261dfa94,14.93,St. Louis Cardinalsv. Oakland Athletics,410,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",12 sec,youngfeiler,4.089444444444444,5.0,20.5
+b9f8463ab6dd238ef1c10bd3416aa8f2,20.27,Boston Red Soxv. Washington Nationals,124,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.9622222222222223,32.0,39.68
+405368d612293cef246d66fb0e59e2e5,13.14,Cleveland Guardiansv. Cincinnati Reds,170,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.474736842105263,15.0,25.5
+eb6652c9d39ca824968333b3261dfa94,13.36,St. Louis Cardinalsv. Oakland Athletics,430,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",13 sec,youngfeiler,4.675555555555555,7.0,30.1
+f7d9866ff06b61ac05ca2b91f93c51ee,12.64,Philadelphia Philliesv. Toronto Blue Jays,195,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.618888888888889,14.0,27.3
+a3b000aa98a5197e4a1ca54a601bc3b3,12.73,New York Yankeesv. Atlanta Braves,400,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",55 sec,youngfeiler,3.1933333333333334,5.0,20.0
+b9f8463ab6dd238ef1c10bd3416aa8f2,13.47,Washington Nationalsv. Boston Red Sox,-110,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.6833333333333331,25.0,22.727272727272727
+b9f8463ab6dd238ef1c10bd3416aa8f2,12.32,Washington Nationalsv. Boston Red Sox,-110,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",44 sec,youngfeiler,1.7005555555555558,10.0,9.09090909090909
+f7d9866ff06b61ac05ca2b91f93c51ee,12.72,Toronto Blue Jaysv. Philadelphia Phillies,-160,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.4372222222222222,45.0,28.125
+d7487366bc85a2641ec34fc61527e734,15.31,Houston Astrosv. Miami Marlins,-275,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.1794444444444447,100.0,36.36363636363637
+b9f8463ab6dd238ef1c10bd3416aa8f2,10.02,Boston Red Soxv. Washington Nationals,240,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",16 sec,youngfeiler,3.1811111111111114,8.0,19.2
+f7d9866ff06b61ac05ca2b91f93c51ee,25.51,Philadelphia Philliesv. Toronto Blue Jays,340,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",3 sec,youngfeiler,3.426111111111112,16.0,54.4
+f7d9866ff06b61ac05ca2b91f93c51ee,10.12,Philadelphia Philliesv. Toronto Blue Jays,350,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",20 sec,youngfeiler,3.995555555555556,6.0,21.0
+b9f8463ab6dd238ef1c10bd3416aa8f2,15.9,Boston Red Soxv. Washington Nationals,300,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",11 sec,youngfeiler,3.4511111111111115,10.0,30.0
+a3b000aa98a5197e4a1ca54a601bc3b3,14.16,New York Yankeesv. Atlanta Braves,400,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",39 sec,youngfeiler,4.379999999999999,8.0,32.0
+f7d9866ff06b61ac05ca2b91f93c51ee,12.26,Philadelphia Philliesv. Toronto Blue Jays,380,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",22 sec,youngfeiler,4.364999999999999,5.69,21.622000000000003
+d7487366bc85a2641ec34fc61527e734,13.94,Houston Astrosv. Miami Marlins,-210,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",35 sec,youngfeiler,1.2988888888888888,65.0,30.95238095238096
+d7487366bc85a2641ec34fc61527e734,11.49,Miami Marlinsv. Houston Astros,205,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",28 sec,youngfeiler,2.7355555555555555,11.0,22.55
+b9f8463ab6dd238ef1c10bd3416aa8f2,11.01,Boston Red Soxv. Washington Nationals,320,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,3.7833333333333337,7.5,24.0
+405368d612293cef246d66fb0e59e2e5,26.76,Cleveland Guardiansv. Cincinnati Reds,1550,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",17 sec,youngfeiler,13.806153846153846,3.0,46.5
+79c9addd2cfcab94c9511186cbc0eb2a,10.96,Texas Rangersv. Los Angeles Angels,130,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",12 sec,youngfeiler,2.117894736842105,17.0,22.1
+b9f8463ab6dd238ef1c10bd3416aa8f2,16.8,Boston Red Soxv. Washington Nationals,375,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",21 sec,youngfeiler,4.066666666666666,10.0,37.5
+f815d1ed456c87e117e3daa35604ab1a,10.75,Kansas City Royalsv. Seattle Mariners,425,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",19 sec,youngfeiler,4.740555555555555,5.0,21.25
+f7d9866ff06b61ac05ca2b91f93c51ee,17.09,Toronto Blue Jaysv. Philadelphia Phillies,-225,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.2383333333333333,85.0,37.77777777777778
+d7487366bc85a2641ec34fc61527e734,15.67,Miami Marlinsv. Houston Astros,225,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",7 sec,youngfeiler,2.939444444444445,14.0,31.5
+f815d1ed456c87e117e3daa35604ab1a,12.88,Kansas City Royalsv. Seattle Mariners,625,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",7 sec,youngfeiler,6.201111111111111,5.0,31.25
+d7487366bc85a2641ec34fc61527e734,11.64,Miami Marlinsv. Houston Astros,240,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",5 sec,youngfeiler,3.135,10.0,24.0
+f7d9866ff06b61ac05ca2b91f93c51ee,10.18,Toronto Blue Jaysv. Philadelphia Phillies,132,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",3 sec,youngfeiler,2.132777777777778,16.0,21.12
+f7d9866ff06b61ac05ca2b91f93c51ee,11.02,Toronto Blue Jaysv. Philadelphia Phillies,176,['Fanduel'],"Tue, Aug 15, 2023, 06:00 PM MDT",9 sec,youngfeiler,2.486111111111112,7.0,12.32
+ca9ff8d7c5966dc69d4cf55e498ef737,22.34,Chicago Cubsv. Chicago White Sox,-110,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,1.593888888888889,50.0,45.45454545454545
+f815d1ed456c87e117e3daa35604ab1a,10.63,Kansas City Royalsv. Seattle Mariners,525,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",34 sec,youngfeiler,4.745555555555555,5.0,26.25
+ca9ff8d7c5966dc69d4cf55e498ef737,12.37,Chicago White Soxv. Chicago Cubs,115,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.913333333333333,22.0,25.3
+ca9ff8d7c5966dc69d4cf55e498ef737,11.29,Chicago White Soxv. Chicago Cubs,130,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",28 sec,youngfeiler,2.1116666666666664,17.0,22.1
+e3f59dd6402e69815d32205ea818fb9f,11.15,San Diego Padresv. Baltimore Orioles,-115,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 min 18 sec,youngfeiler,1.718333333333333,30.0,26.086956521739133
+e3f59dd6402e69815d32205ea818fb9f,14.23,Baltimore Oriolesv. San Diego Padres,120,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",41 sec,youngfeiler,1.9258823529411768,25.0,30.0
+b9f8463ab6dd238ef1c10bd3416aa8f2,14.39,Washington Nationalsv. Boston Red Sox,-105,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,1.7483333333333335,68.0,64.76190476190476
+b9f8463ab6dd238ef1c10bd3416aa8f2,11.08,Washington Nationalsv. Boston Red Sox,105,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",7 sec,youngfeiler,1.845555555555556,21.0,22.05
+ca9ff8d7c5966dc69d4cf55e498ef737,13.58,Chicago Cubsv. Chicago White Sox,140,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,2.157058823529412,20.0,28.0
+f815d1ed456c87e117e3daa35604ab1a,11.6,Kansas City Royalsv. Seattle Mariners,270,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",34 sec,youngfeiler,3.315294117647059,10.0,27.0
+f815d1ed456c87e117e3daa35604ab1a,10.69,Seattle Marinersv. Kansas City Royals,-230,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,1.31,50.0,21.73913043478261
+f815d1ed456c87e117e3daa35604ab1a,13.92,Kansas City Royalsv. Seattle Mariners,260,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,3.16,11.0,28.6
+79c9addd2cfcab94c9511186cbc0eb2a,11.42,Texas Rangersv. Los Angeles Angels,175,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.477222222222222,13.0,22.75
+79c9addd2cfcab94c9511186cbc0eb2a,23.65,Texas Rangersv. Los Angeles Angels,200,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",5 sec,youngfeiler,2.426111111111111,25.0,50.0
+f815d1ed456c87e117e3daa35604ab1a,14.43,Seattle Marinersv. Kansas City Royals,-115,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",5 sec,youngfeiler,1.6341176470588237,36.0,31.30434782608696
+f815d1ed456c87e117e3daa35604ab1a,11.35,Kansas City Royalsv. Seattle Mariners,140,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",26 sec,youngfeiler,2.1194117647058826,18.0,25.2
+f815d1ed456c87e117e3daa35604ab1a,10.31,Seattle Marinersv. Kansas City Royals,-115,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.6952941176470584,26.0,22.60869565217392
+79c9addd2cfcab94c9511186cbc0eb2a,17.52,Texas Rangersv. Los Angeles Angels,210,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",2 sec,youngfeiler,2.34,20.0,42.0
+f815d1ed456c87e117e3daa35604ab1a,18.73,Seattle Marinersv. Kansas City Royals,105,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",5 sec,youngfeiler,1.6844444444444442,40.0,42.0
+f815d1ed456c87e117e3daa35604ab1a,10.01,Kansas City Royalsv. Seattle Mariners,115,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",4 sec,youngfeiler,1.9544444444444444,18.0,20.7
+e3f59dd6402e69815d32205ea818fb9f,10.24,San Diego Padresv. Baltimore Orioles,-500,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",21 sec,youngfeiler,1.1066666666666665,100.0,20.0
+f815d1ed456c87e117e3daa35604ab1a,10.37,Kansas City Royalsv. Seattle Mariners,165,['Betmgm'],"Tue, Aug 15, 2023, 06:00 PM MDT",0 sec,youngfeiler,2.401111111111111,13.0,21.45
+d12f159c19d93513d49ece5c8c34ecf5,12.09,Los Angeles Dodgersv. Milwaukee Brewers,-225,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",3 sec,youngfeiler,1.284736842105263,60.0,26.666666666666668
+ca9ff8d7c5966dc69d4cf55e498ef737,11.31,Chicago White Soxv. Chicago Cubs,-344,['Draftkings'],"Tue, Aug 15, 2023, 06:00 PM MDT",8 sec,youngfeiler,1.1588888888888893,85.0,24.7093023255814
+f815d1ed456c87e117e3daa35604ab1a,11.83,Kansas City Royalsv. Seattle Mariners,350,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",1 sec,youngfeiler,3.442777777777778,8.0,28.0
+f815d1ed456c87e117e3daa35604ab1a,12.86,Kansas City Royalsv. Seattle Mariners,550,['Bovada'],"Tue, Aug 15, 2023, 06:00 PM MDT",20 sec,youngfeiler,5.892222222222221,4.0,22.0
+c3dde8a2c912262696b59320c5da405a,16.98,Kansas City Royalsv. Seattle Mariners,310,['Draftkings'],"Wed, Aug 16, 2023, 06:00 PM MDT",20 sec,youngfeiler,3.419444444444444,12.0,37.2
+c3dde8a2c912262696b59320c5da405a,11.7,Seattle Marinersv. Kansas City Royals,-180,['Draftkings'],"Wed, Aug 16, 2023, 06:00 PM MDT",33 sec,youngfeiler,1.4055555555555557,45.0,25.0
+c3dde8a2c912262696b59320c5da405a,11.7,Seattle Marinersv. Kansas City Royals,-175,['Draftkings'],"Wed, Aug 16, 2023, 06:00 PM MDT",3 m,LizardLocker,1.4055555555555557,23.23,13.274285714285714
+c3dde8a2c912262696b59320c5da405a,13.67,Kansas City Royalsv. Seattle Mariners,130,['Betmgm'],"Wed, Aug 16, 2023, 06:00 PM MDT",6 min 42 sec,youngfeiler,2.023333333333333,21.0,27.3
+c3dde8a2c912262696b59320c5da405a,14.13,Kansas City Royalsv. Seattle Mariners,500,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",33 sec,youngfeiler,4.906666666666667,10.0,50.0
+c3dde8a2c912262696b59320c5da405a,19.97,Kansas City Royalsv. Seattle Mariners,400,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",2 min 0 sec,youngfeiler,4.167777777777778,10.0,40.0
+379b5fc15f9d87ba859336826cf1f470,14.7,Boston Red Soxv. Washington Nationals,-145,['Bovada'],"Wed, Aug 16, 2023, 06:00 PM MDT",18 sec,youngfeiler,1.5431578947368418,41.0,28.27586206896552
+379b5fc15f9d87ba859336826cf1f470,12.46,Boston Red Soxv. Washington Nationals,-110,['Bovada'],"Wed, Aug 16, 2023, 06:00 PM MDT",1 sec,youngfeiler,1.6984210526315788,30.0,27.27272727272727
+379b5fc15f9d87ba859336826cf1f470,11.98,Washington Nationalsv. Boston Red Sox,135,['Bovada'],"Wed, Aug 16, 2023, 06:00 PM MDT",44 sec,youngfeiler,2.143157894736842,18.0,24.3
+379b5fc15f9d87ba859336826cf1f470,10.05,Boston Red Soxv. Washington Nationals,100,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",1 sec,youngfeiler,1.817368421052632,10.0,10.0
+379b5fc15f9d87ba859336826cf1f470,10.05,Boston Red Soxv. Washington Nationals,105,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",1 min 11 sec,youngfeiler,1.817368421052632,15.0,15.75
+379b5fc15f9d87ba859336826cf1f470,10.2,Boston Red Soxv. Washington Nationals,350,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",18 sec,youngfeiler,4.265,10.0,35.0
+379b5fc15f9d87ba859336826cf1f470,68.2,Boston Red Soxv. Washington Nationals,1900,['Fanduel'],"Wed, Aug 16, 2023, 06:00 PM MDT",9 sec,LizardLocker,11.890714285714283,5.0,95.0
+379b5fc15f9d87ba859336826cf1f470,16.61,Boston Red Soxv. Washington Nationals,1400,['Draftkings'],"Wed, Aug 16, 2023 at 06:00 PM MDT",2 sec,youngfeiler,14.15,2.0,28.0
+379b5fc15f9d87ba859336826cf1f470,16.59,Boston Red Soxv. Washington Nationals,650,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",39 sec,youngfeiler,6.003888888888889,6.0,39.0
+2e01aa53ae6397417b7c7cc3013b15ce,11.55,St. Louis Cardinalsv. New York Mets,240,['Draftkings'],"Wed, Aug 16, 2023 at 06:00 PM MDT",1 min 1 sec,youngfeiler,3.227368421052631,10.55,25.32
+2e01aa53ae6397417b7c7cc3013b15ce,12.67,St. Louis Cardinalsv. New York Mets,280,['Draftkings'],"Wed, Aug 16, 2023 at 06:00 PM MDT",23 sec,youngfeiler,3.1063157894736846,10.0,28.0
+2e01aa53ae6397417b7c7cc3013b15ce,16.24,New York Metsv. St. Louis Cardinals,-140,['Draftkings'],"Wed, Aug 16, 2023 at 06:00 PM MDT",2 sec,youngfeiler,1.453888888888889,41.0,29.28571428571429
+2e01aa53ae6397417b7c7cc3013b15ce,10.75,New York Metsv. St. Louis Cardinals,-145,['Bovada'],"Wed, Aug 16, 2023 at 06:00 PM MDT",5 sec,youngfeiler,1.5078947368421056,40.0,27.58620689655173
+2e01aa53ae6397417b7c7cc3013b15ce,23.94,St. Louis Cardinalsv. New York Mets,250,['Bovada'],"Wed, Aug 16, 2023 at 06:00 PM MDT",1 min 56 sec,youngfeiler,3.066111111111112,18.0,45.0
+2e01aa53ae6397417b7c7cc3013b15ce,30.08,St. Louis Cardinalsv. New York Mets,460,['Fanduel'],"Wed, Aug 16, 2023 at 06:00 PM MDT",18 sec,youngfeiler,3.920555555555556,10.0,46.0
+2e01aa53ae6397417b7c7cc3013b15ce,10.85,St. Louis Cardinalsv. New York Mets,500,['Fanduel'],"Wed, Aug 16, 2023 at 06:00 PM MDT",37 sec,youngfeiler,4.33,6.0,30.0
+b87cf70f9ad407b8b4dde363d0e7bb1c,10.5,Milwaukee Brewersv. Los Angeles Dodgers,138,['Fanduel'],"Wed, Aug 16, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.1900000000000004,15.0,20.7
+b87cf70f9ad407b8b4dde363d0e7bb1c,11.97,Milwaukee Brewersv. Los Angeles Dodgers,138,['Fanduel'],"Wed, Aug 16, 2023 at 06:00 PM MDT",12 min 53 sec,youngfeiler,2.2863157894736843,15.0,20.7
+d443cfc4f9b6dfefc446112c420c8999,16.33,San Diego Padresv. Arizona Diamondbacks,320,['Fanduel'],"Wed, Aug 16, 2023 at 06:00 PM MDT",1 min 25 sec,youngfeiler,3.5244444444444447,11.0,35.2
+d443cfc4f9b6dfefc446112c420c8999,11.93,Arizona Diamondbacksv. San Diego Padres,-248,['Fanduel'],"Wed, Aug 16, 2023 at 06:00 PM MDT",1 min 7 sec,youngfeiler,1.2150000000000003,58.0,23.387096774193548
+d443cfc4f9b6dfefc446112c420c8999,10.31,San Diego Padresv. Arizona Diamondbacks,320,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",9 sec,youngfeiler,3.4447368421052627,8.0,25.6
+d443cfc4f9b6dfefc446112c420c8999,11.63,San Diego Padresv. Arizona Diamondbacks,375,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",15 sec,youngfeiler,4.031052631578947,7.0,26.25
+d443cfc4f9b6dfefc446112c420c8999,10.7,San Diego Padresv. Arizona Diamondbacks,333,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",3 sec,youngfeiler,3.9115789473684206,6.0,19.98
+b87cf70f9ad407b8b4dde363d0e7bb1c,11.34,Los Angeles Dodgersv. Milwaukee Brewers,-120,['Pointsbetus'],"Wed, Aug 16, 2023 at 06:00 PM MDT",28 sec,youngfeiler,1.6794736842105262,30.0,25.0
+b87cf70f9ad407b8b4dde363d0e7bb1c,16.4,Los Angeles Dodgersv. Milwaukee Brewers,145,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",14 sec,youngfeiler,2.104736842105263,24.0,34.8
+b87cf70f9ad407b8b4dde363d0e7bb1c,12.27,Milwaukee Brewersv. Los Angeles Dodgers,-120,['Draftkings'],"Wed, Aug 16, 2023 at 06:00 PM MDT",5 sec,youngfeiler,1.6655555555555557,25.0,20.833333333333336
+b87cf70f9ad407b8b4dde363d0e7bb1c,10.43,Milwaukee Brewersv. Los Angeles Dodgers,100,['Betmgm'],"Wed, Aug 16, 2023 at 06:00 PM MDT",12 sec,youngfeiler,1.8111111111111111,22.0,22.0
+d443cfc4f9b6dfefc446112c420c8999,11.71,Arizona Diamondbacksv. San Diego Padres,-450,['Pointsbetus'],"Wed, Aug 16, 2023 at 06:00 PM MDT",3 sec,youngfeiler,1.1547368421052633,87.08,19.35111111111111
+b87cf70f9ad407b8b4dde363d0e7bb1c,12.48,Milwaukee Brewersv. Los Angeles Dodgers,170,['Bovada'],"Wed, Aug 16, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.400526315789474,15.0,25.5
+8fffc89b83a9cb2364f648fb6bfebaa6,11.32,Chicago Cubsv. Kansas City Royals,192,Fanduel,"Thu, Aug 17, 2023, 06:00 PM MDT",13 min 6 sec,LizardLocker,2.6231578947368432,6.63,12.7296
+89de3eb750a6b05845bb46460d45877d,26.69,Philadelphia Philliesv. Washington Nationals,180,Draftkings,"Thu, Aug 17, 2023 at 06:00 PM MDT",9 sec,youngfeiler,2.1312500000000005,30.0,54.0
+474bc0d1475b73979a72b8558a2b0dea,10.84,Toronto Blue Jaysv. Cincinnati Reds,100,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",17 sec,youngfeiler,1.8494444444444444,20.0,20.0
+474bc0d1475b73979a72b8558a2b0dea,12.82,Toronto Blue Jaysv. Cincinnati Reds,-110,Pointsbetus,"Thu, Aug 17, 2023 at 06:00 PM MDT",13 sec,youngfeiler,1.7727777777777782,28.0,25.454545454545453
+89de3eb750a6b05845bb46460d45877d,16.11,Washington Nationalsv. Philadelphia Phillies,115,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",7 sec,youngfeiler,1.8517647058823528,30.0,34.5
+89de3eb750a6b05845bb46460d45877d,10.85,Philadelphia Philliesv. Washington Nationals,110,Bovada,"Thu, Aug 17, 2023 at 06:00 PM MDT",19 sec,youngfeiler,1.8944444444444448,20.0,22.0
+89de3eb750a6b05845bb46460d45877d,46.58,Washington Nationalsv. Philadelphia Phillies,195,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",3 sec,youngfeiler,2.046666666666668,50.0,97.5
+89de3eb750a6b05845bb46460d45877d,61.93,Washington Nationalsv. Philadelphia Phillies,1750,Fanduel,"Thu, Aug 17, 2023 at 06:00 PM MDT",25 sec,youngfeiler,12.35076923076923,7.0,122.5
+89de3eb750a6b05845bb46460d45877d,10.37,Washington Nationalsv. Philadelphia Phillies,720,Fanduel,"Thu, Aug 17, 2023 at 06:00 PM MDT",6 sec,youngfeiler,7.610555555555556,3.0,21.6
+474bc0d1475b73979a72b8558a2b0dea,13.12,Cincinnati Redsv. Toronto Blue Jays,125,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",38 sec,youngfeiler,1.900555555555556,20.0,25.0
+474bc0d1475b73979a72b8558a2b0dea,14.09,Toronto Blue Jaysv. Cincinnati Reds,110,Bovada,"Thu, Aug 17, 2023 at 06:00 PM MDT",47 sec,youngfeiler,1.928333333333333,25.0,27.5
+89de3eb750a6b05845bb46460d45877d,10.93,Philadelphia Philliesv. Washington Nationals,135,Draftkings,"Thu, Aug 17, 2023 at 06:00 PM MDT",41 sec,youngfeiler,2.1184210526315788,17.0,22.95
+49b2b0fb52f051cf1da631eb05bca879,17.39,San Francisco Giantsv. Atlanta Braves,1000,Fanduel,"Thu, Aug 17, 2023 at 06:00 PM MDT",14 sec,youngfeiler,9.370555555555557,3.5,35.0
+55e202724219bbb4b7f95b11c8f32b67,11.78,Pittsburgh Piratesv. Minnesota Twins,205,Fanduel,"Thu, Aug 17, 2023 at 06:00 PM MDT",1 sec,youngfeiler,2.862777777777778,12.0,24.6
+45b88ce2766a46cbb5409c7f99e1b5a7,10.17,St. Louis Cardinalsv. New York Mets,100,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",15 sec,youngfeiler,1.77,20.0,20.0
+31a1046a7f9bfacadb793ba6e2d66b78,11.77,Milwaukee Brewersv. Texas Rangers,230,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",20 sec,youngfeiler,2.907647058823529,11.0,25.3
+6f8a6d212afcd5cda75f81a3ae91a9c6,10.73,Los Angeles Angelsv. Tampa Bay Rays,246,Fanduel,"Thu, Aug 17, 2023 at 06:00 PM MDT",2 sec,youngfeiler,3.0705882352941174,10.0,24.6
+6f8a6d212afcd5cda75f81a3ae91a9c6,11.28,Tampa Bay Raysv. Los Angeles Angels,175,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",9 sec,youngfeiler,2.4711764705882344,13.0,22.75
+6f8a6d212afcd5cda75f81a3ae91a9c6,14.0,Los Angeles Angelsv. Tampa Bay Rays,-105,Betmgm,"Thu, Aug 17, 2023 at 06:00 PM MDT",2 sec,youngfeiler,1.7105882352941175,35.0,33.33333333333333
+d191af2740627c561c09c21667748a90,16.57,Kansas City Royalsv. Chicago Cubs,12,Draftkings,"Fri, Aug 18, 2023 at 06:00 PM MDT",12 min 14 sec,youngfeiler,15.44076923076923,3.0,0.36
+d191af2740627c561c09c21667748a90,16.57,Kansas City Royalsv. Chicago Cubs,1200,Draftkings,"Fri, Aug 18, 2023 at 06:00 PM MDT",13 min 27 sec,youngfeiler,15.44076923076923,3.0,36.0
+c7d90054fec292554c37c67c23387650,10.57,Philadelphia Philliesv. Washington Nationals,-115,Betmgm,"Fri, Aug 18, 2023 at 06:00 PM MDT",41 sec,youngfeiler,1.7273684210526317,30.0,26.086956521739133
+262ef6fb3adec1d3eda565eeea369c74,17.76,Milwaukee Brewersv. Texas Rangers,-110,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",4 sec,youngfeiler,1.6983333333333333,38.0,34.54545454545454
+c7d90054fec292554c37c67c23387650,14.99,Philadelphia Philliesv. Washington Nationals,135,Betmgm,"Fri, Aug 18, 2023 at 06:00 PM MDT",7 sec,youngfeiler,2.043684210526316,23.0,31.05
+c7d90054fec292554c37c67c23387650,14.19,Philadelphia Philliesv. Washington Nationals,235,Draftkings,"Fri, Aug 18, 2023, 06:00 PM MDT",12 sec,youngfeiler,2.9336842105263163,5.29,12.431500000000002
+c7d90054fec292554c37c67c23387650,10.6,Washington Nationalsv. Philadelphia Phillies,-152,Fanduel,"Fri, Aug 18, 2023, 06:00 PM MDT",33 sec,youngfeiler,1.5100000000000002,52.0,34.21052631578947
+c7d90054fec292554c37c67c23387650,11.49,Philadelphia Philliesv. Washington Nationals,260,Bovada,"Fri, Aug 18, 2023, 06:00 PM MDT",1 min 2 sec,youngfeiler,2.9599999999999995,10.0,26.0
+d8ce791cef77e4424d458557db042546,15.0,Atlanta Bravesv. San Francisco Giants,194,Fanduel ,"Fri, Aug 18, 2023 at 06:00 PM MDT",11 sec,youngfeiler,2.6955555555555555,11.0,21.34
+ac0ab0006779a0098baf34b3299f5ade,10.21,Houston Astrosv. Seattle Mariners,166,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",12 sec,youngfeiler,2.4044444444444446,15.0,24.9
+76c658bc4b4b3f4982d39b2d9f57acd7,11.83,St. Louis Cardinalsv. New York Mets,156,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",19 sec,youngfeiler,2.235555555555555,17.0,26.52
+d8ce791cef77e4424d458557db042546,10.86,San Francisco Giantsv. Atlanta Braves,-122,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",11 sec,youngfeiler,1.6416666666666666,30.0,24.59016393442623
+76c658bc4b4b3f4982d39b2d9f57acd7,11.56,St. Louis Cardinalsv. New York Mets,380,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",1 min 24 sec,youngfeiler,3.40611111111111,8.0,30.4
+e30b8b0059c8ddb993040be0ce1912b6,13.41,Chicago White Soxv. Colorado Rockies,240,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",4 sec,youngfeiler,2.821666666666668,15.0,36.0
+397d6a79cb7ef5dae5703ddccf0e92bc,14.14,Cincinnati Redsv. Toronto Blue Jays,250,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",6 sec,youngfeiler,3.1538888888888885,11.0,27.5
+397d6a79cb7ef5dae5703ddccf0e92bc,11.62,Toronto Blue Jaysv. Cincinnati Reds,-166,Betmgm,"Fri, Aug 18, 2023 at 06:00 PM MDT",27 sec,youngfeiler,1.343888888888889,35.0,21.08433734939759
+b13f345b52d86a7cd55baf6088b3dfac,10.04,Pittsburgh Piratesv. Minnesota Twins,-150,Betmgm,"Fri, Aug 18, 2023 at 06:00 PM MDT",27 sec,youngfeiler,1.4994444444444444,33.0,22.0
+d8ce791cef77e4424d458557db042546,10.84,Atlanta Bravesv. San Francisco Giants,225,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.9322222222222227,10.0,22.5
+582c33bea592d504065d1324d3f27c73,10.11,Oakland Athleticsv. Baltimore Orioles,150,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",1 sec,youngfeiler,2.4066666666666667,13.0,19.5
+582c33bea592d504065d1324d3f27c73,12.51,Baltimore Oriolesv. Oakland Athletics,104,Pointsbetus,"Fri, Aug 18, 2023 at 06:00 PM MDT",3 sec,youngfeiler,1.8664705882352937,25.0,26.0
+582c33bea592d504065d1324d3f27c73,11.29,Baltimore Oriolesv. Oakland Athletics,150,Pointsbetus,"Fri, Aug 18, 2023 at 06:00 PM MDT",2 sec,ben21mem,2.2464705882352938,3.76,5.64
+582c33bea592d504065d1324d3f27c73,21.62,Oakland Athleticsv. Baltimore Orioles,220,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.795625,19.0,41.8
+582c33bea592d504065d1324d3f27c73,10.9,Baltimore Oriolesv. Oakland Athletics,-130,Fanduel,"Fri, Aug 18, 2023 at 06:00 PM MDT",39 sec,youngfeiler,1.6411111111111107,30.0,23.07692307692308
+5e19f5273c6ff5f6f469938d697f424b,10.81,Houston Astrosv. Seattle Mariners,105,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",4 sec,youngfeiler,1.85,21.0,22.05
+95b12c34c29b4cab5694ee80932a13b0,10.16,Atlanta Bravesv. San Francisco Giants,-160,Barstool,"Sat, Aug 19, 2023 at 06:00 PM MDT",25 sec,youngfeiler,1.497857142857143,35.0,21.875
+5e19f5273c6ff5f6f469938d697f424b,20.0,Houston Astrosv. Seattle Mariners,320,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",1 min 6 sec,youngfeiler,3.333333333333333,8.0,25.6
+a1a63534980423b48bcaf4549159f960,16.68,Cleveland Guardiansv. Detroit Tigers,210,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",1 min 48 sec,youngfeiler,2.571111111111111,18.0,37.8
+95b12c34c29b4cab5694ee80932a13b0,14.18,Atlanta Bravesv. San Francisco Giants,-125,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",8 sec,youngfeiler,1.576470588235294,38.0,30.4
+a1a63534980423b48bcaf4549159f960,10.76,Cleveland Guardiansv. Detroit Tigers,260,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",2 sec,youngfeiler,3.1600000000000006,9.0,23.4
+95b12c34c29b4cab5694ee80932a13b0,26.83,San Francisco Giantsv. Atlanta Braves,320,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",24 sec,youngfeiler,3.075,20.0,64.0
+95b12c34c29b4cab5694ee80932a13b0,13.99,San Francisco Giantsv. Atlanta Braves,310,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",5 sec,youngfeiler,3.5966666666666662,10.0,31.0
+3a28c8135301aa989e4a0a89185ff9c2,16.8,Toronto Blue Jaysv. Cincinnati Reds,-350,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",4 sec,youngfeiler,1.1044444444444446,120.0,34.285714285714285
+95b12c34c29b4cab5694ee80932a13b0,15.65,San Francisco Giantsv. Atlanta Braves,134,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",20 sec,youngfeiler,2.006111111111112,25.0,33.5
+3a28c8135301aa989e4a0a89185ff9c2,19.51,Cincinnati Redsv. Toronto Blue Jays,490,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",17 sec,youngfeiler,4.936666666666667,9.0,44.1
+a4ef9931c230cfb4062ec5b58fdd71c4,12.19,Boston Red Soxv. New York Yankees,160,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",14 sec,youngfeiler,2.4066666666666667,15.0,24.0
+06175452d378f0b3d64f60d0194d91b3,13.38,Texas Rangersv. Milwaukee Brewers,280,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",2 sec,youngfeiler,3.3516666666666675,10.0,28.0
+ddb5e30361ab12ed7c0cc2f643c05c22,16.16,Chicago White Soxv. Colorado Rockies,550,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",2 sec,youngfeiler,5.165263157894736,7.0,38.5
+ddb5e30361ab12ed7c0cc2f643c05c22,12.67,Chicago White Soxv. Colorado Rockies,575,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",5 sec,youngfeiler,5.768947368421053,6.0,34.5
+ddb5e30361ab12ed7c0cc2f643c05c22,10.45,Chicago White Soxv. Colorado Rockies,500,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",49 sec,youngfeiler,5.432105263157895,5.0,25.0
+ddb5e30361ab12ed7c0cc2f643c05c22,29.81,Colorado Rockiesv. Chicago White Sox,320,Betmgm,"Sat, Aug 19, 2023 at 06:00 PM MDT",54 sec,youngfeiler,3.004444444444444,22.0,70.4
+2d75c0b58a11253dd5dd8b9bfb0bf8ee,27.09,Philadelphia Philliesv. Washington Nationals,240,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.753888888888889,26.0,62.4
+2d75c0b58a11253dd5dd8b9bfb0bf8ee,13.92,Philadelphia Philliesv. Washington Nationals,440,Fanduel,"Sat, Aug 19, 2023 at 06:00 PM MDT",7 sec,youngfeiler,4.8277777777777775,6.0,26.4
+f2e9ee55af17cacc26bc781d490d0f4f,13.47,St. Louis Cardinalsv. Pittsburgh Pirates,230,Fanduel,"Sun, Aug 20, 2023 at 06:00 PM MDT",56 sec,youngfeiler,2.996315789473684,12.0,27.6
+94d9dbff856a3e67ac6b2e627dd3f7db,14.01,Atlanta Bravesv. New York Mets,140,Fanduel,"Sun, Aug 20, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.105,21.0,29.4
+94d9dbff856a3e67ac6b2e627dd3f7db,15.12,New York Metsv. Atlanta Braves,210,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",1 min 13 sec,youngfeiler,2.6927777777777773,15.0,31.5
+0353a0f46020b854f613ee359371ed7c,37.74,San Francisco Giantsv. Philadelphia Phillies,1400,Fanduel,"Sun, Aug 20, 2023 at 06:00 PM MDT",10 sec,youngfeiler,11.470714285714283,5.0,70.0
+94d9dbff856a3e67ac6b2e627dd3f7db,10.43,New York Metsv. Atlanta Braves,210,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",34 sec,youngfeiler,2.8072222222222223,10.0,21.0
+fe1ddb393034c4409d761760d3032081,10.32,Houston Astrosv. Boston Red Sox,186,Fanduel,"Sun, Aug 20, 2023 at 06:00 PM MDT",34 sec,youngfeiler,2.2116666666666664,15.0,27.9
+94d9dbff856a3e67ac6b2e627dd3f7db,14.3,Atlanta Bravesv. New York Mets,-180,Fanduel,"Sun, Aug 20, 2023 at 06:00 PM MDT",5 sec,youngfeiler,1.3735294117647057,55.0,30.55555555555556
+fe1ddb393034c4409d761760d3032081,11.55,Houston Astrosv. Boston Red Sox,190,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",26 sec,youngfeiler,2.689411764705882,12.0,22.8
+94d9dbff856a3e67ac6b2e627dd3f7db,10.04,Atlanta Bravesv. New York Mets,-110,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",5 sec,youngfeiler,1.7538888888888888,23.0,20.909090909090907
+94d9dbff856a3e67ac6b2e627dd3f7db,10.04,Atlanta Bravesv. New York Mets,-107,Fanduel,"Sun, Aug 20, 2023 at 08:00 PM EDT",40 sec,micah,1.7538888888888888,11.02,10.299065420560746
+94d9dbff856a3e67ac6b2e627dd3f7db,23.42,Atlanta Bravesv. New York Mets,179,Pointsbetus,"Sun, Aug 20, 2023 at 08:00 PM EDT",6 sec,micah,2.147222222222222,10.0,17.9
+1c1cbfaa6afde58deb8e480f251c253e,20.73,Chicago Cubsv. Detroit Tigers,165,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",10 sec,youngfeiler,2.195,27.0,44.55
+94d9dbff856a3e67ac6b2e627dd3f7db,10.29,Atlanta Bravesv. New York Mets,285,Draftkings,"Sun, Aug 20, 2023 at 06:00 PM MDT",3 sec,youngfeiler,3.445555555555556,8.0,22.8
+fe1ddb393034c4409d761760d3032081,15.3,Boston Red Soxv. Houston Astros,255,Draftkings,"Sun, Aug 20, 2023 at 06:00 PM MDT",5 sec,youngfeiler,3.1657894736842103,9.0,22.95
+fe1ddb393034c4409d761760d3032081,10.63,Boston Red Soxv. Houston Astros,230,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",18 sec,youngfeiler,2.576111111111111,12.0,27.6
+0925418b018649e1e7e78449b7849e02,15.41,Oakland Athleticsv. Kansas City Royals,110,Bovada,"Sun, Aug 20, 2023 at 06:00 PM MDT",4 sec,youngfeiler,1.7329411764705882,35.0,38.5
+fe1ddb393034c4409d761760d3032081,11.91,Boston Red Soxv. Houston Astros,1200,Bovada,"Sun, Aug 20, 2023 at 06:00 PM MDT",21 sec,youngfeiler,12.51,3.0,36.0
+1671c5593ec1ff8facb4057fef7ea049,11.11,Miami Marlinsv. San Diego Padres,250,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",16 sec,youngfeiler,3.1500000000000004,10.0,25.0
+f5588c176e2d4490520810735082bdd9,13.62,Arizona Diamondbacksv. Texas Rangers,140,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.1123529411764705,21.0,29.4
+0925418b018649e1e7e78449b7849e02,14.06,Kansas City Royalsv. Oakland Athletics,115,Bovada,"Sun, Aug 20, 2023 at 06:00 PM MDT",33 sec,youngfeiler,1.9288235294117648,21.0,24.15
+0925418b018649e1e7e78449b7849e02,12.74,Kansas City Royalsv. Oakland Athletics,115,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",21 sec,youngfeiler,1.907058823529412,23.0,26.45
+0925418b018649e1e7e78449b7849e02,17.6,Kansas City Royalsv. Oakland Athletics,125,Betmgm,"Sun, Aug 20, 2023 at 06:00 PM MDT",38 sec,youngfeiler,2.125882352941177,20.0,25.0
+0925418b018649e1e7e78449b7849e02,13.0,Oakland Athleticsv. Kansas City Royals,-106,Fanduel,"Sun, Aug 20, 2023 at 06:00 PM MDT",41 sec,youngfeiler,1.734444444444445,30.0,28.30188679245283
+cd24cb9d8b7895d933d5d6666a29ab40,11.74,San Francisco Giantsv. Philadelphia Phillies,230,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",1 min 15 sec,youngfeiler,2.9533333333333336,10.0,23.0
+6beee4d4b889051b26e235ac72db8b87,18.61,Cleveland Guardiansv. Los Angeles Dodgers,400,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",3 sec,youngfeiler,4.215555555555556,10.0,40.0
+49da1076d190e19b1c7e58ca4bbf7198,20.37,Baltimore Oriolesv. Toronto Blue Jays,220,Pointsbetus,"Mon, Aug 21, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.5752941176470583,25.0,55.0
+cd24cb9d8b7895d933d5d6666a29ab40,11.29,San Francisco Giantsv. Philadelphia Phillies,154,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",1 min 3 sec,youngfeiler,2.381176470588235,10.0,15.4
+49da1076d190e19b1c7e58ca4bbf7198,10.51,Toronto Blue Jaysv. Baltimore Orioles,-150,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",8 sec,youngfeiler,1.5111111111111108,35.0,23.33333333333333
+9e1a8334c84bef10d593025d2236ebf3,12.08,New York Metsv. Atlanta Braves,215,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",3 sec,youngfeiler,2.944444444444444,11.0,23.65
+319d7fdb62317cde3815e0009e331e8a,11.47,Colorado Rockiesv. Tampa Bay Rays,270,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",23 sec,youngfeiler,3.2744444444444434,11.0,29.7
+9e1a8334c84bef10d593025d2236ebf3,15.77,New York Metsv. Atlanta Braves,275,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",44 sec,youngfeiler,3.196111111111111,13.0,35.75
+e4f2d7f34ff7dd8908d7c699c35bb399,13.13,Washington Nationalsv. New York Yankees,180,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",4 sec,youngfeiler,2.3866666666666667,17.0,30.6
+473352dec8f6fe1d2cacf1e2b3db81db,19.64,Chicago Cubsv. Detroit Tigers,125,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",32 sec,youngfeiler,1.838888888888889,35.0,43.75
+9e1a8334c84bef10d593025d2236ebf3,11.91,New York Metsv. Atlanta Braves,350,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",17 sec,youngfeiler,4.110555555555555,7.0,24.5
+cd24cb9d8b7895d933d5d6666a29ab40,11.46,San Francisco Giantsv. Philadelphia Phillies,235,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",9 sec,youngfeiler,2.871111111111111,11.0,25.85
+e3ef3d7c0c638732ba482b6a7cc43608,14.8,St. Louis Cardinalsv. Pittsburgh Pirates,168,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",8 sec,youngfeiler,2.395555555555556,18.0,30.24
+e3ef3d7c0c638732ba482b6a7cc43608,19.52,Pittsburgh Piratesv. St. Louis Cardinals,-120,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",1 sec,youngfeiler,1.531111111111111,50.0,41.66666666666667
+cd24cb9d8b7895d933d5d6666a29ab40,32.08,Philadelphia Philliesv. San Francisco Giants,135,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",39 sec,youngfeiler,1.892777777777778,20.0,27.0
+319d7fdb62317cde3815e0009e331e8a,11.15,Tampa Bay Raysv. Colorado Rockies,-225,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",17 sec,youngfeiler,1.2955555555555556,57.0,25.33333333333333
+473352dec8f6fe1d2cacf1e2b3db81db,26.26,Detroit Tigersv. Chicago Cubs,-190,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",22 sec,youngfeiler,1.211764705882353,60.0,31.57894736842105
+49da1076d190e19b1c7e58ca4bbf7198,32.56,Baltimore Oriolesv. Toronto Blue Jays,310,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",5 sec,youngfeiler,3.168333333333333,20.0,62.0
+473352dec8f6fe1d2cacf1e2b3db81db,16.54,Chicago Cubsv. Detroit Tigers,230,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",8 sec,youngfeiler,2.831764705882353,15.0,34.5
+e4f2d7f34ff7dd8908d7c699c35bb399,10.18,Washington Nationalsv. New York Yankees,160,Barstool,"Mon, Aug 21, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.450555555555556,10.0,16.0
+cd24cb9d8b7895d933d5d6666a29ab40,12.48,Philadelphia Philliesv. San Francisco Giants,186,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",3 sec,youngfeiler,2.5427777777777774,15.0,27.9
+15852dbb55f71122a375e6d45304fcec,11.88,Chicago White Soxv. Seattle Mariners,142,Draftkings,"Mon, Aug 21, 2023 at 06:00 PM MDT",1 min 7 sec,youngfeiler,1.9127777777777777,20.0,28.4
+319d7fdb62317cde3815e0009e331e8a,12.16,Colorado Rockiesv. Tampa Bay Rays,100,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",5 sec,youngfeiler,1.7831578947368425,25.0,25.0
+473352dec8f6fe1d2cacf1e2b3db81db,10.81,Chicago Cubsv. Detroit Tigers,270,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",1 min 4 sec,youngfeiler,3.2489473684210526,9.0,24.3
+cd24cb9d8b7895d933d5d6666a29ab40,11.66,San Francisco Giantsv. Philadelphia Phillies,-142,Fanduel,"Mon, Aug 21, 2023 at 06:00 PM MDT",4 sec,youngfeiler,1.513529411764706,40.0,28.169014084507044
+e4f2d7f34ff7dd8908d7c699c35bb399,10.39,Washington Nationalsv. New York Yankees,165,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",2 min 14 sec,youngfeiler,2.400555555555556,15.0,24.75
+49da1076d190e19b1c7e58ca4bbf7198,11.98,Toronto Blue Jaysv. Baltimore Orioles,130,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",7 sec,youngfeiler,2.053888888888889,20.0,26.0
+15852dbb55f71122a375e6d45304fcec,12.03,Chicago White Soxv. Seattle Mariners,210,Betmgm,"Mon, Aug 21, 2023 at 06:00 PM MDT",13 sec,youngfeiler,2.642222222222222,13.0,27.3
+3da2cc1a7386f81a7b633d7be9e2424a,29.15,Pittsburgh Piratesv. St. Louis Cardinals,675,Draftkings,"Tue, Aug 22, 2023, 06:00 PM MDT",15 sec,youngfeiler,6.000555555555555,9.0,60.75
+3f6e7ce034af9ea1b32b22296f63d76c,17.72,Minnesota Twinsv. Milwaukee Brewers,138,Fanduel,"Tue, Aug 22, 2023 at 06:00 PM MDT",15 sec,youngfeiler,1.9963157894736845,28.0,38.64
+ec0ccddbec5830dda2ace47570b53bc9,43.29,Detroit Tigersv. Chicago Cubs,540,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",1 sec,youngfeiler,4.536111111111111,17.0,91.8
+ec0ccddbec5830dda2ace47570b53bc9,18.57,Chicago Cubsv. Detroit Tigers,110,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",14 sec,youngfeiler,1.7288888888888887,38.0,41.8
+3f6e7ce034af9ea1b32b22296f63d76c,12.55,Milwaukee Brewersv. Minnesota Twins,108,Fanduel,"Tue, Aug 22, 2023 at 06:00 PM MDT",33 sec,youngfeiler,1.732631578947368,28.0,30.24
+3f6e7ce034af9ea1b32b22296f63d76c,11.24,Milwaukee Brewersv. Minnesota Twins,260,Fanduel,"Tue, Aug 22, 2023 at 06:00 PM MDT",1 sec,youngfeiler,3.146315789473684,10.0,26.0
+35280fe007325f02847ae6602644a5ff,10.6,Seattle Marinersv. Chicago White Sox,165,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",5 sec,youngfeiler,2.441176470588235,13.0,21.45
+ec0ccddbec5830dda2ace47570b53bc9,10.69,Detroit Tigersv. Chicago Cubs,14,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",27 sec,youngfeiler,1.7255555555555555,26.0,3.64
+3f6e7ce034af9ea1b32b22296f63d76c,11.08,Milwaukee Brewersv. Minnesota Twins,310,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",23 sec,youngfeiler,3.781052631578948,7.0,21.7
+a299d523f82205b8703a3f4596d03ab4,23.33,Oakland Athleticsv. Kansas City Royals,410,Fanduel,"Tue, Aug 22, 2023 at 06:00 PM MDT",8 sec,youngfeiler,3.973157894736842,12.0,49.2
+3f6e7ce034af9ea1b32b22296f63d76c,16.75,Minnesota Twinsv. Milwaukee Brewers,155,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",8 sec,youngfeiler,2.1842105263157894,22.0,34.1
+26f2311e753f55eccc275f4458af7dee,22.69,Miami Marlinsv. San Diego Padres,290,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",5 sec,youngfeiler,3.097222222222222,20.0,58.0
+3f6e7ce034af9ea1b32b22296f63d76c,10.84,Milwaukee Brewersv. Minnesota Twins,-105,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",1 sec,youngfeiler,1.8044444444444443,23.0,21.904761904761905
+35280fe007325f02847ae6602644a5ff,12.14,Seattle Marinersv. Chicago White Sox,128,Fanduel,"Tue, Aug 22, 2023 at 06:00 PM MDT",5 sec,youngfeiler,2.12235294117647,13.0,16.64
+26f2311e753f55eccc275f4458af7dee,10.62,Miami Marlinsv. San Diego Padres,260,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",30 sec,youngfeiler,3.2544444444444447,9.0,23.4
+26f2311e753f55eccc275f4458af7dee,25.02,Miami Marlinsv. San Diego Padres,1600,Fanduel,"Tue, Aug 22, 2023 at 06:00 PM MDT",29 sec,youngfeiler,11.83769230769231,3.0,48.0
+47cf37d54774af83df38b6f3cd51dadf,29.36,Washington Nationalsv. New York Yankees,230,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",19 sec,youngfeiler,2.473809523809524,28.0,64.4
+cc8c25a5ed2a9b79bd7a4256e63739d6,18.21,Tampa Bay Raysv. Colorado Rockies,-210,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",13 sec,youngfeiler,1.218125,90.0,42.85714285714285
+e4df8280fbac2f9e48cafbdcf0fac633,13.79,New York Metsv. Atlanta Braves,360,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",53 sec,youngfeiler,3.778823529411765,10.0,36.0
+e6e48554254deb742e9853e2e08c5127,19.91,Toronto Blue Jaysv. Baltimore Orioles,165,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",9 sec,youngfeiler,2.21,25.0,41.25
+e6e48554254deb742e9853e2e08c5127,14.75,Toronto Blue Jaysv. Baltimore Orioles,140,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.091578947368421,23.0,32.2
+cc8c25a5ed2a9b79bd7a4256e63739d6,15.02,Tampa Bay Raysv. Colorado Rockies,-122,Wynnbet,"Tue, Aug 22, 2023 at 06:00 PM MDT",8 sec,youngfeiler,1.5910526315789475,30.0,24.59016393442623
+cc8c25a5ed2a9b79bd7a4256e63739d6,15.36,Tampa Bay Raysv. Colorado Rockies,120,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",30 sec,youngfeiler,1.9416666666666669,25.0,30.0
+e6e48554254deb742e9853e2e08c5127,14.59,Toronto Blue Jaysv. Baltimore Orioles,220,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.792631578947369,15.0,33.0
+cc8c25a5ed2a9b79bd7a4256e63739d6,12.75,Colorado Rockiesv. Tampa Bay Rays,-250,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",9 sec,youngfeiler,1.2416666666666665,70.0,28.0
+cc8c25a5ed2a9b79bd7a4256e63739d6,14.06,Tampa Bay Raysv. Colorado Rockies,280,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",21 sec,youngfeiler,3.331666666666668,11.0,30.8
+f1a3d04473bdc1961f20abbd53a3890f,10.97,Boston Red Soxv. Houston Astros,165,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",54 sec,youngfeiler,2.388095238095238,15.0,24.75
+e4df8280fbac2f9e48cafbdcf0fac633,18.03,New York Metsv. Atlanta Braves,360,Draftkings,"Tue, Aug 22, 2023 at 06:00 PM MDT",14 sec,youngfeiler,3.897222222222223,11.0,39.6
+f1a3d04473bdc1961f20abbd53a3890f,11.88,Boston Red Soxv. Houston Astros,130,Betmgm,"Tue, Aug 22, 2023 at 06:00 PM MDT",3 min 50 sec,youngfeiler,1.921666666666666,21.0,27.3
+84a4ec511f82a8b9a5a1312427644a53,10.74,Tampa Bay Raysv. Colorado Rockies,104,Fanduel,"Wed, Aug 23, 2023 at 06:00 PM MDT",14 sec,youngfeiler,1.7066666666666668,25.0,26.0
+004ba3cbd68cb0aba04ba03075f17ede,27.11,Houston Astrosv. Boston Red Sox,510,Fanduel,"Wed, Aug 23, 2023 at 06:00 PM MDT",34 sec,youngfeiler,5.271111111111111,5.0,25.5
+263b9db102f8daa2c239caef15638085,30.52,Chicago Cubsv. Pittsburgh Pirates,-160,Wynnbet,"Wed, Aug 23, 2023 at 06:00 PM MDT",24 sec,youngfeiler,1.2642105263157897,100.0,62.5
+acd6856ee0a5d2cff0e7661f4b8e9bc0,28.85,San Diego Padresv. Milwaukee Brewers,1060,Fanduel,"Thu, Aug 24, 2023 at 06:00 PM MDT",56 sec,youngfeiler,9.507222222222222,5.0,53.0
+66a067b3db0a23c4eabc4c4c7524014f,33.95,New York Metsv. Los Angeles Angels,270,Fanduel,"Thu, Aug 24, 2023 at 06:00 PM MDT",17 sec,youngfeiler,2.762222222222222,27.0,72.9
+8b861ff06798015f21b7256ab41b04fd,25.05,Toronto Blue Jaysv. Cleveland Guardians,1750,Fanduel,"Thu, Aug 24, 2023 at 06:00 PM MDT",56 sec,youngfeiler,14.393846153846154,3.0,52.5
+b56fbeaa95ffae5116dbf03524daec19,19.02,Miami Marlinsv. Washington Nationals,-160,Draftkings,"Fri, Aug 25, 2023 at 06:00 PM MDT",25 sec,youngfeiler,1.3611111111111112,70.0,43.75
+b56fbeaa95ffae5116dbf03524daec19,16.5,Miami Marlinsv. Washington Nationals,-105,Betmgm,"Fri, Aug 25, 2023 at 06:00 PM MDT",1 sec,youngfeiler,1.673888888888889,37.0,35.238095238095234
+ded0fdf7233b862979dc65884bb230fb,13.74,Detroit Tigersv. Houston Astros,192,Fanduel,"Fri, Aug 25, 2023 at 06:00 PM MDT",3 sec,youngfeiler,2.7694117647058825,10.0,19.2
+ded0fdf7233b862979dc65884bb230fb,17.12,Detroit Tigersv. Houston Astros,260,Fanduel,"Fri, Aug 25, 2023 at 06:00 PM MDT",6 sec,youngfeiler,2.732352941176471,16.0,41.6
+d15f325c96bf19d28a261a8b5a6c01c9,14.24,Los Angeles Dodgersv. Boston Red Sox,370,Fanduel,"Fri, Aug 25, 2023 at 06:00 PM MDT",3 sec,youngfeiler,4.201666666666666,8.0,29.6
+ded0fdf7233b862979dc65884bb230fb,10.77,Detroit Tigersv. Houston Astros,193,Fanduel,"Fri, Aug 25, 2023 at 06:00 PM MDT",30 sec,youngfeiler,2.708333333333333,12.0,23.16
+ded0fdf7233b862979dc65884bb230fb,10.43,Detroit Tigersv. Houston Astros,215,Fanduel,"Fri, Aug 25, 2023 at 06:00 PM MDT",2 min 31 sec,youngfeiler,2.897777777777778,10.0,21.5
+e989646f8d088832e695ed77e990973b,12.15,St. Louis Cardinalsv. Philadelphia Phillies,310,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",24 sec,youngfeiler,3.655789473684211,8.0,24.8
+e989646f8d088832e695ed77e990973b,11.13,St. Louis Cardinalsv. Philadelphia Phillies,320,Draftkings,"Sat, Aug 26, 2023 at 08:00 PM EDT",31 sec,micah,3.779473684210527,4.0,12.8
+336c5071677f4d718b6e2916c01833c4,18.41,New York Yankeesv. Tampa Bay Rays,430,Draftkings,"Sat, Aug 26, 2023 at 08:00 PM EDT",44 sec,micah,4.476111111111112,4.0,17.2
+336c5071677f4d718b6e2916c01833c4,18.41,New York Yankeesv. Tampa Bay Rays,430,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",50 sec,youngfeiler,4.476111111111112,9.0,38.7
+ecbc90bfbdb0c3b0522be2c8abc1bc45,10.17,Cleveland Guardiansv. Toronto Blue Jays,520,Draftkings,"Sat, Aug 26, 2023 at 08:00 PM EDT",11 sec,micah,5.627894736842105,1.95,10.14
+ecbc90bfbdb0c3b0522be2c8abc1bc45,10.01,Toronto Blue Jaysv. Cleveland Guardians,-250,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",24 sec,youngfeiler,1.3089473684210524,50.0,20.0
+779aa8088c5c4be23596a1a7e2934e78,13.58,Oakland Athleticsv. Chicago White Sox,130,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",33 sec,youngfeiler,2.025,21.0,27.3
+44452ec47cc5491c79f6fe5a3f27d6fc,16.55,Los Angeles Angelsv. New York Mets,120,Fanduel,"Sat, Aug 26, 2023 at 06:00 PM MDT",4 min 1 sec,youngfeiler,2.145,20.0,24.0
+77f4b57f4f555133c144c7ffe9789758,11.14,Los Angeles Dodgersv. Boston Red Sox,120,Fanduel,"Sat, Aug 26, 2023 at 06:00 PM MDT",1 min 22 sec,youngfeiler,1.8894444444444445,20.0,24.0
+779aa8088c5c4be23596a1a7e2934e78,16.75,Oakland Athleticsv. Chicago White Sox,135,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",50 sec,youngfeiler,2.0985714285714283,25.0,33.75
+779aa8088c5c4be23596a1a7e2934e78,10.62,Oakland Athleticsv. Chicago White Sox,129,Draftkings,"Sat, Aug 26, 2023, 08:00 PM EDT",18 sec,micah,2.07925925925926,8.0,10.32
+307652958a30e53c8e3ce85d0704dc51,10.35,San Diego Padresv. Milwaukee Brewers,129,Draftkings,"Sat, Aug 26, 2023 at 08:00 PM EDT",4 sec,micah,2.0842105263157897,7.65,9.8685
+307652958a30e53c8e3ce85d0704dc51,10.35,San Diego Padresv. Milwaukee Brewers,124,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",12 sec,youngfeiler,2.0842105263157897,16.0,19.84
+2655a4488c0f73ddca5877bd8c782fb1,13.68,Baltimore Oriolesv. Colorado Rockies,-105,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",54 sec,youngfeiler,1.6977777777777776,35.0,33.33333333333333
+ecbc90bfbdb0c3b0522be2c8abc1bc45,16.28,Cleveland Guardiansv. Toronto Blue Jays,124,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",3 sec,youngfeiler,1.848947368421053,30.0,37.2
+2655a4488c0f73ddca5877bd8c782fb1,28.64,Baltimore Oriolesv. Colorado Rockies,170,Draftkings,"Sat, Aug 26, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.0988888888888884,36.0,61.2
+77f4b57f4f555133c144c7ffe9789758,11.66,Boston Red Soxv. Los Angeles Dodgers,300,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",1 min 43 sec,youngfeiler,3.134444444444444,10.0,30.0
+0c640e5670cabd7d3398dd8b97fe178e,14.29,Minnesota Twinsv. Texas Rangers,290,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",7 sec,youngfeiler,3.325,10.0,29.0
+2655a4488c0f73ddca5877bd8c782fb1,11.66,Colorado Rockiesv. Baltimore Orioles,-115,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",1 min 19 sec,youngfeiler,1.6388888888888886,30.0,26.086956521739133
+336c5071677f4d718b6e2916c01833c4,10.02,Tampa Bay Raysv. New York Yankees,210,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",12 sec,youngfeiler,2.999444444444444,10.0,21.0
+78b619ccd7f79d08c918ab22db48474d,16.15,Detroit Tigersv. Houston Astros,690,Fanduel,"Sat, Aug 26, 2023 at 06:00 PM MDT",12 sec,youngfeiler,6.112777777777778,6.0,41.4
+0c640e5670cabd7d3398dd8b97fe178e,13.65,Minnesota Twinsv. Texas Rangers,330,Fanduel,"Sat, Aug 26, 2023 at 06:00 PM MDT",36 sec,youngfeiler,3.871666666666668,9.0,29.7
+779aa8088c5c4be23596a1a7e2934e78,23.33,Oakland Athleticsv. Chicago White Sox,300,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",29 sec,youngfeiler,3.081111111111112,20.0,60.0
+ecbc90bfbdb0c3b0522be2c8abc1bc45,14.9,Toronto Blue Jaysv. Cleveland Guardians,135,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",2 sec,youngfeiler,2.045263157894737,25.0,33.75
+779aa8088c5c4be23596a1a7e2934e78,12.89,Oakland Athleticsv. Chicago White Sox,425,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",4 sec,youngfeiler,4.872105263157896,6.0,25.5
+e989646f8d088832e695ed77e990973b,11.87,St. Louis Cardinalsv. Philadelphia Phillies,400,Fanduel,"Sat, Aug 26, 2023 at 06:00 PM MDT",4 sec,youngfeiler,4.246111111111111,6.0,24.0
+336c5071677f4d718b6e2916c01833c4,11.72,Tampa Bay Raysv. New York Yankees,300,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",12 sec,youngfeiler,3.67,6.0,18.0
+e989646f8d088832e695ed77e990973b,10.74,St. Louis Cardinalsv. Philadelphia Phillies,500,Betmgm,"Sat, Aug 26, 2023 at 06:00 PM MDT",18 sec,youngfeiler,5.508333333333332,6.0,30.0
+a11b501c88fa8775352412f5d24c17c1,18.24,Milwaukee Brewersv. Chicago Cubs,150,Betmgm,"Tue, Aug 29, 2023 at 06:00 PM MDT",1 sec,youngfeiler,2.1143478260869566,26.0,39.0
+1ab63bc596efcbdf77bbeb14406640a5,10.56,Philadelphia Philliesv. Los Angeles Angels,220,Betmgm,"Tue, Aug 29, 2023 at 06:00 PM MDT",25 sec,youngfeiler,2.894444444444444,10.0,22.0
+a11b501c88fa8775352412f5d24c17c1,12.67,Milwaukee Brewersv. Chicago Cubs,240,Pointsbetus,"Tue, Aug 29, 2023, 08:00 PM EDT",45 sec,micah,3.017777777777777,5.28,12.672
+bf81890221f64e880add9f9534129bca,15.32,Detroit Tigersv. New York Yankees,710,Fanduel,"Tue, Aug 29, 2023, 08:00 PM EDT",1 min 47 sec,micah,7.023888888888888,2.16,15.336000000000002

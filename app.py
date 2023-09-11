@@ -152,9 +152,6 @@ def login():
 
   return render_template('login.html')
 
-@app.route('/information')  
-def information():
-  return render_template('information.html')
 
 @app.route('/get_graph_data', methods=['GET', 'POST'])
 def get_graph_data():
@@ -191,28 +188,6 @@ def book_dist_data():
         return jsonify({'status': 'error', 'message': 'cant make the data'})
 
     return data
-
-@app.route('/active_bets', methods=['GET', 'POST'])
-def active_bets():
-    strategy = request.args.get('strategy')
-    app.logger.debug(strategy)
-    my_db = database()
-    data = my_db.make_active_bet_data(strategy)
-    try:
-        data = my_db.make_active_bet_data(strategy)
-    except FileNotFoundError:
-        return jsonify({'status': 'error', 'message': 'cant make the data'})
-
-    return data
-
-@app.route('/get_user_strategies', methods=['GET', 'POST'])
-def get_user_strategies():
-    my_db = database()
-    user_strategies = my_db.get_user_strategies(session['user_id'])
-
-    app.logger.debug(f'{session["user_id"]} strategies: {user_strategies}')
-
-    return jsonify(user_strategies)
 
 @app.route('/make_strategy', methods=['GET','POST'])
 def make_strategy():
@@ -251,65 +226,19 @@ def make_strategy():
     
   return render_template('strategy_maker.html')
 
-@app.route('/delete-strategy', methods=['POST', 'GET'])
-def get_input():
-    if request.method == 'POST':
-        # Get the input from the form data
-        user_input = request.form.get('user_input')
-        db = database()
-        db.delete_user_strategy(session['user_id'], user_input)
-        # Do something with the user_input, for example, save it to a database
-        # Replace this part with your desired logic
 
-        # Return a success response
-        return jsonify({"status": "success", "message": "User input saved successfully", "user_input": user_input})
-
-    return render_template('get_input.html')
-
-
-@app.route('/check_if_text_allowed', methods=['GET','POST'])
-def check_if_text_allowed():
-    strategy_name = request.form.get('strategy')
-
-    username =session['user_id']
-
-    database_instance = database()
-
-    result = database_instance.check_text_permission(username, strategy_name)
-
-    return jsonify({'allowed': result})
-
-# in development 
-@app.route('/update_text_alert', methods=['GET','POST'])
-def update_text_alert():
-
-    data = request.get_json() 
-
-    strategy_name =  data.get('strategy')
-
-    is_checked = data.get('isChecked')
-
-    username = session['user_id']
-
-    database_instance = database()
-
-    result = database_instance.update_text_permission(username, strategy_name)
-
-    return jsonify({'message': result})
-
-@app.route('/live_dashboard')
+@app.route('/mlb')
 def live_dashboard():
-    print('LIVE DASH')
     print(session.get('user_id'))  
     user_id = session.get('user_id')
-    
     if user_id is not None:
-        return render_template('live_dashboard.html')
+        return render_template('mlb.html')
     else:
         return redirect(url_for('register'))
 
 @app.route('/nfl')
 def nfl():
+    print(session.get('user_id'))  
     user_id = session.get('user_id')
     if user_id is not None:
         return render_template('nfl.html')
@@ -319,22 +248,13 @@ def nfl():
 @app.route('/add_saved_bet', methods=['POST'])
 def add_saved_bet():
     try:
-        data = request.json  # Get JSON data from the request
-        # Access individual data fields from the JSON data
+        data = request.json 
         user = session['user_id']
         data['user_name'] = user
         myDatabase = database()
         myDatabase.add_made_bet_to_db(data)
-
-
-
-        # Perform your desired actions with the data (e.g., save to a database)
-        # For example, you can create a new bet record in a database table
-
-        # Return a response indicating success
         response = {'status_code': 'success', 'message': 'Bet saved successfully'}
     except Exception as e:
-        # Handle any errors that may occur
         response = {'status_code': 'error', 'message': str(e)}
 
     return jsonify(response)
@@ -342,15 +262,12 @@ def add_saved_bet():
 @app.route('/get_user_performance_data',  methods=['GET'])
 def get_user_performance_data():
     my_db = database()
-
     data = my_db.get_user_performance_data(session.get('user_id'))
     return data
 
-@app.route('/get_live_dash_data')
+@app.route('/get_live_mlb_dash_data')
 def get_live_dash_data():
-
     my_db = database()
-
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
     data = my_db.get_live_dash_data(session['user_id'])
     if data.empty:

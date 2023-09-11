@@ -20,13 +20,13 @@ function updateTable(data) {
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
       <td style="display:none;">${row.average_market_odds}</td>
-      <td before-data="+EV%: ">${row.ev}</td>
-      <td before-data="Team: " ><b>${row.team}</b><br><span class="mobile-no-display">v. ${row.opponent}</span></td>
-      <td before-data="Odds to Snipe: ">${row.highest_bettable_odds}</td>
+      <td before-data="Team: " class="centered"><b>${row.team}</b></td>
       <td before-data="Sportsbook with Odds">${row.sportsbooks_used}</td>
+      <td before-data="Recommended Bet Size: ">$${row.bet_amount}</td>
+      <td before-data="Odds to Take: ">${row.highest_bettable_odds}</td>
+      <td before-data="+EV%: ">${row.ev}</td>
       <td class="mobile-no-display">${row.date}</td>
       <td before-data="Time Since Odds Update: ">${row.time_difference_formatted}</td>
-      <td before-data="Recommended Bet Size: ">$${row.bet_amount}</td>
       <td data-title="button"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team}" data-odds="${row.highest_bettable_odds}">Add to My Bets</button></td>
       `;
       console.log(row)
@@ -166,7 +166,7 @@ function fetchDataAndUpdateTable() {
   console.log('Fetching data and updating table...');
   //remove if for refresh button
   //if (!currentlyEditingRow){
-    const url = '/get_live_dash_data?' + new Date().getTime();
+    const url = '/get_live_mlb_dash_data?' + new Date().getTime();
     fetch(url)
       .then(response => response.json())
       .then(data => {

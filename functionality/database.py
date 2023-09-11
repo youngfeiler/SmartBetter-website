@@ -5,7 +5,6 @@ from .util import map_commence_time_game_id, decimal_to_american, american_to_de
 import os
 import shutil
 from .result_updater import result_updater
-from .nfl_result_updater import nfl_result_updater
 import numpy as np
 from flask import jsonify
 import math
@@ -152,73 +151,6 @@ class database():
        rows_as_dicts = selected_columns.to_dict(orient='records')
 
        return jsonify(rows_as_dicts)
-
-    def get_all_user_strategies(self):
-      df = pd.read_csv('users/user_strategy_names.csv')
-      return df['strategy_name'].tolist()
-
-    def get_data(self, strategy_name):
-       return pd.read_csv(f'live_performance_data/{strategy_name}.csv')
-    
-    def get_user_strategies(self, username):
-      this_user = User(username)
-      strategies = this_user.get_strategies_associated_with_user()
-      return strategies
-    
-    def delete_user_strategy(self, username, strategy_name):
-       # delete the strategy from the user_strategy_names.csv
-       this_user = User(username)
-       this_user.delete_strategy_to_user(username, strategy_name)
-       os.remove(f'models/model_objs/{strategy_name}.pth')
-       os.remove(f'models/encoders/{strategy_name}.pkl')
-       os.remove(f'models/scalers/{strategy_name}.pkl')
-       os.remove(f"models/params/{strategy_name}.pkl")
-       pass
-
-    def check_if_strategy_exists_and_handle_duplicate(self, input_name, input_strat_params):
-      
-      # if the params are equal to eachother, handle, else do nothing
-      for strat_filename in os.listdir('models/params'):
-        if strat_filename == '.DS_Store':
-          pass
-        else:
-          with open(f'models/params/{strat_filename}', "rb") as file:
-            strategy_params_ordered_dict = pickle.load(file)
-            strategy_params_dict = dict(strategy_params_ordered_dict)
-            if strategy_params_dict.items() == input_strat_params.items():
-              self.handle_duplicate_strategy(input_name, strat_filename)
-              return True
-      return False
-    
-    def handle_duplicate_strategy(self, input_name, pre_existing_strategy_filename):
-
-      pre_existing_strategy_name = pre_existing_strategy_filename.split('.pkl')[0]
-
-      existing_obj_path = f'models/model_objs/{pre_existing_strategy_name}.pth'
-      new_obj_path = f'models/model_objs/{input_name}.pth'
-
-      shutil.copy(existing_obj_path, new_obj_path)
-
-      existing_encoder_path = f'models/encoders/{pre_existing_strategy_name}.pkl'
-      new_encoder_path = f'models/encoders/{input_name}.pkl'
-
-      shutil.copy(existing_encoder_path, new_encoder_path)
-
-      existing_scaler_path = f'models/scalers/{pre_existing_strategy_name}.pkl'
-      new_scaler_path = f'models/scalers/{input_name}.pkl'
-
-      shutil.copy(existing_scaler_path, new_scaler_path)
-
-      existing_params_path = f'models/params/{pre_existing_strategy_name}.pkl'
-      new_params_path = f'models/params/{input_name}.pkl'
-
-      shutil.copy(existing_params_path, new_params_path)
-
-      existing_performance_path = f'live_performance_data/{pre_existing_strategy_name}.csv'
-
-      new_performance_path = f'live_performance_data/{input_name}.csv'
-
-      shutil.copy(existing_performance_path, new_performance_path)
 
     def update_winning_teams_data(self):
 
@@ -407,7 +339,6 @@ class database():
        
     def add_made_bet_to_db(self, jayson):
       conn = self.make_conn()
-      print(jayson)
       #drop dollar sign from bet amount
       jayson['bet_amount'] = jayson['bet_amount'].replace('$', '')
       df = pd.DataFrame(columns=jayson.keys())
@@ -419,7 +350,6 @@ class database():
       put_out = read_in.append(df, ignore_index=True)
       #put_out.to_csv('users/placed_bets.csv', index = False)
       put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
-      print(put_out)
       conn.commit()  # Commit the changes
       conn.close()   # Close the connection
       return
@@ -428,7 +358,7 @@ class database():
        df = pd.read_csv('users/model_obs.csv')
        conn = self.make_conn()
        result_updater_instance = result_updater()
-       result_updater_instance.update_results()
+       result_updater_instance.update_results('baseball_mlb')
        #scores_df = pd.read_csv('mlb_data/scores.csv')
        scores_df = pd.read_sql('SELECT * FROM scores', conn)
        
@@ -447,19 +377,7 @@ class database():
 
        df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
 
-      #  def convert_to_list(value):
-      #     if isinstance(value, str):
-      #         return [value]
-      #     elif isinstance(value, list):
-      #         return value
-      #     else:
-      #         return []
-
-      #  df_no_duplicates['sportsbooks_used_list'] = df_no_duplicates['sportsbooks_used'].apply(convert_to_list)
-
        df_no_duplicates = df_no_duplicates.drop(columns=['winning_team'])
-
-      #  df_no_duplicates.rename(columns={'sportsbooks_used_list': 'sportsbooks_used'}, inplace=True)
        
        first_20_rows = df_no_duplicates.head(20)
 
@@ -506,24 +424,23 @@ class database():
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
+
        conn.commit()  # Commit the changes
        conn.close()   # Close the connection
        return first_20_rows
     
     def get_live_nfl_dash_data(self, user_name):
-       # Find the function that make this 
+       conn = self.make_conn()
        df = pd.read_csv('users/model_obs_nfl.csv')
- 
-       # Updates results, need to include NFL results as well now
-       result_updater_instance = nfl_result_updater()
-       result_updater_instance.update_results()
-
-       # need to make a new sql db called nfl_scores
-       scores_df = pd.read_csv('mlb_data/scores.csv')
-       
+       result_updater_instance = result_updater()
+       result_updater_instance.update_results('americanfootball_nfl')
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
        scores_df = scores_df[['game_id', 'winning_team']]
 
        merged_df = df.merge(scores_df, on='game_id', how='left')
+
+       merged_df['commence_time'] = merged_df['commence_time'].apply(pd.to_datetime)
+       merged_df['date'] = merged_df['commence_time'].dt.strftime('%m/%d/%Y')
 
        filtered_df = merged_df[merged_df['winning_team'].isna()]
 
@@ -555,7 +472,7 @@ class database():
 
        first_20_rows['current_time'] = current_time 
 
-       first_20_rows['snapshot_time'].apply(pd.to_datetime)
+       first_20_rows['snapshot_time'] = first_20_rows['snapshot_time'].apply(pd.to_datetime)
 
 
        first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
@@ -588,17 +505,11 @@ class database():
 
         # Apply the function to the desired column
 
-       print(first_20_rows['sportsbooks_used'])
-       print(type(first_20_rows['sportsbooks_used']))
-
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: ', '.join(x) if len(x) > 0 else '')
 
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
        first_20_rows = self.get_recommended_bet_size_nfl(user_name, first_20_rows)
-       first_20_rows['commence_time'] = first_20_rows['commence_time'].apply(pd.to_datetime)
-       first_20_rows['date'] = first_20_rows['commence_time'].dt.strftime('%m/%d/%Y')
-
 
        return first_20_rows
 
@@ -685,20 +596,16 @@ class database():
     
     def calculate_user_bankroll(self, username):
       conn = self.make_conn()
-      #this will also update the user's p/l for each book
-      #placed_bets = pd.read_csv('users/placed_bets.csv')
       placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
-      #login_info = pd.read_csv('users/login_info.csv')
       login_info = pd.read_sql('SELECT * FROM login_info', conn)
-
       current_bankroll = self.get_user_bank_roll(username)
-
       placed_bets = placed_bets[placed_bets['user_name'] == username]
-
-      #scores_df = pd.read_csv('mlb_data/scores.csv')
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+
       result_updater_instance = result_updater()
-      result_updater_instance.update_results()
+      result_updater_instance.update_results('baseball_mlb')
+      result_updater_instance.update_results('americanfootball_nfl')
+
 
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
@@ -707,23 +614,9 @@ class database():
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_amount'] = merged_df['bet_amount'].astype(float)
-
-
-      merged_df.to_csv('merged_df.csv', index=False)
-
+      
       # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
-
-      test_df_user = merged_df[merged_df['user_name'] == 'youngfeiler']
-
-      test_df_user.to_csv('test_df_user.csv', index=False)
-
-      test_df_user['bet_result'] = test_df_user['bet_result'].astype(float)
-
-      test_df = test_df_user.groupby('game_date')['bet_result'].sum()
-      print(test_df)
-
-
       #call calculate_p_l_by_book
       #profit_by_book = pd.read_csv('users/profit_by_book.csv')
       profit_by_book = pd.read_sql('SELECT * FROM profit_by_book', conn)
@@ -756,9 +649,9 @@ class database():
             append_df[book][0] += row['bet_result']
 
       #append append_df to profit_by_book
-      profit_by_book = profit_by_book.append(append_df, ignore_index=True)
+      #profit_by_book = profit_by_book.append(append_df, ignore_index=True)
       #profit_by_book.to_csv('users/profit_by_book.csv', index=False)
-      profit_by_book.to_sql('profit_by_book', conn, if_exists='replace', index=False)
+      #profit_by_book.to_sql('profit_by_book', conn, if_exists='replace', index=False)
       # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
