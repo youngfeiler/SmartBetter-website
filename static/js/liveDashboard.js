@@ -20,7 +20,7 @@ function updateTable(data) {
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
       <td style="display:none;">${row.average_market_odds}</td>
-      <td before-data="Team: " ><b>${row.team_1}</b><br><span class="mobile-no-display">v. ${row.opponent}</span></td>
+      <td before-data="Team: " ><b>${row.team}</b><br><span class="mobile-no-display">v. ${row.opponent}</span></td>
       <td before-data="Sportsbook with Odds">${row.sportsbooks_used}</td>
       <td before-data="Recommended Bet Size ($): ">${row.bet_amount}</td>
       <td before-data="Odds to Take: ">${row.highest_bettable_odds}</td>
