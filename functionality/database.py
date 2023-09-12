@@ -528,7 +528,9 @@ class database():
       df['bet_profit'] = np.where(df['odds'] > 0, (df['odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['odds']/100))
 
       result_updater_instance = result_updater()
-      result_updater_instance.update_results()
+      result_updater_instance.update_results('baseball_mlb')
+      result_updater_instance.update_results('americanfootball_nfl')
+
 
       scores_df = scores_df[['game_id', 'winning_team']]
 
@@ -614,7 +616,7 @@ class database():
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_amount'] = merged_df['bet_amount'].astype(float)
-      
+
       # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
       #call calculate_p_l_by_book
