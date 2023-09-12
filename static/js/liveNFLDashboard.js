@@ -107,7 +107,7 @@ function saveRow(button) {
   let rowData = {};
   cells.forEach((cell, index) => {
     const input = cell.querySelector('input');
-    const columnName = ['game_id', 'average_market_odds', 'ev', 'team', 'odds', 'sportsbook', 'game_date', 'time_updated', 'bet_amount']; // Replace with your column names
+    const columnName = ['game_id', 'average_market_odds', 'team', 'sportsbook', 'bet_amount',  'odds', 'ev', 'game_date', 'time_updated', ]; 
     rowData[columnName[index]] = input.value;
     console.log(input.value);
 
