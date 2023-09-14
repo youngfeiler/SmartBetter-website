@@ -52,9 +52,11 @@ def create_app():
 
     return app
 app = create_app()
+
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_51Nm0vBHM5Jv8uc5MarlzIYh59q2OatBYSZf2DKwsf0GqvX2XExGupnaVaEjToZIYtSb1X8Hq7Bw7ShaCODmts4Ew00zUScRVpE'
 app.config['STRIPE_PRIVATE_KEY'] = 'sk_test_51Nm0vBHM5Jv8uc5MeQxfAjvi98eiziLIiuq3HxFUaKHFVkfvjNv6I6vKmIxTgxqTLj7FAgIBBtYnv9BzOtYPxJvt00CekkUgjv'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
+
 @app.route('/')
 def index():
     checkout_session = stripe.checkout.Session.create(
