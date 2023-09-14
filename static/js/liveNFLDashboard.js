@@ -143,19 +143,60 @@ function editRow(button) {
   const row = button.parentNode.parentNode;
   const cells = row.querySelectorAll('td:not(:last-child)');
   row.classList.add('editing-row');
-  cells.forEach(cell => {
-      const oldValue = cell.textContent.trim();
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.value = oldValue;
-      cell.innerHTML = '';
-      cell.appendChild(input);
-  });
-  const ev = cells[0]['childNodes'][0]['value'];
+  const select = document.createElement('select');
+  const option1 = document.createElement('option');
 
+  cells.forEach(cell => {
+    const oldValue = cell.textContent.trim();
+    const input = document.createElement('input');
+
+    if (cell.getAttribute('before-data') === 'Recommended Bet Size ($): ' || cell.getAttribute('before-data') === 'Odds to Take: ') {
+        input.inputMode = 'numeric';
+        input.pattern = '[0-9]*';
+    }
+    else{
+      input.type="text"
+    }
+
+    input.value = oldValue;
+    cell.innerHTML = '';
+    cell.appendChild(input);
+    input.addEventListener('focus', function () {
+      input.value = '';
+
+      // if (input.parentElement.getAttribute('before-data') === 'Sportsbook with Odds') {
+        
+      //   option1.value = 'Fanduel';
+      //   option1.textContent = 'Fanduel';
+      //   const option2 = document.createElement('option');
+      //   option2.value = 'Option 2';
+      //   option2.textContent = 'Option 2';
+      //   const option3 = document.createElement('option');
+      //   option3.value = 'Option 3';
+      //   option3.textContent = 'Option 3';
+      //   select.appendChild(option1);
+      //   select.appendChild(option2);
+      //   select.appendChild(option3);
+    
+      //   cell.innerHTML = '';
+      //   cell.appendChild(select);
+      // }
+      // input.value = select.options[select.selectedIndex].value;
+
+    });
+});
+  const ev = cells[0]['childNodes'][0]['value'];
   button.innerText = 'Save';
   button.onclick = function() {
-      saveRow(button);
+    // select.value = select.options[select.selectedIndex].value;
+    // cells.forEach(cell => {
+    //   if (cell.getAttribute('before-data') === 'Sportsbook with Odds') {
+        
+    //   }
+    // }
+
+    console.log(select.value)
+    saveRow(button);
   };
 }
 // Attach event listener to dynamically loaded element

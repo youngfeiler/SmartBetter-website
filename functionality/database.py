@@ -12,9 +12,11 @@ import datetime
 import ast
 import sqlite3
 
+
 class database():
     def __init__(self):
         self = self
+
     def make_conn(self):
         conn = sqlite3.connect('smartbetter.db')
         return conn
@@ -345,13 +347,15 @@ class database():
       df = df.append(jayson, ignore_index =True)
       odds = int(df['odds'])
       df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
-      #read_in = pd.read_csv('users/placed_bets.csv')
+
+      df['time_placed'] = datetime.datetime.now()
+
       read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
+      read_in['time_placed'] = pd.to_datetime(read_in['time_placed'])
       put_out = read_in.append(df, ignore_index=True)
-      #put_out.to_csv('users/placed_bets.csv', index = False)
       put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
-      conn.commit()  # Commit the changes
-      conn.close()   # Close the connection
+      conn.commit() 
+      conn.close() 
       return
     
     def get_live_dash_data(self, user_name):
@@ -425,8 +429,10 @@ class database():
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
 
-       conn.commit()  # Commit the changes
-       conn.close()   # Close the connection
+       first_20_rows = self.filter_5_min_cooloff(user_name, "MLB", first_20_rows)
+
+       conn.commit()
+       conn.close()
        return first_20_rows
     
     def get_live_nfl_dash_data(self, user_name):
@@ -510,6 +516,10 @@ class database():
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
        first_20_rows = self.get_recommended_bet_size_nfl(user_name, first_20_rows)
+
+       first_20_rows = self.filter_5_min_cooloff(user_name, "NFL", first_20_rows)
+
+
 
        return first_20_rows
 
@@ -722,6 +732,36 @@ class database():
       conn.commit()  # Commit the changes
       conn.close()   # Close the connection
       return jsonify(datapoints)
+
+
+    def filter_5_min_cooloff(self, username, sport, df):
+       conn = self.make_conn()
+
+       placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+
+       user_df = placed_bets[placed_bets['user_name'] == username]
+
+       user_df['time_placed'] = pd.to_datetime(user_df['time_placed'])
+
+       user_time_df = user_df[(datetime.datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
+
+       if sport == "NFL":
+          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
+          df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
+
+       elif sport == "MLB":
+          print('here')
+          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
+          print(user_time_df['teams_bet_on'])
+          df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
+
+       return df
+
+
+
+
+
+
 
 
 
