@@ -750,9 +750,7 @@ class database():
           df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
 
        elif sport == "MLB":
-          print('here')
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
-          print(user_time_df['teams_bet_on'])
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
 
        return df
