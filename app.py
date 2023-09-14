@@ -16,7 +16,6 @@ from datetime import timedelta
 import os
 import sqlite3
 import stripe
-stripe.api_key = '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'
 
 # Connect to the SQLite database (or create if it doesn't exist)
 #create a functions that adds to the database by taking in a csv file string and adding it to the database
@@ -53,6 +52,28 @@ def create_app():
 
     return app
 app = create_app()
+app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_51Nm0vBHM5Jv8uc5MarlzIYh59q2OatBYSZf2DKwsf0GqvX2XExGupnaVaEjToZIYtSb1X8Hq7Bw7ShaCODmts4Ew00zUScRVpE'
+app.config['STRIPE_PRIVATE_KEY'] = 'sk_test_51Nm0vBHM5Jv8uc5MeQxfAjvi98eiziLIiuq3HxFUaKHFVkfvjNv6I6vKmIxTgxqTLj7FAgIBBtYnv9BzOtYPxJvt00CekkUgjv'
+stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
+@app.route('/')
+def index():
+    checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[
+            {
+                # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                'price': 'price_1NnSqwHM5Jv8uc5MUGQ7GeOJ',
+                'quantity': 1,
+            },
+        ],
+        mode='payment',
+        success_url= url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=url_for('index', _external=True) ,
+    )
+    return render_template('index.html', 
+                           checkout_session_id=checkout_session.id, 
+                           checkout_public_key = app.config['STRIPE_PUBLIC_KEY'])
+
 
 
 @app.route('/test_func')
@@ -77,9 +98,6 @@ def my_webhooks():
     print(event.data.object.id)
     return redirect(url_for('register'))
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 @app.route('/profile')
