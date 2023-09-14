@@ -14,3 +14,4 @@ python-firebase
 mysql-connector-python 
 redis
 celery==5.2.3
+stripe>=6.0.0
