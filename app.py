@@ -92,7 +92,7 @@ def create_checkout_session(price_id):
                 'quantity': 1,
             },
         ],
-        mode='payment',
+        mode='subscription',
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
         cancel_url=url_for('index', _external=True),
     )
