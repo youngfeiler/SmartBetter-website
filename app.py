@@ -99,6 +99,24 @@ def create_checkout_session(price_id):
     return redirect(checkout_session.url,code=302)
 
 
+@app.route('/checkout/<string:price_id>')
+def create_checkout_session_non_recurring(price_id):
+    # Create a checkout session with the provided price_id
+    checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=[
+            {
+                'price': price_id,
+                'quantity': 1,
+            },
+        ],
+        mode='payment',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=url_for('index', _external=True),
+    )
+    return redirect(checkout_session.url,code=302)
+
+
 
 
 
