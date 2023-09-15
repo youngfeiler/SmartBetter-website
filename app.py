@@ -24,6 +24,8 @@ def add_to_database(csv_file, conn,nm):
     df = pd.read_csv(csv_file)
     #add to database
     df.to_sql(nm, conn, if_exists='replace', index=False)
+
+    print(df)
     #commit changes
     conn.commit()
 
@@ -39,17 +41,18 @@ def create_app():
     # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
 
     #adding all original data into the db 
-    conn = sqlite3.connect('smartbetter.db')
+    # conn = sqlite3.connect('smartbetter.db')
     # add_to_database('users/login_info.csv', conn, 'login_info')
     # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
     # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
     # add_to_database('mlb_data/scores.csv', conn, 'scores')
     # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
-    conn.close()
+    # conn.close()
 
 
     return app
 app = create_app()
+<<<<<<< HEAD
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
 app.config['STRIPE_PRIVATE_KEY'] = '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'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
@@ -73,6 +76,12 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 #                            checkout_public_key = app.config['STRIPE_PUBLIC_KEY'])
 
 
+=======
+
+app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_51Nm0vBHM5Jv8uc5MarlzIYh59q2OatBYSZf2DKwsf0GqvX2XExGupnaVaEjToZIYtSb1X8Hq7Bw7ShaCODmts4Ew00zUScRVpE'
+app.config['STRIPE_PRIVATE_KEY'] = 'sk_test_51Nm0vBHM5Jv8uc5MeQxfAjvi98eiziLIiuq3HxFUaKHFVkfvjNv6I6vKmIxTgxqTLj7FAgIBBtYnv9BzOtYPxJvt00CekkUgjv'
+stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
+>>>>>>> a8ca2592d2c47f422a7bb3207ed7fdf2b9aad956
 
 @app.route('/')
 def index():
