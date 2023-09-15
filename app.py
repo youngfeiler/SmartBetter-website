@@ -50,27 +50,53 @@ def create_app():
 
     return app
 app = create_app()
-app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_51Nm0vBHM5Jv8uc5MarlzIYh59q2OatBYSZf2DKwsf0GqvX2XExGupnaVaEjToZIYtSb1X8Hq7Bw7ShaCODmts4Ew00zUScRVpE'
-app.config['STRIPE_PRIVATE_KEY'] = 'sk_test_51Nm0vBHM5Jv8uc5MeQxfAjvi98eiziLIiuq3HxFUaKHFVkfvjNv6I6vKmIxTgxqTLj7FAgIBBtYnv9BzOtYPxJvt00CekkUgjv'
+app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
+app.config['STRIPE_PRIVATE_KEY'] = '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'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
+# @app.route('/')
+# def index():
+#     checkout_session = stripe.checkout.Session.create(
+#         payment_method_types=['card'],
+#         line_items=[
+#             {
+#                 # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+#                 'price': 'price_1NnSqwHM5Jv8uc5MUGQ7GeOJ',
+#                 'quantity': 1,
+#             },
+#         ],
+#         mode='payment',
+#         success_url= url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+#         cancel_url=url_for('index', _external=True) ,
+#     )
+#     return render_template('index.html', 
+#                            checkout_session_id=checkout_session.id, 
+#                            checkout_public_key = app.config['STRIPE_PUBLIC_KEY'])
+
+
+
 @app.route('/')
 def index():
+    return render_template('index.html', 
+                           checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
+
+@app.route('/checkout/<string:price_id>')
+def create_checkout_session(price_id):
+    # Create a checkout session with the provided price_id
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[
             {
-                # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                'price': 'price_1NnSqwHM5Jv8uc5MUGQ7GeOJ',
+                'price': price_id,
                 'quantity': 1,
             },
         ],
         mode='payment',
-        success_url= url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url=url_for('index', _external=True) ,
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url=url_for('index', _external=True),
     )
-    return render_template('index.html', 
-                           checkout_session_id=checkout_session.id, 
-                           checkout_public_key = app.config['STRIPE_PUBLIC_KEY'])
+    return redirect(checkout_session.url,code=302)
+
+
 
 
 
