@@ -76,7 +76,7 @@ class live_nfl_dashboard_runner():
   
     def get_nfl_odds(self):
 
-      API_KEY = '02456682ed7b05ec7fd159a594d48339'
+      API_KEY = '251079acbb126a314206fd4b07bacdad'
       SPORT = 'americanfootball_nfl'
       REGIONS = 'us,eu,uk'
       MARKETS = 'h2h' 

@@ -30,7 +30,7 @@ def format_time(time_string, input_format="%Y-%m-%dT%H:%M:%SZ", output_format="%
 
 
 def get_odds():
-    API_KEY = '02456682ed7b05ec7fd159a594d48339'
+    API_KEY = '251079acbb126a314206fd4b07bacdad'
 
     SPORT = 'baseball_mlb'
 
