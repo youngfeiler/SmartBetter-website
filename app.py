@@ -49,17 +49,17 @@ def create_app():
     # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
 
     #adding all original data into the db 
-    conn = sqlite3.connect('smartbetter.db')
+    # conn = sqlite3.connect('smartbetter.db')
     # add_to_database('users/login_info.csv', conn, 'login_info')
     # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
     # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
     # add_to_database('mlb_data/scores.csv', conn, 'scores')
     # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
-    query = "SELECT * FROM login_info"
-    existing_df = pd.read_sql_query(query, conn)
-    add_bool_column_to_table(existing_df, conn, 'login_info', 'payed')
-    add_date_column_to_table(existing_df, conn, 'login_info', 'date_signed_up')
-    conn.close()
+    # query = "SELECT * FROM login_info"
+    # existing_df = pd.read_sql_query(query, conn)
+    # add_bool_column_to_table(existing_df, conn, 'login_info', 'payed')
+    # add_date_column_to_table(existing_df, conn, 'login_info', 'date_signed_up')
+    # conn.close()
 
 
     return app
