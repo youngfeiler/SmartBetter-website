@@ -33,10 +33,10 @@ class database():
       conn.commit()  # Commit the changes
       conn.close()   # Close the connection
     
-    def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date):
+    def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
        new_user = User(username)
 
-       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date)
+       new_user.create_user(firstname, lastname, username, password, phone, bankroll, payed, sign_up_date)
 
        self.users = self.get_all_usernames()
 
