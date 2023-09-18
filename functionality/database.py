@@ -379,7 +379,7 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
-       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used', 'date']
+       columns_to_compare = ['team']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
@@ -458,6 +458,8 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
+
+
        def process_column_header(header):
         book = header.split('_1_odds')[0].title()
         return book
@@ -468,7 +470,7 @@ class database():
 
        df_sorted['sportsbooks_used'] = df_sorted.apply(find_matching_columns, axis=1)
   
-       columns_to_compare = ['game_id', 'ev', 'team_1', 'opponent', 'highest_bettable_odds', 'commence_time']
+       columns_to_compare = ['team_1']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
