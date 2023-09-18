@@ -58,7 +58,10 @@ def start_dashboard_runner():
     
     live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
 
+    db = database()
+
     while True:
+      db.check_payments()
 
       live_dashboard_runner_instance.make_live_dash_data()
       
