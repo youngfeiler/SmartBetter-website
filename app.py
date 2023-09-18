@@ -29,8 +29,6 @@ def add_to_database(csv_file, conn,nm):
     #commit changes
     conn.commit()
 
-
-
 def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     app.secret_key = 'to_the_moon'
@@ -51,6 +49,7 @@ def create_app():
 
 
     return app
+
 app = create_app()
 
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_test_51Nm0vBHM5Jv8uc5MarlzIYh59q2OatBYSZf2DKwsf0GqvX2XExGupnaVaEjToZIYtSb1X8Hq7Bw7ShaCODmts4Ew00zUScRVpE'
