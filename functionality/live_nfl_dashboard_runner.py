@@ -32,8 +32,12 @@ class live_nfl_dashboard_runner():
             'params': loaded_params_dict,
             'pred_thresh': loaded_params_dict['pred_thresh']
             }
-          this_model_dict['params']['bettable_books'].remove('pinnacle')
-          this_model_dict['params']['bettable_books'].remove('unibet_us')  
+          try:
+            this_model_dict['params']['bettable_books'].remove('pinnacle')
+            this_model_dict['params']['bettable_books'].remove('unibet_us')  
+            this_model_dict['params']['bettable_books'].remove('mybookieag')
+          except:
+             pass
           self.model_storage['SmartBetterNFLModel'] = this_model_dict
 
     def make_snapshot(self, df):

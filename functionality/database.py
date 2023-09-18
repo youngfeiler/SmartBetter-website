@@ -11,6 +11,10 @@ import math
 import datetime
 import ast
 import sqlite3
+import stripe
+STRIPE_PUBLIC_KEY = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
+STRIPE_PRIVATE_KEY = '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'
+stripe.api_key = STRIPE_PRIVATE_KEY
 
 
 class database():
@@ -29,10 +33,10 @@ class database():
       conn.commit()  # Commit the changes
       conn.close()   # Close the connection
     
-    def add_user(self, firstname, lastname, username, password, phone, bankroll):
+    def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date):
        new_user = User(username)
 
-       new_user.create_user(firstname, lastname, username, password, phone, bankroll)
+       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date)
 
        self.users = self.get_all_usernames()
 
@@ -377,7 +381,7 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
-       columns_to_compare = ['game_id', 'ev', 'team', 'opponent', 'highest_bettable_odds', 'sportsbooks_used', 'date']
+       columns_to_compare = ['team']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
@@ -456,6 +460,8 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
+
+
        def process_column_header(header):
         book = header.split('_1_odds')[0].title()
         return book
@@ -466,7 +472,7 @@ class database():
 
        df_sorted['sportsbooks_used'] = df_sorted.apply(find_matching_columns, axis=1)
   
-       columns_to_compare = ['game_id', 'ev', 'team_1', 'opponent', 'highest_bettable_odds', 'commence_time']
+       columns_to_compare = ['team_1']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
 
@@ -758,7 +764,36 @@ class database():
        return df
 
 
+    def check_payments(self):
+      conn = self.make_conn()
+      try:
+            # List all PaymentIntents from Stripe
+            payment_intents = stripe.PaymentIntent.list()
+            paid_users = set()  # Create a set to store usernames of paid users
 
+            # Iterate through the PaymentIntents and add the usernames of paid users to the set
+            for payment_intent in payment_intents.data:
+                if payment_intent.customer:
+                    customer = stripe.Customer.retrieve(payment_intent.customer)
+                    email = customer.email
+                    paid_users.add(email)
+
+            # Update the 'paid' column in the SQLite database
+            cursor = conn.cursor()
+            for username in paid_users:
+                cursor.execute("UPDATE login_info SET paid = 1 WHERE username = ?", (username,))
+                conn.commit()
+
+            cursor.close()
+
+      except stripe.error.StripeError as e:
+            print(f"Stripe Error: {e}")
+      except sqlite3.Error as e:
+            print(f"SQLite Error: {e}")
+      conn.close()
+
+
+      
 
 
 

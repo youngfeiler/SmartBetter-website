@@ -44,9 +44,13 @@ class live_dashboard_runner():
             'data_collector': loaded_data_collector,
             'pred_thresh': loaded_params_dict['pred_thresh']
             }
-          
-          this_model_dict['params']['bettable_books'].remove('bovada')
-          this_model_dict['params']['bettable_books'].remove('twinspires')
+          try:
+            this_model_dict['params']['bettable_books'].remove('bovada')
+            this_model_dict['params']['bettable_books'].remove('twinspires')
+            this_model_dict['params']['bettable_books'].remove('mybookieag')
+          except:
+             pass
+
 
           
           self.model_storage['SmartBetterModel'] = this_model_dict
