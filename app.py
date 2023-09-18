@@ -13,6 +13,7 @@ import pandas as pd
 from functionality.tasks import celery
 import json
 from datetime import timedelta
+from datetime import datetime
 import os
 import sqlite3
 import stripe
@@ -29,7 +30,14 @@ def add_to_database(csv_file, conn,nm):
     #commit changes
     conn.commit()
 
-
+def add_bool_column_to_table(df, conn, table_name, column_name):
+    df[column_name] = False
+    df.to_sql(table_name, conn, if_exists='replace', index=False)
+    conn.commit()
+def add_date_column_to_table(df, conn, table_name, column_name):
+    df[column_name] = datetime.now()
+    df.to_sql(table_name, conn, if_exists='replace', index=False)
+    conn.commit()
 
 def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
@@ -41,13 +49,17 @@ def create_app():
     # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
 
     #adding all original data into the db 
-    # conn = sqlite3.connect('smartbetter.db')
+    conn = sqlite3.connect('smartbetter.db')
     # add_to_database('users/login_info.csv', conn, 'login_info')
     # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
     # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
     # add_to_database('mlb_data/scores.csv', conn, 'scores')
     # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
-    # conn.close()
+    query = "SELECT * FROM login_info"
+    existing_df = pd.read_sql_query(query, conn)
+    add_bool_column_to_table(existing_df, conn, 'login_info', 'payed')
+    add_date_column_to_table(existing_df, conn, 'login_info', 'date_signed_up')
+    conn.close()
 
 
     return app
