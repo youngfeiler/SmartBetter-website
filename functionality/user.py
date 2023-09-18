@@ -9,11 +9,11 @@ class User():
         conn = sqlite3.connect('smartbetter.db')
         return conn
 
-    def create_user(self, firstname, lastname, username, password, phone, bankroll, signup_date):
+    def create_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
-      info_row = [firstname, lastname, self.username, password, phone, bankroll]
+      info_row = [firstname, lastname, self.username, password, phone, bankroll, payed,sign_up_date]
 
       df.loc[len(df)] = info_row
 

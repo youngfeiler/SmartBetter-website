@@ -178,6 +178,7 @@ def register():
         phone = '+1' + str(request.form['phone_number'])
         bankroll = request.form['bankroll']
         sign_up_date = datetime.now()
+        payed = False
 
         
         if username in users:
@@ -187,7 +188,7 @@ def register():
             error_message = "Passwords do not match. Please try again."
             return render_template('register.html', username_exists=False, form_data=request.form, error_message=error_message)
         else:
-            my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date)
+            my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
             users = my_db.users
             my_db = database()
             login_allowed = my_db.check_login_credentials(username, password)
