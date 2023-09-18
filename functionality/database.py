@@ -40,7 +40,9 @@ class database():
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
+      print(df)
       user_info = df[df['username'] == username]
+      print(user_info)
       if user_info.empty:
         return False
       else:
