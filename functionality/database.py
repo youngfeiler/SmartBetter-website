@@ -779,7 +779,7 @@ class database():
             # Update the 'paid' column in the SQLite database
             cursor = conn.cursor()
             for username in paid_users:
-                cursor.execute("UPDATE login_info SET paid = 1 WHERE username = ?", (username,))
+                cursor.execute("UPDATE login_info SET payed = 1 WHERE username = ?", (username,))
                 conn.commit()
 
             cursor.close()
