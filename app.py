@@ -30,13 +30,11 @@ def add_to_database(csv_file, conn,nm):
     #commit changes
     conn.commit()
 
-def add_bool_column_to_table(csv_file, conn, table_name, column_name, column_type):
-    df = pd.read_csv(csv_file)
+def add_bool_column_to_table(df, conn, table_name, column_name):
     df[column_name] = False
     df.to_sql(table_name, conn, if_exists='replace', index=False)
     conn.commit()
-def add_date_column_to_table(csv_file, conn, table_name, column_name, column_type):
-    df = pd.read_csv(csv_file)
+def add_date_column_to_table(df, conn, table_name, column_name):
     df[column_name] = datetime.now()
     df.to_sql(table_name, conn, if_exists='replace', index=False)
     conn.commit()
@@ -57,8 +55,10 @@ def create_app():
     # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
     # add_to_database('mlb_data/scores.csv', conn, 'scores')
     # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
-    add_bool_column_to_table('users/login_info.csv', conn, 'login_info', 'payed')
-    add_date_column_to_table('users/login_info.csv', conn, 'login_info', 'date_signed_up')
+    query = "SELECT * FROM login_info"
+    existing_df = pd.read_sql_query(query, conn)
+    add_bool_column_to_table(existing_df, conn, 'login_info', 'payed')
+    add_date_column_to_table(existing_df, conn, 'login_info', 'date_signed_up')
     conn.close()
 
 
