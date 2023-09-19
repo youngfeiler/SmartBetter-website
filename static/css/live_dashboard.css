@@ -7,6 +7,7 @@ body {
   color: #fefefe;
 	overflow: none;
   width: 100%;
+
 }
 
 h1 {
@@ -23,11 +24,13 @@ p {
   width: 80%;
   margin: 0 auto;
   height: 100vh;
+
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
+  
 }
 
 
@@ -44,6 +47,7 @@ tbody tr{
   color: #ffffff;
 	outline: 3px solid #fefefe;
   border-radius: 0px 0px 10px 10px;
+  
 }
 
 
@@ -52,6 +56,7 @@ table.rounded-table {
   border-collapse: separate;
   border-radius: 10px 10px 10px 10px;
   width: 100%;
+
 }
 
 table.rounded-table td {
@@ -177,6 +182,7 @@ table.rounded-table td input {
     border-collapse: collapse;
     box-sizing: border-box;
     margin-top: 10px;
+
   }
 
   table thead tr {
