@@ -3,8 +3,6 @@
   margin-left: 0px;
   margin-right: auto;
   display: block;
-  
-
 }
 
 @media screen and (max-width: 991px) {
@@ -39,6 +37,7 @@
   font-weight: 500;
   display: block;
   border-top: solid #190e29 1px;
+  width: 100vw;
 }
 
 .paragraph-disclaimer-privacy {
