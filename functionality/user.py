@@ -13,7 +13,14 @@ class User():
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
-      info_row = [firstname, lastname, self.username, password, phone, bankroll, payed,sign_up_date]
+      print(df)
+      print('-------------------')
+      
+      #change the column date_signed_up to string
+      df['date_signed_up'] = df['date_signed_up'].astype(str)
+      sign_up_date = str(sign_up_date)
+
+      info_row = [firstname, lastname, self.username, password, phone, bankroll, payed, sign_up_date]
 
       df.loc[len(df)] = info_row
 
