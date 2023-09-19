@@ -1,0 +1,134 @@
+.w-layout-blockcontainer {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+@media screen and (max-width: 991px) {
+  .w-layout-blockcontainer {
+    max-width: 728px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .w-layout-blockcontainer {
+    max-width: none;
+  }
+}
+
+.container-disclaimer {
+  text-align: left;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+}
+
+.heading-disclaimer {
+  text-align: left;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: -1px;
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+}
+
+.paragraph-disclaimer-privacy {
+  display: block;
+  text-decoration: none;
+}
+
+.paragraph-disclaimer-tos {
+  justify-content: space-between;
+  align-items: flex-start;
+  display: flex;
+  text-decoration: none;
+
+}
+
+@media screen and (max-width: 991px) {
+  .heading-disclaimer {
+    margin-left: -1px;
+    font-size: 12px;
+  }
+
+  .paragraph-disclaimer-privacy, .paragraph-disclaimer-tos {
+    font-size: 12px;
+  text-decoration: none;
+
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .heading-disclaimer {
+    flex-wrap: nowrap;
+    align-content: stretch;
+    margin-left: 13px;
+    font-size: 11px;
+    display: flex;
+  }
+
+  .paragraph-disclaimer-privacy {
+    margin-left: 11px;
+  text-decoration: none;
+
+  }
+
+  .paragraph-disclaimer-tos {
+    margin-left: 10px;
+  text-decoration: none;
+
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .section-disclaimer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    display: flex;
+  }
+
+  .container-disclaimer {
+    width: auto;
+    flex-direction: column;
+    flex: 0 auto;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 16px;
+  }
+
+  .heading-disclaimer {
+    width: auto;
+    text-align: left;
+    align-items: flex-start;
+    margin: 34px 25px 2px 13px;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 7px;
+    display: block;
+  }
+
+  .paragraph-disclaimer-privacy {
+    margin-top: 8px;
+    margin-bottom: 2px;
+    margin-left: 0;
+    font-size: 8px;
+  }
+
+  .link-disclaimer-tos {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    display: flex;
+  }
+
+  .paragraph-disclaimer-tos {
+    margin-left: 0;
+    font-size: 8px;
+  }
+}
+

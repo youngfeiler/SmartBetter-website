@@ -1,8 +1,4 @@
-{% extends "header.html" %}
-
-{% block title %}SmartBetter Home{% endblock %}
-
-{% block content %}
+{% include "header.html"  %}
 
 <head>
   <!-- Google tag (gtag.js) -->
@@ -49,8 +45,9 @@
     </table>
   </div>
   </body>
+{% include "footer.html %"}
+
 </main>
 
 <script src="static/js/unsettledBetTracker.js"></script>
-{% endblock %}
 
