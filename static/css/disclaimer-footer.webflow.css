@@ -42,12 +42,16 @@
 
 .paragraph-disclaimer-privacy {
   display: block;
+  justify-content: center;
+
 }
 
 .paragraph-disclaimer-tos {
   justify-content: space-between;
   align-items: flex-start;
   display: flex;
+  justify-content: center;
+
 }
 
 @media screen and (max-width: 991px) {
