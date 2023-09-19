@@ -34,6 +34,7 @@ def add_bool_column_to_table(df, conn, table_name, column_name):
     df[column_name] = False
     df.to_sql(table_name, conn, if_exists='replace', index=False)
     conn.commit()
+
 def add_date_column_to_table(df, conn, table_name, column_name):
     df[column_name] = datetime.now()
     df.to_sql(table_name, conn, if_exists='replace', index=False)
@@ -60,8 +61,6 @@ def create_app():
     # add_bool_column_to_table(existing_df, conn, 'login_info', 'payed')
     # add_date_column_to_table(existing_df, conn, 'login_info', 'date_signed_up')
     # conn.close()
-
-
     return app
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
