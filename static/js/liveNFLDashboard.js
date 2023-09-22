@@ -154,6 +154,7 @@ function editRow(button) {
     if (cell.getAttribute('before-data') === 'Recommended Bet Size ($): ' || cell.getAttribute('before-data') === 'Odds to Take: ') {
         input.inputMode = 'numeric';
         input.pattern = '[0-9]*';
+        input.type = 'number';  
     }
     else{
       input.type="text"
