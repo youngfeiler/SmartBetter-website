@@ -9,7 +9,7 @@ function updateTable(data) {
   const tr = document.createElement('tr');
   tr.classList.add('center-text');
   tr.innerHTML = `
-  <td colspan="8">No approved bets available right now.</td>`;
+  <td colspan="9">No approved bets available right now.</td>`;
   tableBody.appendChild(tr);
   boolin = true;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
@@ -26,6 +26,7 @@ function updateTable(data) {
       <td before-data="Sportsbook with Odds">${row.sportsbooks_used}</td>
       <td before-data="Recommended Bet Size ($): ">${row.bet_amount}</td>
       <td before-data="Odds to Take: ">${row.highest_bettable_odds}</td>
+      <td before-data="Minimum Odds To Take: ">${row.highest_acceptable_odds}</td>
       <td before-data="+EV%: ">${row.ev}</td>
       <td class="mobile-no-display">${row.date}</td>
       <td before-data="Time Since Odds Update: ">${row.time_difference_formatted}</td>

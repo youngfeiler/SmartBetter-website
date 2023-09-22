@@ -8,8 +8,7 @@ from .result_updater import result_updater
 import numpy as np
 from flask import jsonify
 import math
-import datetime
-from datetime import datetime
+from datetime import datetime, timedelta
 import ast
 import sqlite3
 import stripe
@@ -48,10 +47,13 @@ class database():
     
       days_difference = time_difference.days
       if user_info['payed'].item() or (days_difference <= 8):
+        conn.commit()  # Commit the changes
         conn.close()
         return True
-      conn.close()
-      return False
+      else:
+        conn.commit()
+        conn.close()
+        return False
       
        
     def check_login_credentials(self, username, password):
@@ -387,7 +389,7 @@ class database():
       odds = int(df['odds'])
       df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
 
-      df['time_placed'] = datetime.datetime.now()
+      df['time_placed'] = datetime.now()
 
       read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
       read_in['time_placed'] = pd.to_datetime(read_in['time_placed'])
@@ -397,20 +399,6 @@ class database():
       conn.close() 
       return
     
-    def calculate_accepted_bettable_odds(row):
-        value_new = row['highest_bettable_odds']
-        if value_new < 0:
-          if value_new < -500:
-             value_new = value_new - (value_new * 0.1)
-          else:
-             value_new = value_new - (value_new * 0.05)
-        else:
-          if value_new > 500:
-             value_new = value_new + (value_new * 0.1)
-          else:
-             value_new = value_new + (value_new * 0.05)
-        row['highest_acceptable_odds'] = value_new
-        return row
         
       
     
@@ -440,8 +428,23 @@ class database():
        df_no_duplicates = df_no_duplicates.drop(columns=['winning_team'])
        
        first_20_rows = df_no_duplicates.head(20)
+       def calculate_accepted_bettable_odds(row):
+        value_new = row['highest_bettable_odds']
+        if value_new < 0:
+          if value_new < -500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        else:
+          if value_new > 500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        #round value_new to nearest whole number 
+        value_new = round(value_new)
+        return value_new
 
-       first_20_rows= first_20_rows.apply(self.calculate_accepted_bettable_odds, axis=1)
+       first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
       
        current_time = datetime.now() 
 
@@ -472,6 +475,7 @@ class database():
             new_minutes = math.floor(seconds_after_hour / 60)
             new_seconds = seconds_after_hour % 60
             row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+          
           return row
 
        def format_list_of_strings(strings):
@@ -534,10 +538,24 @@ class database():
        
        first_20_rows = df_no_duplicates.head(20)
 
-       current_time = datetime.datetime.now() - datetime.timedelta(hours=7)
+       current_time = datetime.now() - timedelta(hours=7)
 
        first_20_rows['current_time'] = current_time 
-       first_20_rows = first_20_rows.apply(self.calculate_accepted_bettable_odds, axis=1)
+       def calculate_accepted_bettable_odds(row):
+        value_new = row['highest_bettable_odds']
+        if value_new < 0:
+          if value_new < -500:
+             value_new = value_new + (value_new * 0.1)
+          else:
+             value_new = value_new + (value_new * 0.05)
+        else:
+          if value_new > 500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        value_new = round(value_new)
+        return value_new
+       first_20_rows['highest_acceptable_odds'] = first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
       
 
        first_20_rows['snapshot_time'] = first_20_rows['snapshot_time'].apply(pd.to_datetime)
@@ -581,7 +599,8 @@ class database():
 
        first_20_rows = self.filter_5_min_cooloff(user_name, "NFL", first_20_rows)
 
-
+       conn.commit()
+       conn.close()
 
        return first_20_rows
 
@@ -815,6 +834,8 @@ class database():
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
 
+       conn.commit()  # Commit the changes
+       conn.close()   # Close the connection
        return df
 
 
