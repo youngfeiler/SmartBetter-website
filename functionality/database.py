@@ -8,7 +8,7 @@ from .result_updater import result_updater
 import numpy as np
 from flask import jsonify
 import math
-import datetime
+from datetime import datetime, timedelta
 import ast
 import sqlite3
 import stripe
@@ -39,7 +39,23 @@ class database():
        new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed)
 
        self.users = self.get_all_usernames()
-
+    def check_account(self,username):
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM login_info', conn)
+      user_info = df[df['username'] == username]
+      time_difference = datetime.now() - datetime.strptime(user_info['date_signed_up'].item(), '%Y-%m-%d %H:%M:%S.%f')
+    
+      days_difference = time_difference.days
+      if user_info['payed'].item() or (days_difference <= 8):
+        conn.commit()  # Commit the changes
+        conn.close()
+        return True
+      else:
+        conn.commit()
+        conn.close()
+        return False
+      
+       
     def check_login_credentials(self, username, password):
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
@@ -54,6 +70,27 @@ class database():
           return True
       conn.commit()  # Commit the changes
       conn.close()   # Close the connection
+    
+    def check_duplicate_account(self,username):
+        self.check_payments()
+        conn = self.make_conn()
+        df = pd.read_sql('SELECT * FROM login_info', conn)
+        user_info = df[df['username'] == username]
+        if user_info['payed'].item():
+          print(user_info['payed'].item())
+          #remove this row from the df and push it back to sqllite
+          df = df[df['username'] != username]
+          df.to_sql('login_info', conn, if_exists='replace', index=False)
+          conn.commit()
+          conn.close()
+          return True
+        else:
+          
+          conn.commit()
+          conn.close()
+          return False
+
+
 
     def make_data(self, strategy_name):
         full_df = self.get_data(strategy_name)
@@ -354,7 +391,7 @@ class database():
       odds = int(df['odds'])
       df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
 
-      df['time_placed'] = datetime.datetime.now()
+      df['time_placed'] = datetime.now()
 
       read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
       read_in['time_placed'] = pd.to_datetime(read_in['time_placed'])
@@ -363,6 +400,9 @@ class database():
       conn.commit() 
       conn.close() 
       return
+    
+        
+      
     
     def get_live_dash_data(self, user_name):
        df = pd.read_csv('users/model_obs.csv')
@@ -390,8 +430,25 @@ class database():
        df_no_duplicates = df_no_duplicates.drop(columns=['winning_team'])
        
        first_20_rows = df_no_duplicates.head(20)
+       def calculate_accepted_bettable_odds(row):
+        value_new = row['highest_bettable_odds']
+        if value_new < 0:
+          if value_new < -500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        else:
+          if value_new > 500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        #round value_new to nearest whole number 
+        value_new = round(value_new)
+        return value_new
 
-       current_time = datetime.datetime.now() 
+       first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
+      
+       current_time = datetime.now() 
 
        first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=6)
 
@@ -420,6 +477,7 @@ class database():
             new_minutes = math.floor(seconds_after_hour / 60)
             new_seconds = seconds_after_hour % 60
             row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+          
           return row
 
        def format_list_of_strings(strings):
@@ -482,9 +540,25 @@ class database():
        
        first_20_rows = df_no_duplicates.head(20)
 
-       current_time = datetime.datetime.now() - datetime.timedelta(hours=7)
+       current_time = datetime.now() - timedelta(hours=7)
 
        first_20_rows['current_time'] = current_time 
+       def calculate_accepted_bettable_odds(row):
+        value_new = row['highest_bettable_odds']
+        if value_new < 0:
+          if value_new < -500:
+             value_new = value_new + (value_new * 0.1)
+          else:
+             value_new = value_new + (value_new * 0.05)
+        else:
+          if value_new > 500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        value_new = round(value_new)
+        return value_new
+       first_20_rows['highest_acceptable_odds'] = first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
+      
 
        first_20_rows['snapshot_time'] = first_20_rows['snapshot_time'].apply(pd.to_datetime)
 
@@ -527,7 +601,8 @@ class database():
 
        first_20_rows = self.filter_5_min_cooloff(user_name, "NFL", first_20_rows)
 
-
+       conn.commit()
+       conn.close()
 
        return first_20_rows
 
@@ -751,7 +826,7 @@ class database():
 
        user_df['time_placed'] = pd.to_datetime(user_df['time_placed'])
 
-       user_time_df = user_df[(datetime.datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
+       user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
 
        if sport == "NFL":
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
@@ -761,6 +836,8 @@ class database():
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
 
+       conn.commit()  # Commit the changes
+       conn.close()   # Close the connection
        return df
 
 
@@ -791,6 +868,7 @@ class database():
       except sqlite3.Error as e:
             print(f"SQLite Error: {e}")
       conn.close()
+      return
 
 
       

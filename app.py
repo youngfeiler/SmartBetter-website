@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_wtf.csrf import CSRFProtect
 import plotly.graph_objects as go
 import plotly as plotly
@@ -179,17 +179,35 @@ def register():
         sign_up_date = datetime.now()
         payed = False
 
+
         
         if username in users:
-            error_message = "Account with this Email already exists. Please try again."
-            return render_template('register.html', username_exists=True, form_data=request.form,error_message=error_message)
+            has_payed=my_db.check_duplicate_account(username)
+            print(has_payed)
+            if has_payed:
+                payed = True
+                my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
+                users = my_db.users
+                login_allowed = my_db.check_login_credentials(username, password)
+
+                print(f'{username} login result: {login_allowed}')
+                if login_allowed:
+                    session['user_id'] = username
+                    print(session['user_id'])
+                    return redirect(url_for('live_dashboard'))
+                elif not login_allowed:
+                    error_message = "Email or password incorrect. Please try again."
+                    return render_template('register.html', incorrect_password=True, form_data=request.form, error_message=error_message)     
+        
+            else:
+                error_message = "Account with this Email already exists. Please try again."
+                return render_template('register.html', username_exists=True, form_data=request.form,error_message=error_message)
         elif password != confirm_password:
             error_message = "Passwords do not match. Please try again."
             return render_template('register.html', username_exists=False, form_data=request.form, error_message=error_message)
         else:
             my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
             users = my_db.users
-            my_db = database()
             login_allowed = my_db.check_login_credentials(username, password)
 
             print(f'{username} login result: {login_allowed}')
@@ -209,21 +227,28 @@ def faq():
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
+  my_db = database()
   user_id = session.get('user_id')
-  if user_id is not None:
-      return redirect(url_for('live_dashboard'))
-      
+  if (user_id is not None):
+      payed = my_db.check_account(user_id)
+      if payed:
+        return redirect(url_for('live_dashboard'))
+  print('got here')
   if request.method == 'POST':
 
     username = request.form.get('username')
     password = request.form.get('password')
-    my_db = database()
     login_allowed = my_db.check_login_credentials(username, password)
 
     print(f'{username} login result: {login_allowed}')
     if login_allowed:
+        payed = my_db.check_account(username)
         session['user_id'] = username
         print(session['user_id'])
+        if not payed:
+            print('yay we got here')
+            flash('Your Free Trial Has Ended. Check Out Our Purchase Plans At The Bottom Of The Page', 'error')
+            return redirect(url_for('index'))
         return redirect(url_for('live_dashboard'))
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
