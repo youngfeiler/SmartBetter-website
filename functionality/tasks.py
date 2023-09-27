@@ -6,6 +6,7 @@ from .live_nfl_dashboard_runner import live_nfl_dashboard_runner
 import time 
 from collections import OrderedDict
 from celery import Celery
+from .result_updater import result_updater
 
 celery = Celery(
     'tasks',
@@ -59,8 +60,12 @@ def start_dashboard_runner():
     live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
 
     db = database()
+    result_updater_instance = result_updater()
 
     while True:
+      result_updater_instance.update_results('baseball_mlb')
+      result_updater_instance.update_results('americanfootball_nfl')
+
       db.check_payments()
 
       live_dashboard_runner_instance.make_live_dash_data()

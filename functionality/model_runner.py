@@ -120,7 +120,6 @@ class model_runner():
           self.send_texts(self.text_list)
         except:
           print("couldn't send texts...")
-        self.result_updater_instace.update_results() 
         self.database_instance.update_winning_teams_data()
         self.database_instance.update_strategy_performance_files()
         print(f'Ran {i} times')

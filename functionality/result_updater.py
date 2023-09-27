@@ -51,6 +51,7 @@ class result_updater():
       scores_dict = self.pull_scores(sport)
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM scores', conn)
+      conn.close()
       for each in scores_dict:
             if each['completed'] == False:
                 pass
@@ -71,14 +72,12 @@ class result_updater():
                     df_list.append(each['away_team'])
             df.loc[len(df)] = df_list
       df_unique_game_id = df.drop_duplicates(subset=['game_id'])
+      conn = self.make_conn()
       df_unique_game_id.to_sql('scores', conn, if_exists='replace', index=False)
-      conn.commit()
       conn.close()
       return True
      except:
         print("Live results couldn't be updated. Trying agiain in 5 min... ")
-        conn.commit()
-        conn.close() 
         return False
 
 

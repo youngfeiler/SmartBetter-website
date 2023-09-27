@@ -200,7 +200,6 @@ class database():
       #scores_df = pd.read_csv('mlb_data/scores.csv')
       conn = self.make_conn()
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
-      conn.commit()  # Commit the changes
       conn.close()   # Close the connection
       
 
@@ -225,6 +224,7 @@ class database():
           performance_df['target'] = performance_df.apply(fill_na_with_winner, axis=1)
 
           performance_df.to_csv(f'live_performance_data/{file}', index=False)
+      return
 
     def update_strategy_performance_files(self):
       
@@ -381,21 +381,21 @@ class database():
        return df
        
     def add_made_bet_to_db(self, jayson):
-      conn = self.make_conn()
       #drop dollar sign from bet amount
       jayson['bet_amount'] = jayson['bet_amount'].replace('$', '')
       df = pd.DataFrame(columns=jayson.keys())
       df = df.append(jayson, ignore_index =True)
-      odds = int(df['odds'])
+      odds = int(df['highest_bettable_odds'])
       df['bet_profit'] = np.where(odds > 0, (odds * float(df['bet_amount'])) /100, float(df['bet_amount']) /(-1 * odds/100))
-
       df['time_placed'] = datetime.now()
-
+      #change time_placed to a datetime supported by sqlite 
+      #change df['date'] from y-m-d to d-m-y where y is a two digit year
+      df['time_placed'] = df['time_placed'].dt.strftime('%Y-%m-%d %H:%M:%S.%f')
+      conn = self.make_conn()
       read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
-      read_in['time_placed'] = pd.to_datetime(read_in['time_placed'])
       put_out = read_in.append(df, ignore_index=True)
       put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
-      conn.commit() 
+      conn.commit()
       conn.close() 
       return
     
@@ -405,10 +405,9 @@ class database():
     def get_live_dash_data(self, user_name):
        df = pd.read_csv('users/model_obs.csv')
        conn = self.make_conn()
-       result_updater_instance = result_updater()
-       result_updater_instance.update_results('baseball_mlb')
        #scores_df = pd.read_csv('mlb_data/scores.csv')
        scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()   # Close the connection
        
        scores_df = scores_df[['game_id', 'winning_team']]
        merged_df = df.merge(scores_df, on='game_id', how='left')
@@ -443,8 +442,9 @@ class database():
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
-
-       first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
+       print(first_20_rows)
+       if not first_20_rows.empty:
+        first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
       
        current_time = datetime.now() 
 
@@ -492,17 +492,13 @@ class database():
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
 
        first_20_rows = self.filter_5_min_cooloff(user_name, "MLB", first_20_rows)
-
-       conn.commit()
-       conn.close()
        return first_20_rows
     
     def get_live_nfl_dash_data(self, user_name):
        conn = self.make_conn()
        df = pd.read_csv('users/model_obs_nfl.csv')
-       result_updater_instance = result_updater()
-       result_updater_instance.update_results('americanfootball_nfl')
        scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()
        scores_df = scores_df[['game_id', 'winning_team']]
 
        merged_df = df.merge(scores_df, on='game_id', how='left')
@@ -545,18 +541,21 @@ class database():
         value_new = row['highest_bettable_odds']
         if value_new < 0:
           if value_new < -500:
-             value_new = value_new + (value_new * 0.1)
+             value_new = value_new - (value_new * 0.1)
           else:
-             value_new = value_new + (value_new * 0.05)
+             value_new = value_new - (value_new * 0.05)
         else:
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
              value_new = value_new - (value_new * 0.05)
+        #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
-       first_20_rows['highest_acceptable_odds'] = first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
-      
+       print(first_20_rows)
+       if not first_20_rows.empty:
+        first_20_rows['highest_acceptable_odds'] = first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
+        
 
        first_20_rows['snapshot_time'] = first_20_rows['snapshot_time'].apply(pd.to_datetime)
 
@@ -599,8 +598,6 @@ class database():
 
        first_20_rows = self.filter_5_min_cooloff(user_name, "NFL", first_20_rows)
 
-       conn.commit()
-       conn.close()
 
        return first_20_rows
 
@@ -610,17 +607,15 @@ class database():
       df = pd.read_sql('SELECT * FROM placed_bets', conn)
       #scores_df = pd.read_csv('mlb_data/scores.csv')
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+      conn.close()   # Close the connection
       df = df[df['user_name'] == user]
 
-      df['odds'] = df['odds'].astype(float)
+      df['highest_bettable_odds'] = df['highest_bettable_odds'].astype(float)
       df['bet_amount'] = df['bet_amount'].astype(float)
 
 
-      df['bet_profit'] = np.where(df['odds'] > 0, (df['odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['odds']/100))
+      df['bet_profit'] = np.where(df['highest_bettable_odds'] > 0, (df['highest_bettable_odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['highest_bettable_odds']/100))
 
-      result_updater_instance = result_updater()
-      result_updater_instance.update_results('baseball_mlb')
-      result_updater_instance.update_results('americanfootball_nfl')
 
 
       scores_df = scores_df[['game_id', 'winning_team']]
@@ -631,7 +626,7 @@ class database():
       grouped_df = filtered_df.groupby(['game_id', 'team'])
 
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
-      filtered_df['highest_odds'] = grouped_df['odds'].transform('max')
+      filtered_df['highest_odds'] = grouped_df['highest_bettable_odds'].transform('max')
       filtered_df['p_l'] = grouped_df['bet_profit'].transform('sum')
       filtered_df['total_bet_amount'] = grouped_df['bet_amount'].transform('sum')
       filtered_df['average_odds_dec'] = (filtered_df['p_l'] + filtered_df['total_bet_amount']) / filtered_df['total_bet_amount']
@@ -659,7 +654,7 @@ class database():
             row = group.iloc[0].copy()
             row['ev'] = ''
             row['team'] = group.iloc[0]['team'].split('v.')[1]
-            row['odds'] = ''
+            row['highest_bettable_odds'] = ''
             row['sportsbook'] = ''
             row['bet_profit'] = ''
             row['amount_of_bets'] = ''
@@ -682,8 +677,6 @@ class database():
 
 
       return_df = game_id_df_grouped[['game_id', 'team', 'user_name', 'average_odds', 'highest_odds', 'if_win']]
-      conn.commit()  # Commit the changes
-      conn.close()   # Close the connection
 
       return return_df
     
@@ -694,10 +687,8 @@ class database():
       current_bankroll = self.get_user_bank_roll(username)
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
-
-      result_updater_instance = result_updater()
-      result_updater_instance.update_results('baseball_mlb')
-      result_updater_instance.update_results('americanfootball_nfl')
+      profit_by_book = pd.read_sql('SELECT * FROM profit_by_book', conn)
+      conn.close()   # Close the connection
 
 
       scores_df = scores_df[['game_id', 'winning_team']]
@@ -712,7 +703,7 @@ class database():
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
       #call calculate_p_l_by_book
       #profit_by_book = pd.read_csv('users/profit_by_book.csv')
-      profit_by_book = pd.read_sql('SELECT * FROM profit_by_book', conn)
+    
 
       if username in profit_by_book['username'].values:
           #if it does, remove the row
@@ -727,7 +718,7 @@ class database():
       #for each row in merged_df
       for idx, row in merged_df.iterrows():
 
-        ls = row['sportsbook'].split(', ')
+        ls = row['sportsbooks_used'].split(', ')
         # for each element in ls replace [ and ] with nothing
         ls = [element.replace('[', '').replace(']', '').replace("'","") for element in ls]
         for book in ls:
@@ -752,8 +743,8 @@ class database():
       # update users/login_info.csv with new bankroll
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
       #login_info.to_csv('users/login_info.csv', index=False)
+      conn = self.make_conn()
       login_info.to_sql('login_info', conn, if_exists='replace', index=False)
-      conn.commit()  # Commit the changes
       conn.close()   # Close the connection
       
       return new_bankroll
@@ -764,6 +755,7 @@ class database():
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
       #placed_bets = pd.read_csv('users/placed_bets.csv')
       placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+      conn.close()   # Close the connection
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
@@ -810,8 +802,6 @@ class database():
             'total_bets_placed': int(total_bets_placed),
             'return_on_money': float(return_on_money)
         })
-      conn.commit()  # Commit the changes
-      conn.close()   # Close the connection
       return jsonify(datapoints)
 
 
