@@ -492,6 +492,9 @@ class database():
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
 
        first_20_rows = self.filter_5_min_cooloff(user_name, "MLB", first_20_rows)
+
+       first_20_rows['ev'] = first_20_rows['ev'].round(1)
+
        return first_20_rows
     
     def get_live_nfl_dash_data(self, user_name):
@@ -597,6 +600,7 @@ class database():
        first_20_rows = self.get_recommended_bet_size_nfl(user_name, first_20_rows)
 
        first_20_rows = self.filter_5_min_cooloff(user_name, "NFL", first_20_rows)
+       first_20_rows['ev'] = first_20_rows['ev'].round(1)
 
 
        return first_20_rows
