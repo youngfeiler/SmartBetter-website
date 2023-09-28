@@ -110,7 +110,7 @@ function saveRow(button) {
   let rowData = {};
   cells.forEach((cell, index) => {
     const input = cell.querySelector('input');
-    const columnName = ['game_id', 'average_market_odds', 'team', 'sportsbook', 'bet_amount',  'odds', 'ev', 'game_date', 'time_updated']; 
+    const columnName = ['game_id', 'average_market_odds', 'team', 'sportsbooks_used', 'bet_amount',  'highest_bettable_odds', 'minimum_acceptable_odds', 'ev', 'date', 'time_difference_formatted']; 
     console.log(input.value);
     rowData[columnName[index]] = input.value;
     cell.innerHTML = input.value;
