@@ -428,17 +428,21 @@ class database():
        
        first_20_rows = df_no_duplicates.head(20)
        def calculate_accepted_bettable_odds(row):
-        value_new = row['highest_bettable_odds']
+        value_new = row
         if value_new < 0:
           if value_new < -500:
-             value_new = value_new - (value_new * 0.1)
+             value_new = value_new + (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             value_new = value_new + (value_new * 0.05)
         else:
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             if (value_new - (value_new * 0.05)) < 100: 
+                less_than_100 = 100 - (value_new - (value_new * 0.05))
+                value_new = -100 - less_than_100
+             else:
+              value_new = value_new - (value_new * 0.05)
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
@@ -541,17 +545,21 @@ class database():
 
        first_20_rows['current_time'] = current_time 
        def calculate_accepted_bettable_odds(row):
-        value_new = row['highest_bettable_odds']
+        value_new = row
         if value_new < 0:
           if value_new < -500:
-             value_new = value_new - (value_new * 0.1)
+             value_new = value_new + (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             value_new = value_new + (value_new * 0.05)
         else:
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             if (value_new - (value_new * 0.05)) < 100: 
+                less_than_100 = 100 - (value_new - (value_new * 0.05))
+                value_new = -100 - less_than_100
+             else:
+              value_new = value_new - (value_new * 0.05)
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
