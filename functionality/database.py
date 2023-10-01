@@ -430,7 +430,7 @@ class database():
        
        first_20_rows = df_no_duplicates.head(20)
        def calculate_accepted_bettable_odds(row):
-        value_new = row
+        value_new = row['highest_bettable_odds']
         if value_new < 0:
           if value_new < -500:
              value_new = value_new + (value_new * 0.1)
@@ -547,7 +547,7 @@ class database():
 
        first_20_rows['current_time'] = current_time 
        def calculate_accepted_bettable_odds(row):
-        value_new = row
+        value_new = row['highest_bettable_odds']
         if value_new < 0:
           if value_new < -500:
              value_new = value_new + (value_new * 0.1)
