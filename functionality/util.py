@@ -125,6 +125,7 @@ def make_my_game_id(df):
     #extra_info_df = pd.read_csv('mlb_data/mlb_extra_info.csv')
     conn = sqlite3.connect('smartbetter.db')
     extra_info_df = pd.read_sql('SELECT * FROM mlb_extra_info', conn)
+    conn.close()   # Close the connection
 
     extra_info_df['home_team_final'] = extra_info_df[['home_team', 'away_team']].min(axis=1)
     extra_info_df['away_team_final'] = extra_info_df[['home_team', 'away_team']].max(axis=1)
@@ -139,8 +140,6 @@ def make_my_game_id(df):
 
     extra_info_df['my_id'] = extra_info_df['home_team_final'] + extra_info_df['away_team_final'] + extra_info_df['date']
 
-    conn.commit()  # Commit the changes
-    conn.close()   # Close the connection
     return df, extra_info_df
 
 def map_between_sheets(df, extra_info_df):
