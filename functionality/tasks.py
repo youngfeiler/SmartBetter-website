@@ -7,6 +7,7 @@ import time
 from collections import OrderedDict
 from celery import Celery
 from .result_updater import result_updater
+from .observation_compiler import observation_compiler
 
 celery = Celery(
     'tasks',
@@ -56,11 +57,14 @@ def start_model_runner():
 def start_dashboard_runner():
     
     live_dashboard_runner_instance = live_dashboard_runner()
+
     
     live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
 
     db = database()
     result_updater_instance = result_updater()
+
+    observation_compiler_instace = observation_compiler()
 
     while True:
       result_updater_instance.update_results('baseball_mlb')
@@ -68,9 +72,14 @@ def start_dashboard_runner():
 
       db.check_payments()
 
+      observation_compiler_instace.compile_observations()
+
       live_dashboard_runner_instance.make_live_dash_data()
       
       live_nfl_dashboard_runner_instance.make_live_dash_data()
+
+
+
 
 
 

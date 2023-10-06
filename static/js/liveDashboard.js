@@ -15,8 +15,6 @@ function updateTable(data) {
   if (!(data.length === 1 && data[0].update === false) && boolin) {
     const tableBody = document.querySelector('#data-table tbody');    tableBody.innerHTML = '';
 
-    console.log(data)
-
     data.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -32,7 +30,6 @@ function updateTable(data) {
       <td before-data="Time Since Odds Update: ">${row.time_difference_formatted}</td>
       <td data-title="button"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}">Add to My Bets</button></td>
       `;
-      console.log(row)
       tableBody.appendChild(tr);
     });
   }
@@ -203,12 +200,16 @@ function editRow(button) {
 
 
 
-function fetchDataAndUpdateTable() {
+function fetchDataAndUpdateTable(sport_tab_value) {
   console.log('Fetching data and updating table...');
-  //remove if for refresh button
-  //if (!currentlyEditingRow){
-    const url = '/get_live_mlb_dash_data?' + new Date().getTime();
-    fetch(url)
+    const url = '/get_live_dash_data?';
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sport_title: sport_tab_value }),
+    })
       .then(response => response.json())
       .then(data => {
         if (isPageVisible) {
@@ -217,7 +218,6 @@ function fetchDataAndUpdateTable() {
         }
       })
       .catch(error => console.error('Error fetching data:', error));
-  //}
 }
 
 
@@ -305,8 +305,23 @@ function addToBankroll() {
   });
 }
 
-$(document).ready(
-  fetchDataAndUpdateTable
-);
+function newFetchDataAndUpdateTable() {
+  
+}
+
+
+$(document).ready(function(){
+  const sportName = document.querySelector('#sport-tab');
+  var tabValue = sportName.innerHTML;
+  console.log(tabValue);  
+  fetchDataAndUpdateTable(tabValue);
+});
+
 
 document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
+document.getElementById('sport-tab').addEventListener('click', newFetchDataAndUpdateTable);
+
+
+
+
+

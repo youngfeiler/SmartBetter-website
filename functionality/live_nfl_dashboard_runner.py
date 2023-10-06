@@ -460,6 +460,14 @@ class live_nfl_dashboard_runner():
        return
 
     def make_live_dash_data(self):
+      def find_matching_columns(row):
+          def process_column_header(header):
+            book = header.split('_1_odds')[0].title()
+            return book
+          bettable_books = ['barstool', 'betfred', 'betmgm', 'betonlineag', 'betrivers', 'betus', 'circasports', 'draftkings', 'fanduel', 'foxbet','mybookieag', 'pinnacle', 'pointsbetus', 'unibet_us', 'williamhill_us', 'wynnbet']
+          return [process_column_header(col) for col in bettable_books if row[col+'_1_odds'] == row['highest_bettable_odds']]
+      
+
       print('nfl running')
       market_odds_df = self.get_nfl_odds()
 
@@ -476,17 +484,24 @@ class live_nfl_dashboard_runner():
           predictions_array = predictions.detach().numpy()
           print(predictions)
 
-          mask = predictions_array > strategy_dict['pred_thresh']
-          # mask = predictions_array > -100
+          # mask = predictions_array > strategy_dict['pred_thresh']
+          mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
+            filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
+
             filtered_df.to_csv('users/model_obs_nfl.csv', mode = 'a', header=False, index = False)
-           # filtered_df.to_csv('users/model_obs_nfl.csv', index = False)
-            print(filtered_df) 
+
             print(len(filtered_df))
+
           elif filtered_df.empty:
              pass
           
       return
+    
+
+    
+
+       

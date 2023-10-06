@@ -402,7 +402,11 @@ class database():
         
       
     
-    def get_live_dash_data(self, user_name):
+    def get_live_dash_data(self, user_name, sport):
+       # NEED TO MAKE A NEW DB WITH THE SCHEMA
+
+       # FILTER BY SPORT!!!!
+
        df = pd.read_csv('users/model_obs.csv')
        conn = self.make_conn()
        #scores_df = pd.read_csv('mlb_data/scores.csv')
@@ -442,7 +446,7 @@ class database():
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
-       print(first_20_rows)
+       
        if not first_20_rows.empty:
         first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
       
@@ -517,15 +521,6 @@ class database():
 
 
 
-       def process_column_header(header):
-        book = header.split('_1_odds')[0].title()
-        return book
-
-       def find_matching_columns(row):
-          bettable_books = ['barstool', 'betfred', 'betmgm', 'betonlineag', 'betrivers', 'betus', 'circasports', 'draftkings', 'fanduel', 'foxbet','mybookieag', 'pinnacle', 'pointsbetus', 'unibet_us', 'williamhill_us', 'wynnbet']
-          return [process_column_header(col) for col in bettable_books if row[col+'_1_odds'] == row['highest_bettable_odds']]
-
-       df_sorted['sportsbooks_used'] = df_sorted.apply(find_matching_columns, axis=1)
   
        columns_to_compare = ['team_1']
 
