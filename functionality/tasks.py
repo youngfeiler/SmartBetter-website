@@ -57,7 +57,7 @@ def start_dashboard_runner():
     
     live_dashboard_runner_instance = live_dashboard_runner()
     
-    live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
+    # live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
 
     db = database()
     result_updater_instance = result_updater()
@@ -70,7 +70,7 @@ def start_dashboard_runner():
 
       live_dashboard_runner_instance.make_live_dash_data()
       
-      live_nfl_dashboard_runner_instance.make_live_dash_data()
+      # live_nfl_dashboard_runner_instance.make_live_dash_data()
 
 
 
