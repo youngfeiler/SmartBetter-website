@@ -484,8 +484,8 @@ class live_nfl_dashboard_runner():
           predictions_array = predictions.detach().numpy()
           print(predictions)
 
-          # mask = predictions_array > strategy_dict['pred_thresh']
-          mask = predictions_array > -100
+          mask = predictions_array > strategy_dict['pred_thresh']
+          # mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 

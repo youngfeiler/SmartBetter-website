@@ -39,6 +39,7 @@ class database():
        new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed)
 
        self.users = self.get_all_usernames()
+
     def check_account(self,username):
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
@@ -54,8 +55,7 @@ class database():
         conn.commit()
         conn.close()
         return False
-      
-       
+          
     def check_login_credentials(self, username, password):
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
@@ -87,8 +87,6 @@ class database():
           conn.commit()
           conn.close()
           return False
-
-
 
     def make_data(self, strategy_name):
         full_df = self.get_data(strategy_name)
@@ -398,70 +396,22 @@ class database():
       conn.commit()
       conn.close() 
       return
-    
-        
       
-    
+
+
+    # walk through this function, once this is good we are all good to scale to many more sports
     def get_live_dash_data(self, user_name, sport):
-       # NEED TO MAKE A NEW DB WITH THE SCHEMA
-
-       # FILTER BY SPORT!!!!
-
-       df = pd.read_csv('users/model_obs.csv')
-       conn = self.make_conn()
-       #scores_df = pd.read_csv('mlb_data/scores.csv')
-       scores_df = pd.read_sql('SELECT * FROM scores', conn)
-       conn.close()   # Close the connection
        
-       scores_df = scores_df[['game_id', 'winning_team']]
-       merged_df = df.merge(scores_df, on='game_id', how='left')
+       # TODO: Check this logic
+       def american_to_decimal(american_odds):
+        positive_mask = american_odds > 0
+        negative_mask = american_odds < 0
+        decimal_odds = np.empty_like(american_odds, dtype=float)
+        decimal_odds[positive_mask] = (american_odds[positive_mask] / 100) + 1
+        decimal_odds[negative_mask] = (100 / np.abs(american_odds[negative_mask])) + 1
+        decimal_odds[~(positive_mask | negative_mask)] = 1.0 
+        return decimal_odds
 
-       filtered_df = merged_df[merged_df['winning_team'].isna()]
-
-       df_sorted = filtered_df.sort_values(by='snapshot_time', ascending=False)
-
-       df_sorted = pd.DataFrame(df_sorted)
-
-       columns_to_compare = ['team']
-
-       df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
-
-       df_no_duplicates['highest_bettable_odds'] = df_no_duplicates['highest_bettable_odds'].map(decimal_to_american)
-
-       df_no_duplicates = df_no_duplicates.drop(columns=['winning_team'])
-       
-       first_20_rows = df_no_duplicates.head(20)
-       def calculate_accepted_bettable_odds(row):
-        value_new = row['highest_bettable_odds']
-        if value_new < 0:
-          if value_new < -500:
-             value_new = value_new - (value_new * 0.1)
-          else:
-             value_new = value_new - (value_new * 0.05)
-        else:
-          if value_new > 500:
-             value_new = value_new - (value_new * 0.1)
-          else:
-             value_new = value_new - (value_new * 0.05)
-        #round value_new to nearest whole number 
-        value_new = round(value_new)
-        return value_new
-       
-       if not first_20_rows.empty:
-        first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
-      
-       current_time = datetime.now() 
-
-       first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=6)
-
-       first_20_rows['snapshot_time'].apply(pd.to_datetime)
-
-       first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
-
-       first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
-
-       first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
-       
        def minutes_seconds(row):
           seconds = int(float(row['time_difference_seconds']))
 
@@ -484,9 +434,70 @@ class database():
 
        def format_list_of_strings(strings):
            return ', '.join(strings[0])
-
-        # Apply the function to the desired column
+      
+       def calculate_accepted_bettable_odds(row):
+        value_new = row['highest_bettable_odds']
+        if value_new < 0:
+          if value_new < -500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        else:
+          if value_new > 500:
+             value_new = value_new - (value_new * 0.1)
+          else:
+             value_new = value_new - (value_new * 0.05)
+        #round value_new to nearest whole number 
+        value_new = round(value_new)
+        return value_new
        
+       conn = self.make_conn()
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()
+
+       df = pd.read_csv('users/master_model_observations.csv')
+       
+       df_sport = df[df['sport_title'] == sport]
+       
+       filtered_df = df_sport[df_sport['completed'] == False]
+
+       filtered_df.sort_values(by='snapshot_time', ascending=False, inplace=True)
+
+       columns_to_compare = ['team']
+
+       df_no_duplicates = filtered_df.drop_duplicates(subset=columns_to_compare)
+
+       def decimal_to_american(decimal_odds):
+        american_odds = np.where(decimal_odds >= 2.0, (decimal_odds - 1) * 100, -100 / (decimal_odds - 1))
+        return american_odds.astype(int)
+
+        # Apply the conversion function using NumPy vectorization
+       df_no_duplicates['highest_bettable_odds'] = decimal_to_american(df_no_duplicates['highest_bettable_odds'])
+       
+       first_20_rows = df_no_duplicates.head(20)
+
+       if 'team' in first_20_rows.columns:
+          first_20_rows['team_1'] = first_20_rows['team']
+       else:
+          pass
+       
+       if not first_20_rows.empty:
+        first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
+
+        # first_20_rows['highest_acceptable_odds'] = decimal_to_american(first_20_rows['highest_acceptable_odds'])
+
+       current_time = datetime.now() 
+
+       first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=6)
+
+       first_20_rows['snapshot_time'].apply(pd.to_datetime)
+
+       first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
+
+       first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
+
+       first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
+        
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
@@ -495,7 +506,7 @@ class database():
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
 
-       first_20_rows = self.filter_5_min_cooloff(user_name, "MLB", first_20_rows)
+       first_20_rows = self.filter_5_min_cooloff(user_name, sport, first_20_rows)
 
        first_20_rows['ev'] = first_20_rows['ev'].round(1)
 
@@ -519,9 +530,6 @@ class database():
 
        df_sorted = pd.DataFrame(df_sorted)
 
-
-
-  
        columns_to_compare = ['team_1']
 
        df_no_duplicates = df_sorted.drop_duplicates(subset=columns_to_compare)
@@ -803,11 +811,10 @@ class database():
         })
       return jsonify(datapoints)
 
-
     def filter_5_min_cooloff(self, username, sport, df):
        conn = self.make_conn()
-
        placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+       conn.close()
 
        user_df = placed_bets[placed_bets['user_name'] == username]
 
@@ -823,10 +830,7 @@ class database():
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
 
-       conn.commit()  # Commit the changes
-       conn.close()   # Close the connection
        return df
-
 
     def check_payments(self):
       conn = self.make_conn()
@@ -856,11 +860,6 @@ class database():
             print(f"SQLite Error: {e}")
       conn.close()
       return
-
-
-      
-
-
 
 
 

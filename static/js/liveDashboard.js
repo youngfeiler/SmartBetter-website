@@ -14,8 +14,8 @@ function updateTable(data) {
   boolin = true;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
     const tableBody = document.querySelector('#data-table tbody');    tableBody.innerHTML = '';
-
     data.forEach(row => {
+    console.log(row);
       const tr = document.createElement('tr');
       tr.innerHTML = `
       <td style="display:none;">${row.game_id}</td>
@@ -26,7 +26,7 @@ function updateTable(data) {
       <td before-data="Odds To Take: ">${row.highest_bettable_odds}</td>
       <td before-data="Minimum Odds To Take: ">${row.highest_acceptable_odds}</td>
       <td before-data="+EV%: ">${row.ev}</td>
-      <td class="mobile-no-display">${row.date}</td>
+      <td class="mobile-no-display">${row.game_date}</td>
       <td before-data="Time Since Odds Update: ">${row.time_difference_formatted}</td>
       <td data-title="button"><button onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}">Add to My Bets</button></td>
       `;
@@ -200,7 +200,10 @@ function editRow(button) {
 
 
 
-function fetchDataAndUpdateTable(sport_tab_value) {
+function fetchDataAndUpdateTable() {
+  var tabValue = document.querySelector('.w--current').innerHTML;
+  console.log(tabValue);
+
   console.log('Fetching data and updating table...');
     const url = '/get_live_dash_data?';
     fetch(url,{
@@ -208,7 +211,7 @@ function fetchDataAndUpdateTable(sport_tab_value) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sport_title: sport_tab_value }),
+      body: JSON.stringify({ sport_title: tabValue }),
     })
       .then(response => response.json())
       .then(data => {
@@ -305,21 +308,16 @@ function addToBankroll() {
   });
 }
 
-function newFetchDataAndUpdateTable() {
-  
-}
+
 
 
 $(document).ready(function(){
-  const sportName = document.querySelector('#sport-tab');
-  var tabValue = sportName.innerHTML;
-  console.log(tabValue);  
-  fetchDataAndUpdateTable(tabValue);
+  fetchDataAndUpdateTable();
 });
 
 
 document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
-document.getElementById('sport-tab').addEventListener('click', newFetchDataAndUpdateTable);
+
 
 
 
