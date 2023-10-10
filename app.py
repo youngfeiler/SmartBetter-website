@@ -229,6 +229,8 @@ def faq():
 def login():
   my_db = database()
   user_id = session.get('user_id')
+  print(user_id)
+  print(type(user_id))
   if (user_id is not None):
       payed = my_db.check_account(user_id)
       if payed:
