@@ -76,7 +76,7 @@ def start_dashboard_runner():
 
       live_dashboard_runner_instance.make_live_dash_data()
       
-      # live_nfl_dashboard_runner_instance.make_live_dash_data()
+      live_nfl_dashboard_runner_instance.make_live_dash_data()
 
       observation_compiler_instace.compile_observations()
       observation_compiler_instace.update_completed_observations()
