@@ -482,7 +482,6 @@ class live_nfl_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
-          print(predictions)
 
           mask = predictions_array > strategy_dict['pred_thresh']
           # mask = predictions_array > -100

@@ -14,9 +14,6 @@ class User():
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
       conn.close()   # Close the connection
-
-      print(df)
-      print('-------------------')
       
       #change the column date_signed_up to string
       df['date_signed_up'] = df['date_signed_up'].astype(str)

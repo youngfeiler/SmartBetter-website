@@ -555,7 +555,6 @@ class database():
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
-       print(first_20_rows)
        if not first_20_rows.empty:
         first_20_rows['highest_acceptable_odds'] = first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
         
