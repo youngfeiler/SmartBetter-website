@@ -61,13 +61,10 @@ class live_dashboard_runner():
         market_odds_df = get_odds()
         combined_market_extra_df = preprocess(market_odds_df)
 
-        print('--------------------')
         
         self.market_odds = combined_market_extra_df
         self.stacked_df = make_stacked_df(combined_market_extra_df)
 
-        print('---------------------')
-        self.stacked_df.to_csv('/Users/stefanfeiler/Desktop/stacked_bets.csv')
 
         for strategy_name, strategy_dict in self.model_storage.items():
             this_model_raw_data_point = strategy_dict['data_collector'].format(self.stacked_df)
