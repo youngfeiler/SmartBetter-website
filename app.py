@@ -25,8 +25,6 @@ def add_to_database(csv_file, conn,nm):
     df = pd.read_csv(csv_file)
     #add to database
     df.to_sql(nm, conn, if_exists='replace', index=False)
-
-    print(df)
     #commit changes
     conn.commit()
 
@@ -148,9 +146,6 @@ def my_webhooks():
         event = stripe.Event.construct_from(json_payload, stripe.api_key)
     except:
         return jsonify({'status': 'error', 'message': 'error'})
-    print(event.type)
-    print(type(event.data.object))
-    print(event.data.object.id)
     return redirect(url_for('register'))
 
 
@@ -183,7 +178,6 @@ def register():
         
         if username in users:
             has_payed=my_db.check_duplicate_account(username)
-            print(has_payed)
             if has_payed:
                 payed = True
                 my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
@@ -193,7 +187,6 @@ def register():
                 print(f'{username} login result: {login_allowed}')
                 if login_allowed:
                     session['user_id'] = username
-                    print(session['user_id'])
                     return redirect(url_for('live_dashboard'))
                 elif not login_allowed:
                     error_message = "Email or password incorrect. Please try again."
@@ -213,7 +206,6 @@ def register():
             print(f'{username} login result: {login_allowed}')
             if login_allowed:
                 session['user_id'] = username
-                print(session['user_id'])
                 return redirect(url_for('live_dashboard'))
             elif not login_allowed:
                 error_message = "Email or password incorrect. Please try again."
@@ -235,7 +227,6 @@ def login():
       payed = my_db.check_account(user_id)
       if payed:
         return redirect(url_for('live_dashboard'))
-  print('got here')
   if request.method == 'POST':
 
     username = request.form.get('username')
@@ -246,9 +237,7 @@ def login():
     if login_allowed:
         payed = my_db.check_account(username)
         session['user_id'] = username
-        print(session['user_id'])
         if not payed:
-            print('yay we got here')
             flash('Your Free Trial Has Ended. Check Out Our Purchase Plans At The Bottom Of The Page', 'error')
             return redirect(url_for('index'))
         return redirect(url_for('live_dashboard'))
@@ -343,7 +332,6 @@ def live_dashboard():
 
 @app.route('/nfl')
 def nfl():
-    print(session.get('user_id'))  
     user_id = session.get('user_id')
     if user_id is not None:
         return render_template('nfl.html')
@@ -370,11 +358,16 @@ def get_user_performance_data():
     data = my_db.get_user_performance_data(session.get('user_id'))
     return data
 
-@app.route('/get_live_mlb_dash_data')
+@app.route('/get_live_dash_data', methods=['POST'])
 def get_live_dash_data():
+    data = request.get_json()
+    sport_title = data.get('sport_title', '')
+    print(f'---------------{sport_title}')
+
     my_db = database()
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
-    data = my_db.get_live_dash_data(session['user_id'])
+    data = my_db.get_live_dash_data(session['user_id'], sport_title)
+
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
