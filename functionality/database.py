@@ -30,7 +30,6 @@ class database():
       query = "SELECT username FROM login_info"
       df = pd.read_sql(query, conn)
       self.users= df['username'].tolist()
-      conn.commit()  # Commit the changes
       conn.close()   # Close the connection
     
     def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
@@ -42,17 +41,14 @@ class database():
     def check_account(self,username):
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
+      conn.close()
       user_info = df[df['username'] == username]
       time_difference = datetime.now() - datetime.strptime(user_info['date_signed_up'].item(), '%Y-%m-%d %H:%M:%S.%f')
     
       days_difference = time_difference.days
       if user_info['payed'].item() or (days_difference <= 8):
-        conn.commit()  # Commit the changes
-        conn.close()
         return True
       else:
-        conn.commit()
-        conn.close()
         return False
       
        
@@ -60,33 +56,28 @@ class database():
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
-      print(df)
+      conn.close()   # Close the connection
       user_info = df[df['username'] == username]
-      print(user_info)
       if user_info.empty:
         return False
       else:
         if password == user_info['password'].item():
           return True
-      conn.commit()  # Commit the changes
-      conn.close()   # Close the connection
     
     def check_duplicate_account(self,username):
         self.check_payments()
         conn = self.make_conn()
         df = pd.read_sql('SELECT * FROM login_info', conn)
+        conn.close()   # Close the connection
         user_info = df[df['username'] == username]
         if user_info['payed'].item():
-          print(user_info['payed'].item())
+          conn = self.make_conn()
           #remove this row from the df and push it back to sqllite
           df = df[df['username'] != username]
           df.to_sql('login_info', conn, if_exists='replace', index=False)
-          conn.commit()
           conn.close()
           return True
         else:
-          
-          conn.commit()
           conn.close()
           return False
 
@@ -336,15 +327,15 @@ class database():
         #df = pd.read_csv('users/login_info.csv')
         conn = self.make_conn()
         df = pd.read_sql('SELECT * FROM login_info', conn)
-        user_df = df[df['username'] == user]
-        conn.commit()  # Commit the changes
         conn.close()   # Close the connection
+        user_df = df[df['username'] == user]
         return user_df['bankroll'].iloc[0]
 
     def add_to_bankroll(self, user, amount):
          try:
           conn = self.make_conn()
           df = pd.read_sql('SELECT * FROM login_info', conn)
+          conn.close()   # Close the connection
           #df = pd.read_csv('users/login_info.csv')
 
           user_df = df[df['username'] == user]
@@ -353,13 +344,14 @@ class database():
 
           df.loc[df['username'] == user, 'bankroll'] = new_bankroll
           #back to conn db 
+          conn = self.make_conn()
           df.to_sql('login_info', conn, if_exists='replace', index=False)
           #df.to_csv('users/login_info.csv', index=False)
-          conn.commit()  # Commit the changes
-          conn.close()   # Close the connection
+          conn.close()  # Commit the changes
 
           return True
          except:
+            conn.close()
             return False
 
     def get_recommended_bet_size(self, user, df):
@@ -397,7 +389,6 @@ class database():
       read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
       put_out = read_in.append(df, ignore_index=True)
       put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
-      conn.commit()
       conn.close() 
       return
     
@@ -823,6 +814,7 @@ class database():
        conn = self.make_conn()
 
        placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+       conn.close()   # Close the connection
 
        user_df = placed_bets[placed_bets['user_name'] == username]
 
@@ -838,8 +830,6 @@ class database():
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
 
-       conn.commit()  # Commit the changes
-       conn.close()   # Close the connection
        return df
 
 

@@ -13,6 +13,8 @@ class User():
       #df = pd.read_csv('users/login_info.csv')
       conn = self.make_conn()
       df = pd.read_sql('SELECT * FROM login_info', conn)
+      conn.close()   # Close the connection
+
       print(df)
       print('-------------------')
       
@@ -25,12 +27,12 @@ class User():
       df.loc[len(df)] = info_row
 
       #df.to_csv('users/login_info.csv', index=False)
+      conn = self.make_conn()
       df.to_sql('login_info', conn, if_exists='replace', index=False)
-
-      self.add_strategy_to_user(self.username, 'SmartBetter low risk demo strategy')
-      conn.commit()  # Commit the changes
       conn.close()   # Close the connection
 
+      self.add_strategy_to_user(self.username, 'SmartBetter low risk demo strategy')
+      return
     def add_strategy_to_user(self, username, strategy_name):
       df = pd.read_csv('users/user_strategy_names.csv')
       info_row = [username, strategy_name, False]
