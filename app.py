@@ -323,7 +323,6 @@ def make_strategy():
 
 @app.route('/mlb')
 def live_dashboard():
-    print(session.get('user_id'))  
     user_id = session.get('user_id')
     if user_id is not None:
         return render_template('mlb.html')
@@ -362,8 +361,6 @@ def get_user_performance_data():
 def get_live_dash_data():
     data = request.get_json()
     sport_title = data.get('sport_title', '')
-    print(f'---------------{sport_title}')
-
     my_db = database()
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
     data = my_db.get_live_dash_data(session['user_id'], sport_title)
