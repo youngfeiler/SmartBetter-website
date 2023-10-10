@@ -146,6 +146,8 @@ def map_between_sheets(df, extra_info_df):
 
     mapping_dict = map_my_id_to_game_id(df)
 
+    print(mapping_dict)
+
     extra_info_df['number_of_game_today'] = extra_info_df['number_of_game_today'].astype(str)
 
     extra_dict = map_my_id_to_double_header_vals(extra_info_df)
@@ -155,6 +157,8 @@ def map_between_sheets(df, extra_info_df):
     new_dict, id_commence_dict = fix_mapping_dict(mapping_dict, id_commence_dict)
 
     extra_info_df = make_my_id_game(extra_info_df)
+
+    print(extra_info_df)
 
     my_id_game = extra_info_df['my_id_game'].tolist()
 
