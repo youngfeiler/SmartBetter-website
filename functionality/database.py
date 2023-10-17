@@ -351,6 +351,28 @@ class database():
          except:
             conn.close()
             return False
+    def update_bankroll(self, user, amount):
+         try:
+          conn = self.make_conn()
+          df = pd.read_sql('SELECT * FROM login_info', conn)
+          conn.close()   # Close the connection
+          #df = pd.read_csv('users/login_info.csv')
+
+          user_df = df[df['username'] == user]
+
+          new_bankroll = amount
+
+          df.loc[df['username'] == user, 'bankroll'] = new_bankroll
+          #back to conn db 
+          conn = self.make_conn()
+          df.to_sql('login_info', conn, if_exists='replace', index=False)
+          #df.to_csv('users/login_info.csv', index=False)
+          conn.close()  # Commit the changes
+
+          return True
+         except:
+            conn.close()
+            return False
 
     def get_recommended_bet_size(self, user, df):
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
@@ -857,8 +879,40 @@ class database():
       conn.close()
       return
 
+    def get_user_info(self, username):
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM login_info', conn)
+      conn.close()
+      df = df[df['username'] == username]
+      return df.to_dict('records')
 
 
+    def cancel_subscription(self,username):
+      try:
+        # Get the user's subscription ID from the Stripe API
+        customer = stripe.Customer.list(email=username)
+        subscriptions = stripe.Subscription.list(customer=customer.data[0].id)
+        
+        if subscriptions.data:
+            subscription_id = subscriptions.data[0].id
+
+            # Cancel the subscription in Stripe
+            canceled_subscription = stripe.Subscription.delete(subscription_id)
+
+            if canceled_subscription.status == 'canceled':
+                # Update the 'paid' column in the SQLite database
+                conn = sqlite3.connect('smartbetter.db')
+                cursor = conn.cursor()
+                cursor.execute("UPDATE login_info SET payed = 0 WHERE username = ?", (username,))
+                conn.commit()
+                conn.close()
+                
+                return True, "Subscription canceled successfully."
+    
+        return False, "No active subscription found for this user."
+      except stripe.error.StripeError as e:
+        return False, str(e)
+    
 
 
 
