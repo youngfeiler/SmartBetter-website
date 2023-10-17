@@ -12,7 +12,10 @@ from datetime import datetime, timedelta
 import ast
 import sqlite3
 import stripe
-stripe.log.setLevel("error")  # Adjust the log level as needed
+import logging
+
+# Configure the logging level for the stripe module
+logging.getLogger("stripe").setLevel(logging.ERROR)
 
 STRIPE_PUBLIC_KEY = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
 STRIPE_PRIVATE_KEY = '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'
