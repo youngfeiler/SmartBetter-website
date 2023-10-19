@@ -21,14 +21,6 @@
 .w-icon-slider-right:before {
   content: "\e600";
 }
-
-.bold-text-11{
-  padding-top: 10px;
-  font-size: 12px;
-  text-decoration: none;
-  color: white;
-}
-
 .w-icon-slider-left:before {
   content: "\e601";
 }
@@ -180,10 +172,10 @@ html[data-w-dynpage] [data-w-cloak] {
   right: 12px !important;
   bottom: 12px !important;
   left: auto !important;
-  color: #AAADB0 !important;
+  color: #aaadb0 !important;
   background-color: #fff !important;
   border-radius: 3px !important;
-  padding: 6px 8px 6px 6px !important;
+  padding: 6px !important;
   font-size: 12px !important;
   opacity: 1 !important;
   line-height: 14px !important;
@@ -518,7 +510,6 @@ textarea.w-select {
   margin-left: auto;
   margin-right: auto;
   max-width: 940px;
-  width: 100%;
 }
 .w-container:before,
 .w-container:after {
@@ -1595,7 +1586,7 @@ textarea.w-select {
 }
 .w-nav {
   position: relative;
-  background: #190e29;
+  background: #dddddd;
   z-index: 1000;
 }
 .w-nav:before,
@@ -1621,19 +1612,18 @@ textarea.w-select {
   display: inline-block;
   vertical-align: top;
   text-decoration: none;
-  color: #FFFFFF;
+  color: #222222;
   padding: 20px;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
 }
 .w-nav-link.w--current {
-  color: #21ce99;
+  color: #0082f3;
 }
 .w-nav-menu {
   position: relative;
   float: right;
-  width: 100%;
 }
 [data-nav-menu-open] {
   display: block !important;
