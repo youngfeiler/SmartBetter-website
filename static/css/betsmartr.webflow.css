@@ -276,7 +276,7 @@
   line-height: 101px;
 }
 
-.paragraph {
+.paragraphk {
   color: #fff;
   text-align: center;
   font-size: 18px;
@@ -293,13 +293,7 @@
   display: flex;
 }
 
-.heading-2 {
-  color: #21ce99;
-  -webkit-text-stroke-color: #21ce99;
-  font-size: 76px;
-  font-weight: 800;
-  line-height: 86px;
-}
+
 
 .gradient-text {
   -webkit-text-fill-color: transparent;
@@ -1138,7 +1132,7 @@
     font-size: 78px;
   }
 
-  .paragraph {
+  .paragraphk {
     font-size: 19px;
   }
 
@@ -1720,7 +1714,7 @@
     line-height: 45px;
   }
 
-  .paragraph {
+  .paragraphk {
     font-size: 13px;
   }
 

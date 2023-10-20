@@ -1586,7 +1586,7 @@ textarea.w-select {
 }
 .w-nav {
   position: relative;
-  background: #190e29;
+  background: #dddddd;
   z-index: 1000;
 }
 .w-nav:before,
@@ -1612,7 +1612,7 @@ textarea.w-select {
   display: inline-block;
   vertical-align: top;
   text-decoration: none;
-  color: #FFFFFF;
+  color: #222222;
   padding: 20px;
   text-align: left;
   margin-left: auto;
