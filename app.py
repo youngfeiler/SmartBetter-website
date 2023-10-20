@@ -148,6 +148,30 @@ def my_webhooks():
         return jsonify({'status': 'error', 'message': 'error'})
     return redirect(url_for('register'))
 
+@app.route('/account')
+def account():
+  db = database()
+  if 'user_id' in session:
+        users = db.get_user_info(session['user_id'])
+        return render_template('account_settings.html', users = users)
+  else:
+        return redirect(url_for('login'))
+
+
+@app.route('/update_bankroll', methods=['POST'])
+def update_bankroll():
+    if request.method == 'POST':
+        # You can access the data sent by the form here
+        new_bankroll = request.form.get('Name-5')
+        db = database()
+        success = db.update_bankroll(session['user_id'], new_bankroll)
+        if success:
+            flash('Your bankroll has been updated!', 'success')
+            return redirect(url_for('account'))
+        else:
+            flash('Your bankroll was not updated. Please try again.', 'error')
+            return redirect(url_for('account'))
+    
 
 
 @app.route('/profile')
@@ -432,7 +456,29 @@ def add_to_bankroll():
         response_data = {'error': 'Bankroll unable to be updated', 'bankroll': int(database_instance.get_user_bank_roll(username))}
 
     return jsonify(response_data)
+
+@app.route('/logout')
+def logout():
+    # Clear the user's session
+    session.clear()
+    # Redirect the user to the login or home page after logging out
+    return redirect(url_for('login'))  # Replace 'login' with the appropriate route
+
     
+
+@app.route("/cancel_subscription", methods=["POST"])
+def cancel_subscription():
+    # Perform the subscription cancellation logic here
+    action = request.get_json().get("action")
+
+    if action == "cancel":
+        # Implement the subscription cancellation process here
+        # You can interact with your subscription service or database
+        db = database()
+        db.cancel_subscription(session['user_id'])
+        return redirect(url_for('logout'))
+    else:
+        return jsonify({"success": False})
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, use_reloader=False)
