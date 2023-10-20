@@ -464,6 +464,10 @@ def logout():
     # Redirect the user to the login or home page after logging out
     return redirect(url_for('login'))  # Replace 'login' with the appropriate route
 
+
+@app.route('/learn')
+def learn():
+    return render_template('learn.html')
     
 
 @app.route("/cancel_subscription", methods=["POST"])
