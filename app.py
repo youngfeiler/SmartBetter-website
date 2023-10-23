@@ -241,9 +241,7 @@ def register():
     
     return render_template('register.html', username_exists=False, form_data={})
 
-@app.route('/faq')
-def faq():
-    return render_template('faq.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
@@ -466,9 +464,13 @@ def logout():
     # Redirect the user to the login or home page after logging out
     return redirect(url_for('login'))  # Replace 'login' with the appropriate route
 
-
 @app.route('/learn')
 def learn():
+    include_header_css = False
+    return render_template('learning_center.html', include_header_css=include_header_css)
+
+@app.route('/faq')
+def faq():
     return render_template('learn.html')
     
 
