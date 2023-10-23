@@ -459,14 +459,18 @@ class database():
         value_new = row['highest_bettable_odds']
         if value_new < 0:
           if value_new < -500:
-             value_new = value_new - (value_new * 0.1)
+             value_new = value_new + (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             value_new = value_new + (value_new * 0.05)
         else:
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             if (value_new - (value_new * 0.05)) <= 100: 
+                less_than_100 = 100 - (value_new - (value_new * 0.05))
+                value_new = -100 - less_than_100
+             else:
+              value_new = value_new - (value_new * 0.05)
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
@@ -574,7 +578,7 @@ class database():
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
-             if (value_new - (value_new * 0.05)) < 100: 
+             if (value_new - (value_new * 0.05)) <= 100: 
                 less_than_100 = 100 - (value_new - (value_new * 0.05))
                 value_new = -100 - less_than_100
              else:
