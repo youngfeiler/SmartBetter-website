@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="static/css/scenarios_dev.css"></script>
+<style>
+
+</style>
+</head>
+<body>
+   
+<div class="container">
+  <h2>Scenario Creation</h2>
+  <p>Use the tool to select options that cratft your scenario</p>
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Teams
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li class="dropdown-submenu">
+        <a class="test" tabindex="-1" href="#">AFC <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-submenu">
+            <a class="test" href="#">North <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              
+            </ul>
+            <a class="test" href="#">South <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="dropdown-menu">
+      <li class="dropdown-submenu">
+        <a class="test" tabindex="-1" href="#">AFC <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
+          <li class="dropdown-submenu">
+            <a class="test" href="#">North <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Bengals</a></li>
+              <li><a href="#">Browns</a></li>
+              <li><a href="#">Ravens</a></li>
+              <li><a href="#">Steelers</a></li>
+            </ul>
+          </li>
+          <li class="dropdown-submenu">
+            <a class="test" href="#">South <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Colts</a></li>
+              <li><a href="#">Jaguars</a></li>
+              <li><a href="#">Texans</a></li>
+              <li><a href="#">Titans</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
+
+</body>
+</html>
