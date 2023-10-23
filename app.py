@@ -90,6 +90,10 @@ def index():
     return render_template('index.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
+@app.route('/scenarios')
+def scenarios():
+    return render_template('scenarios.html')
+
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
     # Create a checkout session with the provided price_id
