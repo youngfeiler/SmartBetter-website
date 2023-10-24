@@ -4,6 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 import plotly.graph_objects as go
 import plotly as plotly
 from functionality.user import User
+from functionality.raw_odds_data_holders import RawOddsHolders
 from functionality.database import database
 from functionality.result_updater import result_updater
 from functionality.live_dashboard_runner import live_dashboard_runner
@@ -17,6 +18,7 @@ from datetime import datetime
 import os
 import sqlite3
 import stripe
+import time
 
 # Connect to the SQLite database (or create if it doesn't exist)
 #create a functions that adds to the database by taking in a csv file string and adding it to the database
@@ -64,6 +66,8 @@ app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
 app.config['STRIPE_PRIVATE_KEY'] = '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'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
+
+app.config['raw_odds_data'] = RawOddsHolders()
 # @app.route('/')
 # def index():
 #     checkout_session = stripe.checkout.Session.create(
@@ -92,7 +96,31 @@ def index():
 
 @app.route('/scenarios')
 def scenarios():
+    
+    
     return render_template('scenarios.html')
+
+@app.route('/get_scenario_data', methods=['GET', 'POST'])
+def get_scenario_data():
+    try:
+        data = request.json 
+        sport = data['sport']
+
+        db = database()
+        start = time.time()
+
+        graph_data = db.get_scenario_results(app.config['raw_odds_data'], data)
+
+        end = time.time()
+
+        return graph_data
+
+        # response = {'status_code': 'success', 'message': f'Sport recieved: {sport}'}
+    except Exception as e:
+        response = {'status_code': 'error', 'message': str(e)}
+
+    return response
+
 
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
@@ -130,9 +158,6 @@ def create_checkout_session_non_recurring(price_id):
     return redirect(checkout_session.url,code=302)
 
 
-
-
-
 @app.route('/test_func')
 def test_func():
     tasks.start_dashboard_runner.delay()
@@ -161,7 +186,6 @@ def account():
   else:
         return redirect(url_for('login'))
 
-
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
     if request.method == 'POST':
@@ -176,8 +200,6 @@ def update_bankroll():
             flash('Your bankroll was not updated. Please try again.', 'error')
             return redirect(url_for('account'))
     
-
-
 @app.route('/profile')
 def profile():
   if 'user_id' in session:
@@ -241,8 +263,6 @@ def register():
     
     return render_template('register.html', username_exists=False, form_data={})
 
-
-
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
   my_db = database()
@@ -269,7 +289,6 @@ def login():
         return render_template('login.html', incorrect_password=True, form_data=request.form)
 
   return render_template('login.html')
-
 
 @app.route('/get_graph_data', methods=['GET', 'POST'])
 def get_graph_data():

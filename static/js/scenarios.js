@@ -1,41 +1,58 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const dropdownButton = document.querySelector('.dropdown-button');
-  const mainMenu = document.querySelector('.main-menu');
+  const sportTitleButtons = document.querySelectorAll('.sport-title');
+  const sportToggle = document.querySelector('.dropdown .sport');
 
-  dropdownButton.addEventListener('click', function() {
-      mainMenu.classList.toggle('active');
+  sportTitleButtons.forEach(sportTitleButton => {
+    sportTitleButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      sportToggle.innerText = sportTitleButton.innerText;
+      getSportAndReturnData(sportTitleButton.innerText);
   });
-
-  const submenuButtons = document.querySelectorAll('.submenu .dropdown-button');
-
-  submenuButtons.forEach(submenuButton => {
-      submenuButton.addEventListener('click', function() {
-          this.parentElement.classList.toggle('active');
-  
-          // Get the unique identifier for the submenu
-          const submenuIdentifier = this.parentElement.getAttribute('data-submenu');
-  
-          if (submenuIdentifier) {
-              // Toggle the "selected" class on li elements within the submenu with the matching identifier
-              const finalSubmenu = document.querySelector(`.final.${submenuIdentifier}`);
-              if (finalSubmenu) {
-                  const liElements = finalSubmenu.querySelectorAll('li');
-                  liElements.forEach(li => {
-                      li.classList.toggle('selected');
-                  });
-              }
-          }
-      });
-  });
-
-
-  const backButtons = document.querySelectorAll('.back');
-
-  backButtons.forEach(backButton => {
-      backButton.addEventListener('click', function(e) {
-          e.preventDefault();
-          const submenu = this.closest('.submenu');
-          submenu.classList.remove('active');
-      });
-  });
+  })
 });
+
+function getSportAndReturnData(sportTitle){
+  const dataToSend = { sport: sportTitle };
+  fetch('/get_scenario_data', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(dataToSend),
+})
+.then(response => response.json())
+.then(data => {
+  // Parse the JSON data
+  const parsedData = JSON.parse(data.data);
+
+  // Extract x and y data
+  const xData = parsedData.map(entry => entry.time_pulled);
+  const yData = parsedData.map(entry => entry.running_win_sum);
+
+  // Create the Plotly trace
+  const trace = {
+      x: xData,
+      y: yData,
+      mode: 'lines',
+      type: 'scatter',
+      name: 'Line Chart'
+  };
+
+  // Define the layout for the chart
+  const layout = {
+      title: 'Line Chart Example',
+      xaxis: {
+          title: 'Test'
+      },
+      yaxis: {
+          title: 'Running Wins'
+      }
+  };
+
+  // Create the Plotly chart
+  Plotly.newPlot('chart', [trace], layout);
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+};

@@ -6,6 +6,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="static/css/scenarios_dev.css"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 <style>
 
 </style>
@@ -16,31 +18,64 @@
   <h2>Scenario Creation</h2>
   <p>Use the tool to select options that cratft your scenario</p>
   <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Teams
+    <button class="btn btn-default dropdown-toggle sport" type="button" data-toggle="dropdown">Sport
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="sport-title" tabindex="-1" href="#">NFL</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="sport-title" tabindex="-1" href="#">NBA<span"></span></a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Conference
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li class="dropdown-submenu">
-        <a class="test" tabindex="-1" href="#">AFC <span class="caret"></span></a>
+        <a class="test" tabindex="-1" href="#">ACF <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li class="dropdown-submenu">
             <a class="test" href="#">North <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              
+              <li><a href="#">Bengals</a></li>
+              <li><a href="#">Browns</a></li>
+              <li><a href="#">Ravens</a></li>
+              <li><a href="#">Steelers</a></li>
             </ul>
+          </li>
+          <li class="dropdown-submenu">
             <a class="test" href="#">South <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              
+              <li><a href="#">Colts</a></li>
+              <li><a href="#">Jaguars</a></li>
+              <li><a href="#">Texans</a></li>
+              <li><a href="#">Titans</a></li>
+            </ul>
+          </li>
+          <li class="dropdown-submenu">
+            <a class="test" href="#">West <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Broncos</a></li>
+              <li><a href="#">Chargers</a></li>
+              <li><a href="#">Chiefs</a></li>
+              <li><a href="#">Raiders</a></li>
+            </ul>
+          </li>
+          <li class="dropdown-submenu">
+            <a class="test" href="#">West <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Colts</a></li>
+              <li><a href="#">Jaguars</a></li>
+              <li><a href="#">Texans</a></li>
+              <li><a href="#">Titans</a></li>
             </ul>
           </li>
         </ul>
-      </li>
-    </ul>
-    <ul class="dropdown-menu">
-      <li class="dropdown-submenu">
-        <a class="test" tabindex="-1" href="#">AFC <span class="caret"></span></a>
+        <a class="test" tabindex="-1" href="#">NCF <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
-          <li><a tabindex="-1" href="#">2nd level dropdown</a></li>
           <li class="dropdown-submenu">
             <a class="test" href="#">North <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -63,7 +98,9 @@
       </li>
     </ul>
   </div>
-</div>
+  <div id="chart"></div>
+
+
 
 <script>
 $(document).ready(function(){
@@ -74,6 +111,8 @@ $(document).ready(function(){
   });
 });
 </script>
+<script src="static/js/scenarios.js"></script>
+
 
 </body>
 </html>

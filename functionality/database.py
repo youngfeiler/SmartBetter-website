@@ -921,6 +921,26 @@ class database():
         return False, "No active subscription found for this user."
       except stripe.error.StripeError as e:
         return False, str(e)
+
+
+
+    def get_scenario_results(self, data_holder, args):
+      if args['sport'] == "NFL":
+        data = data_holder.raw_nfl_odds_data
+      elif args['sport'] == "NBA":
+         data = data_holder.raw_nba_odds_data
+
+      
+      
+      data['win_loss'] = np.where(data['team_1'] == data['winning_team'], 1, 0)
+
+      data['running_win_sum'] = data['win_loss'].cumsum()
+
+      return_data = data[['time_pulled', 'team_1', 'running_win_sum']]
+
+      return jsonify(data=return_data.to_json(orient='records', date_format='iso'))
+
+
     
 
 
