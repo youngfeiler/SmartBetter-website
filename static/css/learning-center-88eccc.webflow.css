@@ -1,9 +1,10 @@
-.w-layout-blockcontainer {
+.w-layout-blockcontainer2 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
   display: block;
-  padding-top: 20px; /* Add desired padding value to the top */
+  /* center the elements */
+  
 }
 
 .w-layout-grid {
@@ -969,10 +970,10 @@
     padding-left: 31px;
   }
 
-  .container-4-learn {
+  /* .container-4-learn {
     margin-left: -19px;
     margin-right: -19px;
-  }
+  } */
 
   .paragraph-2-learn {
     padding-left: 38px;

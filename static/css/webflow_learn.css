@@ -507,6 +507,12 @@ textarea.w-select {
   height: 20px;
 }
 .w-container {
+  display: flex;
+  justify-content: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.w-container {
   margin-left: auto;
   margin-right: auto;
   max-width: 940px;
