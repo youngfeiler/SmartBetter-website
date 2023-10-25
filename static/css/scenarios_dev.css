@@ -7,30 +7,135 @@
   left: 100%;
   margin-top: -1px;
 }
+body {
 
-.container {
-  display: flex;
-  grid-template-columns: 1fr; /* Single column layout */
-  grid-gap: 20px; /* Adjust the gap between grid items */
-  background-color: #f2f2f2; /* Background color for the container */
-  padding: 20px;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #190e29;
+  color: #fefefe;
+  height: 65vh;
+  padding: 0 20px;
+  margin: 0 auto;
 }
 
-.flex-container {
-  background-color: #fff; /* Background color for the grid container */
-  padding: 20px;
-  border: 1px solid #ccc; /* Add a border for separation */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+.gradient-text {
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(254deg, #21ce99, #efffe3);
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  /* center */
+  text-align: center;
+  /* increase thickness of text */
+  font-weight: 900;
+  font-weight: bold;
+  /* use fonts/Amarai.zip as font */
+  font-family: "Amarai", sans-serif;
+  border-style: solid ;
 }
 
 /* Add this to your existing CSS file or link a new CSS file */
 .flex-container {
+  /* center page */
+  margin: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* fit the current size of display */
+  height: 100%;
   display: flex;
-  flex-wrap: wrap; /* Allow elements to wrap to the next line */
-  justify-content: space-between; /* Distribute items evenly */
+  flex-direction: column; /* Display children in a single column */
+  justify-content: flex-start; /* Align children to the top (left side) */
+  align-items: flex-start; /* Align children to the left */
+  max-width: 200px; /* Set a reasonable max width */
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 100vh;
 }
 
 /* Add custom styles for the custom-button section as needed */
 .custom-button {
   flex: 0 0 100%; /* Force this section to be 100% width */
 }
+
+/* Optionally, add space between child elements */
+.flex-container > * {
+  margin-bottom: 10px;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #190e29;
+  color: #fefefe;
+}
+
+h2 {
+  font-size: 40px;
+  margin-top: 40px;
+}
+
+p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.dropdown {
+  width: 100%;
+}
+.flex-container .dropdown {
+  margin: 10px; /* Adjust this to control the spacing between the divs */
+}
+#customText {
+  font-size: 14px;
+  color: black;
+  margin-bottom: 10px;
+}
+#submitCustom{
+  font-size: 14px;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.btn {
+  /* make sure text wraps */
+  white-space: normal;
+  width: 100%;
+  background-color: #16242f;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 14px;
+}
+
+.btn:hover {
+  color: #f1f1f1;
+  text-decoration: underline;
+}
+
+.dropdown-menu {
+  background-color: #16242f;
+  color: #ffffff;
+}
+
+.dropdown-submenu {
+  background-color: #16242f;
+  color: #ffffff;
+}
+
+.dropdown-submenu .dropdown-menu {
+  background-color: #16242f;
+  color: #ffffff;
+}
+
+.dropdown-menu a.toggle_up {
+  color: #ffffff;
+}
+

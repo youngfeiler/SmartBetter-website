@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
   const toggleUpButtons = document.querySelectorAll('.toggle_up');
+  const submitCustom = document.querySelectorAll('#submitCustom');
 
 
-  const customButton = document.getElementById('customButton');
-  const customText = document.getElementById('customText');
-  const submitCustom = document.getElementById('submitCustom');
+  customButton = document.getElementById('customButton');
+  customText = document.getElementById('customText');
   let parentButtonToUpdate; // Store a reference to the parent button
   
   // Function that handles the selecting and deslecting of proper sport shit 
@@ -107,25 +107,30 @@ document.addEventListener('DOMContentLoaded', function() {
       const text = e.target.innerText;
       if (text === 'Custom') {
         parentButtonToUpdate = $(this).closest('.dropdown');
-        customButton.style.display = 'block';
+        customButton = parentButtonToUpdate.find('#customButton'); // Replace 'this' with the clicked element
+        customText = parentButtonToUpdate.find('#customText')[0]; // Replace 'this' with the clicked element
+        console.log(customText);
+        customButton[0].style.display = 'block';
       } else {
         const parentButton = $(this).closest('.dropdown');
         const btn = parentButton.find('.btn');
         btn.text(text);
-        customButton.style.display = 'none';
       }
     });
   });
 
-  submitCustom.addEventListener('click', function() {
+submitCustom.forEach(submitCustomCurrent => {
+  submitCustomCurrent.addEventListener('click', function() {
     const customButtonText = customText.value;
     if (parentButtonToUpdate) {
       const btn = parentButtonToUpdate.find('.btn');
-      btn.text(btn.text()+ " greater than " + customButtonText);
-      customButton.style.display = 'none';
+      btn.text(parentButtonToUpdate.find('h5').text()+ " greater than " + customButtonText);
+      customButton[0].style.display = 'none';
     }
   });
+  });
 });
+
 
 const goButton = document.getElementById('goButton');
 goButton.addEventListener('click', function() {
