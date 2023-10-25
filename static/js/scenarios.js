@@ -56,3 +56,5 @@ function getSportAndReturnData(sportTitle){
     console.error('Error:', error);
 });
 };
+
+
