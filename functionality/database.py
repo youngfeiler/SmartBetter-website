@@ -930,6 +930,9 @@ class database():
       elif args['sport'] == "NBA":
          data = data_holder.raw_nba_odds_data
 
+      for filter in args:
+         print(filter)
+
       
       
       data['win_loss'] = np.where(data['team_1'] == data['winning_team'], 1, 0)

@@ -18,99 +18,88 @@
   
 <div class="flex-container">
   <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">Sport
+    <button class="btn" type="button" data-toggle="dropdown" data-label="sport" data-value="default">Sport
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="toggle_up" tabindex="-1" href="#">NFL</a>
+        <a class="toggle_up sport" tabindex="-1" data-label="sport" data-value="NFL">NFL</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NBA<span"></span></a>
+        <a class="toggle_up sport" tabindex="-1" data-label="sport" data-value="MLB">MLB</a>
       </li>
     </ul>
   </div>
 
   <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">NFL Conference
+    <button class="btn" type="button" data-toggle="dropdown" data-label="team_1_division" data-value="default" data-sport="NFL" style="display: none;">NFL Conference
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="toggle_up" tabindex="-1" href="#">AFC</a>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_division" data-value="AFC" data-sport="NFL">AFC</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NFC<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_division" data-value="NFC" data-sport="NFL">NFC</a>
       </li>
     </ul>
   </div>
   <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">MLB Conference
+    <button class="btn" type="button" data-toggle="dropdown" data-label="team_1_division" data-value="default" data-sport="MLB" style="display: none;">MLB Conference
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="toggle_up" tabindex="-1" href="#">American League</a>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_division" data-value="AL" data-sport="MLB">American League</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">National League<span"></span></a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">NFL Division
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">AFC East</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AFC West<span"></span></a>
-      </li>
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">AFC North</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AFC South<span"></span></a>
-      </li>
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">NFC East</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NFC West<span"></span></a>
-      </li>
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">NFC East</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NFC West<span"></span></a>
-      </li>
-    </ul>
-  </div>
-  <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">MLB Division
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">NL East</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NL West<span"></span></a>
-      </li>
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">NL Central</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AL East<span"></span></a>
-      </li>
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">AL West</a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AL Central<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_division" data-value="NL" data-sport="MLB">National League</a>
       </li>
     </ul>
   </div>
 
   <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown" data-label="team_1_conference" data-value="default" data-sport="NFL" style="display: none;">NFL Division
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="East" data-sport="NFL">East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="West" data-sport="NFL">West</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="North" data-sport="NFL">North</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="South" data-sport="NFL">South</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown" data-label="team_1_conference"  data-value="default"  data-sport="MLB" style="display: none;">MLB Division
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="East"  data-sport="MLB">NL East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-sport="MLB" data-label="team_1_conference"  data-value="West" >NL West</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-sport="MLB" data-label="team_1_conference"  data-value="Central" >NL Central</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1"  data-label="team_1_conference"  data-value="East" data-sport="MLB">AL East</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="West"  data-sport="MLB">AL West</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="team_1_conference"  data-value="Central"  data-sport="MLB">AL Central</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- <div class="dropdown">
     <button class="btn" type="button" data-toggle="dropdown">NFL Team
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -118,19 +107,19 @@
         <a class="toggle_up" tabindex="-1" href="#">NL East</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NL West<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">NL West</a>
       </li>
       <li >        
         <a class="toggle_up" tabindex="-1" href="#">NL Central</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AL East<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">AL East</a>
       </li>
       <li >        
         <a class="toggle_up" tabindex="-1" href="#">AL West</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AL Central<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">AL Central</a>
       </li>
     </ul>
   </div>
@@ -143,96 +132,96 @@
         <a class="toggle_up" tabindex="-1" href="#">NL East</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">NL West<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">NL West</a>
       </li>
       <li >        
         <a class="toggle_up" tabindex="-1" href="#">NL Central</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AL East<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">AL East</a>
       </li>
       <li >        
         <a class="toggle_up" tabindex="-1" href="#">AL West</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">AL Central<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">AL Central</a>
+      </li>
+    </ul>
+  </div> -->
+
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown" data-label="home_away" data-value="default" >Home or Away
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="home_away" data-value="1">Home</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="home_away" data-value="0" >Away</a>
       </li>
     </ul>
   </div>
 
 
   <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">Home or Away
+    <button class="btn" type="button" data-toggle="dropdown" data-label="day_night" data-value="default" >Day or Night
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="toggle_up" tabindex="-1" href="#">Home</a>
+        <a class="toggle_up" tabindex="-1" data-label="day_night" data-value="d" >Day</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Away<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="day_night" data-value="n" >Night</a>
       </li>
     </ul>
   </div>
 
 
   <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">Day or Night
+    <button class="btn" type="button" data-toggle="dropdown" data-label="day_of_week" data-value="default" >Day of Week
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="toggle_up" tabindex="-1" href="#">Day</a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Mon">Monday</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Night<span"></span></a>
-      </li>
-    </ul>
-  </div>
-
-
-  <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">Day of Week
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li >        
-        <a class="toggle_up" tabindex="-1" href="#">Monday</a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Tue">Tuesday</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Tuesday<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Wed">Wenesday</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Wenesday<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Thu">Thursday</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Thursday<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Fri">Friday</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Friday<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Sat">Saturday</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Saturday<span"></span></a>
-      </li>
-      <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">Sunday<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Sun">Sunday</a>
       </li>
     </ul>
   </div>
 
   <div class="dropdown">
-    <button class="btn" type="button" data-toggle="dropdown">Pregame Favorites?
+    <button class="btn" type="button" data-toggle="dropdown" data-label="pregame_favorites" data-value="default">Pregame Favorites?
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="toggle_up" tabindex="-1" href="#">Yes</a>
+        <a class="toggle_up" tabindex="-1" data-label="pregame_favorites" data-value="1">Yes</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="toggle_up" tabindex="-1" href="#">No<span"></span></a>
+        <a class="toggle_up" tabindex="-1" data-label="pregame_favorites" data-value="0">No</a>
       </li>
     </ul>
   </div>
 
 
   <!-- CUSTOM USE CASES -->
-  <div class="dropdown">
+  <!-- <div class="dropdown">
     <button class="btn" type="button" data-toggle="dropdown">Winning Streak Home Team
       <span class="caret"></span>
     </button>
@@ -273,8 +262,8 @@
   <div id="customButton" style="display: none;">
     <input type="text" id="customText" placeholder="Enter custom text">
     <button id="submitCustom">Submit</button>
-  </div>
-
+  </div> -->
+<!-- 
   <div class="dropdown">
     <button class="btn" type="button" data-toggle="dropdown">Odds of Winning Team (+/-)
       <span class="caret"></span>
@@ -343,9 +332,9 @@
     <input type="text" id="customText" placeholder="Enter custom text">
     <button id="submitCustom">Submit</button>
   </div>
-</div>
+</div> -->
 
-
+<button class="btn" type="button" id="goButton">Go
   
   <div id="chart"></div>
 

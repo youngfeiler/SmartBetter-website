@@ -105,6 +105,7 @@ def get_scenario_data():
     try:
         data = request.json 
         sport = data['sport']
+        print(data)
 
         db = database()
         start = time.time()
