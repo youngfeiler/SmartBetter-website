@@ -1,15 +1,88 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const sportTitleButtons = document.querySelectorAll('.sport-title');
-  const sportToggle = document.querySelector('.dropdown .sport');
+// document.addEventListener('DOMContentLoaded', function() {
+//   const toggleUpButtons = document.querySelectorAll('.toggle_up');
 
-  sportTitleButtons.forEach(sportTitleButton => {
-    sportTitleButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      sportToggle.innerText = sportTitleButton.innerText;
-      getSportAndReturnData(sportTitleButton.innerText);
+//   toggleUpButtons.forEach(toggleUpButtons => {
+//     toggleUpButtons.addEventListener('click', function(e) {
+//         console.log('clicked');
+//         e.preventDefault();
+//         //get the parent of the button
+//         parentButton = $(this).closest('.dropdown')
+//         //get the text of the button
+//         console.log(parentButton)
+//         // get the first button in the parent
+//         btn = parentButton.find('.btn')
+//         //change the text of the button
+//         //console log the text of btn
+//         console.log(btn)
+//         console.log(btn.textContent)
+//         btn.text(e.target.innerText);
+//         // getSportAndReturnData(toggleUpButtons.innerText);
+//   });
+//   })
+// });
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   const toggleUpButtons = document.querySelectorAll('.toggle_up');
+//   const customButton = document.getElementById('customButton');
+//   const customText = document.getElementById('customText');
+//   const submitCustom = document.getElementById('submitCustom');
+
+//   toggleUpButtons.forEach(toggleUpButton => {
+//     toggleUpButton.addEventListener('click', function(e) {
+//       const text = e.target.innerText;
+//       if (text === 'Custom') {
+//         customButton.style.display = 'block';
+//       } else {
+//         const parentButton = $(this).closest('.dropdown');
+//         const btn = parentButton.find('.btn');
+//         btn.text(text);
+//         customButton.style.display = 'none';
+//       }
+//     });
+//   });
+
+//   submitCustom.addEventListener('click', function() {
+//     const customButtonText = customText.value;
+//     const parentButton = $('.dropdown');
+//     const btn = parentButton.find('.btn');
+//     btn.text(customButtonText);
+//     customButton.style.display = 'none';
+//   });
+// });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleUpButtons = document.querySelectorAll('.toggle_up');
+  const customButton = document.getElementById('customButton');
+  const customText = document.getElementById('customText');
+  const submitCustom = document.getElementById('submitCustom');
+  let parentButtonToUpdate; // Store a reference to the parent button
+
+  toggleUpButtons.forEach(toggleUpButton => {
+    toggleUpButton.addEventListener('click', function(e) {
+      const text = e.target.innerText;
+      if (text === 'Custom') {
+        parentButtonToUpdate = $(this).closest('.dropdown');
+        customButton.style.display = 'block';
+      } else {
+        const parentButton = $(this).closest('.dropdown');
+        const btn = parentButton.find('.btn');
+        btn.text(text);
+        customButton.style.display = 'none';
+      }
+    });
   });
-  })
+
+  submitCustom.addEventListener('click', function() {
+    const customButtonText = customText.value;
+    if (parentButtonToUpdate) {
+      const btn = parentButtonToUpdate.find('.btn');
+      btn.text(btn.text()+ " greater than " + customButtonText);
+      customButton.style.display = 'none';
+    }
+  });
 });
+
+
 
 function getSportAndReturnData(sportTitle){
   const dataToSend = { sport: sportTitle };

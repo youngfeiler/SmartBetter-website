@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="static/css/scenarios_dev.css"></script>
+  <link href="static/css/scenarios_dev.css" rel="stylesheet" type="text/css">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <style>
@@ -13,91 +13,340 @@
 </style>
 </head>
 <body>
-   
-<div class="container">
   <h2>Scenario Creation</h2>
-  <p>Use the tool to select options that cratft your scenario</p>
+  <p>Use the tool to select options that craft your scenario</p>
+  
+<div class="flex-container">
   <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle sport" type="button" data-toggle="dropdown">Sport
+    <button class="btn" type="button" data-toggle="dropdown">Sport
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li >        
-        <a class="sport-title" tabindex="-1" href="#">NFL</a>
+        <a class="toggle_up" tabindex="-1" href="#">NFL</a>
       </li>
       <li class="dropdown-submenu">
-        <a class="sport-title" tabindex="-1" href="#">NBA<span"></span></a>
+        <a class="toggle_up" tabindex="-1" href="#">NBA<span"></span></a>
       </li>
     </ul>
   </div>
-  
+
   <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Conference
+    <button class="btn" type="button" data-toggle="dropdown">NFL Conference
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">AFC</a>
+      </li>
       <li class="dropdown-submenu">
-        <a class="test" tabindex="-1" href="#">ACF <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-submenu">
-            <a class="test" href="#">North <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Bengals</a></li>
-              <li><a href="#">Browns</a></li>
-              <li><a href="#">Ravens</a></li>
-              <li><a href="#">Steelers</a></li>
-            </ul>
-          </li>
-          <li class="dropdown-submenu">
-            <a class="test" href="#">South <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Colts</a></li>
-              <li><a href="#">Jaguars</a></li>
-              <li><a href="#">Texans</a></li>
-              <li><a href="#">Titans</a></li>
-            </ul>
-          </li>
-          <li class="dropdown-submenu">
-            <a class="test" href="#">West <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Broncos</a></li>
-              <li><a href="#">Chargers</a></li>
-              <li><a href="#">Chiefs</a></li>
-              <li><a href="#">Raiders</a></li>
-            </ul>
-          </li>
-          <li class="dropdown-submenu">
-            <a class="test" href="#">West <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Colts</a></li>
-              <li><a href="#">Jaguars</a></li>
-              <li><a href="#">Texans</a></li>
-              <li><a href="#">Titans</a></li>
-            </ul>
-          </li>
-        </ul>
-        <a class="test" tabindex="-1" href="#">NCF <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li class="dropdown-submenu">
-            <a class="test" href="#">North <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Bengals</a></li>
-              <li><a href="#">Browns</a></li>
-              <li><a href="#">Ravens</a></li>
-              <li><a href="#">Steelers</a></li>
-            </ul>
-          </li>
-          <li class="dropdown-submenu">
-            <a class="test" href="#">South <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Colts</a></li>
-              <li><a href="#">Jaguars</a></li>
-              <li><a href="#">Texans</a></li>
-              <li><a href="#">Titans</a></li>
-            </ul>
-          </li>
-        </ul>
+        <a class="toggle_up" tabindex="-1" href="#">NFC<span"></span></a>
       </li>
     </ul>
   </div>
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">MLB Conference
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">American League</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">National League<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">NFL Division
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">AFC East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AFC West<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">AFC North</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AFC South<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NFC East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">NFC West<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NFC East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">NFC West<span"></span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">MLB Division
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NL East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">NL West<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NL Central</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AL East<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">AL West</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AL Central<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">NFL Team
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NL East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">NL West<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NL Central</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AL East<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">AL West</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AL Central<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">MLB Team
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NL East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">NL West<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">NL Central</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AL East<span"></span></a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">AL West</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">AL Central<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Home or Away
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">Home</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Away<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Day or Night
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">Day</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Night<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Day of Week
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">Monday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Tuesday<span"></span></a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Wenesday<span"></span></a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Thursday<span"></span></a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Friday<span"></span></a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Saturday<span"></span></a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Sunday<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Pregame Favorites?
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" href="#">Yes</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">No<span"></span></a>
+      </li>
+    </ul>
+  </div>
+
+
+  <!-- CUSTOM USE CASES -->
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Winning Streak Home Team
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Yes</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">No</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  </div>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Winning Streak Away Team
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Yes</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">No</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  </div>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Odds of Winning Team (+/-)
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">+</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">-</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  </div>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Record Against Opponent (Put in form Wins-Losses)
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Winning</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Losing</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Tied</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  </div>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn" type="button" data-toggle="dropdown">Record Over Last 10 Games (Put in form Wins-Losses)
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Winning</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Losing</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Even</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  </div>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+</div>
+
+
+  
   <div id="chart"></div>
 
 
