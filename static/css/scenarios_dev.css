@@ -7,3 +7,30 @@
   left: 100%;
   margin-top: -1px;
 }
+
+.container {
+  display: flex;
+  grid-template-columns: 1fr; /* Single column layout */
+  grid-gap: 20px; /* Adjust the gap between grid items */
+  background-color: #f2f2f2; /* Background color for the container */
+  padding: 20px;
+}
+
+.flex-container {
+  background-color: #fff; /* Background color for the grid container */
+  padding: 20px;
+  border: 1px solid #ccc; /* Add a border for separation */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Add this to your existing CSS file or link a new CSS file */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow elements to wrap to the next line */
+  justify-content: space-between; /* Distribute items evenly */
+}
+
+/* Add custom styles for the custom-button section as needed */
+.custom-button {
+  flex: 0 0 100%; /* Force this section to be 100% width */
+}
