@@ -96,28 +96,63 @@ def index():
 
 @app.route('/scenarios')
 def scenarios():
-    
-    
     return render_template('scenarios.html')
+
+@app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
+def get_team_vals_for_scenarios():
+       teams = pd.read_csv('../extra_info_sheets/teams.csv')
+       teams.sort_values(by="team", inplace=True)
+       return teams.to_json(orient='records', date_format='iso')
+
+
+@app.route('/get_divisions_teams_from_conference', methods=['GET', 'POST'])
+def get_divisions_teams_from_conference():
+    try: 
+        data = request.json
+        input_conference = data['conference']
+        teams = pd.read_csv('../extra_info_sheets/teams.csv')
+        return_df = teams[teams['conference'] == input_conference]
+        
+        return return_df.to_json(orient='records', date_format='iso')
+    except Exception as e:
+        print(e)
+
+@app.route('/get_teams_from_division', methods=['GET', 'POST'])
+def get_teams_from_division():
+    try: 
+        data = request.json
+        input_division = data['division']
+        input_conference = data['conference']
+        teams = pd.read_csv('../extra_info_sheets/teams.csv')
+        return_df = teams[teams['division'] == input_division]
+        return_df = return_df[return_df['conference'] == input_conference]
+        
+        return return_df.to_json(orient='records', date_format='iso')
+    except Exception as e:
+        print(e)
+    
 
 @app.route('/get_scenario_data', methods=['GET', 'POST'])
 def get_scenario_data():
     try:
-        data = request.json 
-        sport = data['sport']
+        data = request.json
         print(data)
-
         db = database()
         start = time.time()
 
         graph_data = db.get_scenario_results(app.config['raw_odds_data'], data)
+        
+        print(graph_data)
 
         end = time.time()
+
+        print(f"time to run: {end - start}")
 
         return graph_data
 
         # response = {'status_code': 'success', 'message': f'Sport recieved: {sport}'}
     except Exception as e:
+        print(e)
         response = {'status_code': 'error', 'message': str(e)}
 
     return response

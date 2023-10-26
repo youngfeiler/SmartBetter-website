@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  makeTeamElements();
   const toggleUpButtons = document.querySelectorAll('.toggle_up');
   const submitCustom = document.querySelectorAll('#submitCustom');
 
@@ -8,23 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
   let parentButtonToUpdate; // Store a reference to the parent button
   
   // Function that handles the selecting and deslecting of proper sport shit 
-  const sportLabels = document.querySelectorAll('[data-label="sport"]');
-  sportLabels.forEach(sportLabel => {
+  const leagueLabels = document.querySelectorAll('[data-label="sport"]');
+  leagueLabels.forEach(sportLabel => {
     sportLabel.addEventListener('click', function(e) {
 
-      sportLabels.forEach(label => {
-        label.classList.remove('active');
-      });
-      this.classList.add('active');
-
+      // Deselect all confs, divs, teams 
+      handleLeagueClick(this);
       var thisSport = "";
       var otherSport = "";
       if(sportLabel.innerHTML == 'NFL'){
         
         var thisSport = "NFL";
-        var otherSport = "MLB";
-      }else if(sportLabel.innerHTML == "MLB"){
-        var thisSport = "MLB";
+        var otherSport = "NBA";
+      }else if(sportLabel.innerHTML == "NBA"){
+        var thisSport = "NBA";
         var otherSport = "NFL";
       }
       const thisSportDropdowns = document.querySelectorAll(`[data-sport="${thisSport}"]`);
@@ -38,69 +36,73 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   });
 
-  const conferenceLabels = document.querySelectorAll('[data-label="team_1_conference"]');
+  const conferenceLabels = document.querySelectorAll('[data-label="this_team_conference"]');
   conferenceLabels.forEach(label => {
     label.addEventListener('click', function(e) {
-      conferenceLabels.forEach(label => {
-        label.classList.remove('active');
-      });
-      this.classList.add('active');
+      handleConferenceClick(this);
     })
   });
 
-  const divisionLabels = document.querySelectorAll('[data-label="team_1_division"]');
-  divisionLabels.forEach(label => {
+  const conferenceLabelsOpponent = document.querySelectorAll('[data-label="opponent_team_conference"]');
+  conferenceLabelsOpponent.forEach(label => {
     label.addEventListener('click', function(e) {
-      divisionLabels.forEach(label => {
-        label.classList.remove('active');
-      });
-      this.classList.add('active');
+      handleConferenceClickOpponent(this);
     })
   });
+
+  const divisionLabels = document.querySelectorAll('[data-label="this_team_division"]');
+  divisionLabels.forEach(label => {
+    label.addEventListener('click', function(e) {
+      handleDivisionClick(this);
+    })
+  });
+
+  const divisionLabelsOpponent = document.querySelectorAll('[data-label="opponent_team_division"]');
+  divisionLabelsOpponent.forEach(label => {
+    label.addEventListener('click', function(e) {
+      handleDivisionClickOpponent(this);
+    })
+  });
+
+
 
   const homeAwayLabels = document.querySelectorAll('[data-label="home_away"]');
   homeAwayLabels.forEach(label => {
     label.addEventListener('click', function(e) {
-      homeAwayLabels.forEach(label => {
-        label.classList.remove('active');
-      });
-      this.classList.add('active');
-    })
+      this.classList.toggle('active');
   });
+});
 
   const dayNightLabels = document.querySelectorAll('[data-label="day_night"]');
   dayNightLabels.forEach(label => {
     label.addEventListener('click', function(e) {
-      dayNightLabels.forEach(label => {
-        label.classList.remove('active');
-      });
-      this.classList.add('active');
-    })
+      this.classList.toggle('active');
   });
+});
 
   const dayOfWeekLabels = document.querySelectorAll('[data-label="day_of_week"]');
   dayOfWeekLabels.forEach(label => {
     label.addEventListener('click', function(e) {
-      dayOfWeekLabels.forEach(label => {
+      this.classList.toggle('active');
+  });
+});
+
+  const pregameFavorites = document.querySelectorAll('[data-label="pregame_favorites"]');
+  pregameFavorites.forEach(label => {
+    label.addEventListener('click', function(e) {
+      this.classList.toggle('active');
+  });
+});
+
+  const winStreak = document.querySelectorAll('[data-label="team_1_win_streak"]');
+  winStreak.forEach(label => {
+    label.addEventListener('click', function(e) {
+      winStreak.forEach(label => {
         label.classList.remove('active');
       });
       this.classList.add('active');
     })
   });
-
-
-
-    //   const text = e.target.innerText;
-    //   if (text === 'Custom') {
-    //     parentButtonToUpdate = $(this).closest('.dropdown');
-    //     customButton.style.display = 'block';
-    //   } else {
-    //     const parentButton = $(this).closest('.dropdown');
-    //     const btn = parentButton.find('.btn');
-    //     btn.text(text);
-    //     customButton.style.display = 'none';
-    //   }
-    // });
 
   toggleUpButtons.forEach(toggleUpButton => {
     toggleUpButton.addEventListener('click', function(e) {
@@ -109,12 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
         parentButtonToUpdate = $(this).closest('.dropdown');
         customButton = parentButtonToUpdate.find('#customButton'); // Replace 'this' with the clicked element
         customText = parentButtonToUpdate.find('#customText')[0]; // Replace 'this' with the clicked element
-        console.log(customText);
         customButton[0].style.display = 'block';
       } else {
         const parentButton = $(this).closest('.dropdown');
         const btn = parentButton.find('.btn');
         btn.text(text);
+        console.log(text);
       }
     });
   });
@@ -134,17 +136,170 @@ submitCustom.forEach(submitCustomCurrent => {
 
 const goButton = document.getElementById('goButton');
 goButton.addEventListener('click', function() {
+    console.log('clicked');
     filterAndDisplayData();
 });
+
+function handleLeagueClick(clickedElement){
+  var elements = document.querySelectorAll('.active');
+  elements.forEach(function(element) {
+      element.classList.remove('active');
+  });
+
+  clickedElement.classList.toggle('active');
+}
+
+function handleConferenceClick(clickedElement){
+  var params = {
+    conference: clickedElement.innerHTML
+  }
+
+  clickedElement.classList.toggle('active');
+  console.log(clickedElement);
+
+  fetch('/get_divisions_teams_from_conference', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+})
+.then(response => response.json())
+.then(data => {
+  data.forEach(function(row) {
+    var element = document.querySelector(`[data-label="team_1"][data-value="${row.team}"]`);
+    element.classList.toggle('active');
+  });
+  
+})
+}
+
+function handleConferenceClickOpponent(clickedElement){
+  var params = {
+    conference: clickedElement.innerHTML
+  }
+
+  clickedElement.classList.toggle('active');
+
+  fetch('/get_divisions_teams_from_conference', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+})
+.then(response => response.json())
+.then(data => {
+  data.forEach(function(row) {
+    var element = document.querySelector(`[data-label="opponent"][data-value="${row.team}"]`);
+    element.classList.toggle('active');
+  });
+  
+})
+}
+
+
+function handleDivisionClick(clickedElement){
+  var element = document.querySelector(`[data-label="this_team_conference"].active`);
+  var params = {
+    division: clickedElement.innerHTML,
+    conference:element.innerHTML
+  }
+
+  clickedElement.classList.toggle('active');
+
+  fetch('/get_teams_from_division', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+})
+.then(response => response.json())
+.then(data => {
+  var teams = document.querySelectorAll(`[data-label="team_1"].active`);
+  teams.forEach(function(each){
+    each.classList.toggle('active');
+  })
+  data.forEach(function(row) {
+    var element = document.querySelector(`[data-label="team_1"][data-value="${row.team}"]`);
+    element.classList.toggle('active');
+  });
+  
+})
+}
+
+function handleDivisionClickOpponent(clickedElement){
+  var element = document.querySelector(`[data-label="opponent_team_conference"].active`);
+  console.log(element);
+  var params = {
+    division: clickedElement.innerHTML,
+    conference:element.innerHTML
+  }
+
+  clickedElement.classList.toggle('active');
+  console.log(clickedElement);
+
+  fetch('/get_teams_from_division', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+})
+.then(response => response.json())
+.then(data => {
+  var teams = document.querySelectorAll(`[data-label="opponent"].active`);
+  teams.forEach(function(each){
+    each.classList.toggle('active');
+  })
+  data.forEach(function(row) {
+    var element = document.querySelector(`[data-label="opponent"][data-value="${row.team}"]`);
+    element.classList.toggle('active');
+  });
+  
+})
+}
 
 
 function filterAndDisplayData() {
   const dictionary = {};
-  const actives = document.querySelectorAll('.active');
+  dictionary['team_1'] = []
+  dictionary['this_team_conference'] = []
+  dictionary['this_team_division'] = []
+  dictionary['day_of_week'] = []
+
+  dictionary['opponent'] = []
+  dictionary['opponent_team_conference'] = []
+  dictionary['opponent_team_division'] = []
+  
+
+  const actives = document.querySelectorAll('a.active');
   actives.forEach(label => {
-    dictionary[label.dataset.label] = label.dataset.value;
-    console.log(dictionary);
+    console.log(label.getAttribute('data-label'));
+    console.log(label.getAttribute('data-value'));
+    console.log("------------------");
+
+
+    if(
+      label.getAttribute('data-label') == 'team_1' || 
+      label.getAttribute('data-label') == 'conference' || 
+      label.getAttribute('data-label') == 'division' || 
+      label.getAttribute('data-label') == 'day_of_week'||
+      label.getAttribute('data-label') == 'opponent'||
+      label.getAttribute('data-label') == 'this_team_conference'||
+      label.getAttribute('data-label') == 'opponent_team_conference'||
+      label.getAttribute('data-label') == 'this_team_division'||
+      label.getAttribute('data-label') == 'opponent_team_division'
+      ){
+      dictionary[label.dataset.label].push(label.dataset.value)
+    }
+    else{
+      dictionary[label.dataset.label] = label.dataset.value;
+    }
   });
+  console.log(dictionary)
+
   fetch('/get_scenario_data', {
     method: 'POST',
     headers: {
@@ -157,8 +312,9 @@ function filterAndDisplayData() {
   // Parse the JSON data
   const parsedData = JSON.parse(data.data);
   // Extract x and y data
-  const xData = parsedData.map(entry => entry.time_pulled);
-  const yData = parsedData.map(entry => entry.running_win_sum);
+  const xData = parsedData.map(entry => entry.date);
+  const yData = parsedData.map(entry => entry.running_sum);
+  const dailyPl = parsedData.map(entry => entry.result);
 
   // Create the Plotly trace
   const trace = {
@@ -171,12 +327,12 @@ function filterAndDisplayData() {
 
   // Define the layout for the chart
   const layout = {
-      title: 'Line Chart Example',
+      title: 'Running P/L (u)',
       xaxis: {
-          title: 'Test'
+          title: 'Date'
       },
       yaxis: {
-          title: 'Running Wins'
+          title: 'Running P/L (u)'
       }
   };
 
@@ -187,10 +343,6 @@ function filterAndDisplayData() {
     console.error('Error:', error);
 });
 }
-
-
-
-
 
 function getSportAndReturnData(sportTitle){
   const dataToSend = { sport: sportTitle };
@@ -238,57 +390,75 @@ function getSportAndReturnData(sportTitle){
 });
 };
 
+function makeTeamElements() {
+  $.ajax({
+    url: "/get_team_vals_for_scenarios",
+    type: "GET",
+    dataType: "json",
+    success: function(data) {
+      const teamsUl = document.getElementById('teams');
+      const opponentsUl = document.getElementById('opponents');
+
+      data.forEach(function(row) {
+        var customLi = document.createElement('li');
+        var customAnchor = document.createElement('a');
+        customAnchor.className = 'toggle_up';
+        customAnchor.setAttribute('data-label', 'team_1');
+        customAnchor.setAttribute('data-value', row.team);
+        customAnchor.setAttribute('data-sport', row.sport);
+        customAnchor.textContent = row.team; 
+        customLi.appendChild(customAnchor);
+        teamsUl.appendChild(customLi);
+
+        var customLi2 = document.createElement('li');
+        var customAnchor2 = document.createElement('a');
+        customAnchor2.className = 'toggle_up';
+        customAnchor2.setAttribute('data-label', 'opponent');
+        customAnchor2.setAttribute('data-value', row.team);
+        customAnchor2.setAttribute('data-sport', row.sport);
+        customAnchor2.textContent = row.team; 
+        customLi2.appendChild(customAnchor2);
+        opponentsUl.appendChild(customLi2);
+        
+      });
+
+      attachEventListeners();
+    }
+  });
+}
+
+function attachEventListeners() {
+  const toggleUpButtons = document.querySelectorAll('.toggle_up');
+  const teamLabels = document.querySelectorAll('[data-label="team_1"]');
+  teamLabels.forEach(label => {
+    label.addEventListener('click', function(e) {
+      label.classList.toggle('active');
+    });
+  });
+
+  const opponentLabels = document.querySelectorAll('[data-label="opponent"]');
+  opponentLabels.forEach(label => {
+    label.addEventListener('click', function(e) {
+      label.classList.toggle('active');
+    });
+  });
+
+  toggleUpButtons.forEach(toggleUpButton => {
+    toggleUpButton.addEventListener('click', function(e) {
+      const text = e.target.innerText;
+      if (text === 'Custom') {
+        parentButtonToUpdate = $(this).closest('.dropdown');
+        customButton = parentButtonToUpdate.find('#customButton'); // Replace 'this' with the clicked element
+        customText = parentButtonToUpdate.find('#customText')[0]; // Replace 'this' with the clicked element
+        console.log(customText);
+        customButton[0].style.display = 'block';
+      } else {
+        const parentButton = $(this).closest('.dropdown');
+        const btn = parentButton.find('.btn');
+        btn.text(text);
+      }
+    });
+  });
+}
 
 
-
-// document.addEventListener('DOMContentLoaded', function() {
-//   const toggleUpButtons = document.querySelectorAll('.toggle_up');
-
-//   toggleUpButtons.forEach(toggleUpButtons => {
-//     toggleUpButtons.addEventListener('click', function(e) {
-//         console.log('clicked');
-//         e.preventDefault();
-//         //get the parent of the button
-//         parentButton = $(this).closest('.dropdown')
-//         //get the text of the button
-//         console.log(parentButton)
-//         // get the first button in the parent
-//         btn = parentButton.find('.btn')
-//         //change the text of the button
-//         //console log the text of btn
-//         console.log(btn)
-//         console.log(btn.textContent)
-//         btn.text(e.target.innerText);
-//         // getSportAndReturnData(toggleUpButtons.innerText);
-//   });
-//   })
-// });
-
-// document.addEventListener('DOMContentLoaded', function() {
-//   const toggleUpButtons = document.querySelectorAll('.toggle_up');
-//   const customButton = document.getElementById('customButton');
-//   const customText = document.getElementById('customText');
-//   const submitCustom = document.getElementById('submitCustom');
-
-//   toggleUpButtons.forEach(toggleUpButton => {
-//     toggleUpButton.addEventListener('click', function(e) {
-//       const text = e.target.innerText;
-//       if (text === 'Custom') {
-//         customButton.style.display = 'block';
-//       } else {
-//         const parentButton = $(this).closest('.dropdown');
-//         const btn = parentButton.find('.btn');
-//         btn.text(text);
-//         customButton.style.display = 'none';
-//       }
-//     });
-//   });
-
-//   submitCustom.addEventListener('click', function() {
-//     const customButtonText = customText.value;
-//     const parentButton = $('.dropdown');
-//     const btn = parentButton.find('.btn');
-//     btn.text(customButtonText);
-//     customButton.style.display = 'none';
-//   });
-// });
