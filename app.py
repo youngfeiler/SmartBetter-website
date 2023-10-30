@@ -64,10 +64,10 @@ def create_app():
     return app
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-app.config['STRIPE_PRIVATE_KEY'] = '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'
+app.config['STRIPE_PRIVATE_KEY'] = 'sk_test_51Nm0vBHM5Jv8uc5Mr6f9RwwrDMooBmJJ6UpD4B8nejNezu4MGWWs8KtugyU6sdqcb8Y41kmherY0zneWXbyWjcce00wdm6cGUL'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
-app.config['raw_odds_data'] = RawOddsHolders()
+# app.config['raw_odds_data'] = RawOddsHolders()
 # @app.route('/')
 # def index():
 #     checkout_session = stripe.checkout.Session.create(
@@ -273,7 +273,7 @@ def register():
                 print(f'{username} login result: {login_allowed}')
                 if login_allowed:
                     session['user_id'] = username
-                    return redirect(url_for('learn'))
+                    return redirect(url_for('live_dashboard'))
                 elif not login_allowed:
                     error_message = "Email or password incorrect. Please try again."
                     return render_template('register.html', incorrect_password=True, form_data=request.form, error_message=error_message)     
@@ -292,7 +292,7 @@ def register():
             print(f'{username} login result: {login_allowed}')
             if login_allowed:
                 session['user_id'] = username
-                return redirect(url_for('learn'))
+                return redirect(url_for('live_dashboard'))
             elif not login_allowed:
                 error_message = "Email or password incorrect. Please try again."
                 return render_template('register.html', incorrect_password=True, form_data=request.form, error_message=error_message)     
