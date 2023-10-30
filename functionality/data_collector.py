@@ -37,7 +37,7 @@ class data_collector():
         if from_stacked:
             self.df = pd.read_parquet('mlb_data/stacked_w_opponent.parquet')
         elif not from_stacked:
-            self.df = pd.read_parquet('/Users/stefanfeiler/Desktop/SmartBetter/SmartBetter/data/mlb_raw_final_for_model.parquet')
+            self.df = pd.read_parquet('/Users/micahblackburn/Desktop/SmartBetter/SmartBetter/data/mlb_raw_final_for_model.parquet')
 
         self.all_columns = self.df.columns
         self.columns = self.all_columns[5:]

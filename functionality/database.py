@@ -13,6 +13,7 @@ import ast
 import sqlite3
 import stripe
 import logging
+import json
 
 # Configure the logging level for the stripe module
 logging.getLogger("stripe").setLevel(logging.ERROR)
@@ -459,14 +460,18 @@ class database():
         value_new = row['highest_bettable_odds']
         if value_new < 0:
           if value_new < -500:
-             value_new = value_new - (value_new * 0.1)
+             value_new = value_new + (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             value_new = value_new + (value_new * 0.05)
         else:
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
-             value_new = value_new - (value_new * 0.05)
+             if (value_new - (value_new * 0.05)) <= 100: 
+                less_than_100 = 100 - (value_new - (value_new * 0.05))
+                value_new = -100 - less_than_100
+             else:
+              value_new = value_new - (value_new * 0.05)
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
@@ -574,7 +579,7 @@ class database():
           if value_new > 500:
              value_new = value_new - (value_new * 0.1)
           else:
-             if (value_new - (value_new * 0.05)) < 100: 
+             if (value_new - (value_new * 0.05)) <= 100: 
                 less_than_100 = 100 - (value_new - (value_new * 0.05))
                 value_new = -100 - less_than_100
              else:
@@ -917,6 +922,65 @@ class database():
         return False, "No active subscription found for this user."
       except stripe.error.StripeError as e:
         return False, str(e)
+    
+    def get_scenario_results(self, data_holder, input):
+      if input['sport'] == "NFL":
+        data = data_holder.raw_nfl_odds_data
+      elif input['sport'] == "NBA":
+         data = data_holder.raw_nba_odds_data
+      
+      for key, val in input.items():
+          if isinstance(val, list) and len(val) > 1:
+            try:
+              data = data[data[key].isin(val)]
+            except Exception as e:
+               pass
+          elif isinstance(val, list) and len(val) ==1:
+            try:
+               data = data[data[key]== val]
+            except Exception as e:
+               pass
+
+      data['my_game_id'] = data['game_id'] + data['team_1']
+
+      grouped = data.groupby('my_game_id')
+
+      closest_observations = []
+
+      # Step 2-4: Find the closest observation for each game
+      for game_id, group in grouped:
+          filtered_group = group[group['minutes_since_commence'] <= 0]
+          if not filtered_group.empty:
+              filtered_group = filtered_group[filtered_group['highest_bettable_odds'] > 0]
+              filtered_group['abs_diff'] = abs(filtered_group['minutes_since_commence'] - 0)
+              closest_observation = filtered_group[filtered_group['abs_diff'] == filtered_group['abs_diff'].min()]
+              closest_observations.append(closest_observation)
+
+      result_df = pd.concat(closest_observations, ignore_index=True)
+
+      result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF_1.CSV', index=False)
+
+      result_df['result'] = np.where(result_df['target'] == 1, result_df['highest_bettable_odds'] - 1, -1)
+
+      result_df.sort_values(by = 'snapshot_time', inplace=True)
+
+      result_df['running_sum'] = result_df['result'].cumsum()
+
+      result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF.CSV', index=False)
+
+      result_df['date'] = pd.to_datetime(result_df['snapshot_time'].dt.date)
+
+      grouped = result_df.groupby('date')['result'].sum()
+
+      new_df = result_df.groupby('date')['result'].sum().reset_index()
+
+      new_df['running_sum'] = new_df['result'].cumsum()
+
+
+
+      return jsonify(data=new_df.to_json(orient='records', date_format='iso'))
+
+
     
 
 
