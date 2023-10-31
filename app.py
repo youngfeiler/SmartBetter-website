@@ -64,7 +64,7 @@ def create_app():
     return app
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-app.config['STRIPE_PRIVATE_KEY'] = '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'
+app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("API_KEY")
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 # app.config['raw_odds_data'] = RawOddsHolders()
