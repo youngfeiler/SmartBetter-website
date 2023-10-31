@@ -196,6 +196,7 @@ def create_checkout_session(price_id):
 @app.route('/checkoutnow/<string:price_id>', methods=['GET', 'POST'])
 def create_checkout_session_non_recurring(price_id):
     if request.method == 'POST':
+        print("POSTTT")
         # Extract customer information from the form
         email = request.form['email']  # You should have an input field in your form for the customer's email
 
