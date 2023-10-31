@@ -314,6 +314,7 @@ def login():
     login_allowed = my_db.check_login_credentials(username, password)
 
     print(f'{username} login result: {login_allowed}')
+    print(os.environ.get("API_KEY"))
     if login_allowed:
         payed = my_db.check_account(username)
         session['user_id'] = username
