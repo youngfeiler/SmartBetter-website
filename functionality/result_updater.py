@@ -1,11 +1,12 @@
 import pandas as pd
 import requests
 import sqlite3
+import os
 
 class result_updater():
     
   def __init__ (self):
-      self.API_KEY = '251079acbb126a314206fd4b07bacdad'
+      self.API_KEY = os.environ.get("THE_ODDS_API_KEY")
       self.MARKETS = 'h2h'
       self.REGIONS = 'us,eu,uk'
       self.ODDS_FORMAT = 'decimal'
