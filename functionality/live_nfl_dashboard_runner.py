@@ -6,6 +6,7 @@ import requests
 import datetime
 from .util import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
+import os
 
 class live_nfl_dashboard_runner():
     def __init__(self):
@@ -80,7 +81,7 @@ class live_nfl_dashboard_runner():
   
     def get_nfl_odds(self):
 
-      API_KEY = '251079acbb126a314206fd4b07bacdad'
+      API_KEY = os.environ.get("THE_ODDS_API_KEY")
       SPORT = 'americanfootball_nfl'
       REGIONS = 'us,eu,uk'
       MARKETS = 'h2h' 
