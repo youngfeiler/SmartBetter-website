@@ -20,6 +20,15 @@ import sqlite3
 import stripe
 import time
 
+
+
+def create_app():
+    app = Flask(__name__, template_folder='static/templates', static_folder='static')
+    # TODO: Put this key in the secret file
+    app.secret_key = 'to_the_moon'
+    app.celery = celery
+    return app
+
 # Connect to the SQLite database (or create if it doesn't exist)
 #create a functions that adds to the database by taking in a csv file string and adding it to the database
 def add_to_database(csv_file, conn,nm):
@@ -40,52 +49,11 @@ def add_date_column_to_table(df, conn, table_name, column_name):
     df.to_sql(table_name, conn, if_exists='replace', index=False)
     conn.commit()
 
-def create_app():
-    app = Flask(__name__, template_folder='static/templates', static_folder='static')
-    app.secret_key = 'to_the_moon'
-    # app.config['EXPLAIN_TEMPLATE_LOADING'] = True
-    app.celery = celery
-    # app.config['SESSION_COOKIE_SECURE'] = True
-    # app.config['SESSION_COOKIE_HTTPONLY'] = True
-    # app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) 
 
-    #adding all original data into the db 
-    #conn = sqlite3.connect('smartbetter.db')
-    # add_to_database('users/login_info.csv', conn, 'login_info')
-    # add_to_database('users/placed_bets.csv', conn, 'placed_bets')
-    # add_to_database('users/profit_by_book.csv', conn, 'profit_by_book')
-    # add_to_database('mlb_data/scores.csv', conn, 'scores')
-    # add_to_database('mlb_data/mlb_extra_info.csv', conn, 'mlb_extra_info')
-    # query = "SELECT * FROM login_info"
-    # existing_df = pd.read_sql_query(query, conn)
-    # add_bool_column_to_table(existing_df, conn, 'login_info', 'payed')
-    # add_date_column_to_table(existing_df, conn, 'login_info', 'date_signed_up')
-    # conn.close()
-    return app
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
 app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("API_KEY")
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
-
-# app.config['raw_odds_data'] = RawOddsHolders()
-# @app.route('/')
-# def index():
-#     checkout_session = stripe.checkout.Session.create(
-#         payment_method_types=['card'],
-#         line_items=[
-#             {
-#                 # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-#                 'price': 'price_1NnSqwHM5Jv8uc5MUGQ7GeOJ',
-#                 'quantity': 1,
-#             },
-#         ],
-#         mode='payment',
-#         success_url= url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-#         cancel_url=url_for('index', _external=True) ,
-#     )
-#     return render_template('index.html', 
-#                            checkout_session_id=checkout_session.id, 
-#                            checkout_public_key = app.config['STRIPE_PUBLIC_KEY'])
 
 
 
@@ -176,23 +144,6 @@ def create_checkout_session(price_id):
     return redirect(checkout_session.url,code=302)
 
 
-# @app.route('/checkoutnow/<string:price_id>')
-# def create_checkout_session_non_recurring(price_id):
-#     # Create a checkout session with the provided price_id
-#     checkout_session = stripe.checkout.Session.create(
-#         payment_method_types=['card'],
-#         line_items=[
-#             {
-#                 'price': price_id,
-#                 'quantity': 1,
-#             },
-#         ],
-#         mode='payment',
-#         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
-#         cancel_url=url_for('index', _external=True),
-#     )
-#     return redirect(checkout_session.url,code=302)
-
 @app.route('/checkoutnow/<string:price_id>')
 def create_checkout_session_non_recurring(price_id):
     # Extract customer email from the query string
@@ -228,15 +179,6 @@ def test_func():
 def home():
     return render_template('index.html')
 
-@app.route('/my-webhooks', methods=['POST'])
-def my_webhooks():
-    json_payload = json.loads(request.data)
-    try:
-        event = stripe.Event.construct_from(json_payload, stripe.api_key)
-    except:
-        return jsonify({'status': 'error', 'message': 'error'})
-    return redirect(url_for('register'))
-
 @app.route('/account')
 def account():
   db = database()
@@ -259,13 +201,7 @@ def update_bankroll():
         else:
             flash('Your bankroll was not updated. Please try again.', 'error')
             return redirect(url_for('account'))
-    
-@app.route('/profile')
-def profile():
-  if 'user_id' in session:
-        return render_template('profile.html')
-  else:
-        return redirect(url_for('login'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -353,85 +289,12 @@ def login():
 
   return render_template('login.html')
 
-@app.route('/get_graph_data', methods=['GET', 'POST'])
-def get_graph_data():
-    strategy = request.json['strategy']
-    my_db = database()
-    try:
-        data = my_db.make_data(strategy)
-    except FileNotFoundError:
-        return jsonify({'status': 'error', 'message': 'Strategy is training on historical data... Check back in a few minutes...'})
 
-    return jsonify(data)
-
-@app.route('/team_dist_data', methods=['GET', 'POST'])
-def team_dist_data():
-
-    strategy = request.args.get('strategy')
-
-    app.logger.debug(f'HERE: {strategy}')
-    my_db = database()
-    try:
-        data = my_db.make_team_dist_data(strategy)
-    except FileNotFoundError:
-        return jsonify({'status': 'error', 'message': '<a style:"color: white;">Strategy is training on historical data... Check back in a few minutes...</a>'})
-
-    return data
-
-@app.route('/book_dist_data', methods=['GET', 'POST'])
-def book_dist_data():
-    strategy = request.args.get('strategy')
-    my_db = database()
-    try:
-        data = my_db.make_book_dist_data(strategy)
-    except FileNotFoundError:
-        return jsonify({'status': 'error', 'message': 'cant make the data'})
-
-    return data
-
-@app.route('/make_strategy', methods=['GET','POST'])
-def make_strategy():
-  if 'user_id' not in session:
-        return redirect(url_for('login'))
-        
-  if request.method == 'POST':
-    form_data = request.form
-    form_data_dict = dict(form_data)
-    bettable_books_item = request.form.getlist('bettable_books')[0]
-    bettable_books = bettable_books_item.split(',')
-    strat_name = form_data_dict['name']
-    min_ev = 10
-    min_odds = american_to_decimal(form_data_dict['min_odds'])
-    max_odds = american_to_decimal(form_data_dict['max_odds'])
-    min_min_com = form_data_dict['min_min_com']
-    max_min_com = form_data_dict['max_min_com']
-    my_db = database()
-    this_user = User(session['user_id'])
-    if strat_name in my_db.get_all_user_strategies():
-            return jsonify({'status': 'error', 'message': 'Strategy name is already taken'})
-    
-    if strat_name:
-        this_user.add_strategy_to_user(session['user_id'], strat_name)
-        tasks.make_strategy.delay(name=strat_name, 
-                                  min_ev=float(min_ev), 
-                                  min_odds=float(min_odds), 
-                                  max_odds=float(max_odds), 
-                                  min_min_com=float(min_min_com), 
-                                  max_min_com=float(max_min_com),
-                                  bettable_books = bettable_books,
-                                  num_epochs=int(100)
-                                  )
-        return jsonify({'status': 'success', 'message': ' '})
-
-    
-  return render_template('strategy_maker.html')
-
-
-@app.route('/mlb')
+@app.route('/nba')
 def live_dashboard():
     user_id = session.get('user_id')
     if user_id is not None:
-        return render_template('mlb.html')
+        return render_template('nba.html')
     else:
         return redirect(url_for('register'))
 
@@ -457,12 +320,6 @@ def add_saved_bet():
 
     return jsonify(response)
 
-@app.route('/get_user_performance_data',  methods=['GET'])
-def get_user_performance_data():
-    my_db = database()
-    data = my_db.get_user_performance_data(session.get('user_id'))
-    return data
-
 @app.route('/get_live_dash_data', methods=['POST'])
 def get_live_dash_data():
     data = request.get_json()
@@ -478,23 +335,6 @@ def get_live_dash_data():
         data['bankroll'] = bankroll
     data_json = data.to_dict(orient='records')
 
-    return jsonify(data_json)
-
-@app.route('/get_live_nfl_dash_data')
-def get_live_nfl_dash_data():
-
-    my_db = database()
-
-    bankroll = my_db.calculate_user_bankroll(session["user_id"])
-
-    data = my_db.get_live_nfl_dash_data(session['user_id'])
-
-    if data.empty:
-        data = pd.DataFrame(columns=['bankroll', 'update'])
-        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
-    else:
-        data['bankroll'] = bankroll
-    data_json = data.to_dict(orient='records')
     return jsonify(data_json)
 
 @app.route('/get_unsettled_bet_data', methods=['GET'])
@@ -523,21 +363,7 @@ def bet_tracker():
             return render_template('bet_tracker.html')
     except:
         return redirect(url_for('register'))
-    
-@app.route('/add_to_bankroll', methods=['POST'])
-def add_to_bankroll():
-    data = request.get_json()
-    amount = data.get('amount')
-    database_instance = database()
-    username = session['user_id']
-    
-    if database_instance.add_to_bankroll(session['user_id'], amount):
-        new_bankroll = int(database_instance.get_user_bank_roll(username))
-        response_data = {'message': 'Bankroll updated successfully', 'new_bankroll': new_bankroll}
-    else:
-        response_data = {'error': 'Bankroll unable to be updated', 'bankroll': int(database_instance.get_user_bank_roll(username))}
 
-    return jsonify(response_data)
 
 @app.route('/logout')
 def logout():

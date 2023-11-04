@@ -10,6 +10,8 @@ class observation_compiler():
 
     self.current_amount_of_mlb_observations = self.get_amount_of_master_sport_obs("MLB")
 
+    self.current_amount_of_nba_observations = self.get_amount_of_master_sport_obs("NBA")
+
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
 
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used']
@@ -18,6 +20,8 @@ class observation_compiler():
   def compile_observations(self):
     nfl_obs = pd.read_csv('users/model_obs_nfl.csv')
     mlb_obs = pd.read_csv('users/model_obs.csv')
+    nba_obs = pd.read_csv('users/model_obs_nba.csv')
+
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
       amount_of_new_observations = len(nfl_obs) - self.current_amount_of_nfl_observations
@@ -38,6 +42,25 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nfl_observations = len(nfl_obs)
+    
+    if len(nba_obs) > self.current_amount_of_nba_observations:
+      amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
+
+      new_nba_obs = nba_obs.tail(amount_of_new_observations).copy()
+
+      new_nba_obs['sport_title'] = 'NBA'
+
+      new_nba_obs['team'] = nba_obs['team_1']
+
+      new_nba_obs['completed'] = False
+
+      new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
+
+      new_df = new_nba_obs[self.schema]
+
+      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
+
+      self.current_amount_of_nba_observations = len(nba_obs)
 
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
@@ -72,7 +95,6 @@ class observation_compiler():
 
   def get_amount_of_master_sport_obs(self, sport_title):
     master_model_obs = pd.read_csv('users/master_model_observations.csv')
-
     sport_obs = master_model_obs[master_model_obs['sport_title'] == sport_title]
 
     return len(sport_obs)

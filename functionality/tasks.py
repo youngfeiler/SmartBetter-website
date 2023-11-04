@@ -3,6 +3,7 @@ from .model_runner import model_runner
 from .database import database
 from .live_dashboard_runner import live_dashboard_runner
 from .live_nfl_dashboard_runner import live_nfl_dashboard_runner
+from .live_nba_dashboard_runner import live_nba_dashboard_runner
 import time 
 from collections import OrderedDict
 from celery import Celery
@@ -56,7 +57,7 @@ def start_model_runner():
 @celery.task
 def start_dashboard_runner():
     
-    live_dashboard_runner_instance = live_dashboard_runner()
+    live_nba_dashboard_runner_instance = live_nba_dashboard_runner()
 
     live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
 
@@ -69,12 +70,13 @@ def start_dashboard_runner():
 
 
     while True:
-      result_updater_instance.update_results('baseball_mlb')
+      # result_updater_instance.update_results('baseball_mlb')
       result_updater_instance.update_results('americanfootball_nfl')
+      result_updater_instance.update_results('basketball_nba')
 
       db.check_payments()
 
-      live_dashboard_runner_instance.make_live_dash_data()
+      live_nba_dashboard_runner_instance.make_live_dash_data()
       
       live_nfl_dashboard_runner_instance.make_live_dash_data()
 
