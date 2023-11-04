@@ -288,11 +288,11 @@ def login():
   return render_template('login.html')
 
 
-@app.route('/mlb')
+@app.route('/nba')
 def live_dashboard():
     user_id = session.get('user_id')
     if user_id is not None:
-        return render_template('mlb.html')
+        return render_template('nba.html')
     else:
         return redirect(url_for('register'))
 
