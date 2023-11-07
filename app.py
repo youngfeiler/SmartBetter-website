@@ -131,6 +131,7 @@ def create_checkout_session(price_id):
     # Create a checkout session with the provided price_id
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
+        allow_promotion_codes=True,
         line_items=[
             {
                 'price': price_id,
