@@ -110,7 +110,7 @@ function updateTable(data) {
 
 function updatebankroll(data){
   const bankroll = document.querySelector('#bankroll');
-  bankroll.innerHTML = 'There are bets that our model has identified and predicted with high confidence with high confidence. They are weighted in your favor so that you win in the long run.     Bankroll: $';
+  bankroll.innerHTML = 'These are bets that our model has identified and predicted wins with high confidence. They are weighted in your favor so that you win in the long run.     Bankroll: $';
   bankroll.innerHTML  += `${data[0].bankroll}`;
 }
 
