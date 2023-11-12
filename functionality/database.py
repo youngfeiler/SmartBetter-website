@@ -338,13 +338,13 @@ class database():
             group.loc[group.index[0], 'if_win'] = result1
             group.loc[group.index[1], 'if_win'] = result2
 
-            group.loc[group.index[0], 'team'] = row1['team'].split('v.')[0]
-            group.loc[group.index[1], 'team'] = row2['team'].split('v.')[0]
+            group.loc[group.index[0], 'team'] = row1['team'].split('vs')[0]
+            group.loc[group.index[1], 'team'] = row2['team'].split('vs')[0]
 
         elif len(group) == 1:
             row = group.iloc[0].copy()
             row['ev'] = ''
-            row['team'] = group.iloc[0]['team'].split('v.')[1]
+            row['team'] = group.iloc[0]['team'].split('vs')[1]
             row['highest_bettable_odds'] = ''
             row['sportsbook'] = ''
             row['bet_profit'] = ''
@@ -356,7 +356,7 @@ class database():
             group = group.append(row, ignore_index=True) 
             group.loc[group.index[0], 'if_win'] = group.iloc[0]['p_l']
             group.loc[group.index[1], 'if_win'] = group.iloc[0]['total_bet_amount'] * -1
-            group.loc[group.index[0], 'team'] = group.iloc[0]['team'].split('v.')[0]
+            group.loc[group.index[0], 'team'] = group.iloc[0]['team'].split('vs')[0]
         return group
       
 
@@ -385,7 +385,7 @@ class database():
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
-      merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
+      merged_df['team_bet_on'] = [cell.split('vs')[0] for cell in merged_df['team']]
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_amount'] = merged_df['bet_amount'].astype(float)
@@ -452,11 +452,11 @@ class database():
        user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
 
        if sport == "NFL":
-          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
+          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('vs').str[0]
           df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
 
        elif sport == "MLB":
-          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
+          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('vs').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
 
        return df
