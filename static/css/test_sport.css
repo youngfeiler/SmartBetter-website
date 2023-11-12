@@ -749,7 +749,7 @@ option {
   align-content: center;
   z-index: 10000;
   overflow-y: visible;
-  width: 80%;
+  width: 98%;
   border: 3px solid var(--table-trow-border) !important;
   border-radius: 10px;
   max-height: 100vh !important;
@@ -757,7 +757,7 @@ option {
 }
 
 #dropdown-container li.dropdown{
-  width: 50%;
+  width: 100%;
   background-color: var(--table-bg) !important;
   border-top: 2px solid var(--table-trow-border) !important;
   position: relative !important;
@@ -828,7 +828,7 @@ option {
 }
 
 #sportsbook:hover .tooltiptext_img {
-  /* visibility: visible; */
+  visibility: visible;
   opacity: 1;
 }
 
