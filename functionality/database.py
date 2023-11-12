@@ -276,6 +276,8 @@ class database():
 
        if sport == "NFL":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
+       elif sport == "NBA":
+          first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
           
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
@@ -298,24 +300,23 @@ class database():
       df = pd.read_sql('SELECT * FROM placed_bets', conn)
       #scores_df = pd.read_csv('mlb_data/scores.csv')
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
-      conn.close()   # Close the connection
+      conn.close()
       df = df[df['user_name'] == user]
 
       df['highest_bettable_odds'] = df['highest_bettable_odds'].astype(float)
+
       df['bet_amount'] = df['bet_amount'].astype(float)
 
-
       df['bet_profit'] = np.where(df['highest_bettable_odds'] > 0, (df['highest_bettable_odds'] * df['bet_amount']) /100, df['bet_amount'] /(-1 * df['highest_bettable_odds']/100))
-
-
 
       scores_df = scores_df[['game_id', 'winning_team']]
 
       merged_df = df.merge(scores_df, on='game_id', how='left')
 
       filtered_df = merged_df[merged_df['winning_team'].isna()]
+      print(filtered_df['team'])
       grouped_df = filtered_df.groupby(['game_id', 'team'])
-
+    
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
       filtered_df['highest_odds'] = grouped_df['highest_bettable_odds'].transform('max')
       filtered_df['p_l'] = grouped_df['bet_profit'].transform('sum')
