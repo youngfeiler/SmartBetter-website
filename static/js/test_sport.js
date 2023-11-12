@@ -185,7 +185,11 @@ function resetRowView(){
   location.reload();
 }
 
+
 function saveRow(row) {
+  var toggleButton = row.querySelector('.toggle-button');
+  var modifiedNumber = toggleButton.innerText === "-" ? - + row.querySelector("#odds-taken-input").value : row.querySelector("#odds-taken-input").value;
+  console.log(toggleButton.innerHTML);
   // make a dict with thte values of each cell in the right spot
 
   var rowDataDict = {
@@ -199,7 +203,7 @@ function saveRow(row) {
 
     'bet_amount':row.querySelector("#bet-size-input").value,
 
-    'highest_bettable_odds':row.querySelector("#odds-taken-input").value,
+    'highest_bettable_odds': modifiedNumber,
 
     'minimum_acceptable_odds':row.querySelector("#min-odds").innerHTML,
 
