@@ -268,9 +268,9 @@ function displaySportsbookDropdown(row){
     if (liElement) {
       selectedOption.innerHTML = '';
       selectedOption.append(imgElement);
-      dropdownOptions.classList.add("done-adding-to-bet-tracker");
-      // dropdownOptions.style.display = 'none';
-      // dropdownOptions.style.height = 'none';
+      dropdownOptions.classList.remove("adding-to-bet-tracker");
+
+
     }
   });
 
