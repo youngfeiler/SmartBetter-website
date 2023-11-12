@@ -69,7 +69,7 @@ function updateTable(data) {
       <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
       <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
 
-      <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> vs ${row.opponent} </p></li>
+      <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
 
       <li class="sportsbook-li">
         <div class="tooltip" id="sportsbook">
