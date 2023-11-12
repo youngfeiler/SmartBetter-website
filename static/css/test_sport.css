@@ -828,7 +828,7 @@ option {
 }
 
 #sportsbook:hover .tooltiptext_img {
-  visibility: visible;
+  /* visibility: visible; */
   opacity: 1;
 }
 
