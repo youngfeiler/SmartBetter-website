@@ -1,0 +1,76 @@
+{% include "header.html" %}
+
+<html>
+<head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9GH410L98G');
+  </script>
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "iupwbeu4os");
+    </script>
+    <meta charset="utf-8">
+    <title>SmartBettor - NFL</title>
+    <link rel="stylesheet" href="static/css/live_dashboard.css">
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+    <!-- <link href="static/css/betsmartr.webflow.css" rel="stylesheet" type="text/css"> -->
+
+    <!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '679454957480516');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=679454957480516&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  </head>
+
+<body>
+<main>
+  <div class="container">
+    <h1 class="live-bets-header">Live Bets <span class="gradient-text">NFL</span></h1>
+
+    <p>These are bets that our model has identified and predicted with high confidence. They are weighted in your favor so that you win in the long run</p>
+    <p id ='bankroll'>Bankroll: $</p>
+    <button id="fetch-button">Update Table</button>
+    <button id="add-to-bankroll" class = "live-button" button onclick="addToBankroll(this)" style = "display: none;">Add to bankroll</button>
+    
+    <table id="data-table" class="rounded-table">
+      <thead>
+        <tr>
+          <th data-label="Moneyline Bet">Team to bet on</th>
+          <th data-label="Sportsbook">Sportsbook(s)</th>
+          <th data-label="betsize">Recommended bet size ($)</th>
+          <th data-label="Odds">Best Odds</th>
+          <th data-label="Min Odds">Minimum Accepted Odds</th>
+          <th data-label="Expected Value">% +EV</th>
+          <th data-label="Game Date">Game date</th>
+          <th data-label="Time Updated">Time since update</th>
+          <th data-label="Add to Bet Tracker">Add to bet tracker</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="static/js/liveDashboard.js"></script>
+</body>
+</html>
+

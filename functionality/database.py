@@ -182,8 +182,8 @@ class database():
         return decimal_odds
 
        def minutes_seconds(row):
+          
           seconds = int(float(row['time_difference_seconds']))
-
           if seconds < 60:
             row['time_difference_formatted'] = f'{seconds} sec'
 
@@ -261,13 +261,16 @@ class database():
 
        current_time = datetime.now() 
 
-       first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=6)
+       first_20_rows['current_time'] = current_time + pd.Timedelta(hours=2)
 
        first_20_rows['snapshot_time'].apply(pd.to_datetime)
 
        first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
 
        first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
+
+        # Format the datetime object as "Thu, Nov 9, 2023"
+       first_20_rows['game_date'] = pd.to_datetime(first_20_rows['game_date']).dt.strftime("%a %b %d, %Y")
 
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
         
