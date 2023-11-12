@@ -749,7 +749,7 @@ option {
   align-content: center;
   z-index: 10000;
   overflow-y: visible;
-  width: 98%;
+  width: 80%;
   border: 3px solid var(--table-trow-border) !important;
   border-radius: 10px;
   max-height: 100vh !important;
@@ -757,7 +757,7 @@ option {
 }
 
 #dropdown-container li.dropdown{
-  width: 100%;
+  width: 50%;
   background-color: var(--table-bg) !important;
   border-top: 2px solid var(--table-trow-border) !important;
   position: relative !important;
@@ -787,6 +787,7 @@ option {
 }
 #dropdown-container li.dropdown img{
   margin-right: 10%;
+  border-radius: 10px;
 }
 
 
@@ -877,6 +878,19 @@ option {
   font-size: 0.75rem;
 }
 
+#dropdown-options.adding-to-bet-tracker{
+  position: relative !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+#dropdown-options.done-adding-to-bet-tracker{
+  display: none !important;
+  height: none !important;
+}
+
+
+
 @media (max-width: 767px) {
   #rec-bet-size-number.adding-to-bet-tracker{
     align-items: center;
@@ -886,6 +900,11 @@ option {
     font-size: 1rem;
   }
 
+  #dropdown-options.adding-to-bet-tracker{
+    position: absolute !important;
+    display: block;
+    visibility: visible;
+  }
 
   .table-custom {
     border-spacing: 0 !important;

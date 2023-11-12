@@ -175,9 +175,17 @@ function addToBetslip() {
   });
 }
 
-function saveRow(row) {
-  console.log('Saving row:');
+function resetRowView(){
+  // var elements = document.querySelectorAll('.adding-to-bet-tracker');
+  // console.log(resetRowView);
+  // // Iterate through the NodeList and remove the class name
+  // elements.forEach(function(element) {
+  //   element.classList.remove('adding-to-bet-tracker');
+  // });
+  location.reload();
+}
 
+function saveRow(row) {
   // make a dict with thte values of each cell in the right spot
 
   var rowDataDict = {
@@ -214,6 +222,7 @@ function saveRow(row) {
       } else {
         console.log('Bet saved successfully:', response.message);
         currentlyEditingRow = false;
+        resetRowView();
       }
     },
     error: function(error) {
@@ -247,9 +256,7 @@ function displaySportsbookDropdown(row){
   sportsbook.appendChild(dropdownContainer);
   
   dropdownBtn.addEventListener('click', function () {
-    dropdownOptions.style.position = 'absolute';
-    dropdownOptions.style.display = 'block';
-    dropdownOptions.style.visibility = "visible"
+    dropdownOptions.classList.add("adding-to-bet-tracker");
   });
 
   dropdownOptions.addEventListener('click', function (event) {
@@ -261,8 +268,9 @@ function displaySportsbookDropdown(row){
     if (liElement) {
       selectedOption.innerHTML = '';
       selectedOption.append(imgElement);
-      dropdownOptions.style.display = 'none';
-      dropdownOptions.style.height = 'none';
+      dropdownOptions.classList.add("done-adding-to-bet-tracker");
+      // dropdownOptions.style.display = 'none';
+      // dropdownOptions.style.height = 'none';
     }
   });
 
