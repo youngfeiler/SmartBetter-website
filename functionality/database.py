@@ -275,7 +275,7 @@ class database():
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
 
        if sport == "NFL":
-          first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] - 32400
+          first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
           
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
