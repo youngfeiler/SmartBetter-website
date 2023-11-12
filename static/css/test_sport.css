@@ -628,6 +628,7 @@ option {
 .content-custom {
   flex: 1;
   background-color: var(--content-bg);
+  position: absolute;
 }/*# sourceMappingURL=main.css.map */
 
 .add-to-betslip-button{
@@ -846,6 +847,8 @@ option {
   color: white;
   text-align: center;
   outline : none;
+  width: 50%;
+
 }
 
 #best-odds.adding-to-bet-tracker{
@@ -863,6 +866,7 @@ option {
   color: white;
   text-align: center;
   outline : none;
+  width: 50%;
 }
 
 #odds-taken-input.adding-to-bet-tracker{
@@ -1148,4 +1152,5 @@ option {
 
 
 }
+
 
