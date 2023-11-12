@@ -628,7 +628,7 @@ option {
 .content-custom {
   flex: 1;
   background-color: var(--content-bg);
-  position: absolute;
+  /* position: absolute; */
 }/*# sourceMappingURL=main.css.map */
 
 .add-to-betslip-button{
