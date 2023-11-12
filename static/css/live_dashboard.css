@@ -30,7 +30,6 @@ p {
 table {
   border-collapse: collapse;
   width: 100%;
-  
 }
 
 
@@ -56,7 +55,6 @@ table.rounded-table {
   border-collapse: separate;
   border-radius: 10px 10px 10px 10px;
   width: 100%;
-
 }
 
 table.rounded-table td {
@@ -182,7 +180,6 @@ table.rounded-table td input {
     border-collapse: collapse;
     box-sizing: border-box;
     margin-top: 10px;
-
   }
 
   table thead tr {

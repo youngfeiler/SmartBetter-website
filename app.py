@@ -174,7 +174,6 @@ def test_func():
     tasks.start_dashboard_runner.delay()
     return render_template('index.html')
 
-
 @app.route('/home')
 def home():
     return render_template('index.html')
@@ -201,7 +200,6 @@ def update_bankroll():
         else:
             flash('Your bankroll was not updated. Please try again.', 'error')
             return redirect(url_for('account'))
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -261,46 +259,52 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
-  my_db = database()
   user_id = session.get('user_id')
+  my_db = database()
   if (user_id is not None):
       payed = my_db.check_account(user_id)
       if payed:
-        return redirect(url_for('live_dashboard'))
+        return redirect(url_for('show_nba'))
   if request.method == 'POST':
-
     username = request.form.get('username')
     password = request.form.get('password')
     login_allowed = my_db.check_login_credentials(username, password)
 
     print(f'{username} login result: {login_allowed}')
-    print(os.environ.get("API_KEY"))
+    
     if login_allowed:
         payed = my_db.check_account(username)
         session['user_id'] = username
         if not payed:
             flash('Your Free Trial Has Ended. Check Out Our Purchase Plans At The Bottom Of The Page', 'error')
             return redirect(url_for('index'))
-        return redirect(url_for('live_dashboard'))
+        return redirect(url_for('show_nba'))
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
 
   return render_template('login.html')
 
-
-@app.route('/nba')
-def live_dashboard():
+@app.route('/mlb')
+def show_mlb():
     user_id = session.get('user_id')
     if user_id is not None:
-        return render_template('nba.html')
+        return render_template('mlb.html')
     else:
         return redirect(url_for('register'))
-
+    
 @app.route('/nfl')
-def nfl():
+def show_nfl():
     user_id = session.get('user_id')
     if user_id is not None:
         return render_template('nfl.html')
+    else:
+        return redirect(url_for('register'))
+    
+@app.route('/nba')
+def show_nba():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nba.html')
     else:
         return redirect(url_for('register'))
          
@@ -365,10 +369,8 @@ def bet_tracker():
 
 @app.route('/logout')
 def logout():
-    # Clear the user's session
     session.clear()
-    # Redirect the user to the login or home page after logging out
-    return redirect(url_for('login'))  # Replace 'login' with the appropriate route
+    return redirect(url_for('index'))
 
 @app.route('/learn')
 def learn():
