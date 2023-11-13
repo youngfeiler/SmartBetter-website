@@ -110,8 +110,8 @@ function updateTable(data) {
 
 function updatebankroll(data){
   const bankroll = document.querySelector('#bankroll');
-  bankroll.innerHTML = 'These are bets that our model has identified and predicted wins with high confidence. They are weighted in your favor so that you win in the long run.     Bankroll: $';
-  bankroll.innerHTML  += `${data[0].bankroll}`;
+  bankroll.innerHTML = 'These are +EV bets that our machine learning model, with predictive pattern recognition, has identified as having value for an increased hit rate and profitability in the long run.';
+  // bankroll.innerHTML  += `${data[0].bankroll}`;
 }
 
 function addSign(input) {
@@ -232,6 +232,7 @@ function saveRow(row) {
 }
 
 function displaySportsbookDropdown(row){
+  
   var sportsbook = row.querySelector(".sportsbook-li");
   var sportsBooksStringElement = row.querySelector('#sportsbook p');
 
@@ -247,6 +248,8 @@ function displaySportsbookDropdown(row){
   
   var dropdownOptions = document.getElementById('dropdown-options');
   var dropdownContainer = document.getElementById('dropdown-container');
+  dropdownContainer.style.display = "flex";
+
   var dropdownBtn = dropdownContainer.querySelector('#show-dropdown-btn');
   var selectedOption = document.getElementById('selected-option');
   selectedOption.innerHTML = '';
