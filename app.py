@@ -52,7 +52,7 @@ def add_date_column_to_table(df, conn, table_name, column_name):
 
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("API_KEY")
+app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("STRIPE_API_KEY")
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 
