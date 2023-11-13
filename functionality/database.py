@@ -380,12 +380,15 @@ class database():
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       scores_df = pd.read_sql('SELECT * FROM scores', conn)
       profit_by_book = pd.read_sql('SELECT * FROM profit_by_book', conn)
-      conn.close()   # Close the connection
-
+      conn.close()
 
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
+      merged_df['team'] = merged_df['team'].str.replace(' v\.', 'v.')
+
+      print(merged_df['team'].tail(15))
+
       merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
