@@ -114,13 +114,9 @@ function updatebankroll(data){
   bankroll.innerHTML  += `${data[0].bankroll}`;
 }
 
-function addSign(str) {
-  if (str && typeof str === 'string') {
-    return str.charAt(0) === '-' ? str : '+' + str;
-  } else {
-    // Handle cases where str is not a string or is empty
-    return str;
-  }
+function addSign(input) {
+  const str = input.toString(); // Convert input to string
+  return str.charAt(0) === '-' ? str : '+' + str;
 }
 
 function getCurrentTime() {
