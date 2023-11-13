@@ -19,7 +19,7 @@ import json
 logging.getLogger("stripe").setLevel(logging.ERROR)
 
 STRIPE_PUBLIC_KEY = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-STRIPE_PRIVATE_KEY = os.environ.get("API_KEY")
+STRIPE_PRIVATE_KEY = os.environ.get("STRIPE_API_KEY")
 stripe.api_key = STRIPE_PRIVATE_KEY
 
 
