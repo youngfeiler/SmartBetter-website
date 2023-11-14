@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://connect.facebook.net;">
+
   <title>SmartBettor - NBA</title>
   <link rel="stylesheet" href="static/css/test_sport.css" />
   <link rel="icon" type="image/x-icon" href="static/images/logo.ico" />
@@ -30,7 +32,6 @@
     fbq('track', 'PageView');
   </script>
   <!-- End Meta Pixel Code -->
-  
 </head>
 {% include "sidebar.html" %}
 
