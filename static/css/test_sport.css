@@ -147,14 +147,11 @@
   border: 1px solid var(--sidebar-li-active-bg);
   color: var(--sidebar-li-active-color);
 }
-
 a:visited {
   
   color: inherit;
   text-decoration: none;
 }
-
-
 .sidebar-custom .sidebar-custom__navigations-links li:hover svg path, .sidebar-custom .sidebar-custom__navigations-links li.active svg path {
   fill: var(--sidebar-li-active-color);
 }
@@ -163,13 +160,12 @@ a:visited {
   padding-top: 1.5rem;
   border-top: 1px solid var(--sidebar-border-color);
 }
-
 .navbar-custom {
   height: 60px;
   position: sticky;
   z-index: 3;
   top: 0;
-  background-color: var(--nav-bg);
+  background-color: var(--content-bg);
   width: 100%;
   border-bottom: 1px solid var(--nav-border);
   display: flex;
