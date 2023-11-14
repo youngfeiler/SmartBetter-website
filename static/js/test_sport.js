@@ -112,6 +112,8 @@ function updatebankroll(data){
   const bankroll = document.querySelector('#bankroll');
   bankroll.innerHTML = 'These are +EV bets that our machine learning model, with predictive pattern recognition, has identified as having value for an increased hit rate and profitability in the long run.';
   // bankroll.innerHTML  += `${data[0].bankroll}`;
+  console.log(data[0].bankroll);
+
 }
 
 function addSign(input) {
@@ -180,7 +182,6 @@ function resetRowView(){
   // });
   location.reload();
 }
-
 
 function saveRow(row) {
   var toggleButton = row.querySelector('.toggle-button');
@@ -290,7 +291,6 @@ function displaySportsbookDropdown(row){
 
 }
 
-
 function changeRowDisplay(row){
   //Change the "Recommened bet size" to "Placed bet size" on MOBILE
   const recBetSize = row.querySelector("#rec-bet-size-text");
@@ -367,7 +367,6 @@ function changePlusSignDisplay(row){
     saveRow(row);
   }
 }
-
 
 var unitToggle = true;
 function toggleUnit() {
@@ -518,6 +517,7 @@ function toggleSport(){
   
   console.log("Last segment of the URL: " + targetSport);
   var elements = document.querySelectorAll('[data-sport="' + targetSport + '"]');
+  console.log(elements)
 
   if (elements.length > 0) {
     // Add the "active" class to the first matching element

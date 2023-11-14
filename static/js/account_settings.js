@@ -2,6 +2,9 @@
 document.addEventListener("DOMContentLoaded", function () {
 const toggleButton = document.getElementById("cancel-subscription-button");
 
+
+
+
 toggleButton.addEventListener("click", function () {
     // print something to console
     console.log("Cancel subscription button clicked!");
@@ -27,3 +30,44 @@ toggleButton.addEventListener("click", function () {
     });
 });
 });
+
+$(document).ready(function(){
+const accountButton = document.getElementById("account");
+
+var clickedElement = accountButton;
+
+    while (clickedElement && clickedElement.tagName !== 'LI') {
+        clickedElement = clickedElement.parentNode;
+    }
+
+    if (clickedElement) {
+        clickedElement.classList.add("active");
+    }
+});
+
+function calculateSettingAsThemeString({
+    localStorageTheme,
+    systemSettingDark,
+  }) {
+    if (localStorageTheme !== null) {
+      return localStorageTheme;
+    }
+  
+    if (systemSettingDark.matches) {
+      return "dark";
+    }
+  
+    return "light";
+  }
+  function updateThemeOnHtmlEl({ theme }) {
+    document.querySelector("html").setAttribute("data-theme", theme);
+  }
+
+  function updateButton({ buttonEl, isDark }) {
+    const lightIcon = `<i class="fa-solid fa-sun"></i>`;
+    const darkIcon = `<i class="fa-solid fa-moon"></i>`;
+  
+    const newCta = isDark ? lightIcon : darkIcon;
+  
+    buttonEl.innerHTML = newCta;
+  }
