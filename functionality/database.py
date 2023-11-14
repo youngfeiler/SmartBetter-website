@@ -389,7 +389,7 @@ class database():
 
       print(merged_df['team'].tail(15))
 
-      merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
+      merged_df['team_bet_on'] = [cell.split('v. ')[0] for cell in merged_df['team']]
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_amount'] = merged_df['bet_amount'].astype(float)
@@ -454,6 +454,9 @@ class database():
        user_df['time_placed'] = pd.to_datetime(user_df['time_placed'])
 
        user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
+
+       user_time_df['team'] = user_time_df['team'].str.replace(' v\.', 'v.')
+
 
        if sport == "NFL":
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
