@@ -31,7 +31,7 @@
 }
 
 [data-theme=dark] {
-  --sidebar-bg-color: #041a13;
+  --sidebar-bg-color: #011e16;
   --sidebar-font-color: #afbab6;
   --sidebar-li-active-color: #fff;
   --sidebar-li-active-bg: rgba(255, 255, 255, 15%);
@@ -39,7 +39,7 @@
   --nav-bg: #041a13;
   --nav-border: rgba(255, 255, 255, 15%);
   --nav-icons-color: #fff;
-  --content-bg: #041a13;
+  --content-bg: #011e16;
   --table-bg: #1e2524;
   --table-p-color: #cdd4d1;
   --table-btn-font-color: #2c3331;
