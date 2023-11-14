@@ -406,7 +406,7 @@ function getImage(sportsbook_string, row){
     var imageDictionary = {
       Pointsbetus: '/static/images/pointsbetus.webp',
       Barstool: '/static/images/barstool.webp',
-      Draftkings: '/static/images/draftkings.webp',
+      DraftKings: '/static/images/draftkings.webp',
       Fanduel: '/static/images/fanduel.webp',
       Betus: '/static/images/betus.webp',
       Wynnbet: '/static/images/wynnbet.webp',
@@ -517,7 +517,6 @@ function toggleSport(){
   
   console.log("Last segment of the URL: " + targetSport);
   var elements = document.querySelectorAll('[data-sport="' + targetSport + '"]');
-  console.log(elements)
 
   if (elements.length > 0) {
     // Add the "active" class to the first matching element
@@ -526,7 +525,59 @@ function toggleSport(){
 }
 
 $(document).ready(function(){
+  // toggle sidebar
+  const menuIcon = document.querySelector(".navbar-custom__left i");
+  const closeIcon = document.querySelector(".sidebar-custom .close-icon");
+  const logo = document.querySelector(".sidebar-custom__logo img");
+  menuIcon.addEventListener("click", (e) => {
+    document.querySelector(".sidebar-custom").classList.add("active");
+  });
 
+  closeIcon.addEventListener("click", (e) => {
+    document.querySelector(".sidebar-custom").classList.remove("active");
+  });
+
+  const button = document.querySelector("[data-theme-toggle]");
+  const localStorageTheme = localStorage.getItem("theme");
+  const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  /**
+   * 2. Work out the current site settings
+   */
+  let currentThemeSetting = calculateSettingAsThemeString({
+    localStorageTheme,
+    systemSettingDark,
+  });
+
+
+  if (currentThemeSetting === "light") {
+    logo.setAttribute("src", "static/images/whitelogo.png");
+  } else {
+    logo.setAttribute("src", "static/images/sidebar_logo.png");
+  }
+  /**
+   * 3. Update the theme setting and button text accoridng to current settings
+   */
+  updateButton({ buttonEl: button, isDark: currentThemeSetting === "dark" });
+  updateThemeOnHtmlEl({ theme: currentThemeSetting });
+
+  /**
+ * 4. Add an event listener to toggle the theme
+ */
+  button.addEventListener("click", (event) => {
+    const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
+    if (newTheme === "light") {
+      logo.setAttribute("src", "static/images/whitelogo.png");
+    } else {
+      logo.setAttribute("src", "static/images/sidebar_logo.png");
+    }
+
+    localStorage.setItem("theme", newTheme);
+    updateButton({ buttonEl: button, isDark: newTheme === "dark" });
+    updateThemeOnHtmlEl({ theme: newTheme });
+
+    currentThemeSetting = newTheme;
+  });
   
 
   toggleSport();
