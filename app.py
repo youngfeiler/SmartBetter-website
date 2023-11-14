@@ -232,7 +232,7 @@ def register():
                 print(f'{username} login result: {login_allowed}')
                 if login_allowed:
                     session['user_id'] = username
-                    return redirect(url_for('live_dashboard'))
+                    return redirect(url_for('show_nba'))
                 elif not login_allowed:
                     error_message = "Email or password incorrect. Please try again."
                     return render_template('register.html', incorrect_password=True, form_data=request.form, error_message=error_message)     
@@ -251,7 +251,7 @@ def register():
             print(f'{username} login result: {login_allowed}')
             if login_allowed:
                 session['user_id'] = username
-                return redirect(url_for('live_dashboard'))
+                return redirect(url_for('show_nba'))
             elif not login_allowed:
                 error_message = "Email or password incorrect. Please try again."
                 return render_template('register.html', incorrect_password=True, form_data=request.form, error_message=error_message)     
