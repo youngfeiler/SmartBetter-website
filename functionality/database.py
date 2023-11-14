@@ -455,16 +455,23 @@ class database():
 
        user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
 
-       user_time_df['team'] = user_time_df['team'].str.replace(' v\.', 'v.')
-
+       print("----------------")
 
        if sport == "NFL":
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
+          user_time_df['team_1'] = user_time_df['team_1'].str.replace(' v\.', 'v.')
+          print(user_time_df['team'])
 
-       elif sport == "MLB":
+
+       elif (sport == "MLB" or  sport == "NBA"):
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
+          user_time_df['team'] = user_time_df['team'].str.replace(' v\.', 'v.')
+          print(user_time_df['team'])
+       
+
+          
 
        return df
 
