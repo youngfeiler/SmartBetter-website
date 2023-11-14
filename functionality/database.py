@@ -464,7 +464,7 @@ class database():
           print(user_time_df['team'])
 
 
-       elif (sport == "MLB" or  sport == "NBA"):
+       elif sport == "MLB":
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
           user_time_df['team'] = user_time_df['team'].str.replace(' v\.', 'v.')
