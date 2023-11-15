@@ -84,13 +84,13 @@ function updateTable(data) {
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
       <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
       align-items: center; justify-content: center;"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <svg width="16px" height="16px" viewBox="-2.1 -2.1 25.20 25.20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#currentColor" transform="matrix(-1, 0, 0, 1, 0, 0)">
+      <svg width="16px" height="16px" viewBox="-2.1 -2.1 25.20 25.20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" transform="matrix(-1, 0, 0, 1, 0, 0)">
       
       <g id="SVGRepo_bgCarrier" stroke-width="0"/>
       
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
       
-      <g id="SVGRepo_iconCarrier"> <title>plus [#1512]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-379.000000, -240.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="plus-[#1512]" points="344 89 344 91 334.55 91 334.55 100 332.45 100 332.45 91 323 91 323 89 332.45 89 332.45 80 334.55 80 334.55 89"> </polygon> </g> </g> </g> </g>
+      <g id="SVGRepo_iconCarrier"> <title>plus [#1512]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-379.000000, -240.000000)" fill="#21ce99"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="plus-[#1512]" points="344 89 344 91 334.55 91 334.55 100 332.45 100 332.45 91 323 91 323 89 332.45 89 332.45 80 334.55 80 334.55 89"> </polygon> </g> </g> </g> </g>
       
       </svg></li>
       <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
@@ -117,6 +117,7 @@ function updatebankroll(data){
 }
 
 function addSign(input) {
+  console.log(input);
   const str = input.toString(); // Convert input to string
   return str.charAt(0) === '-' ? str : '+' + str;
 }
