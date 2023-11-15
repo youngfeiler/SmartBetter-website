@@ -53,6 +53,7 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #333;
+  background-color: var(--table-bg);
 }
 img {
   max-width: 100%;
