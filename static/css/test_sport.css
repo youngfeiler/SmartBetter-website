@@ -2,61 +2,86 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 :root,
 [data-theme=":default"] {
-  --sidebar-bg-color: #21ce99;
+  --sidebar-bg-color: linear-gradient(to bottom, #21ce99, #f7f7f7);;
   --sidebar-font-color: #fff;
   --sidebar-li-active-color: #10674c;
   --sidebar-li-active-bg: #fff;
   --sidebar-border-color: #fff;
-  --nav-bg: #fff;
-  --nav-border: rgba(255, 255, 255, 15%);
+  --nav-bg: #ebeeed;
+  --nav-bg-mobile: linear-gradient(to right, #21ce99, #f7f7f7);
+  --nav-bg-mobile:  #21ce99;
+  --nav-border: rgba(255, 255, 255, 100%);
+
   --nav-icons-color: #91a09a;
   --content-bg: #ebeeed;
   --table-bg: #fff;
   --table-p-color: #303835;
   --table-btn-font-color: #fff;
+  --table-btn-bg: #011a13;
   --table-border-color: #afbab6;
+  --table-border: none;
   --table-placeholder-color: #91a09a;
   --table-input-color: #101312;
   --table-select: #404a46;
   --table-thead-bg: #ebeeed;
   --table-thead-color: #404a46;
-  --table-trow-border: #cdd4d1;
+  --table-trow-border: #4d5f5a;
+  --table-trow-special-color: #39ce9a;
+
   --table-trow-color: #303835;
   --table-footer-p-color: #404a46;
   --table-previous-btn-bg: #ebeeed;
   --table-previous-btn-color: #91a09a;
   --table-not-active-btn-color: #101312;
+  --table-shadow: #21ce99;
   --close-menu-icons-color: #041a13;
   --scroll-bg: #cdd4d1;
+  --m: none;
+  --row-box-special-color-from:rgb(33,206, 153, 1);
+  --row-box-special-color-to:rgba(33,206, 153, 0);
+
+
 }
 
 [data-theme=dark] {
-  --sidebar-bg-color: #011e16;
+  --sidebar-bg-color: linear-gradient(to bottom, #041a13, #02694C);
   --sidebar-font-color: #afbab6;
   --sidebar-li-active-color: #fff;
   --sidebar-li-active-bg: rgba(255, 255, 255, 15%);
   --sidebar-border-color: rgba(255, 255, 255, 15%);
+  --nav-bg: linear-gradient(to right, #041a13, #02694C, #041a13, #D2D3D3);
   --nav-bg: #041a13;
+
+  --nav-bg-mobile: linear-gradient(to right, #041a13, #024331);
+  --nav-bg-mobile:  #041a13;
+
   --nav-border: rgba(255, 255, 255, 15%);
   --nav-icons-color: #fff;
   --content-bg: #011e16;
-  --table-bg: #1e2524;
+  --table-bg: #011A13;
   --table-p-color: #cdd4d1;
   --table-btn-font-color: #2c3331;
+  --table-btn-bg: #f7f7f7;
   --table-border-color: #afbab6;
   --table-placeholder-color: #91a09a;
   --table-input-color: #fff;
   --table-select: #fff;
   --table-thead-bg: #2e3534;
   --table-thead-color: #afbab6;
-  --table-trow-border: #333a38;
+  --table-trow-border: white;
   --table-trow-color: #fff;
+  --table-trow-special-color: #21f3b8;
   --table-footer-p-color: #fff;
   --table-previous-btn-bg: #363c3b;
   --table-previous-btn-color: #afbab6;
   --table-not-active-btn-color: #afbab6;
+  --table-shadow: rgba(243, 240, 240, 0.5);
   --close-menu-icons-color: #fff;
   --scroll-bg: #404a46;
+  --table-border: 2px solid black;
+  --row-box-special-color:black;
+  --row-box-special-color-from:rgba(255,255,255, 1) ;
+  --row-box-special-color-to:rgba(255,255,255, 0) ;
 }
 
 .sidebar-custom {
@@ -65,7 +90,7 @@
   top: 0;
   bottom: 0;
   width: 204px;
-  background-color: var(--sidebar-bg-color);
+  background: var(--sidebar-bg-color);
   color: var(--sidebar-font-color);
   height: 100%;
   display: flex;
@@ -165,7 +190,8 @@ a:visited {
   position: sticky;
   z-index: 3;
   top: 0;
-  background-color: var(--content-bg);
+  /* background: var(--content-bg); */
+  background: var(--nav-bg);
   width: 100%;
   border-bottom: 1px solid var(--nav-border);
   display: flex;
@@ -230,12 +256,15 @@ a:visited {
   background-color: var(--table-bg);
   margin: 1.875rem;
   border-radius: 21px;
-  color: white;
+  /* color: white; */
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 2.125rem;
   position: relative;
+  /* box-shadow: 5px 5px 5px 0px var(--table-shadow); */
+  border: var(--table-border)
+
 }
 @media (max-width: 49em) {
   .table-custom {
@@ -254,6 +283,7 @@ a:visited {
   flex-wrap: wrap;
   gap: 1.5rem;
 }
+
 .table-custom .table-custom__header div h2 {
   font-family: Poppins;
   font-size: 2.125rem;
@@ -262,14 +292,15 @@ a:visited {
   line-height: normal;
   letter-spacing: 0.25px;
   background: linear-gradient(268deg, #0e9b6e -13.23%, #00c88f 100.57%);
+  color: var(--table-btn-bg) !important;
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* -webkit-text-fill-color: transparent; */
 }
 .table-custom .table-custom__header div button {
   padding: 1rem 1.5rem;
   color: var(--table-btn-font-color);
-  background-color: #21ce99;
+  background-color:var(--table-btn-bg);
   border-radius: 1000px;
   font-size: 1rem;
   font-weight: 600;
@@ -622,7 +653,7 @@ option {
   flex: 1;
   background-color: var(--content-bg);
   overflow: hidden;
-  min-height: 1000px;
+  min-height: 100vh;
 }/*# sourceMappingURL=main.css.map */
 
 .add-to-betslip-button{
@@ -836,7 +867,7 @@ option {
 
 #bet-size-input.adding-to-bet-tracker{
   background-color: var(--table-bg);
-  border: 1px solid var(--table-trow-border);
+  border: 1px solid var(--table-trow-special-color);
   border-radius: 5px;
   color: white;
   text-align: center;
@@ -855,7 +886,7 @@ option {
 
 #odds-taken-input.adding-to-bet-tracker{
   background-color: var(--table-bg);
-  border: 1px solid var(--table-trow-border);
+  border: 1px solid var(--table-trow-special-color);
   border-radius: 5px;
   color: white;
   text-align: center;
@@ -930,7 +961,7 @@ option {
     max-width: 100% !important;
     min-width: 80% !important;
     padding-right: 0 !important;
-    border: 3px solid var(--table-trow-border) !important;
+    border: 1px solid var(--table-trow-border) !important;
     border-radius: 10px 10px 10px 10px;
     margin-bottom: 5% !important;
     padding-bottom: 1vh !important;
@@ -994,13 +1025,25 @@ option {
 .table-custom__content__rows__row li:nth-child(13) { 
   order: 4 !important;
   width: 100% !important;
-  border-left: 1px solid var(--table-trow-border) !important;
-  border-bottom: 1px solid var(--table-trow-border) !important;
+  /* border-left: 1px solid var(--table-trow-border) !important; */
+  border-bottom: 1px solid white !important;
   /* padding: 0 0 0 0 !important; */
   margin: 0 0 0 0 !important;
   gap: 0.4rem !important;
   text-transform: none !important;
-  color: rgb(14, 155, 110) !important;
+  color: var(--table-trow-special-color) !important;
+  position: relative;
+  }
+
+  .table-custom__content__rows__row li:nth-child(13)::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px; /* Adjust the height for the thickness of the top border */
+    background: linear-gradient(to top, var(--row-box-special-color-from), var(--row-box-special-color-to));
+    z-index: 1;
   }
 
   /* "REC BET SIZE"" */
@@ -1010,16 +1053,19 @@ option {
   border-right: 1px solid var(--table-trow-border) !important;
   padding-top: 2vh !important;
   font-weight: bold !important;
-
+  background-color: var(--row-box-special-color) !important;
+  position: relative;
   }
+
+
 
  .table-custom__content__rows__row li:nth-child(14) { 
     order: 6 !important;
     width: 50% !important;
-    border-right: 1px solid var(--table-trow-border) !important;
+    /* border-right: 1px solid var(--table-trow-border) !important; */
     padding-top: 2vh !important;
-  font-weight: bold !important;
-
+    font-weight: bold !important;
+    background-color: var(--row-box-special-color) !important;
   }
 
 /* Rec bet size */
@@ -1033,7 +1079,8 @@ option {
   padding-left: 0 !important;
   padding-right: 0 !important;
   font-size: 1rem !important;
-
+  color: var(--table-trow-special-color) !important;
+  background-color: var(--row-box-special-color) !important;
   }
 
      /*Min odds */
@@ -1047,6 +1094,8 @@ option {
   text-align: center !important;
   justify-content: right  !important;
   font-size: 1rem !important;
+  color: var(--table-trow-special-color) !important;
+  background-color: var(--row-box-special-color) !important;
 
   }
   .table-custom__content__rows__row li:nth-child(6):after { 
@@ -1054,6 +1103,9 @@ option {
   font-size: 0.5rem !important;
   text-align: center !important;
   font-weight: 250 !important;
+  color: var(--table-trow-color) !important;
+  /* margin-left: 0.75rem !important;  */
+
   }
 
   /* Max odds */
@@ -1066,6 +1118,9 @@ option {
   gap: 0rem !important;
   text-align: center !important;
   font-size: 1rem !important;
+  color: var(--table-trow-special-color) !important;
+  background-color: var(--row-box-special-color) !important;
+
   }
 
   .table-custom__content__rows__row li:nth-child(7):after { 
@@ -1073,6 +1128,9 @@ option {
     font-size: 0.5rem !important;
     font-weight: 250 !important;
     text-align: center !important;
+    color: var(--table-trow-color) !important;
+    /* margin-left: 0.75rem !important;  */
+
   }
 
 /* Sportsbooks */
@@ -1141,6 +1199,25 @@ option {
   #odds-taken-input.adding-to-bet-tracker{
     width: 50% !important;
     font-size: 1rem;
+  }
+
+  .navbar-custom{
+    background: var(--nav-bg-mobile);
+  }
+
+  .sportsbook-li{
+    position:relative;
+  }
+
+  .sportsbook-li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px; /* Adjust the height for the thickness of the top border */
+    background: linear-gradient(to top, var(--row-box-special-color-to), var(--row-box-special-color-from));
+    z-index: 1;
   }
 
 

@@ -235,6 +235,7 @@ function saveRow(row) {
 function displaySportsbookDropdown(row){
   
   var sportsbook = row.querySelector(".sportsbook-li");
+  sportsbook.style.position = 'static';
   var sportsBooksStringElement = row.querySelector('#sportsbook p');
 
   if (sportsBooksStringElement) {
