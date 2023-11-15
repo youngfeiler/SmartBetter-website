@@ -162,6 +162,7 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+
 .sidebar-custom .sidebar-custom__navigations-links li svg path {
   fill: var(--sidebar-font-color);
 }
@@ -599,6 +600,7 @@ a {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 p {
