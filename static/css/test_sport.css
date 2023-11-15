@@ -635,6 +635,7 @@ option {
 .container-custom {
   display: flex;
   align-items: flex-start;
+  /* min-height: 100vh; */
 }
 
 .main-custom {
@@ -654,7 +655,7 @@ option {
   flex: 1;
   background-color: var(--content-bg);
   overflow: hidden;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
 }/*# sourceMappingURL=main.css.map */
 
 .add-to-betslip-button{
