@@ -340,6 +340,8 @@ function changeRowDisplay(row){
   var recBetSizeNumberStyles = window.getComputedStyle(recBetSizeNumber);
   const betSizeInput = document.createElement('input');
   betSizeInput.id = "bet-size-input";
+  betSizeInput.style.flex = "0 0 auto";
+
   betSizeInput.classList.add("adding-to-bet-tracker");
 
   for (var style in recBetSizeNumberStyles) {
