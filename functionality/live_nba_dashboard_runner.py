@@ -251,7 +251,7 @@ class live_nba_dashboard_runner():
         time_df = df[time_cols].apply(pd.to_datetime).apply(lambda x: x.dt.time)
 
         # Create a timedelta DataFrame by combining date from 'snapshot_time' and time from 'time_df'
-        time_diff_df = snapshot_date.to_frame().join(time_df).apply(lambda row: pd.Timestamp.combine(row[0], row[1]), axis=1) - df['snapshot_time']
+        time_diff_df = snapshot_date.to_frame().join(time_df).apply(lambda row: pd.Timestamp.combine(row[0], row['draftkings_1_time']), axis=1) - df['snapshot_time']
         # Calculate absolute values of time differences
         time_diff_df = time_diff_df.abs()
 
@@ -299,10 +299,10 @@ class live_nba_dashboard_runner():
           time_df = df[time_cols].apply(pd.to_datetime).apply(lambda x: x.dt.time)
 
           # Create a timedelta DataFrame by combining date from 'snapshot_time' and time from 'time_df'
-          time_diff_df = snapshot_date.to_frame().join(time_df).apply(lambda row: pd.Timestamp.combine(row[0], row[1]), axis=1) - df['snapshot_time']
+          time_diff_df = snapshot_date.to_frame().join(time_df).apply(lambda row: pd.Timestamp.combine(row[0], row['draftkings_1_time']), axis=1) - df['snapshot_time']
           # Calculate absolute values of time differences
           time_diff_df = time_diff_df.abs()
-
+          time_df.to_csv('time_diff_df.csv')
           # Create a mask based on the threshold
           threshold = self.model_storage['SmartBetterNBAModel']['params']['update_time_threshold']
 
@@ -316,6 +316,8 @@ class live_nba_dashboard_runner():
 
           # Calculate the mean odds for each row (ignoring NaN values)
           df['average_market_odds'] = odds_df_masked.mean(axis=1, skipna=True)
+
+          df['barstool_1_odds'] = df['draftkings_1_odds']
 
           return df
 
@@ -471,7 +473,7 @@ class live_nba_dashboard_runner():
 
       # Makes self.filtered_df
       self.preprocess(market_odds_df)
-
+      
       if not self.filtered_df.empty:
         for strategy_name, strategy_dict in self.model_storage.items():
           self.format_for_nn()
@@ -480,20 +482,50 @@ class live_nba_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
-
+          print(predictions_array)
+          print('----')
+          print(strategy_dict['pred_thresh'])
           mask = predictions_array > strategy_dict['pred_thresh']
           # mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
-            
-            filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
+            existing_cols = pd.read_csv('users/model_obs_nba.csv').columns.tolist()
 
-            filtered_df.to_csv(
-               'users/model_obs_nba.csv', 
-               mode = 'a', 
-               header= False, 
+            filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
+            new_cols = filtered_df.columns.tolist()
+
+            # Items in list1 but not in list2
+            unique_to_list1 = list(set(existing_cols) - set(new_cols))
+            print("Items in existing  but not in new:", unique_to_list1)
+
+            # Items in list2 but not in list1
+            unique_to_list2 = list(set(new_cols) - set(existing_cols))
+            print("Items in new but not existing", unique_to_list2)
+            print(f"Length of data to be appended: {len(filtered_df.columns)}")
+            print(f"Length of data we have: {len(pd.read_csv('users/model_obs_nba.csv').columns)}")
+
+            column_to_drop = 'team_1_division'
+
+# Identify the index of the first occurrence of the column name
+            indices_to_drop = [i for i, col in enumerate(filtered_df.columns) if col == column_to_drop]
+            print(filtered_df.columns.tolist())
+            print(f"index: {indices_to_drop[0]}")
+# Drop the specific column by index
+            # filtered_df.drop(filtered_df.columns[indices_to_drop[0]], axis=1, inplace=True)
+            filtered_df = filtered_df.loc[:, ~filtered_df.columns.duplicated()]
+
+            print(f"Length of data to be appended: {len(filtered_df.columns)}")
+            existing_df = pd.read_csv('users/model_obs_nba.csv')
+
+    # Append the new DataFrame to the existing file
+            result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
+
+            filtered_df.to_csv('users/test.csv', mode='w')
+            result_df.to_csv( 'users/model_obs_nba.csv', 
+               mode = 'w', 
+               header= True, 
                index = False
                )
 

@@ -233,7 +233,7 @@ class database():
        df_sport = df[df['sport_title'] == sport]
        
        filtered_df = df_sport[df_sport['completed'] == False]
-
+       filtered_df = filtered_df[filtered_df['average_market_odds'] > 0.01]
        filtered_df.sort_values(by='snapshot_time', ascending=False, inplace=True)
 
        columns_to_compare = ['team']
@@ -291,6 +291,8 @@ class database():
        first_20_rows = self.filter_5_min_cooloff(user_name, sport, first_20_rows)
 
        first_20_rows['ev'] = first_20_rows['ev'].round(1)
+       first_20_rows.to_csv('user_test.csv', mode="w")
+       print(first_20_rows)
 
        return first_20_rows
     
@@ -456,7 +458,7 @@ class database():
        user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
        
 
-       if sport == "NFL":
+       if sport == "NFL" or sport == "NBA":
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
 
