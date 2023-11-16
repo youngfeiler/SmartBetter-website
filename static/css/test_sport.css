@@ -1225,10 +1225,10 @@ option {
   #bet-size-input.adding-to-bet-tracker{
     width: 30% !important;
     font-size: 1rem;
-    border-width: 0px 0px 0px 0px !important;
+    /* border-width: 0px 0px 0px 0px !important; */
     outline: 2px solid var(--table-trow-special-color) !important;
     border-radius:10px !important;
-    padding-bottom: 0px !important;
+    flex: 0;
   }
 
   .navbar-custom{
