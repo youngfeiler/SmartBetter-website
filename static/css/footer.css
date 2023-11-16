@@ -15,7 +15,7 @@
 }
 
 #footer-content{
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,7 +60,7 @@
 }
 
 .socials-container{
-  margin-top: 5vh;
+  /* margin-top: 5vh; */
   font-size: 0.8em;
   display: flex;
   flex-direction: row;
@@ -70,6 +70,7 @@
 }
 
 .social{
+  margin-top: 2vh;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -82,7 +83,7 @@
   flex-direction: column;
   align-content: center;
   justify-content: center;
-  width: 50%;
+  width: 90%;
 }
 
 .link{
@@ -106,7 +107,7 @@
   }
 
   .socials-container{
-    margin-top: 9vh;
+    /* margin-top: 9vh; */
     display: flex;
     flex-direction: column;
     align-content: center;
