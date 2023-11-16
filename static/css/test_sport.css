@@ -932,6 +932,7 @@ option {
   #bet-size-input.adding-to-bet-tracker{
     width: 50%;
     font-size: 1rem;
+    border-inline-width: 0px 0px;
   }
 
   #dropdown-options.adding-to-bet-tracker{
