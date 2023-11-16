@@ -44,7 +44,7 @@ function updateTable(data) {
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
-  footer_to_append_to.appendChild(footer_to_change_innerhtml);
+
 
   const tableBody = document.querySelector('.table-custom__content');
   const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
@@ -134,6 +134,7 @@ function updateTable(data) {
   table_row_to_append_to.appendChild(tr);
     console.log('No update');
   }
+  footer_to_append_to.appendChild(footer_to_change_innerhtml);
 }
 
 function updatebankroll(data){
