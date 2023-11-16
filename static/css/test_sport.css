@@ -896,6 +896,7 @@ option {
   text-align: center;
   outline : 4px solid red;
   width: 50%;
+  border-width: 0px 0px 0px 0px;
 }
 
 #odds-taken-input.adding-to-bet-tracker{
