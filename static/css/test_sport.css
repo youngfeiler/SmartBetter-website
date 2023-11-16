@@ -863,10 +863,10 @@ option {
 #rec-bet-size-number.adding-to-bet-tracker{
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  border: none;
 }
-
 
 
 #best-odds.adding-to-bet-tracker{
@@ -926,6 +926,7 @@ option {
 @media (max-width: 767px) {
   #rec-bet-size-number.adding-to-bet-tracker{
     align-items: center;
+    width: 50% !important;
   }
 
 
@@ -1108,7 +1109,7 @@ option {
   text-align: center !important;
   font-weight: 250 !important;
   color: var(--table-trow-color) !important;
-  margin-left: 0.75rem !important; 
+  /* margin-left: 0.75rem !important;  */
 
   }
 
