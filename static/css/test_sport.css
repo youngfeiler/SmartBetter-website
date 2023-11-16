@@ -1076,7 +1076,7 @@ option {
   width: 50% !important;
   border-right: 1px solid var(--table-trow-border) !important;
   font-weight: bold !important;
-  padding-top: 0 !important;
+  padding-top: 5px !important;
   padding-bottom: 2vh !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
