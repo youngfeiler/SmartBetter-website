@@ -1224,6 +1224,7 @@ option {
     font-size: 1rem;
     border-inline-width: 0px 0px !important;
     border-width: 0px 0px 0px 0px !important;
+    outline: 2px solid var(--table-trow-special-color) !important;
   }
 
   .navbar-custom{
