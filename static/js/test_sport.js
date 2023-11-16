@@ -130,7 +130,7 @@ function updateTable(data) {
   No approved bets available right now.
   </li>
   `;
-  footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
+  footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
   table_row_to_append_to.appendChild(tr);
     console.log('No update');
   }
