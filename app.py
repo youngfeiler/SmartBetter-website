@@ -188,6 +188,10 @@ def account():
   else:
         return redirect(url_for('login'))
 
+@app.route('/bet_tracker_dashboard')
+def bet_tracker_dashboard():
+    return render_template('bet_tacker_dashboard.html')
+
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
     if request.method == 'POST':
@@ -308,7 +312,21 @@ def show_nba():
         return render_template('nba.html')
     else:
         return redirect(url_for('register'))
-         
+
+@app.route('/get_bet_tracker_dashboard_data', methods=["POST", "GET"])
+def get_bet_tracker_dashboard_data():
+    try:
+        data = request.json
+        dict_params = data['params']
+        print(dict_params)
+        db = database()
+        return_data = db.get_bet_tracker_dashboard_data(dict_params)        
+    except:
+        pass
+    print(return_data)
+    return jsonify(return_data)
+
+
 @app.route('/add_saved_bet', methods=['POST'])
 def add_saved_bet():
     try:

@@ -28,7 +28,7 @@ class User():
       df.to_sql('login_info', conn, if_exists='replace', index=False)
       conn.close()   # Close the connection
 
-      self.add_strategy_to_user(self.username, 'SmartBetter low risk demo strategy')
+      # self.add_strategy_to_user(self.username, 'SmartBetter low risk demo strategy')
       return
     def add_strategy_to_user(self, username, strategy_name):
       df = pd.read_csv('users/user_strategy_names.csv')
