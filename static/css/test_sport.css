@@ -156,7 +156,6 @@
 .sidebar-custom .sidebar-custom__navigations-links li span a a:visited{
   font-size: 0.875rem;
   color: var(--sidebar-font-color);
-
 }
 .sidebar-custom .sidebar-custom__navigations-links li svg {
   width: 1.5rem;
@@ -173,9 +172,12 @@
   color: var(--sidebar-li-active-color);
 }
 a:visited {
-  
   color: inherit;
   text-decoration: none;
+}
+
+.white{
+  color: white;
 }
 .sidebar-custom .sidebar-custom__navigations-links li:hover svg path, .sidebar-custom .sidebar-custom__navigations-links li.active svg path {
   fill: var(--sidebar-li-active-color);
