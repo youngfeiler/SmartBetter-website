@@ -867,22 +867,24 @@ option {
   align-items: center;
 }
 
-#bet-size-input.adding-to-bet-tracker{
-  background-color: var(--table-bg);
-  /* border: 1px solid var(--table-trow-special-color); */
-  border-radius: 5px;
-  color: white;
-  text-align: center;
-  outline : 1px solid var(--table-trow-special-color);
-  width: 50%;
 
-}
 
 #best-odds.adding-to-bet-tracker{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  border: none;
+}
+
+#bet-size-input.adding-to-bet-tracker{
+  background-color: var(--table-bg);
+  /* border: 1px solid var(--table-trow-special-color); */
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  /* outline : 1px solid var(--table-trow-special-color); */
+  width: 50%;
 }
 
 
