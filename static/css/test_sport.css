@@ -860,23 +860,13 @@ option {
   opacity: 1;
 }
 
-#rec-bet-size-number.adding-to-bet-tracker{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border: none;
-}
-
+#rec-bet-size-number.adding-to-bet-tracker, 
 #best-odds.adding-to-bet-tracker{
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   border: none;
-}
-
-#bet-size-input.adding-to-bet-tracker{
   background-color: var(--table-bg);
   border: none;
   border-radius: 5px;
@@ -884,25 +874,11 @@ option {
   text-align: center;
   width: 50%;
   border-width: 0px 0px 0px 0px;
-}
-
-
-#odds-taken-input.adding-to-bet-tracker{
-  background-color: var(--table-bg);
-  border: none;
-  border-radius: 5px;
-  color: white;
-  text-align: center;
-  width: 50%;
-  border-width: 0px 0px 0px 0px;
-}
-
-
-#odds-taken-input.adding-to-bet-tracker{
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 
 #save-button.adding-to-bet-tracker{
   cursor: pointer;
@@ -925,9 +901,9 @@ option {
 
 
 @media (max-width: 767px) {
-  #rec-bet-size-number.adding-to-bet-tracker{
+  /* #rec-bet-size-number.adding-to-bet-tracker{
     align-items: center;
-  }
+  } */
 
 
   #dropdown-options.adding-to-bet-tracker{
@@ -1213,16 +1189,9 @@ option {
     display: none !important;
   }
 
-  #odds-taken-input.adding-to-bet-tracker{
-    width: 50% !important;
-    font-size: 1rem;
-    border-width: 0px 0px 0px 0px !important;
-    outline: 2px solid var(--table-trow-special-color) !important;
-    border-radius:10px !important;
-  }
-
+  #odds-taken-input.adding-to-bet-tracker,
   #bet-size-input.adding-to-bet-tracker{
-    width: 50%;
+    width: 50% !important;
     font-size: 1rem;
     border-width: 0px 0px 0px 0px !important;
     outline: 2px solid var(--table-trow-special-color) !important;
