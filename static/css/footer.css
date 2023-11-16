@@ -64,7 +64,7 @@
   font-size: 0.8em;
   display: flex;
   flex-direction: row;
-  align-content: center;
+  align-items: center;
   justify-content: space-between;
   width: 40%;
 }
