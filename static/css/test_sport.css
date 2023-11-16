@@ -1108,7 +1108,7 @@ option {
   text-align: center !important;
   font-weight: 250 !important;
   color: var(--table-trow-color) !important;
-  /* margin-left: 0.75rem !important;  */
+  margin-left: 0.75rem !important; 
 
   }
 
