@@ -30,6 +30,13 @@ class database():
     def make_conn(self):
         conn = sqlite3.connect('smartbetter.db')
         return conn
+    
+    def get_scores(self):
+       conn = self.make_conn()
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()
+       return scores_df
+      
 
     def get_all_usernames(self):
       conn = self.make_conn()
@@ -586,3 +593,70 @@ class database():
 
 
       return jsonify(data=new_df.to_json(orient='records', date_format='iso'))
+    
+    def make_bet_tracker_dashboard_data_kelley(self, df):
+       starting_bankroll = 100
+
+       df['decimal_prob'] = 1/df['average_market_odds']
+
+       df['kelley_perc'] = ((df['highest_bettable_odds'] - 1) * df['decimal_prob'] - (1-df['decimal_prob'])) / (df['highest_bettable_odds']-1) * 0.5
+
+       df['bet_amount'] = df['kelley_perc'] * starting_bankroll
+
+        # Apply actions based on conditions
+      #  df['obs_result'] = np.where(condition1, self.val_df_applied['highest_bettable_odds'] * 100 - 100, np.where(condition2, -100, np.where(condition3, 0, 0)))
+
+      # self.val_df_applied['obs_result_kelley'] = np.where(condition1, self.val_df_applied['bet_amount'] * self.val_df_applied['highest_bettable_odds'] - self.val_df_applied['bet_amount'], np.where(condition2, self.val_df_applied['bet_amount'] * -1, np.where(condition3, 0, 0)))
+
+      # self.val_df_applied['running_sum'] = self.val_df_applied['obs_result'].cumsum()
+      # self.val_df_applied['running_sum_kelley'] = self.val_df_applied['obs_result_kelley'].cumsum()
+    
+
+    def make_bet_tracker_dashboard_data_standard(self, df):
+       df['result'] = np.where(
+          df['winning_team'] == df['team'],
+          100 * df['highest_bettable_odds'] - 100,
+          -100
+       )
+
+       sum_df = df.groupby('game_id')['result'].sum().reset_index()
+
+       sum_df['running_sum'] = sum_df['result'].cumsum()
+
+       return sum_df
+
+    def add_winning_teams(self, df):
+      scores = self.get_scores()
+      merged_df = df.merge(scores, on='game_id', how='left')
+      return_df = merged_df[merged_df['winning_team'].notna()]
+      return return_df
+    
+    def get_bet_tracker_dashboard_data(self, params):
+
+      master_model_obs = pd.read_csv('Users/master_model_observations.csv')
+
+      if params['sport_title'] != 'All':
+          master_model_obs = master_model_obs[master_model_obs['sport_title'] == params['sport_title']]
+      if params['timing'] == 'Pregame only':
+         master_model_obs = master_model_obs[master_model_obs['minutes_since_commence'] <= 0]
+      if params['timing'] == 'Live only':
+         master_model_obs = master_model_obs[master_model_obs['minutes_since_commence'] >= 0]
+
+      master_model_obs = self.add_winning_teams(master_model_obs)
+
+      # if params['bet_size'] == 'Kelley':
+      #    master_model_obs = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
+      if params['bet_size'] == 'Standard':
+          master_model_obs = self.make_bet_tracker_dashboard_data_standard(master_model_obs)
+
+      print(master_model_obs)
+
+      return master_model_obs.to_dict(orient='list')
+
+
+         
+
+      
+      
+      
+          
