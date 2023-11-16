@@ -890,12 +890,13 @@ option {
 
 #odds-taken-input.adding-to-bet-tracker{
   background-color: var(--table-bg);
-  border: none;
+  border: 2px solid var(--table-trow-special-color) !important;
+
   border-radius: 5px;
   color: white;
   text-align: center;
   width: 50%;
-  border-width: 0px 0px 0px 0px;
+  /* border-width: 0px 0px 0px 0px; */
 }
 
 
