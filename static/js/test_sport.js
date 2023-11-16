@@ -408,7 +408,7 @@ function getImage(sportsbook_string, row){
     var imageDictionary = {
       Pointsbetus: '/static/images/pointsbetus.webp',
       Barstool: '/static/images/barstool.webp',
-      DraftKings: '/static/images/draftkings.webp',
+      Draftkings: '/static/images/draftkings.webp',
       Fanduel: '/static/images/fanduel.webp',
       Betus: '/static/images/betus.webp',
       Wynnbet: '/static/images/wynnbet.webp',
