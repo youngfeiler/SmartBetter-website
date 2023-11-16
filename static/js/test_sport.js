@@ -39,8 +39,6 @@ function updateThemeOnHtmlEl({ theme }) {
 }
 
 function updateTable(data) {
-  console.log(window.location.pathname);
-  console.log(data);
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -146,7 +144,6 @@ function updatebankroll(data){
 }
 
 function addSign(input) {
-  console.log(input);
   const str = input.toString(); // Convert input to string
   return str.charAt(0) === '-' ? str : '+' + str;
 }
@@ -160,7 +157,7 @@ function getCurrentTime() {
 }
 
 function convertToUserTimezone(inputTime) {
-  console.log(inputTime)
+
   const dateObj = new Date(inputTime);
   if (isNaN(dateObj)) {
     return '';
@@ -169,8 +166,6 @@ function convertToUserTimezone(inputTime) {
   const userTime = new Date(dateObj.toLocaleString('en-US', { timeZone: userTimezone }));
   const options = { timeZone: userTimezone, weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
   const formattedTime = userTime.toLocaleString('en-US', options);
-  console.log('user_time_next')
-  console.log(formattedTime)
   return formattedTime;
 }
 
@@ -216,7 +211,6 @@ function resetRowView(){
 function saveRow(row) {
   var toggleButton = row.querySelector('.toggle-button');
   var modifiedNumber = toggleButton.innerText === "-" ? - + row.querySelector("#odds-taken-input").value : row.querySelector("#odds-taken-input").value;
-  console.log(toggleButton.innerHTML);
   // make a dict with thte values of each cell in the right spot
 
   var rowDataDict = {
@@ -240,7 +234,6 @@ function saveRow(row) {
 
     'time_difference_formatted':row.querySelector("#time-dif").innerHTML,
   }
-  console.log(rowDataDict);
 
   $.ajax({
     url: '/add_saved_bet',
@@ -274,7 +267,7 @@ function displaySportsbookDropdown(row){
     var firstSportsbook = sportsBooksString.split(', ')[0];
     var firstImageWithAlt = document.querySelector('img[alt="' + firstSportsbook + '"]');
     firstImageWithAlt.style.borderRadius = "10px";
-    console.log(firstImageWithAlt);
+  
     sportsBooksStringElement.style.display = 'none';
   }
   
@@ -376,6 +369,9 @@ function changeRowDisplay(row){
   }
   oddsTakenInput.id = "odds-taken-input";
   oddsTakenInput.classList.add("adding-to-bet-tracker");
+  oddsTakenInput.style.display = "flex";
+
+
   bestOddsNumber.innerHTML = '';
   test = document.createElement('div')
   test.setAttribute('class', "toggle-button");
@@ -403,7 +399,7 @@ function changePlusSignDisplay(row){
 
 var unitToggle = true;
 function toggleUnit() {
-  console.log("clicked");
+  
   var li = document.getElementById('rec-bet-size-number');
   var input = li.querySelector('input')
 
@@ -522,7 +518,7 @@ function addToBankroll() {
 
   saveButton.addEventListener("click", function() {
     const amount = parseFloat(input.value);
-    console.log('Amount:', amount);
+
 
     fetch('/add_to_bankroll', {
       method: 'POST',
@@ -548,7 +544,6 @@ function toggleSport(){
   // Get the last segment (element) of the URL
   var targetSport = urlSegments[urlSegments.length - 1].toUpperCase();
   
-  console.log("Last segment of the URL: " + targetSport);
   var elements = document.querySelectorAll('[data-sport="' + targetSport + '"]');
 
   if (elements.length > 0) {
