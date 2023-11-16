@@ -52,12 +52,6 @@ function updateTable(data) {
 
   const tr = document.createElement('ul');
 
-  tr.innerHTML = `
-  <li class="centered">
-  No approved bets available right now.
-  </li>
-  `;
-  table_row_to_append_to.appendChild(tr);
   boolin = true;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
     const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
@@ -118,7 +112,7 @@ function updateTable(data) {
      <path
         d="M 10,0 C 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 Z m 4,11 h -3 v 3 c 0,0.552 -0.448,1 -1,1 v 0 C 9.448,15 9,14.552 9,14 V 11 H 6 C 5.448,11 5,10.552 5,10 v 0 C 5,9.448 5.448,9 6,9 H 9 V 6 C 9,5.448 9.448,5 10,5 v 0 c 0.552,0 1,0.448 1,1 v 3 h 3 c 0.552,0 1,0.448 1,1 v 0 c 0,0.552 -0.448,1 -1,1 z"
         id="path1"
-        style="fill:var(--table-trow-special-color)" />
+        style="fill:var(--table-btn-bg)" />
    </svg></li>
       <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
       <li class="desktop-no-display" id="green">Moneyline</li>
@@ -131,6 +125,13 @@ function updateTable(data) {
   }
   else
   {
+    tr.innerHTML = `
+  <li class="centered">
+  No approved bets available right now.
+  </li>
+  `;
+  footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
+  table_row_to_append_to.appendChild(tr);
     console.log('No update');
   }
 }
