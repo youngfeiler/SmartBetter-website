@@ -127,7 +127,7 @@ function updateTable(data) {
   {
     tr.innerHTML = `
   <li class="centered">
-  No recommended bets available right now. This table may populate closer to game time when our AI finds profitable betting opportunities.
+  No recommended bets available right now. This table populates when our AI finds profitable betting opportunities. Check again closer to game time and update table.
   </li>
   `;
   footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
