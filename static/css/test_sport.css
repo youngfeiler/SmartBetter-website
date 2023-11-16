@@ -1222,6 +1222,8 @@ option {
   #odds-taken-input.adding-to-bet-tracker{
     width: 50% !important;
     font-size: 1rem;
+    border-inline-width: 0px 0px;
+    border-width: 0px 0px 0px 0px;
   }
 
   .navbar-custom{
