@@ -83,18 +83,45 @@ function updateTable(data) {
       <li id ="game-date">${row.game_date}</li>
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
       <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
-      align-items: center; justify-content: center;"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <svg width="16px" height="16px" viewBox="-2.1 -2.1 25.20 25.20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" transform="matrix(-1, 0, 0, 1, 0, 0)">
-      
-      <g id="SVGRepo_bgCarrier" stroke-width="0"/>
-      
-      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-      
-      <g id="SVGRepo_iconCarrier"> <title>plus [#1512]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-379.000000, -240.000000)" fill="#21ce99"> <g id="icons" transform="translate(56.000000, 160.000000)"> <polygon id="plus-[#1512]" points="344 89 344 91 334.55 91 334.55 100 332.45 100 332.45 91 323 91 323 89 332.45 89 332.45 80 334.55 80 334.55 89"> </polygon> </g> </g> </g> </g>
-      
-      </svg></li>
+      align-items: center; justify-content: center;"><svg
+      viewBox="0 0 20 20"
+      width="20"
+      height="20"
+      version="1.1"
+      id="svg1"
+      sodipodi:docname="icons8-plus.svg"
+      inkscape:version="1.3 (0e150ed, 2023-07-21)"
+      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg">
+     <defs
+        id="defs1" />
+     <sodipodi:namedview
+        id="namedview1"
+        pagecolor="#ffffff"
+        bordercolor="#000000"
+        borderopacity="0.25"
+        inkscape:showpageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:deskcolor="#d1d1d1"
+        inkscape:zoom="9.8333333"
+        inkscape:cx="12"
+        inkscape:cy="12"
+        inkscape:window-width="1312"
+        inkscape:window-height="449"
+        inkscape:window-x="0"
+        inkscape:window-y="25"
+        inkscape:window-maximized="0"
+        inkscape:current-layer="svg1" />
+     <path
+        d="M 10,0 C 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 Z m 4,11 h -3 v 3 c 0,0.552 -0.448,1 -1,1 v 0 C 9.448,15 9,14.552 9,14 V 11 H 6 C 5.448,11 5,10.552 5,10 v 0 C 5,9.448 5.448,9 6,9 H 9 V 6 C 9,5.448 9.448,5 10,5 v 0 c 0.552,0 1,0.448 1,1 v 3 h 3 c 0.552,0 1,0.448 1,1 v 0 c 0,0.552 -0.448,1 -1,1 z"
+        id="path1"
+        style="fill:var(--table-trow-special-color)" />
+   </svg></li>
       <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
-      <li class="desktop-no-display">Moneyline</li>
+      <li class="desktop-no-display" id="green">Moneyline</li>
       <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
       <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
       `;

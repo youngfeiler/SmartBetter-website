@@ -258,13 +258,11 @@ a:visited {
   background-color: var(--table-bg);
   margin: 1.875rem;
   border-radius: 21px;
-  /* color: white; */
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 2.125rem;
   position: relative;
-  /* box-shadow: 5px 5px 5px 0px var(--table-shadow); */
   border: var(--table-border)
 
 }
@@ -1035,7 +1033,7 @@ option {
   margin: 0 0 0 0 !important;
   gap: 0.4rem !important;
   text-transform: none !important;
-  color: var(--table-trow-special-color) !important;
+  /* color: var(--table-trow-special-color) !important; */
   position: relative;
   }
 
@@ -1083,7 +1081,7 @@ option {
   padding-left: 0 !important;
   padding-right: 0 !important;
   font-size: 1rem !important;
-  color: var(--table-trow-special-color) !important;
+  /* color: var(--table-trow-special-color) !important; */
   background-color: var(--row-box-special-color) !important;
   }
 
@@ -1098,10 +1096,14 @@ option {
   text-align: center !important;
   justify-content: right  !important;
   font-size: 1rem !important;
-  color: var(--table-trow-special-color) !important;
+  /* color: var(--table-trow-special-color); */
   background-color: var(--row-box-special-color) !important;
-
   }
+
+  #min-odds, #best-odds, #rec-bet-size-number, #green{
+    color: var(--table-trow-special-color) !important;
+  }
+  
   .table-custom__content__rows__row li:nth-child(6):after { 
   content: attr(data-before);
   font-size: 0.5rem !important;
@@ -1122,7 +1124,7 @@ option {
   gap: 0rem !important;
   text-align: center !important;
   font-size: 1rem !important;
-  color: var(--table-trow-special-color) !important;
+  /* color: var(--table-trow-special-color) !important; */
   background-color: var(--row-box-special-color) !important;
 
   }
@@ -1182,6 +1184,15 @@ option {
     font-weight: 500 !important;
   }
 
+  #dropdown-options.adding-to-bet-tracker{
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    bottom: -3% !important;
+  }
+  
+
   #dropdown-container li.dropdown {
     width: 100% !important;
     height: 100% !important;
@@ -1190,6 +1201,10 @@ option {
     margin: 0 0 0 0 !important;
     gap: 0 !important;
     border: none !important;
+  }
+
+  #dropdown-container li.dropdown:before{
+    display: none;
   }
 
   #best-odds.adding-to-bet-tracker{
