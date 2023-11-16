@@ -1226,6 +1226,7 @@ option {
     border-width: 0px 0px 0px 0px !important;
     outline: 2px solid var(--table-trow-special-color) !important;
     border-radius:10px !important;
+    padding-left: 5px;
   }
 
   .navbar-custom{
