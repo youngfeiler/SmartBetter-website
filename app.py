@@ -188,9 +188,9 @@ def account():
   else:
         return redirect(url_for('login'))
 
-@app.route('/bet_tracker_dashboard')
-def bet_tracker_dashboard():
-    return render_template('bet_tacker_dashboard.html')
+@app.route('/performance')
+def show_performance():
+    return render_template('performance.html')
 
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
@@ -211,7 +211,6 @@ def register():
     my_db = database()
     my_db.get_all_usernames()
     users = my_db.users
-
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -222,9 +221,6 @@ def register():
         bankroll = request.form['bankroll']
         sign_up_date = datetime.now()
         payed = False
-
-
-        
         if username in users:
             has_payed=my_db.check_duplicate_account(username)
             if has_payed:
@@ -313,17 +309,16 @@ def show_nba():
     else:
         return redirect(url_for('register'))
 
-@app.route('/get_bet_tracker_dashboard_data', methods=["POST", "GET"])
-def get_bet_tracker_dashboard_data():
+@app.route('/get_performance_data', methods=["POST", "GET"])
+def get_performance_data():
     try:
         data = request.json
         dict_params = data['params']
         print(dict_params)
         db = database()
         return_data = db.get_bet_tracker_dashboard_data(dict_params)        
-    except:
-        pass
-    print(return_data)
+    except Exception as e:
+        print(e)
     return jsonify(return_data)
 
 

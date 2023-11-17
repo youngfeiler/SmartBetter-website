@@ -1206,7 +1206,7 @@ option {
     display: none;
   }
 
-  #best-odds.adding-to-bet-tracker{
+  #best-odds.adding-to-bet-tracker, #rec-bet-size-number.adding-to-bet-tracker{
     width: 50% !important;
   }
 
@@ -1215,6 +1215,7 @@ option {
   }
 
   #odds-taken-input.adding-to-bet-tracker{
+    display: flex !important;
     width: 50% !important;
     font-size: 1rem;
     border-width: 0px 0px 0px 0px !important;
