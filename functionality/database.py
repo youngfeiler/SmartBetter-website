@@ -116,7 +116,6 @@ class database():
           #back to conn db 
           conn = self.make_conn()
           df.to_sql('login_info', conn, if_exists='replace', index=False)
-          #df.to_csv('users/login_info.csv', index=False)
           conn.close()  # Commit the changes
 
           return True
@@ -139,7 +138,6 @@ class database():
           #back to conn db 
           conn = self.make_conn()
           df.to_sql('login_info', conn, if_exists='replace', index=False)
-          #df.to_csv('users/login_info.csv', index=False)
           conn.close()  # Commit the changes
 
           return True
@@ -285,6 +283,8 @@ class database():
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
        elif sport == "NBA":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
+       elif sport == "NHL":
+          first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] + 3600
           
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
@@ -298,8 +298,6 @@ class database():
        first_20_rows = self.filter_5_min_cooloff(user_name, sport, first_20_rows)
 
        first_20_rows['ev'] = first_20_rows['ev'].round(1)
-       first_20_rows.to_csv('user_test.csv', mode="w")
-       print(first_20_rows)
 
        return first_20_rows
     
@@ -326,8 +324,6 @@ class database():
       filtered_df['team'] = filtered_df['team'].str.replace(r'\s+v\.', 'v.')
       filtered_df['team'] = filtered_df['team'].str.replace(r'v\.\s+', 'v.')
       filtered_df['team'] = filtered_df['team'].str.replace(r'\s*v\.\s*', 'v.')
-
-      print(filtered_df['team'])
       grouped_df = filtered_df.groupby(['game_id', 'team'])
     
       filtered_df['amount_of_bets'] = grouped_df['game_id'].transform('size')
@@ -444,7 +440,6 @@ class database():
       new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
       # update users/login_info.csv with new bankroll
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
-      #login_info.to_csv('users/login_info.csv', index=False)
       conn = self.make_conn()
       login_info.to_sql('login_info', conn, if_exists='replace', index=False)
       conn.close()   # Close the connection
@@ -569,15 +564,11 @@ class database():
 
       result_df = pd.concat(closest_observations, ignore_index=True)
 
-      # result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF_1.CSV', index=False)
-
       result_df['result'] = np.where(result_df['target'] == 1, result_df['highest_bettable_odds'] - 1, -1)
 
       result_df.sort_values(by = 'snapshot_time', inplace=True)
 
       result_df['running_sum'] = result_df['result'].cumsum()
-
-      # result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF.CSV', index=False)
 
       result_df['date'] = pd.to_datetime(result_df['snapshot_time'].dt.date)
 
