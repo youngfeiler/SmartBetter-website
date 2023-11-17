@@ -369,8 +369,6 @@ class live_nhl_dashboard_runner():
     def filter_by_params(self, df):
 
        def filter_by_minutes_since_commence(df):
-          df = df[df['minutes_since_commence'] >= -3000000]
-
           df = df[df['minutes_since_commence'] >= self.model_storage['SmartBetterNHLModel']['params']['min_minutes_since_commence']]
 
 
@@ -388,9 +386,9 @@ class live_nhl_dashboard_runner():
 
         df['ev'] = ((1/df['average_market_odds_old'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds_old'])) * 100)
 
-        # df = df[df['ev'] >= self.model_storage['SmartBetterNHLModel']['params']['min_ev']]
+        df = df[df['ev'] >= self.model_storage['SmartBetterNHLModel']['params']['min_ev']]
 
-        df = df[df['ev'] >= -100]
+        # df = df[df['ev'] >= -100]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNHLModel']['params']['max_ev']]
 
@@ -530,8 +528,8 @@ class live_nhl_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
-          # mask = predictions_array > strategy_dict['pred_thresh']
-          mask = predictions_array > -100
+          mask = predictions_array > strategy_dict['pred_thresh']
+          # mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 
