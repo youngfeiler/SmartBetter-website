@@ -712,7 +712,7 @@ class database():
 
     def get_bet_tracker_dashboard_data(self, params):
 
-      master_model_obs = pd.read_csv('Users/master_model_observations.csv')
+      master_model_obs = pd.read_csv('users/master_model_observations.csv')
       master_model_obs = master_model_obs[master_model_obs['average_market_odds'] > 1]
 
 
