@@ -91,7 +91,10 @@ lineChart = new Chart(chart, lineConfig);
 function makeChart(data){
   console.log(data);
   if ($(window).width() <= 800) {
-    $("#lineChart").attr("height", "250");
+    chart.style.height="200px";
+    $("#lineChart").attr("height", "200");
+    // $("#lineChart").style.height = "200 !important";
+
   }
   lineConfig.data.labels = data.game_date;
   lineConfig.data.datasets[0].data = data.running_sum;

@@ -350,7 +350,6 @@ table::-webkit-scrollbar:horizontal {
 	outline: none;
 }
 
-
 .sidenav-selectbox, .form-select {
 	position: relative;
 	background-size: 12px;
@@ -579,7 +578,10 @@ table.dataTable thead>tr>td.sorting_desc_disabled:after {
 	}
 	.dropdowns{
 	overflow: scroll;
+	}
 
+	.chart-container, .mt-5{
+		height: 400px;
 	}
 
 }
@@ -602,4 +604,5 @@ table.dataTable thead>tr>td.sorting_desc_disabled:after {
 	flex-direction: row;
 	align-items: center;
 	justify-content: left;
+	overflow: scroll;
 }
