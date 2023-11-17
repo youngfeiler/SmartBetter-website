@@ -100,7 +100,7 @@ function makeChart(data){
   lineConfig.data.labels = data.game_date;
   lineConfig.data.datasets[0].data = data.running_sum;
   lineChart.update();
-  lineChart.style.height = '100%';
+  // lineChart.style.height = '100%';
 };
 
 function addEventListeners() {
