@@ -640,8 +640,6 @@ class database():
 
        appended['running_sum'] = appended['running_sum'] + starting_bankroll
 
-       appended.to_csv("/Users/stefanfeiler/Desktop/appended_test.csv")
-
        return appended
     
     def make_bet_tracker_dashboard_data_standard(self, df):
@@ -687,8 +685,6 @@ class database():
 
        appended['running_sum'] = appended['running_sum'] + starting_bankroll
 
-       appended.to_csv("/Users/stefanfeiler/Desktop/appended_test.csv")
-
 
        return appended
 
@@ -733,8 +729,6 @@ class database():
       master_model_obs['snapshot_time'] = pd.to_datetime(master_model_obs['snapshot_time'])
 
       master_model_obs = master_model_obs.sort_values('snapshot_time')
-
-      master_model_obs.to_csv("/Users/stefanfeiler/Desktop/test_guy.csv")
 
       if params['bet_size'] == 'Kelley':
          master_model_obs = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
