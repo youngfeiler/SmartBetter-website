@@ -37,7 +37,6 @@ class database():
        conn.close()
        return scores_df
       
-
     def get_all_usernames(self):
       conn = self.make_conn()
       query = "SELECT username FROM login_info"
@@ -394,11 +393,12 @@ class database():
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
-      merged_df['team'] = merged_df['team'].str.replace(' v\.', 'v.')
+      merged_df['team'] = merged_df['team'].str.replace(' v.', 'v.')
+      merged_df['team'] = merged_df['team'].str.replace('v. ', 'v.')
+      merged_df['team'] = merged_df['team'].str.replace(' v. ', 'v.')
 
-      print(merged_df['team'].tail(15))
 
-      merged_df['team_bet_on'] = [cell.split('v. ')[0] for cell in merged_df['team']]
+      merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
       merged_df['bet_amount'] = merged_df['bet_amount'].astype(float)
@@ -464,7 +464,6 @@ class database():
 
        user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
        
-
        if sport == "NFL" or sport == "NBA":
           user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
           df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
@@ -595,6 +594,21 @@ class database():
       return jsonify(data=new_df.to_json(orient='records', date_format='iso'))
     
     def make_bet_tracker_dashboard_data_kelley(self, df):
+       for team in df['team'].unique():
+          try:
+            team_df = df[df['team'] == team]
+            team_df_sorted = team_df.sort_values(by='game_date')
+            start_time = team_df_sorted['snapshot_time'].iloc[0]
+            for index, row in team_df_sorted.iterrows():
+              if row['snapshot_time'] - start_time >= pd.Timedelta(minutes=5):
+                start_time = row['snapshot_time']
+                team_df_sorted.at[index, 'allowed'] = 1
+            allowed_or_not = pd.concat([allowed_or_not, team_df_sorted], axis=0)
+          except:
+            pass
+       
+       df = allowed_or_not[allowed_or_not['allowed'] == 1]
+
        starting_bankroll = 100
 
        df['decimal_prob'] = 1/df['average_market_odds']
@@ -619,7 +633,7 @@ class database():
           -100
        )
 
-       sum_df = df.groupby('game_id')['result'].sum().reset_index()
+       sum_df = df.groupby('game_date')['result'].sum().reset_index()
 
        sum_df['running_sum'] = sum_df['result'].cumsum()
 
