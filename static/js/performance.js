@@ -91,14 +91,16 @@ lineChart = new Chart(chart, lineConfig);
 function makeChart(data){
   console.log(data);
   if ($(window).width() <= 800) {
-    chart.style.height="200px";
-    $("#lineChart").attr("height", "200");
+    chart.style.height="100%";
+    // chart.style.width="100%";
+    // $("#lineChart").attr("height", "800");
     // $("#lineChart").style.height = "200 !important";
 
   }
   lineConfig.data.labels = data.game_date;
   lineConfig.data.datasets[0].data = data.running_sum;
   lineChart.update();
+  lineChart.style.height = '100%';
 };
 
 function addEventListeners() {
