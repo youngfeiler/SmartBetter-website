@@ -148,9 +148,10 @@ class database():
             return False
 
     def get_recommended_bet_size(self, user, df):
+       
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
        df['win_prob'] =  (1 / df['average_market_odds']) 
-       bankroll = self.get_user_bank_roll(user)
+       bankroll = self.calculate_user_bankroll(user)
        bankroll = float(bankroll)
        df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
@@ -401,9 +402,6 @@ class database():
       merged_df['team'] = merged_df['team'].str.replace('v. ', 'v.')
       merged_df['team'] = merged_df['team'].str.replace(' v. ', 'v.')
 
-
-
-
       merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
 
       merged_df['bet_profit'] = merged_df['bet_profit'].astype(float)
@@ -414,7 +412,6 @@ class database():
       #call calculate_p_l_by_book
       #profit_by_book = pd.read_csv('users/profit_by_book.csv')
     
-
       if username in profit_by_book['username'].values:
           #if it does, remove the row
           profit_by_book = profit_by_book[profit_by_book['username'] != username]
@@ -442,11 +439,6 @@ class database():
             append_df[book] = 0 
             append_df[book][0] += row['bet_result']
 
-      #append append_df to profit_by_book
-      #profit_by_book = profit_by_book.append(append_df, ignore_index=True)
-      #profit_by_book.to_csv('users/profit_by_book.csv', index=False)
-      #profit_by_book.to_sql('profit_by_book', conn, if_exists='replace', index=False)
-      # calculate total profit/loss of all bets in placed_bets 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
       new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
@@ -600,6 +592,61 @@ class database():
       return jsonify(data=new_df.to_json(orient='records', date_format='iso'))
     
     def make_bet_tracker_dashboard_data_kelley(self, df):
+       
+       allowed_or_not = pd.DataFrame()
+       appended = pd.DataFrame()
+
+       df['my_game_id'] = df['team'] + df['game_id']
+
+       for team in df['my_game_id'].unique():
+          try:
+            team_df = df[df['my_game_id'] == team]
+            team_df_sorted = team_df.sort_values(by='snapshot_time')
+            start_time = team_df_sorted['snapshot_time'].iloc[0]
+            for index, row in team_df_sorted.iterrows():
+              if row['snapshot_time'] - start_time >= pd.Timedelta(minutes=5):
+                start_time = row['snapshot_time']
+                team_df_sorted.at[index, 'allowed'] = 1
+            allowed_or_not = pd.concat([allowed_or_not, team_df_sorted], axis=0)
+          except Exception as e:
+            print(e)
+       
+       df = allowed_or_not[allowed_or_not['allowed'] == 1]
+
+       initial_bankroll = 1000
+
+       df['decimal_prob'] = 1/df['average_market_odds']
+
+       df['kelley_perc'] = ((df['highest_bettable_odds'] - 1) * df['decimal_prob'] - (1-df['decimal_prob'])) / (df['highest_bettable_odds']-1) * 0.5
+
+       grouped_df = df.groupby('game_date')
+      
+       i = 0
+       for key, val in grouped_df:
+          group = grouped_df.get_group(key)
+          if i == 0:
+            starting_bankroll=initial_bankroll
+          else:
+            starting_bankroll = ending_bankroll
+          for index, row in group.iterrows():
+              group.at[index, 'bet_amount'] = row['kelley_perc'] * starting_bankroll
+              group.at[index,'result'] = np.where(row['winning_team'] == row['team'], (group.at[index, 'bet_amount'] * row['highest_bettable_odds'] - group.at[index, 'bet_amount']) , -group.at[index, 'bet_amount'])
+          
+          ending_bankroll = group['result'].sum() + starting_bankroll
+
+          appended = pd.concat([appended, group], ignore_index=True)
+
+       appended['running_sum'] = appended['result'].cumsum()
+
+       appended['running_sum'] = appended['running_sum'] + starting_bankroll
+
+       appended.to_csv("/Users/stefanfeiler/Desktop/appended_test.csv")
+
+       return appended
+    
+    def make_bet_tracker_dashboard_data_standard(self, df):
+       allowed_or_not = pd.DataFrame()
+       appended = pd.DataFrame()
        for team in df['team'].unique():
           try:
             team_df = df[df['team'] == team]
@@ -610,40 +657,40 @@ class database():
                 start_time = row['snapshot_time']
                 team_df_sorted.at[index, 'allowed'] = 1
             allowed_or_not = pd.concat([allowed_or_not, team_df_sorted], axis=0)
-          except:
-            pass
+          except Exception as e:
+            print(e)
        
        df = allowed_or_not[allowed_or_not['allowed'] == 1]
 
-       starting_bankroll = 100
+       initial_bankroll = 1000
 
-       df['decimal_prob'] = 1/df['average_market_odds']
+       unit_size = 100
 
-       df['kelley_perc'] = ((df['highest_bettable_odds'] - 1) * df['decimal_prob'] - (1-df['decimal_prob'])) / (df['highest_bettable_odds']-1) * 0.5
+       grouped_df = df.groupby('game_date')
+      
+       i = 0
+       for key, val in grouped_df:
+          group = grouped_df.get_group(key)
+          if i == 0:
+            starting_bankroll=initial_bankroll
+          else:
+            starting_bankroll = ending_bankroll
+          for index, row in group.iterrows():
+              group.at[index, 'bet_amount'] = unit_size
+              group.at[index,'result'] = np.where(row['winning_team'] == row['team'], (group.at[index, 'bet_amount'] * row['highest_bettable_odds'] - unit_size) , -1 * unit_size)
+          
+          ending_bankroll = group['result'].sum() + starting_bankroll
 
-       df['bet_amount'] = df['kelley_perc'] * starting_bankroll
+          appended = pd.concat([appended, group], ignore_index=True)
 
-        # Apply actions based on conditions
-      #  df['obs_result'] = np.where(condition1, self.val_df_applied['highest_bettable_odds'] * 100 - 100, np.where(condition2, -100, np.where(condition3, 0, 0)))
+       appended['running_sum'] = appended['result'].cumsum()
 
-      # self.val_df_applied['obs_result_kelley'] = np.where(condition1, self.val_df_applied['bet_amount'] * self.val_df_applied['highest_bettable_odds'] - self.val_df_applied['bet_amount'], np.where(condition2, self.val_df_applied['bet_amount'] * -1, np.where(condition3, 0, 0)))
+       appended['running_sum'] = appended['running_sum'] + starting_bankroll
 
-      # self.val_df_applied['running_sum'] = self.val_df_applied['obs_result'].cumsum()
-      # self.val_df_applied['running_sum_kelley'] = self.val_df_applied['obs_result_kelley'].cumsum()
-    
+       appended.to_csv("/Users/stefanfeiler/Desktop/appended_test.csv")
 
-    def make_bet_tracker_dashboard_data_standard(self, df):
-       df['result'] = np.where(
-          df['winning_team'] == df['team'],
-          100 * df['highest_bettable_odds'] - 100,
-          -100
-       )
 
-       sum_df = df.groupby('game_date')['result'].sum().reset_index()
-
-       sum_df['running_sum'] = sum_df['result'].cumsum()
-
-       return sum_df
+       return appended
 
     def add_winning_teams(self, df):
       scores = self.get_scores()
@@ -651,9 +698,27 @@ class database():
       return_df = merged_df[merged_df['winning_team'].notna()]
       return return_df
     
+    def get_worst_day(self, df):
+
+      sum_by_date = df.groupby('game_date')['result'].sum().reset_index()
+
+      min_sum_value = sum_by_date['result'].min()
+
+      return min_sum_value
+    
+    def get_best_day(self, df):
+
+      sum_by_date = df.groupby('game_date')['result'].sum().reset_index()
+
+      max_sum_value = sum_by_date['result'].max()
+
+      return max_sum_value
+
     def get_bet_tracker_dashboard_data(self, params):
 
       master_model_obs = pd.read_csv('Users/master_model_observations.csv')
+      master_model_obs = master_model_obs[master_model_obs['average_market_odds'] > 1]
+
 
       if params['sport_title'] != 'All':
           master_model_obs = master_model_obs[master_model_obs['sport_title'] == params['sport_title']]
@@ -664,12 +729,31 @@ class database():
 
       master_model_obs = self.add_winning_teams(master_model_obs)
 
-      # if params['bet_size'] == 'Kelley':
-      #    master_model_obs = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
+      master_model_obs['game_date'] = pd.to_datetime(master_model_obs['game_date'])
+      master_model_obs['snapshot_time'] = pd.to_datetime(master_model_obs['snapshot_time'])
+
+      master_model_obs = master_model_obs.sort_values('snapshot_time')
+
+      master_model_obs.to_csv("/Users/stefanfeiler/Desktop/test_guy.csv")
+
+      if params['bet_size'] == 'Kelley':
+         master_model_obs = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
       if params['bet_size'] == 'Standard':
           master_model_obs = self.make_bet_tracker_dashboard_data_standard(master_model_obs)
 
-      print(master_model_obs)
+      master_model_obs['total_pl'] = master_model_obs['result'].sum()
+
+      master_model_obs['worst_day'] = self.get_worst_day(master_model_obs)
+
+      master_model_obs['best_day'] = self.get_best_day(master_model_obs)
+
+      master_model_obs['win_rate'] = (master_model_obs['result'] > 0).sum() / ((master_model_obs['result'] < 0).sum() + (master_model_obs['result'] > 0).sum())
+
+      master_model_obs['amount_of_bets'] = len(master_model_obs)
+
+      master_model_obs['return_on_money'] = master_model_obs['total_pl'] / master_model_obs['bet_amount'].sum()
+
+      master_model_obs['game_date'] = master_model_obs['game_date'].dt.strftime('%b %d')
 
       return master_model_obs.to_dict(orient='list')
 

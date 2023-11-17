@@ -615,9 +615,14 @@ $(document).ready(function(){
   /** 
    * 5. Add an event listener to update table and bankroll
    */
-  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
-
+  try{  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
   fetchDataAndUpdateTable();
+  }catch(error){
+    console.log("");
+  }
+
+
+
 });
 
 
