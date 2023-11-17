@@ -569,7 +569,7 @@ class database():
 
       result_df = pd.concat(closest_observations, ignore_index=True)
 
-      result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF_1.CSV', index=False)
+      # result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF_1.CSV', index=False)
 
       result_df['result'] = np.where(result_df['target'] == 1, result_df['highest_bettable_odds'] - 1, -1)
 
@@ -577,7 +577,7 @@ class database():
 
       result_df['running_sum'] = result_df['result'].cumsum()
 
-      result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF.CSV', index=False)
+      # result_df.to_csv('/Users/micahblackburn/Desktop/RESULT_DF.CSV', index=False)
 
       result_df['date'] = pd.to_datetime(result_df['snapshot_time'].dt.date)
 
