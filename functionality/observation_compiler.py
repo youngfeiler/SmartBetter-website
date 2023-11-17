@@ -12,6 +12,8 @@ class observation_compiler():
 
     self.current_amount_of_nba_observations = self.get_amount_of_master_sport_obs("NBA")
 
+    self.current_amount_of_nhl_observations = self.get_amount_of_master_sport_obs("NHL")
+
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
 
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used']
@@ -21,6 +23,8 @@ class observation_compiler():
     nfl_obs = pd.read_csv('users/model_obs_nfl.csv')
     mlb_obs = pd.read_csv('users/model_obs.csv')
     nba_obs = pd.read_csv('users/model_obs_nba.csv')
+    nhl_obs = pd.read_csv('users/model_obs_nhl.csv')
+
 
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
@@ -36,7 +40,7 @@ class observation_compiler():
 
       new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
-      new_nfl_obs['average_market_odds'] = new_nfl_obs['average_market_odds_recent']
+      new_nfl_obs['average_market_odds'] = new_nfl_obs['average_market_odds']
       new_df = new_nfl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
@@ -61,6 +65,25 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nba_observations = len(nba_obs)
+    
+    if len(nhl_obs) > self.current_amount_of_nhl_observations:
+      amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
+
+      new_nhl_obs = nhl_obs.tail(amount_of_new_observations).copy()
+
+      new_nhl_obs['sport_title'] = 'NHL'
+
+      new_nhl_obs['team'] = nhl_obs['team_1']
+
+      new_nhl_obs['completed'] = False
+
+      new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
+
+      new_df = new_nhl_obs[self.schema]
+
+      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
+
+      self.current_amount_of_nhl_observations = len(nhl_obs)
 
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:

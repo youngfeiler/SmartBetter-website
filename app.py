@@ -309,6 +309,15 @@ def show_nba():
     else:
         return redirect(url_for('register'))
 
+@app.route('/nhl')
+def show_nhl():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nhl.html')
+    else:
+        return redirect(url_for('register'))
+
+
 @app.route('/get_performance_data', methods=["POST", "GET"])
 def get_performance_data():
     try:
