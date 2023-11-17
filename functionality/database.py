@@ -322,6 +322,10 @@ class database():
       merged_df = df.merge(scores_df, on='game_id', how='left')
 
       filtered_df = merged_df[merged_df['winning_team'].isna()]
+      filtered_df['team'] = filtered_df['team'].str.replace(' v.', 'v.')
+      filtered_df['team'] = filtered_df['team'].str.replace('v. ', 'v.')
+      filtered_df['team'] = filtered_df['team'].str.replace(' v. ', 'v.')
+
       print(filtered_df['team'])
       grouped_df = filtered_df.groupby(['game_id', 'team'])
     
@@ -396,6 +400,8 @@ class database():
       merged_df['team'] = merged_df['team'].str.replace(' v.', 'v.')
       merged_df['team'] = merged_df['team'].str.replace('v. ', 'v.')
       merged_df['team'] = merged_df['team'].str.replace(' v. ', 'v.')
+
+
 
 
       merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
