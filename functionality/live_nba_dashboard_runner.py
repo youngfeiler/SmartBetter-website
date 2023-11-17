@@ -482,9 +482,6 @@ class live_nba_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
-          print(predictions_array)
-          print('----')
-          print(strategy_dict['pred_thresh'])
           mask = predictions_array > strategy_dict['pred_thresh']
           # mask = predictions_array > -100
 
@@ -498,25 +495,19 @@ class live_nba_dashboard_runner():
 
             # Items in list1 but not in list2
             unique_to_list1 = list(set(existing_cols) - set(new_cols))
-            print("Items in existing  but not in new:", unique_to_list1)
 
             # Items in list2 but not in list1
             unique_to_list2 = list(set(new_cols) - set(existing_cols))
-            print("Items in new but not existing", unique_to_list2)
-            print(f"Length of data to be appended: {len(filtered_df.columns)}")
-            print(f"Length of data we have: {len(pd.read_csv('users/model_obs_nba.csv').columns)}")
 
             column_to_drop = 'team_1_division'
 
 # Identify the index of the first occurrence of the column name
             indices_to_drop = [i for i, col in enumerate(filtered_df.columns) if col == column_to_drop]
-            print(filtered_df.columns.tolist())
-            print(f"index: {indices_to_drop[0]}")
 # Drop the specific column by index
             # filtered_df.drop(filtered_df.columns[indices_to_drop[0]], axis=1, inplace=True)
             filtered_df = filtered_df.loc[:, ~filtered_df.columns.duplicated()]
 
-            print(f"Length of data to be appended: {len(filtered_df.columns)}")
+            
             existing_df = pd.read_csv('users/model_obs_nba.csv')
 
     # Append the new DataFrame to the existing file
