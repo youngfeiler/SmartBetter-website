@@ -543,6 +543,16 @@ table.dataTable thead>tr>td.sorting_desc_disabled:after {
 	letter-spacing: .6px;
 }
 
+.chart-container{
+	height: calc(100vh - 350px);
+	/* overflow: auto; */
+}
+
+.my-mt-5{
+	height: calc(100% - 50px);
+}
+
+
 @media only screen and (max-width: 786px) {
 	.logo img {
 		width: auto;
@@ -580,9 +590,16 @@ table.dataTable thead>tr>td.sorting_desc_disabled:after {
 	overflow: scroll;
 	}
 
-	.chart-container, .mt-5{
-		height: 800px;
+	.chart-container{
+		/* height: 500px; */
+		overflow: auto;
 	}
+	.my-mt-5{
+		height: calc(100% - 65px);
+		/* position: absolute; */
+	}
+
+	
 
 }
 
@@ -605,4 +622,11 @@ table.dataTable thead>tr>td.sorting_desc_disabled:after {
 	align-items: center;
 	justify-content: left;
 	overflow: scroll;
+}
+
+#loading-animation{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
