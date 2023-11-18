@@ -20,6 +20,7 @@ const lineConfig = {
   },
   options: {
       responsive: true,
+      maintainAspectRatio: false,
       elements: {
           point: {
               radius: 5,
@@ -89,18 +90,20 @@ const chart = document.getElementById('lineChart');
 lineChart = new Chart(chart, lineConfig);
 
 function makeChart(data){
-  console.log(data);
   if ($(window).width() <= 800) {
-    chart.style.height="100%";
-    // chart.style.width="100%";
-    // $("#lineChart").attr("height", "800");
-    // $("#lineChart").style.height = "200 !important";
-
+    chart.style.width = "100%";
+    chart.style.height = "250px !important"; // Adjust the aspect ratio as needed
+    // chart.height = "250px"
+  } 
+  else {
+    // chart.style.width = "600px";
+    // chart.style.height = "100%";
   }
   lineConfig.data.labels = data.game_date;
   lineConfig.data.datasets[0].data = data.running_sum;
+  removeLoadingAnimation();
+
   lineChart.update();
-  // lineChart.style.height = '100%';
 };
 
 function addEventListeners() {
@@ -165,6 +168,9 @@ function updateGraph() {
     'bet_size':actives[2].value
   }
   const url = '/get_performance_data?';
+  clearInfoBoxes();
+  showLoadingAnimation();
+
   fetch(url,{
     method: 'POST',
     headers: {
@@ -179,6 +185,45 @@ function updateGraph() {
     })
     .catch(error => console.error('Error fetching data:', error));
 }
+
+function clearInfoBoxes(){
+  totalPl = document.getElementById('total-pl');
+  totalPl.innerHTML = "";
+
+  worstDay = document.getElementById('worst-day');
+  worstDay.innerHTML = "";
+
+  bestDay = document.getElementById('best-day');
+  bestDay.innerHTML = "";
+  
+  winRate = document.getElementById('win-rate');
+  winRate.innerHTML = "";
+
+  totalBets = document.getElementById('total-bets');
+  totalBets.innerHTML = "";
+
+  returnOnMoney = document.getElementById('return');
+  returnOnMoney.innerHTML = "";
+
+  total = document.getElementById('total');
+  total.innerHTML = "";
+}
+
+function showLoadingAnimation(){
+  const animation = document.querySelector("#loading-animation");
+  const canvas = document.querySelector("#lineChart");
+
+  canvas.style.display = "none";
+  animation.style.display = "flex";
+}
+
+function removeLoadingAnimation(){
+  const animation = document.querySelector("#loading-animation");
+  const canvas = document.querySelector("#lineChart");
+  canvas.style.display = "block";
+  animation.style.display = "none";
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
   addEventListeners();
