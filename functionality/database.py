@@ -629,7 +629,11 @@ class database():
 
        sum_per_day['running_sum'] = sum_per_day['running_sum'] + starting_bankroll
 
-       return sum_per_day
+       appended['running_sum'] = appended['result'].cumsum()
+
+       appended['running_sum'] = appended['running_sum'] + starting_bankroll
+
+       return appended, sum_per_day
     
     def make_bet_tracker_dashboard_data_standard(self, df):
        allowed_or_not = pd.DataFrame()
@@ -672,14 +676,15 @@ class database():
 
        sum_per_day = appended.groupby('game_date').sum().reset_index()
 
-
        sum_per_day['running_sum'] = sum_per_day['result'].cumsum()
-
 
        sum_per_day['running_sum'] = sum_per_day['running_sum'] + starting_bankroll
 
-       
-       return sum_per_day
+       appended['running_sum'] = appended['result'].cumsum()
+
+       appended['running_sum'] = appended['running_sum'] + starting_bankroll
+
+       return appended, sum_per_day
 
     def add_winning_teams(self, df):
       scores = self.get_scores()
@@ -726,25 +731,25 @@ class database():
       master_model_obs = master_model_obs.sort_values('snapshot_time')
 
       if params['bet_size'] == 'Kelley':
-         master_model_obs = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
+         master_model_obs, return_df = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
       if params['bet_size'] == 'Standard':
-          master_model_obs = self.make_bet_tracker_dashboard_data_standard(master_model_obs)
+          master_model_obs, return_df = self.make_bet_tracker_dashboard_data_standard(master_model_obs)
 
-      master_model_obs['total_pl'] = master_model_obs['result'].sum()
+      return_df['total_pl'] = master_model_obs['result'].sum()
 
-      master_model_obs['worst_day'] = self.get_worst_day(master_model_obs)
+      return_df['worst_day'] = self.get_worst_day(master_model_obs)
 
-      master_model_obs['best_day'] = self.get_best_day(master_model_obs)
+      return_df['best_day'] = self.get_best_day(master_model_obs)
 
-      master_model_obs['win_rate'] = (master_model_obs['result'] > 0).sum() / ((master_model_obs['result'] < 0).sum() + (master_model_obs['result'] > 0).sum())
+      return_df['win_rate'] = (master_model_obs['result'] > 0).sum() / ((master_model_obs['result'] < 0).sum() + (master_model_obs['result'] > 0).sum())
 
-      master_model_obs['amount_of_bets'] = len(master_model_obs)
+      return_df['amount_of_bets'] = len(master_model_obs)
 
-      master_model_obs['return_on_money'] = master_model_obs['total_pl'] / master_model_obs['bet_amount'].sum()
+      return_df['return_on_money'] = return_df['total_pl'] / master_model_obs['bet_amount'].sum()
 
-      master_model_obs['game_date'] = master_model_obs['game_date'].dt.strftime('%b %d')
+      return_df['game_date'] = return_df['game_date'].dt.strftime('%b %d')
 
-      return master_model_obs.to_dict(orient='list')
+      return return_df.to_dict(orient='list')
 
 
          
