@@ -92,8 +92,12 @@ lineChart = new Chart(chart, lineConfig);
 function makeChart(data){
   if ($(window).width() <= 800) {
     chart.style.width = "100%";
-    chart.style.height = "250px !important"; // Adjust the aspect ratio as needed
-    // chart.height = "250px"
+    chart.style.height = "250px !important"; 
+    console.log(lineConfig);
+    lineConfig.options.elements.point.radius = 2; 
+    lineConfig.options.elements.point.borderWidth = 2; 
+
+
   } 
   else {
     // chart.style.width = "600px";
