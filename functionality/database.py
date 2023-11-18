@@ -576,8 +576,6 @@ class database():
 
       new_df['running_sum'] = new_df['result'].cumsum()
 
-
-
       return jsonify(data=new_df.to_json(orient='records', date_format='iso'))
     
     def make_bet_tracker_dashboard_data_kelley(self, df):
@@ -625,11 +623,13 @@ class database():
 
           appended = pd.concat([appended, group], ignore_index=True)
 
-       appended['running_sum'] = appended['result'].cumsum()
+       sum_per_day = appended.groupby('game_date').sum().reset_index()
 
-       appended['running_sum'] = appended['running_sum'] + starting_bankroll
+       sum_per_day['running_sum'] = sum_per_day['result'].cumsum()
 
-       return appended
+       sum_per_day['running_sum'] = sum_per_day['running_sum'] + starting_bankroll
+
+       return sum_per_day
     
     def make_bet_tracker_dashboard_data_standard(self, df):
        allowed_or_not = pd.DataFrame()
@@ -670,12 +670,16 @@ class database():
 
           appended = pd.concat([appended, group], ignore_index=True)
 
-       appended['running_sum'] = appended['result'].cumsum()
-
-       appended['running_sum'] = appended['running_sum'] + starting_bankroll
+       sum_per_day = appended.groupby('game_date').sum().reset_index()
 
 
-       return appended
+       sum_per_day['running_sum'] = sum_per_day['result'].cumsum()
+
+
+       sum_per_day['running_sum'] = sum_per_day['running_sum'] + starting_bankroll
+
+       
+       return sum_per_day
 
     def add_winning_teams(self, df):
       scores = self.get_scores()
@@ -702,11 +706,13 @@ class database():
     def get_bet_tracker_dashboard_data(self, params):
 
       master_model_obs = pd.read_csv('users/master_model_observations.csv')
+
       master_model_obs = master_model_obs[master_model_obs['average_market_odds'] > 1]
 
 
       if params['sport_title'] != 'All':
           master_model_obs = master_model_obs[master_model_obs['sport_title'] == params['sport_title']]
+          print(master_model_obs['sport_title'])
       if params['timing'] == 'Pregame only':
          master_model_obs = master_model_obs[master_model_obs['minutes_since_commence'] <= 0]
       if params['timing'] == 'Live only':
