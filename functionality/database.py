@@ -241,6 +241,8 @@ class database():
        filtered_df = filtered_df[filtered_df['average_market_odds'] > 0.01]
        filtered_df.sort_values(by='snapshot_time', ascending=False, inplace=True)
        filtered_df = filtered_df.dropna(subset=['team'])  # Drop NaN values
+       filtered_df = filtered_df.dropna(subset=['opponent'])  # Drop NaN values
+
        filtered_df = filtered_df[filtered_df['team'].astype(str).str.strip() != '']  # Drop blank/empty values
 
        columns_to_compare = ['team']
