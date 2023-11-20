@@ -421,7 +421,7 @@ class live_nfl_dashboard_runner():
         return return_df
 
        def standardize_numerical_values(df):
-        self.categorical_columns = ['team_1', 'team_1_division', 'team_1_conference', 'hour_of_start', 'week', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
+        self.categorical_columns = ['team_1', 'team_1_division', 'team_1_conference', 'hour_of_start', 'week', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_1_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
 
         self.numerical_columns = [col for col in df.columns if col not in self.categorical_columns and 'time' not in col and 'target' not in col]
 
@@ -464,6 +464,8 @@ class live_nfl_dashboard_runner():
        
        self.filtered_df = drop_unnecesary_columns(self.filtered_df)
 
+       
+
        self.scaled_arr = standardize_numerical_values(self.filtered_df)
 
        self.filtered_df['week'] = self.filtered_df['week'].astype(str)
@@ -491,12 +493,22 @@ class live_nfl_dashboard_runner():
       # Makes self.filtered_df
       self.preprocess(market_odds_df)
 
+      print(self.filtered_df.columns.tolist())
+
       if not self.filtered_df.empty:
         for strategy_name, strategy_dict in self.model_storage.items():
           self.format_for_nn()
           input_tensor = torch.tensor(self.final_data_for_model, dtype=torch.float32)
           strategy_dict['model'].eval()
+          first_layer = strategy_dict['model'][0]
+
+          print(self.final_data_for_model.shape)
+          print(first_layer)
           predictions = strategy_dict['model'](input_tensor)
+
+
+          # Print the architecture of the first layer
+          
 
           predictions_array = predictions.detach().numpy()
 
