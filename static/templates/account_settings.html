@@ -82,24 +82,22 @@
 
                 <div class="form-block w-form">
                   <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form" data-wf-page-id="6525c43df5e9cb13c6584ffe" data-wf-element-id="366c3ebe-7784-dd38-c5cd-1f1b1590afe2">
-                    {% for user in users %}
                       <div class="text-field-box">
                         <label for="Name-5">Name:</label>
-                        <span>{{ user.firstname }}</span>
+                        <span>{{ users.firstname }}</span>
                       </div>
                       <div class="text-field-box">
                         <label for="Name-6">Last Name:</label>
-                        <span>{{ user.lastname }}</span>
+                        <span>{{ users.lastname }}</span>
                       </div>
                       <div class="text-field-box">
                         <label for="Username-2">Phone Number:</label>
-                        <span>{{ user.phone }}</span>
+                        <span>{{ users.phone }}</span>
                       </div>
                       <div class="text-field-box">
                         <label for="Email-2">Email: &nbsp;</label>
-                        <span>{{   user.username }}</span>
+                        <span>{{   users.username }}</span>
                       </div>
-                    {% endfor %}
                   </form>
                 </div>
                 <!-- <div class="form-block w-form">
@@ -123,11 +121,9 @@
                 <h2 class="heading">Input New Bankroll</h2>
                 <div class="form-block w-form">
                   <form id="email-form" name="email-form" data-name="Email Form" method="post" action="/update_bankroll" class="form" data-wf-page-id="6525c43df5e9cb13c6584ffe" data-wf-element-id="366c3ebe-7784-dd38-c5cd-1f1b1590aff9">
-                    {% for user in users %}
                     <div class="text-field-box">
-                      <input type="text" class="text-field w-input" maxlength="256" name="Name-5" data-name="Name 5" placeholder="{{ user.bankroll }}" id="Name-5">
+                      <input type="text" class="text-field w-input" maxlength="256" name="Name-5" data-name="Name 5" placeholder="{{ users.bankroll }}" id="Name-5">
                     </div>
-                    {% endfor %}
                     <input type="submit" value="Save changes" data-wait="Please wait..." class="button hide w-button" style="display: none;">
                     <label for="Name-5" class="button w-button" onclick="document.getElementById('Name-5').form.submit()">Save Changes</label>
                   </form>

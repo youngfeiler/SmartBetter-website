@@ -16,9 +16,11 @@ import json
 from datetime import timedelta
 from datetime import datetime
 import os
-import sqlite3
 import stripe
 import time
+import atexit
+from functionality.db_manager import db_manager
+from functionality.models import LoginInfo  
 
 
 
@@ -29,26 +31,6 @@ def create_app():
     app.celery = celery
     return app
 
-# Connect to the SQLite database (or create if it doesn't exist)
-#create a functions that adds to the database by taking in a csv file string and adding it to the database
-def add_to_database(csv_file, conn,nm):
-    #pull csv file 
-    df = pd.read_csv(csv_file)
-    #add to database
-    df.to_sql(nm, conn, if_exists='replace', index=False)
-    #commit changes
-    conn.commit()
-
-def add_bool_column_to_table(df, conn, table_name, column_name):
-    df[column_name] = False
-    df.to_sql(table_name, conn, if_exists='replace', index=False)
-    conn.commit()
-
-def add_date_column_to_table(df, conn, table_name, column_name):
-    df[column_name] = datetime.now()
-    df.to_sql(table_name, conn, if_exists='replace', index=False)
-    conn.commit()
-
 
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
@@ -56,6 +38,10 @@ app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("STRIPE_API_KEY")
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 
+
+@atexit.register
+def close_db():
+    db_manager.close()
 
 @app.route('/')
 def index():
@@ -184,6 +170,8 @@ def account():
   db = database()
   if 'user_id' in session:
         users = db.get_user_info(session['user_id'])
+        print('here')
+        print(users)
         return render_template('account_settings.html', users = users)
   else:
         return redirect(url_for('login'))
@@ -350,9 +338,11 @@ def get_live_dash_data():
     data = request.get_json()
     sport_title = data.get('sport_title', '')
     my_db = database()
+    print(sport_title)
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
+    print(bankroll)
     data = my_db.get_live_dash_data(session['user_id'], sport_title)
-
+    print(data)
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)

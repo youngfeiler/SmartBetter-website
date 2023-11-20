@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
-import sqlite3
 import os
+from functionality.db_manager import db_manager
 
 class nfl_result_updater():
     
@@ -12,9 +12,6 @@ class nfl_result_updater():
       self.REGIONS = 'us,eu,uk'
       self.ODDS_FORMAT = 'decimal'
       self.DATE_FORMAT = 'iso'
-  def make_conn(self):
-        conn = sqlite3.connect('smartbetter.db')
-        return conn
 
   def pull_scores(self):
     self.scores_df = ''
@@ -44,9 +41,14 @@ class nfl_result_updater():
   def update_results(self):
      try:
       scores_dict = self.pull_scores()
-      conn = self.make_conn()
-      df = pd.read_sql('SELECT * FROM scores', conn)
-      conn.close()
+      try:
+          session = db_manager.create_session()
+          df = pd.read_sql_table('scores', con=db_manager.create_engine())
+      except Exception as e:
+        print(e)
+        return str(e)
+      finally:
+        session.close()
       for each in scores_dict:
             if each['completed'] == False:
                 pass
@@ -65,13 +67,15 @@ class nfl_result_updater():
                     df_list.append(each['away_team'])
             df.loc[len(df)] = df_list
       df_unique_game_id = df.drop_duplicates(subset=['game_id'])
-      conn = self.make_conn()
-      df_unique_game_id.to_sql('scores', conn, if_exists='replace', index=False)
-      conn.close()   # Close the connection
-      return True
+      try:
+          df_unique_game_id.to_sql('scores', con=db_manager.create_engine(), if_exists='replace', index=False)
+      except Exception as e:
+        print(e)
+        return False
+      finally:
+        return True
      except:
         print("Live results couldn't be updated. Trying agiain in 5 min... ")
-        conn.close()   # Close the connection
         return False
 
 

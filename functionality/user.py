@@ -1,19 +1,22 @@
 import pandas as pd
-import sqlite3
+from functionality.db_manager import db_manager
 
 class User():
     def __init__(self, username):
         self.username = username
         self.password = ''
-    def make_conn(self):
-        conn = sqlite3.connect('smartbetter.db')
-        return conn
+
 
     def create_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
       #df = pd.read_csv('users/login_info.csv')
-      conn = self.make_conn()
-      df = pd.read_sql('SELECT * FROM login_info', conn)
-      conn.close()   # Close the connection
+      try:
+          session = db_manager.create_session()
+          df = pd.read_sql_table('login_info', con=db_manager.create_engine())
+      except Exception as e:
+        print(e)
+        return str(e)
+      finally:
+        session.close()
       
       #change the column date_signed_up to string
       df['date_signed_up'] = df['date_signed_up'].astype(str)
@@ -22,13 +25,13 @@ class User():
       info_row = [firstname, lastname, self.username, password, phone, bankroll, payed, sign_up_date]
 
       df.loc[len(df)] = info_row
-
-      #df.to_csv('users/login_info.csv', index=False)
-      conn = self.make_conn()
-      df.to_sql('login_info', conn, if_exists='replace', index=False)
-      conn.close()   # Close the connection
-      # self.add_strategy_to_user(self.username, 'SmartBetter low risk demo strategy')
-      return
+      try:
+          df.to_sql('login_info', con=db_manager.create_engine(), if_exists='replace', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
     def add_strategy_to_user(self, username, strategy_name):
       df = pd.read_csv('users/user_strategy_names.csv')
       info_row = [username, strategy_name, False]
