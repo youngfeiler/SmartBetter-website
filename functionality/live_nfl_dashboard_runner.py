@@ -188,7 +188,6 @@ class live_nfl_dashboard_runner():
       cols_with_one = [col for col in df.columns if '_1' in col]
       cols_with_two = [col for col in df.columns if '_2' in col]
       extra_cols = ['game_id', 'commence_time', 'time_pulled', 'my_game_id', 'hour_of_start', 'week', 'day_of_week', 'winning_team', 'home_away_neutral', 'home_team', 'away_team',  'home_team_division', 'away_team_division', 'team_1_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'snapshot_time', 'minutes_since_commence']
-
       for each in extra_cols:
           cols_with_one.append(each)
 
@@ -388,9 +387,9 @@ class live_nfl_dashboard_runner():
 
        test_series = df['team_1_division'].copy()
 
-       df.drop(columns = ['team_1_division'], inplace=True)
+       # df.drop(columns = ['team_1_division'], inplace=True)
 
-       df['team_1_division'] = test_series.iloc[:, 0]
+       # df['team_1_division'] = test_series.iloc[:, 0]
 
        return df
 
@@ -421,7 +420,7 @@ class live_nfl_dashboard_runner():
         return return_df
 
        def standardize_numerical_values(df):
-        self.categorical_columns = ['team_1', 'team_1_division', 'team_1_conference', 'hour_of_start', 'week', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
+        self.categorical_columns =['team_1', 'team_1_division', 'team_1_conference', 'hour_of_start', 'week', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
 
         self.numerical_columns = [col for col in df.columns if col not in self.categorical_columns and 'time' not in col and 'target' not in col]
 
@@ -500,15 +499,16 @@ class live_nfl_dashboard_runner():
 
           predictions_array = predictions.detach().numpy()
 
-          # mask = predictions_array > strategy_dict['pred_thresh']
-          mask = predictions_array > -10000
-
+          mask = predictions_array > strategy_dict['pred_thresh']
+          mask = predictions_array > 0
+          print(predictions_array)
+          print(strategy_dict['pred_thresh'])
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
             filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
-
-            filtered_df.to_csv('users/model_obs_nfl.csv', mode = 'a', header=False, index = False)
+            
+            filtered_df.to_csv('users/model_obs_nfl.csv', mode = 'a', header=True, index = False)
 
             print(len(filtered_df))
 
