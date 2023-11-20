@@ -662,6 +662,8 @@ class database():
 
        unit_size = 100
 
+
+
        grouped_df = df.groupby('game_date')
       
        i = 0
@@ -713,6 +715,32 @@ class database():
 
       return max_sum_value
 
+    def make_daily_game_results(self, df):
+      grouped_by_game_id = df.groupby('game_id')['result'].sum().reset_index()
+      df = df.merge(grouped_by_game_id, on='game_id', how='left', suffixes=('', '_summed'))
+
+      grouped = df.groupby('game_id').last()
+
+      smushed = grouped.groupby('game_date').agg({
+          'team': lambda x: x.tolist(),  
+          'result_summed': lambda x: x.tolist()
+      })
+
+      smushed['game_info'] = [
+    ", ".join([f"{team}: {self.format_dollar(result)}" for team, result in zip(teams, results)])
+    for teams, results in zip(smushed['team'], smushed['result_summed'])
+]
+
+      return pd.Series(smushed['game_info']).reset_index(drop=True)
+
+    def format_dollar(self, num):
+       num = float(num)
+       if num < 0:
+          return f"-${abs(num):.2f}"
+       if num >=0:
+          return f"+${num:.2f}"
+
+
     def get_bet_tracker_dashboard_data(self, params):
 
       master_model_obs = pd.read_csv('users/master_model_observations.csv')
@@ -739,6 +767,8 @@ class database():
          master_model_obs, return_df = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
       if params['bet_size'] == 'Standard':
           master_model_obs, return_df = self.make_bet_tracker_dashboard_data_standard(master_model_obs)
+    
+      return_df['hover_info'] = self.make_daily_game_results(master_model_obs)
 
       return_df['total_pl'] = master_model_obs['result'].sum()
 

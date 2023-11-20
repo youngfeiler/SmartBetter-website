@@ -16,6 +16,17 @@ const lineConfig = {
               pointRadius: 1, // Initial point radius set to 0
               pointHoverRadius: 8, // Increase the hover radius for a shadow effect
           },
+          {
+            backgroundColor: createGradient('rgba(165, 255, 227, 1)', 'rgba(201, 255, 238, 0.1)'),
+            borderColor: '#21CE99',
+            pointHoverBackgroundColor: '#21CE99', // Customize hover background color
+            pointHoverBorderColor: '#ffffff', // Customize hover border color
+            data: [],
+            fill: 'start',
+            tension: 0.6,
+            pointRadius: 1, // Initial point radius set to 0
+            pointHoverRadius: 8, // Increase the hover radius for a shadow effect
+        },
       ],
   },
   options: {
@@ -63,25 +74,24 @@ const lineConfig = {
                   const activePoint = hoverPoint[0];
                   const ctx = lineChartInstance.ctx;
                   const x = activePoint.tooltipPosition().x;
-
-                  // Draw red background
-                  ctx.save();
-                  ctx.fillStyle = 'rgba(0, 0, 0, 0)';
-                  ctx.fillRect(x, 0, 2, lineChartInstance.height);
-                  ctx.restore();
-
-                  // Draw black dashed hover line
-                  ctx.save();
-                  ctx.beginPath();
-                  ctx.setLineDash([5, 5]); // Set the dash pattern
-                  ctx.moveTo(x, 0);
-                  ctx.lineTo(x, lineChartInstance.height);
-                  ctx.lineWidth = 2;
-                  ctx.strokeStyle = 'rgb(208, 208, 208)';
-                  ctx.stroke();
-                  ctx.restore();
               }
           },
+      },
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            const value = data.datasets[1].data[tooltipItem.index];
+            return value;
+          },
+        },
+        // filter: function (tooltipItem) {
+        //   return tooltipItem.datasetIndex === 1; // Filter to apply word wrap only for the second dataset tooltip
+        // },
+        bodyFont: {
+          wordWrap: 'break-word', // Set word wrap for tooltip body
+        },
+
+        
       },
   },
 };
@@ -95,9 +105,7 @@ function makeChart(data){
     chart.style.height = "250px !important"; 
     console.log(lineConfig);
     lineConfig.options.elements.point.radius = 2; 
-    lineConfig.options.elements.point.borderWidth = 2; 
-
-
+    lineConfig.options.elements.point.borderWidth = 2;
   } 
   else {
     // chart.style.width = "600px";
@@ -105,6 +113,8 @@ function makeChart(data){
   }
   lineConfig.data.labels = data.game_date;
   lineConfig.data.datasets[0].data = data.running_sum;
+  lineConfig.data.datasets[1].data = data.hover_info;
+
   removeLoadingAnimation();
 
   lineChart.update();
