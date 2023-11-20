@@ -396,9 +396,10 @@ class database():
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
-      merged_df['team'] = merged_df['team'].str.replace(' v.', 'v.')
-      merged_df['team'] = merged_df['team'].str.replace('v. ', 'v.')
-      merged_df['team'] = merged_df['team'].str.replace(' v. ', 'v.')
+
+      merged_df['team'] = merged_df['team'].str.replace(r'\s+v\.', 'v.')
+      merged_df['team'] = merged_df['team'].str.replace(r'v\.\s+', 'v.')
+      merged_df['team'] = merged_df['team'].str.replace(r'\s*v\.\s*', 'v.')
 
       merged_df['team_bet_on'] = [cell.split('v.')[0] for cell in merged_df['team']]
 
