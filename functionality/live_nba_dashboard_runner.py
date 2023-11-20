@@ -488,35 +488,19 @@ class live_nba_dashboard_runner():
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
-            existing_cols = pd.read_csv('users/model_obs_nba.csv').columns.tolist()
 
             filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
-            new_cols = filtered_df.columns.tolist()
 
-            # Items in list1 but not in list2
-            unique_to_list1 = list(set(existing_cols) - set(new_cols))
-
-            # Items in list2 but not in list1
-            unique_to_list2 = list(set(new_cols) - set(existing_cols))
-
-            column_to_drop = 'team_1_division'
-
-# Identify the index of the first occurrence of the column name
-            indices_to_drop = [i for i, col in enumerate(filtered_df.columns) if col == column_to_drop]
-# Drop the specific column by index
-            # filtered_df.drop(filtered_df.columns[indices_to_drop[0]], axis=1, inplace=True)
             filtered_df = filtered_df.loc[:, ~filtered_df.columns.duplicated()]
 
-            
             existing_df = pd.read_csv('users/model_obs_nba.csv')
 
-    # Append the new DataFrame to the existing file
             result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
 
             filtered_df.to_csv('users/test.csv', mode='w')
             result_df.to_csv( 'users/model_obs_nba.csv', 
                mode = 'w', 
-               header= True, 
+               header= False, 
                index = False
                )
 

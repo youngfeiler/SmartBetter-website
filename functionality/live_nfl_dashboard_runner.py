@@ -357,9 +357,9 @@ class live_nfl_dashboard_runner():
 
         print(self.model_storage['SmartBetterNFLModel']['params']['min_ev'])
 
-        df = df[df['ev'] >= self.model_storage['SmartBetterNFLModel']['params']['min_ev']]
+        # df = df[df['ev'] >= self.model_storage['SmartBetterNFLModel']['params']['min_ev']]
 
-        # df = df[df['ev'] >= -100]
+        df = df[df['ev'] >= -100]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNFLModel']['params']['max_ev']]
 
@@ -373,13 +373,13 @@ class live_nfl_dashboard_runner():
 
           return df
 
-       df = filter_by_minutes_since_commence(df)
+      #  df = filter_by_minutes_since_commence(df)
 
-       df = filter_by_average_market_odds(df)
+      #  df = filter_by_average_market_odds(df)
 
        df = filter_by_ev_thresh(df)
 
-       df = filter_by_best_odds(df)
+      #  df = filter_by_best_odds(df)
 
        return df
 
@@ -494,7 +494,11 @@ class live_nfl_dashboard_runner():
           # mask = predictions_array > -10000
           filtered_df = self.display_df[mask]
 
+          print(predictions_array)
+          print()
+
           if not filtered_df.empty:
+          
             filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
 
             existing_df = pd.read_csv('users/model_obs_nfl.csv')
