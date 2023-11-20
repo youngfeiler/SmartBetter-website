@@ -43,7 +43,6 @@ class live_nfl_dashboard_runner():
 
     def make_snapshot(self, df):
 
-      # snapshot_df = pd.DataFrame(columns=self.SHEET_HEADER)
       snapshot_df = pd.DataFrame()
 
       current_time_utc = datetime.utcnow()
@@ -112,20 +111,18 @@ class live_nfl_dashboard_runner():
 
         return snap
 
-    def convert_times_to_mst(self, df):
-      # Actually converts it to MSt when we're in daylight savings time, but as long as we're not in GMT we're chilling
+    def convert_times_to_est(self, df):
       time_columns = [col for col in df.columns if 'time' in col]
-      
       df[time_columns] = df[time_columns].apply(lambda x: pd.to_datetime(x))
-      df[time_columns] = df[time_columns]- pd.Timedelta(hours=7)
-
+      df[time_columns] = df[time_columns]- pd.Timedelta(hours=4)
       return df 
 
     def add_extra_info(self, df):
 
       extra_info = pd.read_csv('nfl_data/nfl_extra_info.csv')
 
-      df["commence_date"] = pd.to_datetime(df["commence_time"]).dt.date.astype(str)
+      df['commence_time'] = pd.to_datetime(df['commence_time'])
+      df["commence_date"] = df["commence_time"].dt.date.astype(str)
       df['hour_of_start'] = pd.to_datetime(df["commence_time"]).dt.hour.astype(str)
       df["my_game_id"] =df['team_1'] + df['team_2'] + df["commence_date"]
 
@@ -162,8 +159,6 @@ class live_nfl_dashboard_runner():
       # Calculate the time difference in minutes and sum them up
       merged_df['minutes_since_commence'] = (merged_df['snapshot_time'] - merged_df['commence_time']).dt.total_seconds() / 60
 
-      # merged_df.to_csv('live_merged_df.csv', index=False)
-
       return merged_df
     
     def replace_missing_vals(self, df):
@@ -188,10 +183,9 @@ class live_nfl_dashboard_runner():
       cols_with_one = [col for col in df.columns if '_1' in col]
       cols_with_two = [col for col in df.columns if '_2' in col]
       extra_cols = ['game_id', 'commence_time', 'time_pulled', 'my_game_id', 'hour_of_start', 'week', 'day_of_week', 'winning_team', 'home_away_neutral', 'home_team', 'away_team',  'home_team_division', 'away_team_division', 'team_1_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'snapshot_time', 'minutes_since_commence']
+
       for each in extra_cols:
           cols_with_one.append(each)
-
-          
           cols_with_two.append(each)
 
       df1 = df[cols_with_one]
@@ -225,11 +219,13 @@ class live_nfl_dashboard_runner():
 
       df_stacked['home_away'] = np.where(df_stacked['team_1'] == df_stacked['home_team'], 1, 0)
 
-      # df_stacked['snapshot_time'] = df_stacked['snapshot_time_taken'].dt.time
+      cols_to_drop=['time_pulled', 'home_team', 'away_team', 'winning_team', 'team_1_division']
 
-      cols_to_drop=['time_pulled', 'home_team', 'away_team', 'winning_team']
+      result_team_1_div_copy = df_stacked['team_1_division'].copy()
 
       result = df_stacked.drop(columns=cols_to_drop)
+
+      result['team_1_division'] = result_team_1_div_copy.iloc[:, 0]
 
       return result
 
@@ -385,16 +381,10 @@ class live_nfl_dashboard_runner():
 
        df = filter_by_best_odds(df)
 
-       test_series = df['team_1_division'].copy()
-
-       # df.drop(columns = ['team_1_division'], inplace=True)
-
-       # df['team_1_division'] = test_series.iloc[:, 0]
-
        return df
 
     def preprocess(self, df):
-      df = self.convert_times_to_mst(df)
+      df = self.convert_times_to_est(df)
 
       self.market_odds = self.add_extra_info(df)
 
@@ -420,7 +410,7 @@ class live_nfl_dashboard_runner():
         return return_df
 
        def standardize_numerical_values(df):
-        self.categorical_columns =['team_1', 'team_1_division', 'team_1_conference', 'hour_of_start', 'week', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
+        self.categorical_columns = ['team_1', 'team_1_division', 'team_1_conference', 'hour_of_start', 'week', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
 
         self.numerical_columns = [col for col in df.columns if col not in self.categorical_columns and 'time' not in col and 'target' not in col]
 
@@ -490,37 +480,31 @@ class live_nfl_dashboard_runner():
       # Makes self.filtered_df
       self.preprocess(market_odds_df)
 
-      print(self.filtered_df.columns.tolist())
-
       if not self.filtered_df.empty:
         for strategy_name, strategy_dict in self.model_storage.items():
           self.format_for_nn()
           input_tensor = torch.tensor(self.final_data_for_model, dtype=torch.float32)
           strategy_dict['model'].eval()
-          first_layer = strategy_dict['model'][0]
 
-          print(self.final_data_for_model.shape)
-          print(first_layer)
           predictions = strategy_dict['model'](input_tensor)
-
-
-          # Print the architecture of the first layer
           
-
           predictions_array = predictions.detach().numpy()
 
           mask = predictions_array > strategy_dict['pred_thresh']
-          mask = predictions_array > 0
-          print(predictions_array)
-          print(strategy_dict['pred_thresh'])
+          # mask = predictions_array > -10000
           filtered_df = self.display_df[mask]
 
           if not filtered_df.empty:
             filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
-            
-            filtered_df.to_csv('users/model_obs_nfl.csv', mode = 'a', header=True, index = False)
 
-            print(len(filtered_df))
+            existing_df = pd.read_csv('users/model_obs_nfl.csv')
+
+            df_new_reordered = filtered_df[existing_df.columns]
+
+            result = pd.concat([existing_df, df_new_reordered], ignore_index=True)
+            result.to_csv('users/model_obs_nfl.csv', index=False) 
+
+            print(f"{len(filtered_df)} NFL bets found" )
 
           elif filtered_df.empty:
              pass

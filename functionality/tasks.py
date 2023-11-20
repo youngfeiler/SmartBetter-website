@@ -84,12 +84,10 @@ def start_dashboard_runner():
 
       live_nba_dashboard_runner_instance.make_live_dash_data()
       observation_compiler_instace.compile_observations()
-      try:
-          live_nfl_dashboard_runner_instance.make_live_dash_data()
-          observation_compiler_instace.compile_observations()
-      except Exception as e:
-          print(e)
-          print("couldn't do NFL")
+
+      live_nfl_dashboard_runner_instance.make_live_dash_data()
+      observation_compiler_instace.compile_observations()
+
       live_nhl_dashboard_runner_instance.make_live_dash_data()
       observation_compiler_instace.compile_observations()
       
