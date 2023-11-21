@@ -57,14 +57,14 @@ def start_model_runner():
   mr = model_runner()
 
 @celery.task
-def start_dashboard_runner():
+def start_dashboard_runner(db_manager):
     
     live_nba_dashboard_runner_instance = live_nba_dashboard_runner()
     live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
     live_nhl_dashboard_runner_instance = live_nhl_dashboard_runner()
 
 
-    db = database()
+    db = database(db_manager)
 
     result_updater_instance = result_updater()
 

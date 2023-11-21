@@ -13,7 +13,6 @@ import ast
 import stripe
 import logging
 import json
-from functionality.db_manager import db_manager
 from functionality.models import LoginInfo  # Import your SQLAlchemy model
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -26,13 +25,15 @@ stripe.api_key = STRIPE_PRIVATE_KEY
 
 
 class database():
-    def __init__(self):
+    def __init__(self, db_manager):
         self = self
+        self.db_manager = db_manager
+
 
     def get_all_usernames(self):
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query all usernames from the login_info table
         usernames = session.query(LoginInfo.username).all()
@@ -57,7 +58,7 @@ class database():
     def check_account(self,username):
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
         
         # Query the user's record by username
         user = session.query(LoginInfo).filter_by(username=username).first()
@@ -87,7 +88,7 @@ class database():
       
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query the user by username
         try:
@@ -109,7 +110,7 @@ class database():
       self.check_payments()
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query the user's record by username
         user = session.query(LoginInfo).filter_by(username=username).first()
@@ -131,7 +132,7 @@ class database():
     def get_user_bank_roll(self, user):
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query the user's record by username
         user = session.query(LoginInfo).filter_by(username=user).first()
@@ -151,7 +152,7 @@ class database():
     def add_to_bankroll(self, username, amount):
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query the user's record by username
         user = session.query(LoginInfo).filter_by(username=username).first()
@@ -174,7 +175,7 @@ class database():
     def update_bankroll(self, username, amount):
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query the user's record by username
         user = session.query(LoginInfo).filter_by(username=username).first()
@@ -215,8 +216,8 @@ class database():
       #change df['date'] from y-m-d to d-m-y where y is a two digit year
       df['time_placed'] = df['time_placed'].dt.strftime('%Y-%m-%d %H:%M:%S.%f')
       try:
-          session = db_manager.create_session()
-          read_in =  pd.read_sql_table('placed_bets', con=db_manager.create_engine())
+          session = self.db_manager.create_session()
+          read_in =  pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -284,9 +285,9 @@ class database():
         value_new = round(value_new)
         return value_new
        try:
-          session = db_manager.create_session()
-          scores_df = pd.read_sql_table('scores', con=db_manager.create_engine())
-          df = pd.read_sql_table('master_model_observations', con=db_manager.create_engine())
+          session = self.db_manager.create_session()
+          scores_df = pd.read_sql_table('scores', con=self.db_manager.create_engine())
+          df = pd.read_sql_table('master_model_observations', con=self.db_manager.create_engine())
        except Exception as e:
                 print(e)
                 return str(e)
@@ -363,9 +364,9 @@ class database():
     
     def get_unsettled_bet_data(self, user):
       try:
-        session = db_manager.create_session()
-        scores_df = pd.read_sql_table('scores', con=db_manager.create_engine())
-        df = pd.read_sql_table('placed_bets', con=db_manager.create_engine())
+        session = self.db_manager.create_session()
+        scores_df = pd.read_sql_table('scores', con=self.db_manager.create_engine())
+        df = pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -446,10 +447,10 @@ class database():
     
     def calculate_user_bankroll(self, username):
       try:
-          session = db_manager.create_session()
-          placed_bets =  pd.read_sql_table('placed_bets', con=db_manager.create_engine())
-          scores_df = pd.read_sql_table('scores', con=db_manager.create_engine())
-          login_info = pd.read_sql_table('login_info', con=db_manager.create_engine())
+          session = self.db_manager.create_session()
+          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
+          scores_df = pd.read_sql_table('scores', con=self.db_manager.create_engine())
+          login_info = pd.read_sql_table('login_info', con=self.db_manager.create_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -480,8 +481,8 @@ class database():
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
       #login_info.to_csv('users/login_info.csv', index=False)
       try:
-          session = db_manager.create_session()
-          login_info.to_sql('login_info', con=db_manager.create_engine(), if_exists='replace', index=False)
+          session = self.db_manager.create_session()
+          login_info.to_sql('login_info', con=self.db_manager.create_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
         return str(e)
@@ -489,8 +490,8 @@ class database():
       
     def filter_5_min_cooloff(self, username, sport, df):
        try:
-          session = db_manager.create_session()
-          placed_bets =  pd.read_sql_table('placed_bets', con=db_manager.create_engine())
+          session = self.db_manager.create_session()
+          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
        except Exception as e:
         print(e)
         return str(e)
@@ -528,7 +529,7 @@ class database():
             # Update the 'paid' column in the SQLite database
             for username in paid_users:
               try:
-                session = db_manager.create_session()
+                session = self.db_manager.create_session()
                 session.query(LoginInfo).filter_by(username=username).update({"payed": 1})
 
               except Exception as e:
@@ -545,7 +546,7 @@ class database():
       user_dict = None
       try:
         # Create a session
-        session = db_manager.create_session()
+        session = self.db_manager.create_session()
 
         # Query the user's record by username
         user_info = session.query(LoginInfo).filter_by(username=username).first()
@@ -582,7 +583,7 @@ class database():
                 # Update the 'paid' column in the SQLite database
               try:
        
-                session = db_manager.create_session()
+                session = self.db_manager.create_session()
                 session.query(LoginInfo).filter_by(username=username).update({"payed": 0})
 
               except Exception as e:

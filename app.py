@@ -28,7 +28,7 @@ def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     # TODO: Put this key in the secret file
     app.secret_key = 'to_the_moon'
-    db_manager.init_app(app)  # Bind the DBManager to the app
+    app.db_manager = db_manager()
     app.celery = celery
     return app
 
@@ -42,7 +42,7 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 @atexit.register
 def close_db():
-    db_manager.close()
+    app.db_manager.close()
 
 @app.route('/')
 def index():
@@ -92,7 +92,7 @@ def get_scenario_data():
     try:
         data = request.json
         print(data)
-        db = database()
+        db = database(app.db_manager)
         start = time.time()
 
         graph_data = db.get_scenario_results(app.config['raw_odds_data'], data)
@@ -159,7 +159,7 @@ def create_checkout_session_non_recurring(price_id):
 
 @app.route('/test_func')
 def test_func():
-    tasks.start_dashboard_runner.delay()
+    tasks.start_dashboard_runner.delay(app.db_manager)
     return render_template('index.html')
 
 @app.route('/home')
@@ -168,7 +168,7 @@ def home():
 
 @app.route('/account')
 def account():
-  db = database()
+  db = database(app.db_manager)
   if 'user_id' in session:
         users = db.get_user_info(session['user_id'])
         print('here')
@@ -186,7 +186,7 @@ def update_bankroll():
     if request.method == 'POST':
         # You can access the data sent by the form here
         new_bankroll = request.form.get('Name-5')
-        db = database()
+        db = database(app.db_manager)
         success = db.update_bankroll(session['user_id'], new_bankroll)
         if success:
             flash('Your bankroll has been updated!', 'success')
@@ -197,7 +197,7 @@ def update_bankroll():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    my_db = database()
+    my_db = database(app.db_manager)
     my_db.get_all_usernames()
     users = my_db.users
     if request.method == 'POST':
@@ -250,7 +250,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
   user_id = session.get('user_id')
-  my_db = database()
+  my_db = database(app.db_manager)
   if (user_id is not None):
       payed = my_db.check_account(user_id)
       if payed:
@@ -313,7 +313,7 @@ def get_performance_data():
         data = request.json
         dict_params = data['params']
         print(dict_params)
-        db = database()
+        db = database(app.db_manager)
         return_data = db.get_bet_tracker_dashboard_data(dict_params)        
     except Exception as e:
         print(e)
@@ -326,7 +326,7 @@ def add_saved_bet():
         data = request.json 
         user = session['user_id']
         data['user_name'] = user
-        myDatabase = database()
+        myDatabase = database(app.db_manager)
         myDatabase.add_made_bet_to_db(data)
         response = {'status_code': 'success', 'message': 'Bet saved successfully'}
     except Exception as e:
@@ -338,7 +338,7 @@ def add_saved_bet():
 def get_live_dash_data():
     data = request.get_json()
     sport_title = data.get('sport_title', '')
-    my_db = database()
+    my_db = database(app.db_manager)
     print(sport_title)
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
     print(bankroll)
@@ -358,7 +358,7 @@ def get_unsettled_bet_data():
 
     user = session['user_id']
 
-    my_db = database()
+    my_db = database(app.db_manager)
 
     data = my_db.get_unsettled_bet_data(user)
 
@@ -404,7 +404,7 @@ def cancel_subscription():
     if action == "cancel":
         # Implement the subscription cancellation process here
         # You can interact with your subscription service or database
-        db = database()
+        db = database(app.db_manager)
         db.cancel_subscription(session['user_id'])
         return redirect(url_for('logout'))
     else:
