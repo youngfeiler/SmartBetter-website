@@ -19,7 +19,7 @@ import os
 import stripe
 import time
 import atexit
-from functionality.db_manager import db_manager
+from functionality.db_manager import DBManager
 from functionality.models import LoginInfo  
 
 
@@ -28,7 +28,7 @@ def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     # TODO: Put this key in the secret file
     app.secret_key = 'to_the_moon'
-    app.db_manager = db_manager()
+    app.db_manager = DBManager()
     app.celery = celery
     return app
 
@@ -46,6 +46,8 @@ def close_db():
 
 @app.route('/')
 def index():
+    db = database(app.db_manager)
+    db.check_payments()
     return render_template('index.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
@@ -159,7 +161,7 @@ def create_checkout_session_non_recurring(price_id):
 
 @app.route('/test_func')
 def test_func():
-    tasks.start_dashboard_runner.delay(app.db_manager)
+    tasks.start_dashboard_runner.delay()
     return render_template('index.html')
 
 @app.route('/home')
@@ -199,6 +201,7 @@ def update_bankroll():
 def register():
     my_db = database(app.db_manager)
     my_db.get_all_usernames()
+    my_db.check_payments()
     users = my_db.users
     if request.method == 'POST':
         first_name = request.form['first_name']

@@ -93,6 +93,8 @@ class database():
         # Query the user by username
         try:
             user = session.query(LoginInfo).filter_by(username=username).one()
+            print(user)
+            print("WAHOOOO STEFAN SUCKS BALLS")
         except NoResultFound:
             return False
 # Check if the password matches

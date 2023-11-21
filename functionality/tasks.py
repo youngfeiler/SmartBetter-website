@@ -57,14 +57,12 @@ def start_model_runner():
   mr = model_runner()
 
 @celery.task
-def start_dashboard_runner(db_manager):
+def start_dashboard_runner():
     
     live_nba_dashboard_runner_instance = live_nba_dashboard_runner()
     live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
     live_nhl_dashboard_runner_instance = live_nhl_dashboard_runner()
 
-
-    db = database(db_manager)
 
     result_updater_instance = result_updater()
 
@@ -79,8 +77,6 @@ def start_dashboard_runner(db_manager):
       result_updater_instance.update_results('basketball_nba')
 
       result_updater_instance.update_results('icehockey_nhl')
-
-      db.check_payments()
 
       live_nba_dashboard_runner_instance.make_live_dash_data()
       observation_compiler_instace.compile_observations()
