@@ -225,7 +225,7 @@ class database():
         session.close()
       put_out = read_in.append(df, ignore_index=True)
       try:
-          put_out.to_sql('placed_bets', con=db_manager.create_engine(), if_exists='replace', index=False)
+          put_out.to_sql('placed_bets', con=self.db_manager.create_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
         return str(e)
