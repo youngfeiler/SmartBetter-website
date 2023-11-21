@@ -124,7 +124,7 @@ def convert_times_to_mst(df):
 def make_my_game_id(df):
     try:
           session = db_manager.create_session()
-          extra_info_df = pd.read_sql_table('mlb_extra_info', con=db_manager.create_engine())
+          extra_info_df = pd.read_sql_table('mlb_extra_info', con=db_manager.get_engine())
     except Exception as e:
         print(e)
         return str(e)

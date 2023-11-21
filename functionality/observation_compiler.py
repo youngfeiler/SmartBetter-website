@@ -17,7 +17,7 @@ class observation_compiler():
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
     try:
           session = db_manager.create_session()
-          self.master_observations_sheet = pd.read_sql_table('master_model_observations', con=db_manager.create_engine())
+          self.master_observations_sheet = pd.read_sql_table('master_model_observations', con=db_manager.get_engine())
     except Exception as e:
       print(e)
       raise
@@ -111,7 +111,7 @@ class observation_compiler():
     try:
   
           session = db_manager.create_session()
-          self.master_observations_sheet.to_sql('master_model_observations', con=db_manager.create_engine(), if_exists='replace', index=False)
+          self.master_observations_sheet.to_sql('master_model_observations', con=db_manager.get_engine(), if_exists='replace', index=False)
     except Exception as e:
         print(e)
         return 
@@ -121,7 +121,7 @@ class observation_compiler():
   def update_completed_observations(self):
     try:
           session = db_manager.create_session()
-          scores =  pd.read_sql_table('scores', con=db_manager.create_engine())
+          scores =  pd.read_sql_table('scores', con=db_manager.get_engine())
     except Exception as e:
         print(e)
         return str(e)
@@ -138,7 +138,7 @@ class observation_compiler():
   def get_amount_of_master_sport_obs(self, sport_title):
     try:
           session = db_manager.create_session()
-          master_model_obs = pd.read_sql_table('master_model_observations', con=db_manager.create_engine())
+          master_model_obs = pd.read_sql_table('master_model_observations', con=db_manager.get_engine())
     except Exception as e:
       print(e)
       return str(e)

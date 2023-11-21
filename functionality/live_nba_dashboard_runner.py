@@ -504,7 +504,7 @@ class live_nba_dashboard_runner():
             )
 
             try:
-              filtered_df.to_sql('model_obs_nba', con=db_manager.create_engine(), if_exists='append', index=False)
+              filtered_df.to_sql('model_obs_nba', con=db_manager.get_engine(), if_exists='append', index=False)
             except Exception as e:
                print(e)
                return (str(e))

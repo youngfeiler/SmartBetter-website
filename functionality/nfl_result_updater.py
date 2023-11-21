@@ -43,7 +43,7 @@ class nfl_result_updater():
       scores_dict = self.pull_scores()
       try:
           session = db_manager.create_session()
-          df = pd.read_sql_table('scores', con=db_manager.create_engine())
+          df = pd.read_sql_table('scores', con=db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -68,7 +68,7 @@ class nfl_result_updater():
             df.loc[len(df)] = df_list
       df_unique_game_id = df.drop_duplicates(subset=['game_id'])
       try:
-          df_unique_game_id.to_sql('scores', con=db_manager.create_engine(), if_exists='replace', index=False)
+          df_unique_game_id.to_sql('scores', con=db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
         return False

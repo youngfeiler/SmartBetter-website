@@ -219,7 +219,7 @@ class database():
       df['time_placed'] = df['time_placed'].dt.strftime('%Y-%m-%d %H:%M:%S.%f')
       try:
           session = self.db_manager.create_session()
-          read_in =  pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
+          read_in =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -227,7 +227,7 @@ class database():
         session.close()
       put_out = read_in.append(df, ignore_index=True)
       try:
-          put_out.to_sql('placed_bets', con=self.db_manager.create_engine(), if_exists='replace', index=False)
+          put_out.to_sql('placed_bets', con=self.db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
         return str(e)
@@ -288,8 +288,8 @@ class database():
         return value_new
        try:
           session = self.db_manager.create_session()
-          scores_df = pd.read_sql_table('scores', con=self.db_manager.create_engine())
-          df = pd.read_sql_table('master_model_observations', con=self.db_manager.create_engine())
+          scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
+          df = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
        except Exception as e:
                 print(e)
                 return str(e)
@@ -367,8 +367,8 @@ class database():
     def get_unsettled_bet_data(self, user):
       try:
         session = self.db_manager.create_session()
-        scores_df = pd.read_sql_table('scores', con=self.db_manager.create_engine())
-        df = pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
+        scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
+        df = pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -450,9 +450,10 @@ class database():
     def calculate_user_bankroll(self, username):
       try:
           session = self.db_manager.create_session()
-          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
-          scores_df = pd.read_sql_table('scores', con=self.db_manager.create_engine())
-          login_info = pd.read_sql_table('login_info', con=self.db_manager.create_engine())
+          
+          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
+          scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
+          login_info = pd.read_sql_table('login_info', con=self.db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -484,7 +485,7 @@ class database():
       #login_info.to_csv('users/login_info.csv', index=False)
       try:
           session = self.db_manager.create_session()
-          login_info.to_sql('login_info', con=self.db_manager.create_engine(), if_exists='replace', index=False)
+          login_info.to_sql('login_info', con=self.db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
         return str(e)
@@ -493,7 +494,7 @@ class database():
     def filter_5_min_cooloff(self, username, sport, df):
        try:
           session = self.db_manager.create_session()
-          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.create_engine())
+          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
        except Exception as e:
         print(e)
         return str(e)

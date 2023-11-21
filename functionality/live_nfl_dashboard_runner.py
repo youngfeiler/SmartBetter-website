@@ -510,7 +510,7 @@ class live_nfl_dashboard_runner():
             result.to_csv('users/model_obs_nfl.csv', index=False) 
 
             try:
-              df_new_reordered.to_sql('model_obs_nfl', con=db_manager.create_engine(), if_exists='append', index=False)
+              df_new_reordered.to_sql('model_obs_nfl', con=db_manager.get_engine(), if_exists='append', index=False)
             except Exception as e:
                print(e)
                return (str(e))

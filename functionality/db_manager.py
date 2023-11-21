@@ -8,12 +8,16 @@ import os
 # Define your SSH tunnel parameters
 ssh_host = os.environ.get('SSH_HOST')
 ssh_username = os.environ.get('ssh_username')
-ssh_pkey_path = '/Users/micahblackburn/Desktop/test_key.pem'
+ssh_pkey_path = '/Users/stefanfeiler/Desktop/SMARTBETTOR_CODEBASE/SmartBetter-website/test_kp.pem'
 
 # Define your MySQL database parameters
-mysql_host = '127.0.0.1'  # Localhost because you're tunneling
-mysql_port = 3306  # The port on which the MySQL server is exposed locally
+mysql_host = '127.0.0.1'
+mysql_port = 3306
 mysql_database = os.environ.get('db_name')
+print(os.environ.get('db_name'))
+
+# mysql_database = "Micah"
+
 
 class DBManager:
     def __init__(self):
@@ -30,11 +34,11 @@ class DBManager:
 
     def create_session(self):
         return self.Session()
-    def create_engine(self):
+    def get_engine(self):
         return self.engine
 
     def close(self):
         self.engine.dispose()
-        self.tunnel.stop()  # Stop the SSH tunnel when closing the connection
+        self.tunnel.stop()
 
 db_manager = DBManager()

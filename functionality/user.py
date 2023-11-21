@@ -11,7 +11,7 @@ class User():
       #df = pd.read_csv('users/login_info.csv')
       try:
           session = db_manager.create_session()
-          df = pd.read_sql_table('login_info', con=db_manager.create_engine())
+          df = pd.read_sql_table('login_info', con=db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
@@ -26,7 +26,7 @@ class User():
 
       df.loc[len(df)] = info_row
       try:
-          df.to_sql('login_info', con=db_manager.create_engine(), if_exists='replace', index=False)
+          df.to_sql('login_info', con=db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
         return (str(e))
