@@ -28,6 +28,7 @@ def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     # TODO: Put this key in the secret file
     app.secret_key = 'to_the_moon'
+    db_manager.init_app(app)  # Bind the DBManager to the app
     app.celery = celery
     return app
 
