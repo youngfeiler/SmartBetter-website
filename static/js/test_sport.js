@@ -25,9 +25,7 @@ function calculateSettingAsThemeString({
 function updateButton({ buttonEl, isDark }) {
   const lightIcon = `<i class="fa-solid fa-sun"></i>`;
   const darkIcon = `<i class="fa-solid fa-moon"></i>`;
-
   const newCta = isDark ? lightIcon : darkIcon;
-
   buttonEl.innerHTML = newCta;
 }
 
@@ -36,6 +34,17 @@ function updateButton({ buttonEl, isDark }) {
  */
 function updateThemeOnHtmlEl({ theme }) {
   document.querySelector("html").setAttribute("data-theme", theme);
+  var img = document.createElement('img'); 
+  if(theme == "dark"){
+    img.src = "static/images/footer_logo_dark_mode.png"
+  }
+  else{
+    img.src = "static/images/footer_logo_light_mode.png"
+
+  }
+  img.classList.add("footer-logo");
+  document.querySelector(".talk-to-us").innerHTML = '';
+  document.querySelector(".talk-to-us").appendChild(img);
 }
 
 function updateTable(data) {
@@ -579,7 +588,7 @@ $(document).ready(function(){
 
 
   if (currentThemeSetting === "light") {
-    logo.setAttribute("src", "static/images/whitelogo.png");
+    logo.setAttribute("src", "static/images/sidebar_logo.png");
   } else {
     logo.setAttribute("src", "static/images/sidebar_logo.png");
   }
@@ -595,7 +604,7 @@ $(document).ready(function(){
   button.addEventListener("click", (event) => {
     const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
     if (newTheme === "light") {
-      logo.setAttribute("src", "static/images/whitelogo.png");
+      logo.setAttribute("src", "static/images/sidebar_logo.png");
     } else {
       logo.setAttribute("src", "static/images/sidebar_logo.png");
     }
