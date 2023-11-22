@@ -21,26 +21,17 @@ class User():
       sign_up_date = str(sign_up_date)
 
       info_row = pd.DataFrame(
-         [
-            firstname, 
-            lastname,
-            self.username, 
-            password, 
-            phone, 
-            bankroll, 
-            payed, 
-            sign_up_date]
-         )
-      
+        [
+            [firstname, lastname, username, password, phone, bankroll, payed, sign_up_date]
+        ],
+        columns=['firstname', 'lastname', 'username', 'password', 'phone', 'bankroll', 'payed', 'date_signed_up']
+       )
 
       # df.loc[len(df)] = info_row
 
       # df['date_signed_up'] = pd.to_datetime(df['date_signed_up'])
-
-      print("df manipulated")
       try:
           info_row.to_sql('login_info', con=db_manager.get_engine(), if_exists='append', index=False)
-          print("df put in there")
       except Exception as e:
         print(e)
         return (str(e))

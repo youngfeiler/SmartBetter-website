@@ -14,7 +14,6 @@ class observation_compiler():
 
     self.current_amount_of_nhl_observations = self.get_amount_of_master_sport_obs("NHL")
 
-    self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
     try:
           session = db_manager.create_session()
           self.master_observations_sheet = pd.read_sql_table('master_model_observations', con=db_manager.get_engine())
@@ -109,8 +108,6 @@ class observation_compiler():
 
       self.current_amount_of_mlb_observations = len(mlb_obs)
     try:
-  
-          session = db_manager.create_session()
           self.master_observations_sheet.to_sql('master_model_observations', con=db_manager.get_engine(), if_exists='replace', index=False)
     except Exception as e:
         print(e)
@@ -132,7 +129,13 @@ class observation_compiler():
 
     self.master_observations_sheet['completed'] = np.where(self.master_observations_sheet['game_id'].isin(completed_ids), True, False)
 
-    self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
+    try:
+          self.master_observations_sheet.to_sql('master_model_observations', con=db_manager.get_engine(), if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+        return 
+    finally:
+        return 
 
 
   def get_amount_of_master_sport_obs(self, sport_title):

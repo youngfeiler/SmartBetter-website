@@ -349,9 +349,9 @@ class live_nba_dashboard_runner():
 
         df['ev'] = ((1/df['average_market_odds_old'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds_old'])) * 100)
 
-        df = df[df['ev'] >= self.model_storage['SmartBetterNBAModel']['params']['min_ev']]
+        #df = df[df['ev'] >= self.model_storage['SmartBetterNBAModel']['params']['min_ev']]
 
-        # df = df[df['ev'] >= -100]
+        df = df[df['ev'] >= -10000]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNBAModel']['params']['max_ev']]
 
@@ -482,8 +482,8 @@ class live_nba_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
-          mask = predictions_array > strategy_dict['pred_thresh']
-          # mask = predictions_array > -100
+          #mask = predictions_array > strategy_dict['pred_thresh']
+          mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 

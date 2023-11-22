@@ -189,13 +189,9 @@ def update_bankroll():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    print('route hit')
     app.db.get_all_usernames()
-    print('usernames gotten')
     app.db.check_payments()
-    print('payments checked')
     users = app.db.users
-    print(users)
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -237,7 +233,6 @@ def register():
             return render_template('register.html', username_exists=False, form_data=request.form, error_message=error_message)
         else:
             app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
-            # users = app.db.users
             login_allowed = app.db.check_login_credentials(username, password)
             print(f'{username} login result: {login_allowed}')
             if login_allowed:

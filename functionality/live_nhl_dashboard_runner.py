@@ -559,6 +559,11 @@ class live_nhl_dashboard_runner():
                index = False
                )
 
+            try:
+              filtered_df.to_sql('model_obs_nhl', con=db_manager.get_engine(), if_exists='append', index=False)
+            except Exception as e:
+               print(e)
+               return (str(e))
 
             print(f"{len(filtered_df)} NHL bets found" )
 
