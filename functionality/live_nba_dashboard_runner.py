@@ -497,17 +497,13 @@ class live_nba_dashboard_runner():
 
             result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
 
+            filtered_df.to_csv('users/test.csv', mode='w')
             result_df.to_csv( 'users/model_obs_nba.csv', 
                mode = 'w', 
                header= False, 
                index = False
-            )
+               )
 
-            try:
-              filtered_df.to_sql('model_obs_nba', con=db_manager.get_engine(), if_exists='append', index=False)
-            except Exception as e:
-               print(e)
-               return (str(e))
 
             print(f"{len(filtered_df)} NBA bets found" )
 

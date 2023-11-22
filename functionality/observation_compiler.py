@@ -1,7 +1,7 @@
 import pandas as pd
+import sqlite3
 import numpy as np
 import time
-from functionality.db_manager import db_manager
 
 class observation_compiler():
   def __init__(self):
@@ -15,14 +15,6 @@ class observation_compiler():
     self.current_amount_of_nhl_observations = self.get_amount_of_master_sport_obs("NHL")
 
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
-    try:
-          session = db_manager.create_session()
-          self.master_observations_sheet = pd.read_sql_table('master_model_observations', con=db_manager.get_engine())
-    except Exception as e:
-      print(e)
-      raise
-    finally:
-      session.close()
 
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used']
 
@@ -108,25 +100,13 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_mlb_observations = len(mlb_obs)
-    try:
-  
-          session = db_manager.create_session()
-          self.master_observations_sheet.to_sql('master_model_observations', con=db_manager.get_engine(), if_exists='replace', index=False)
-    except Exception as e:
-        print(e)
-        return 
-    finally:
-        return 
+
+    self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
 
   def update_completed_observations(self):
-    try:
-          session = db_manager.create_session()
-          scores =  pd.read_sql_table('scores', con=db_manager.get_engine())
-    except Exception as e:
-        print(e)
-        return str(e)
-    finally:
-        session.close()
+    conn = sqlite3.connect('smartbetter.db')
+    scores = pd.read_sql('SELECT * FROM scores', conn)
+    conn.close()
 
     completed_ids = scores['game_id'].unique().tolist()
 
@@ -136,14 +116,7 @@ class observation_compiler():
 
 
   def get_amount_of_master_sport_obs(self, sport_title):
-    try:
-          session = db_manager.create_session()
-          master_model_obs = pd.read_sql_table('master_model_observations', con=db_manager.get_engine())
-    except Exception as e:
-      print(e)
-      return str(e)
-    finally:
-      session.close()
+    master_model_obs = pd.read_csv('users/master_model_observations.csv')
     sport_obs = master_model_obs[master_model_obs['sport_title'] == sport_title]
 
     return len(sport_obs)

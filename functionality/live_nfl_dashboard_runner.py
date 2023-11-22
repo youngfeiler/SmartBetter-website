@@ -506,15 +506,8 @@ class live_nfl_dashboard_runner():
             df_new_reordered = filtered_df[existing_df.columns]
 
             result = pd.concat([existing_df, df_new_reordered], ignore_index=True)
-
             result.to_csv('users/model_obs_nfl.csv', index=False) 
 
-            try:
-              df_new_reordered.to_sql('model_obs_nfl', con=db_manager.get_engine(), if_exists='append', index=False)
-            except Exception as e:
-               print(e)
-               return (str(e))
-            
             print(f"{len(filtered_df)} NFL bets found" )
 
           elif filtered_df.empty:

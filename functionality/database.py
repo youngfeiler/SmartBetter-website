@@ -10,11 +10,10 @@ from flask import jsonify
 import math
 from datetime import datetime, timedelta
 import ast
+import sqlite3
 import stripe
 import logging
 import json
-from functionality.models import LoginInfo  # Import your SQLAlchemy model
-from sqlalchemy.orm.exc import NoResultFound
 
 # Configure the logging level for the stripe module
 logging.getLogger("stripe").setLevel(logging.ERROR)
@@ -25,171 +24,126 @@ stripe.api_key = STRIPE_PRIVATE_KEY
 
 
 class database():
-    def __init__(self, db_manager):
+    def __init__(self):
         self = self
-        self.db_manager = db_manager
-        self.session = self.db_manager.create_session()
 
+    def make_conn(self):
+        conn = sqlite3.connect('smartbetter.db')
+        return conn
+    
+    def get_scores(self):
+       conn = self.make_conn()
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()
+       return scores_df
+      
     def get_all_usernames(self):
-      try:
-        usernames = self.session.query(LoginInfo.username).all()
-
-        usernames_list = [username[0] for username in usernames]
-
-        self.users = usernames_list
-      except Exception as e:
-        print(e)
-        return str(e)
-      finally:
-        return
+      conn = self.make_conn()
+      query = "SELECT username FROM login_info"
+      df = pd.read_sql(query, conn)
+      self.users= df['username'].tolist()
+      conn.close()   # Close the connection
     
     def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
        new_user = User(username)
 
-       print("adding user")
-
-       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, self.db_manager)
-
-       print("user should be added")
+       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed)
 
        self.users = self.get_all_usernames()
 
     def check_account(self,username):
-      try:
-        # Create a session
-        # session = self.db_manager.create_session()
-        
-        # Query the user's record by username
-        user = self.session.query(LoginInfo).filter_by(username=username).first()
-        
-        if user:
-            
-            # Calculate the time difference
-            time_difference = datetime.now() - (datetime.strptime(user.date_signed_up, '%Y-%m-%d %H:%M:%S.%f'))
-            # Calculate the days difference
-            days_difference = time_difference.days
-            
-            # Check if the user is paid or signed up within the last 8 days
-            if user.payed or days_difference <= 8:
-                return True
-            else:
-                return False
-        else:
-            return False
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   session.close()
-     
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM login_info', conn)
+      conn.close()
+      user_info = df[df['username'] == username]
+      time_difference = datetime.now() - datetime.strptime(user_info['date_signed_up'].item(), '%Y-%m-%d %H:%M:%S.%f')
+    
+      days_difference = time_difference.days
+      if user_info['payed'].item() or (days_difference <= 8):
+        return True
+      else:
+        return False
+          
     def check_login_credentials(self, username, password):
-
-      
-      try:
-        # Create a session
-
-        # Query the user by username
-        try:
-            user = self.session.query(LoginInfo).filter_by(username=username).one()
-            print(user)
-            print("WAHOOOO STEFAN SUCKS BALLS")
-        except NoResultFound:
-            return False
-# Check if the password matches
-        if user.password == password:
-            return True
-        else:
-            return False
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   self.session.close()
+      #df = pd.read_csv('users/login_info.csv')
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM login_info', conn)
+      conn.close()   # Close the connection
+      user_info = df[df['username'] == username]
+      if user_info.empty:
+        return False
+      else:
+        if password == user_info['password'].item():
+          return True
     
     def check_duplicate_account(self,username):
-      self.check_payments()
-      try:
-        # Create a session
-        # session = self.db_manager.create_session()
-
-        # Query the user's record by username
-        user = self.session.query(LoginInfo).filter_by(username=username).first()
-
-        if user and user.payed:
-            # If the user exists and is paid, you can remove the user record
-            # from the database using SQLAlchemy
-            self.session.delete(user)
-            self.session.commit()
-            return True
+        self.check_payments()
+        conn = self.make_conn()
+        df = pd.read_sql('SELECT * FROM login_info', conn)
+        conn.close()   # Close the connection
+        user_info = df[df['username'] == username]
+        if user_info['payed'].item():
+          conn = self.make_conn()
+          #remove this row from the df and push it back to sqllite
+          df = df[df['username'] != username]
+          df.to_sql('login_info', conn, if_exists='replace', index=False)
+          conn.close()
+          return True
         else:
-            return False
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   self.session.close()
+          conn.close()
+          return False
         
     def get_user_bank_roll(self, user):
-      try:
-        # Create a session
-        # session = self.db_manager.create_session()
+        #df = pd.read_csv('users/login_info.csv')
+        conn = self.make_conn()
+        df = pd.read_sql('SELECT * FROM login_info', conn)
+        conn.close()   # Close the connection
+        user_df = df[df['username'] == user]
+        return user_df['bankroll'].iloc[0]
 
-        # Query the user's record by username
-        user = self.session.query(LoginInfo).filter_by(username=user).first()
+    def add_to_bankroll(self, user, amount):
+         try:
+          conn = self.make_conn()
+          df = pd.read_sql('SELECT * FROM login_info', conn)
+          conn.close()   # Close the connection
+          #df = pd.read_csv('users/login_info.csv')
 
-        if user:
-            # If the user exists, you can directly access the 'bankroll' attribute
-            return user.bankroll
-        else:
-            return None
-      except Exception as e:
-        print(e)
-        return str(e)
-      finally:
-        self.session.close()
+          user_df = df[df['username'] == user]
 
-    def add_to_bankroll(self, username, amount):
-      try:
-        # Create a session
-        # session = self.db_manager.create_session()
+          new_bankroll = float(user_df['bankroll'].iloc[0]) + float(amount)
 
-        # Query the user's record by username
-        user = self.session.query(LoginInfo).filter_by(username=username).first()
+          df.loc[df['username'] == user, 'bankroll'] = new_bankroll
+          #back to conn db 
+          conn = self.make_conn()
+          df.to_sql('login_info', conn, if_exists='replace', index=False)
+          conn.close()  # Commit the changes
 
-        if user:
-            # If the user exists, update the bankroll
-            new_bankroll = float(user.bankroll) + float(amount)
-            user.bankroll = new_bankroll
-            self.session.commit()
-            return True
-        else:
+          return True
+         except:
+            conn.close()
             return False
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   self.session.close()
-  
-    def update_bankroll(self, username, amount):
-      try:
-        # Create a session
-        # session = self.db_manager.create_session()
+    
+    def update_bankroll(self, user, amount):
+         try:
+          conn = self.make_conn()
+          df = pd.read_sql('SELECT * FROM login_info', conn)
+          conn.close()   # Close the connection
+          #df = pd.read_csv('users/login_info.csv')
 
-        # Query the user's record by username
-        user = self.session.query(LoginInfo).filter_by(username=username).first()
+          user_df = df[df['username'] == user]
 
-        if user:
-            # If the user exists, update the bankroll
-            user.bankroll = amount
-            self.session.commit()
-            return True
-        else:
+          new_bankroll = amount
+
+          df.loc[df['username'] == user, 'bankroll'] = new_bankroll
+          #back to conn db 
+          conn = self.make_conn()
+          df.to_sql('login_info', conn, if_exists='replace', index=False)
+          conn.close()  # Commit the changes
+
+          return True
+         except:
+            conn.close()
             return False
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   self.session.close()
 
     def get_recommended_bet_size(self, user, df):
        
@@ -213,24 +167,16 @@ class database():
       #change time_placed to a datetime supported by sqlite 
       #change df['date'] from y-m-d to d-m-y where y is a two digit year
       df['time_placed'] = df['time_placed'].dt.strftime('%Y-%m-%d %H:%M:%S.%f')
-      try:
-          # session = self.db_manager.create_session()
-          read_in =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   self.session.close()
+      conn = self.make_conn()
+      read_in = pd.read_sql('SELECT * FROM placed_bets', conn)
       put_out = read_in.append(df, ignore_index=True)
-      try:
-          put_out.to_sql('placed_bets', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-      except Exception as e:
-        print(e)
-        return str(e)
+      put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
+      conn.close() 
       return
       
     def get_live_dash_data(self, user_name, sport):
        
+       # TODO: Check this logic
        def american_to_decimal(american_odds):
         positive_mask = american_odds > 0
         negative_mask = american_odds < 0
@@ -282,18 +228,12 @@ class database():
         #round value_new to nearest whole number 
         value_new = round(value_new)
         return value_new
-       try:
-          # session = self.db_manager.create_session()
-          print(datetime.now())
-          scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
-          df = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
-          print(datetime.now())
+       
+       conn = self.make_conn()
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()
 
-       except Exception as e:
-                print(e)
-                return str(e)
-      #  finally:
-      #           self.session.close()
+       df = pd.read_csv('users/master_model_observations.csv')
        
        df_sport = df[df['sport_title'] == sport]
        
@@ -364,16 +304,12 @@ class database():
        return first_20_rows
     
     def get_unsettled_bet_data(self, user):
-      try:
-        # session = self.db_manager.create_session()
-        scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
-        df = pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
-      except Exception as e:
-        print(e)
-        return str(e)
-      finally:
-        # self.session.close()
-        print()
+      conn = self.make_conn()
+      #df = pd.read_csv('users/placed_bets.csv')
+      df = pd.read_sql('SELECT * FROM placed_bets', conn)
+      #scores_df = pd.read_csv('mlb_data/scores.csv')
+      scores_df = pd.read_sql('SELECT * FROM scores', conn)
+      conn.close()
       df = df[df['user_name'] == user]
 
       df['highest_bettable_odds'] = df['highest_bettable_odds'].astype(float)
@@ -448,19 +384,15 @@ class database():
       return return_df
     
     def calculate_user_bankroll(self, username):
-      try:
-          # session = self.db_manager.create_session()
-          
-          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
-          scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
-          login_info = pd.read_sql_table('login_info', con=self.db_manager.get_engine())
-      except Exception as e:
-        print(e)
-        return str(e)
-      # finally:
-      #   session.close()
+      conn = self.make_conn()
+      placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+      login_info = pd.read_sql('SELECT * FROM login_info', conn)
       current_bankroll = self.get_user_bank_roll(username)
       placed_bets = placed_bets[placed_bets['user_name'] == username]
+      scores_df = pd.read_sql('SELECT * FROM scores', conn)
+      profit_by_book = pd.read_sql('SELECT * FROM profit_by_book', conn)
+      conn.close()
+
       scores_df = scores_df[['game_id', 'winning_team']]
       merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
       merged_df = merged_df[merged_df['winning_team'].notna()]
@@ -476,30 +408,52 @@ class database():
 
       # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
+      #call calculate_p_l_by_book
+      #profit_by_book = pd.read_csv('users/profit_by_book.csv')
+    
+      if username in profit_by_book['username'].values:
+          #if it does, remove the row
+          profit_by_book = profit_by_book[profit_by_book['username'] != username]
+      #make a new df called append_df with the same columns as profit_by_book
+      append_columns = profit_by_book.columns.to_list()
+      append_df = pd.DataFrame(columns = append_columns)
+      #add a row in append_df with 'username' as username and all of the other columns as 0
+      append_df.loc[0, 'username'] = username
+      #make all other columns at row 0 = 0
+      append_df = append_df.fillna(0)
+      #for each row in merged_df
+      for idx, row in merged_df.iterrows():
+
+        ls = row['sportsbooks_used'].split(', ')
+        # for each element in ls replace [ and ] with nothing
+        ls = [element.replace('[', '').replace(']', '').replace("'","") for element in ls]
+        for book in ls:
+          # Check if the book already exists in append_df DataFrame columns
+          if book in append_df.columns:
+            # If it does, add the profit/loss to the existing value 
+            append_df[book][0] += row['bet_result']
+          else:
+            # If it doesn't, add the book as a new column
+            #make a new column that is named book 
+            append_df[book] = 0 
+            append_df[book][0] += row['bet_result']
 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
       new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
       # update users/login_info.csv with new bankroll
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
-      #login_info.to_csv('users/login_info.csv', index=False)
-      try:
-          # session = self.db_manager.create_session()
-          login_info.to_sql('login_info', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-      except Exception as e:
-        print(e)
-        return str(e)
+      conn = self.make_conn()
+      login_info.to_sql('login_info', conn, if_exists='replace', index=False)
+      conn.close()   # Close the connection
+      
       return new_bankroll
       
     def filter_5_min_cooloff(self, username, sport, df):
-       try:
-          # session = self.db_manager.create_session()
-          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
-       except Exception as e:
-        print(e)
-        return str(e)
-      #  finally:
-      #   session.close()
+       conn = self.make_conn()
+       placed_bets = pd.read_sql('SELECT * FROM placed_bets', conn)
+       conn.close()
+
        user_df = placed_bets[placed_bets['user_name'] == username]
 
        user_df['time_placed'] = pd.to_datetime(user_df['time_placed'])
@@ -517,6 +471,7 @@ class database():
        return df
 
     def check_payments(self):
+      conn = self.make_conn()
       try:
             # List all PaymentIntents from Stripe
             payment_intents = stripe.PaymentIntent.list()
@@ -530,45 +485,26 @@ class database():
                     paid_users.add(email)
 
             # Update the 'paid' column in the SQLite database
+            cursor = conn.cursor()
             for username in paid_users:
-              try:
-                # session = self.db_manager.create_session()
-                session.query(LoginInfo).filter_by(username=username).update({"payed": 1})
+                cursor.execute("UPDATE login_info SET payed = 1 WHERE username = ?", (username,))
+                conn.commit()
 
-              except Exception as e:
-                print(e)
-                return str(e)
-              # finally:
-              #   session.close()
+            cursor.close()
 
       except stripe.error.StripeError as e:
             print(f"Stripe Error: {e}")
+      except sqlite3.Error as e:
+            print(f"SQLite Error: {e}")
+      conn.close()
       return
 
     def get_user_info(self, username):
-      user_dict = None
-      try:
-        # Create a session
-        # session = self.db_manager.create_session()
-
-        # Query the user's record by username
-        user_info = session.query(LoginInfo).filter_by(username=username).first()
-        print(user_info.firstname)
-        user_dict = {
-          "firstname": user_info.firstname,
-          "lastname": user_info.lastname,
-          "username": user_info.username,
-          "password": user_info.password,
-          "phone": user_info.phone,
-          "bankroll": user_info.bankroll,
-          "payed": user_info.payed,
-          "date_signed_up": user_info.date_signed_up
-        }
-      except Exception as e:
-        return str(e)
-      finally:
-        # session.close()
-        return user_dict
+      conn = self.make_conn()
+      df = pd.read_sql('SELECT * FROM login_info', conn)
+      conn.close()
+      df = df[df['username'] == username]
+      return df.to_dict('records')
 
     def cancel_subscription(self,username):
       try:
@@ -584,21 +520,16 @@ class database():
 
             if canceled_subscription.status == 'canceled':
                 # Update the 'paid' column in the SQLite database
-              try:
-       
-                # session = self.db_manager.create_session()
-                session.query(LoginInfo).filter_by(username=username).update({"payed": 0})
-
-              except Exception as e:
-                print(e)
-                return str(e)
-              finally:
-                # session.close()
+                conn = sqlite3.connect('smartbetter.db')
+                cursor = conn.cursor()
+                cursor.execute("UPDATE login_info SET payed = 0 WHERE username = ?", (username,))
+                conn.commit()
+                conn.close()
+                
                 return True, "Subscription canceled successfully."
     
         return False, "No active subscription found for this user."
       except stripe.error.StripeError as e:
-        print(e)
         return False, str(e)
     
     def get_scenario_results(self, data_holder, input):
@@ -808,6 +739,7 @@ class database():
           return f"-${abs(num):.2f}"
        if num >=0:
           return f"+${num:.2f}"
+
 
     def get_bet_tracker_dashboard_data(self, params):
 
