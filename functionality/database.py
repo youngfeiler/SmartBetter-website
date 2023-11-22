@@ -28,40 +28,39 @@ class database():
     def __init__(self, db_manager):
         self = self
         self.db_manager = db_manager
-
+        self.session = self.db_manager.create_session()
 
     def get_all_usernames(self):
       try:
-        # Create a session
-        session = self.db_manager.create_session()
+        usernames = self.session.query(LoginInfo.username).all()
 
-        # Query all usernames from the login_info table
-        usernames = session.query(LoginInfo.username).all()
-
-        # Extract the usernames from the query result
         usernames_list = [username[0] for username in usernames]
+
         self.users = usernames_list
       except Exception as e:
         print(e)
         return str(e)
       finally:
-        session.close()
         return
     
     def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
        new_user = User(username)
 
-       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed)
+       print("adding user")
+
+       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, self.db_manager)
+
+       print("user should be added")
 
        self.users = self.get_all_usernames()
 
     def check_account(self,username):
       try:
         # Create a session
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
         
         # Query the user's record by username
-        user = session.query(LoginInfo).filter_by(username=username).first()
+        user = self.session.query(LoginInfo).filter_by(username=username).first()
         
         if user:
             
@@ -80,19 +79,18 @@ class database():
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
+      # finally:
+      #   session.close()
      
     def check_login_credentials(self, username, password):
 
       
       try:
         # Create a session
-        session = self.db_manager.create_session()
 
         # Query the user by username
         try:
-            user = session.query(LoginInfo).filter_by(username=username).one()
+            user = self.session.query(LoginInfo).filter_by(username=username).one()
             print(user)
             print("WAHOOOO STEFAN SUCKS BALLS")
         except NoResultFound:
@@ -105,39 +103,39 @@ class database():
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
+      # finally:
+      #   self.session.close()
     
     def check_duplicate_account(self,username):
       self.check_payments()
       try:
         # Create a session
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
 
         # Query the user's record by username
-        user = session.query(LoginInfo).filter_by(username=username).first()
+        user = self.session.query(LoginInfo).filter_by(username=username).first()
 
         if user and user.payed:
             # If the user exists and is paid, you can remove the user record
             # from the database using SQLAlchemy
-            session.delete(user)
-            session.commit()
+            self.session.delete(user)
+            self.session.commit()
             return True
         else:
             return False
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
+      # finally:
+      #   self.session.close()
         
     def get_user_bank_roll(self, user):
       try:
         # Create a session
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
 
         # Query the user's record by username
-        user = session.query(LoginInfo).filter_by(username=user).first()
+        user = self.session.query(LoginInfo).filter_by(username=user).first()
 
         if user:
             # If the user exists, you can directly access the 'bankroll' attribute
@@ -148,52 +146,50 @@ class database():
         print(e)
         return str(e)
       finally:
-        session.close()
-
+        self.session.close()
 
     def add_to_bankroll(self, username, amount):
       try:
         # Create a session
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
 
         # Query the user's record by username
-        user = session.query(LoginInfo).filter_by(username=username).first()
+        user = self.session.query(LoginInfo).filter_by(username=username).first()
 
         if user:
             # If the user exists, update the bankroll
             new_bankroll = float(user.bankroll) + float(amount)
             user.bankroll = new_bankroll
-            session.commit()
+            self.session.commit()
             return True
         else:
             return False
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
-
-    
+      # finally:
+      #   self.session.close()
+  
     def update_bankroll(self, username, amount):
       try:
         # Create a session
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
 
         # Query the user's record by username
-        user = session.query(LoginInfo).filter_by(username=username).first()
+        user = self.session.query(LoginInfo).filter_by(username=username).first()
 
         if user:
             # If the user exists, update the bankroll
             user.bankroll = amount
-            session.commit()
+            self.session.commit()
             return True
         else:
             return False
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
+      # finally:
+      #   self.session.close()
 
     def get_recommended_bet_size(self, user, df):
        
@@ -218,13 +214,13 @@ class database():
       #change df['date'] from y-m-d to d-m-y where y is a two digit year
       df['time_placed'] = df['time_placed'].dt.strftime('%Y-%m-%d %H:%M:%S.%f')
       try:
-          session = self.db_manager.create_session()
+          # session = self.db_manager.create_session()
           read_in =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
+      # finally:
+      #   self.session.close()
       put_out = read_in.append(df, ignore_index=True)
       try:
           put_out.to_sql('placed_bets', con=self.db_manager.get_engine(), if_exists='replace', index=False)
@@ -287,14 +283,17 @@ class database():
         value_new = round(value_new)
         return value_new
        try:
-          session = self.db_manager.create_session()
+          # session = self.db_manager.create_session()
+          print(datetime.now())
           scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
           df = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
+          print(datetime.now())
+
        except Exception as e:
                 print(e)
                 return str(e)
-       finally:
-                session.close()
+      #  finally:
+      #           self.session.close()
        
        df_sport = df[df['sport_title'] == sport]
        
@@ -366,14 +365,15 @@ class database():
     
     def get_unsettled_bet_data(self, user):
       try:
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
         scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
         df = pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
       except Exception as e:
         print(e)
         return str(e)
       finally:
-        session.close()
+        # self.session.close()
+        print()
       df = df[df['user_name'] == user]
 
       df['highest_bettable_odds'] = df['highest_bettable_odds'].astype(float)
@@ -449,7 +449,7 @@ class database():
     
     def calculate_user_bankroll(self, username):
       try:
-          session = self.db_manager.create_session()
+          # session = self.db_manager.create_session()
           
           placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
           scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
@@ -457,8 +457,8 @@ class database():
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
+      # finally:
+      #   session.close()
       current_bankroll = self.get_user_bank_roll(username)
       placed_bets = placed_bets[placed_bets['user_name'] == username]
       scores_df = scores_df[['game_id', 'winning_team']]
@@ -484,7 +484,7 @@ class database():
       login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
       #login_info.to_csv('users/login_info.csv', index=False)
       try:
-          session = self.db_manager.create_session()
+          # session = self.db_manager.create_session()
           login_info.to_sql('login_info', con=self.db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
         print(e)
@@ -493,13 +493,13 @@ class database():
       
     def filter_5_min_cooloff(self, username, sport, df):
        try:
-          session = self.db_manager.create_session()
+          # session = self.db_manager.create_session()
           placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
        except Exception as e:
         print(e)
         return str(e)
-       finally:
-        session.close()
+      #  finally:
+      #   session.close()
        user_df = placed_bets[placed_bets['user_name'] == username]
 
        user_df['time_placed'] = pd.to_datetime(user_df['time_placed'])
@@ -532,14 +532,14 @@ class database():
             # Update the 'paid' column in the SQLite database
             for username in paid_users:
               try:
-                session = self.db_manager.create_session()
+                # session = self.db_manager.create_session()
                 session.query(LoginInfo).filter_by(username=username).update({"payed": 1})
 
               except Exception as e:
                 print(e)
                 return str(e)
-              finally:
-                session.close()
+              # finally:
+              #   session.close()
 
       except stripe.error.StripeError as e:
             print(f"Stripe Error: {e}")
@@ -549,7 +549,7 @@ class database():
       user_dict = None
       try:
         # Create a session
-        session = self.db_manager.create_session()
+        # session = self.db_manager.create_session()
 
         # Query the user's record by username
         user_info = session.query(LoginInfo).filter_by(username=username).first()
@@ -567,7 +567,7 @@ class database():
       except Exception as e:
         return str(e)
       finally:
-        session.close()
+        # session.close()
         return user_dict
 
     def cancel_subscription(self,username):
@@ -586,14 +586,14 @@ class database():
                 # Update the 'paid' column in the SQLite database
               try:
        
-                session = self.db_manager.create_session()
+                # session = self.db_manager.create_session()
                 session.query(LoginInfo).filter_by(username=username).update({"payed": 0})
 
               except Exception as e:
                 print(e)
                 return str(e)
               finally:
-                session.close()
+                # session.close()
                 return True, "Subscription canceled successfully."
     
         return False, "No active subscription found for this user."
@@ -808,7 +808,6 @@ class database():
           return f"-${abs(num):.2f}"
        if num >=0:
           return f"+${num:.2f}"
-
 
     def get_bet_tracker_dashboard_data(self, params):
 

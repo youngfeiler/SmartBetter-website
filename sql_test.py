@@ -5,7 +5,7 @@ import os
 with SSHTunnelForwarder(
     (os.environ.get('SSH_HOST')),
     ssh_username=os.environ.get('ssh_username'),
-    ssh_pkey="/Users/micahblackburn/Desktop/test_kp.pem",
+    ssh_pkey="/Users/stefanfeiler/Desktop/SMARTBETTOR_CODEBASE/SmartBetter-website/test_kp.pem",
     remote_bind_address=(os.environ.get('database_endpoint'), 3306)
 ) as tunnel:
     print("****SSH Tunnel Established****")
@@ -16,29 +16,22 @@ with SSHTunnelForwarder(
     )
 
     try:
-        # Execute a SQL query to select all records from a table in the 'test' database
+        # Copy table 'placed_bets' from 'Micah' database to 'Stefan' database
+        table_to_copy = 'login_info'
         with db.cursor() as cur:
-            cur.execute(os.environ.get('db_name'))  # Switch to the 'test' database
-
-            # Add a new row to the 'mytable' table
-            # insert_query = "INSERT INTO mytable (id, name, age, email) VALUES (%s, %s, %s, %s)"
-            # values = (4, 'Micah', 30, 'john.doe@example.com')
-            # cur.execute(insert_query, values)
-
-            # Commit the transaction
+            cur.execute('USE Micah')
+            cur.execute(f'DESCRIBE {table_to_copy}')
+            table_schema = cur.fetchall()
+            cur.execute('USE Stefan')
+            create_table_query = f'CREATE TABLE IF NOT EXISTS {table_to_copy} ('
+            for column_info in table_schema:
+                create_table_query += f'{column_info[0]} {column_info[1]} NOT NULL,'
+            create_table_query = create_table_query[:-1] + ')'
+            cur.execute(create_table_query)
+            copy_data_query = f'INSERT INTO Stefan.{table_to_copy} SELECT * FROM Micah.{table_to_copy}'
+            cur.execute(copy_data_query)
             db.commit()
-
-            # Select all records from the 'mytable' table after inserting the new row
-            cur.execute('SELECT * FROM mytable')
-            
-            # Fetch all rows from the result set
-            rows = cur.fetchall()
-
-            # Print the retrieved data
-            for row in rows:
-                print(row)
-
-
+            print("Table 'placed_bets' successfully copied from 'Micah' to 'Stefan' database.")
     finally:
         db.close()
 

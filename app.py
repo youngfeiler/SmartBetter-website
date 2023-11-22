@@ -29,6 +29,7 @@ def create_app():
     # TODO: Put this key in the secret file
     app.secret_key = 'to_the_moon'
     app.db_manager = DBManager()
+    app.db = database(app.db_manager)
     app.celery = celery
     return app
 
@@ -46,8 +47,7 @@ def close_db():
 
 @app.route('/')
 def index():
-    db = database(app.db_manager)
-    db.check_payments()
+    app.db.check_payments()
     return render_template('index.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
@@ -60,7 +60,6 @@ def get_team_vals_for_scenarios():
        teams = pd.read_csv('../extra_info_sheets/teams.csv')
        teams.sort_values(by="team", inplace=True)
        return teams.to_json(orient='records', date_format='iso')
-
 
 @app.route('/get_divisions_teams_from_conference', methods=['GET', 'POST'])
 def get_divisions_teams_from_conference():
@@ -88,7 +87,6 @@ def get_teams_from_division():
     except Exception as e:
         print(e)
     
-
 @app.route('/get_scenario_data', methods=['GET', 'POST'])
 def get_scenario_data():
     try:
@@ -114,7 +112,6 @@ def get_scenario_data():
 
     return response
 
-
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
     # Create a checkout session with the provided price_id
@@ -132,7 +129,6 @@ def create_checkout_session(price_id):
         cancel_url=url_for('index', _external=True),
     )
     return redirect(checkout_session.url,code=302)
-
 
 @app.route('/checkoutnow/<string:price_id>')
 def create_checkout_session_non_recurring(price_id):
@@ -158,7 +154,6 @@ def create_checkout_session_non_recurring(price_id):
     )
     return redirect(checkout_session.url, code=302)
 
-
 @app.route('/test_func')
 def test_func():
     tasks.start_dashboard_runner.delay()
@@ -170,11 +165,8 @@ def home():
 
 @app.route('/account')
 def account():
-  db = database(app.db_manager)
   if 'user_id' in session:
-        users = db.get_user_info(session['user_id'])
-        print('here')
-        print(users)
+        users = app.db.get_user_info(session['user_id'])
         return render_template('account_settings.html', users = users)
   else:
         return redirect(url_for('login'))
@@ -186,10 +178,8 @@ def show_performance():
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
     if request.method == 'POST':
-        # You can access the data sent by the form here
         new_bankroll = request.form.get('Name-5')
-        db = database(app.db_manager)
-        success = db.update_bankroll(session['user_id'], new_bankroll)
+        success = app.db.update_bankroll(session['user_id'], new_bankroll)
         if success:
             flash('Your bankroll has been updated!', 'success')
             return redirect(url_for('account'))
@@ -199,10 +189,13 @@ def update_bankroll():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    my_db = database(app.db_manager)
-    my_db.get_all_usernames()
-    my_db.check_payments()
-    users = my_db.users
+    print('route hit')
+    app.db.get_all_usernames()
+    print('usernames gotten')
+    app.db.check_payments()
+    print('payments checked')
+    users = app.db.users
+    print(users)
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -214,14 +207,21 @@ def register():
         sign_up_date = datetime.now()
         payed = False
         if username in users:
-            has_payed=my_db.check_duplicate_account(username)
+            print("if usrname in users")
+
+            has_payed=app.db.check_duplicate_account(username)
+            print("made it here")
             if has_payed:
                 payed = True
-                my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
-                users = my_db.users
-                login_allowed = my_db.check_login_credentials(username, password)
+                app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
+                print("add_user complete")
 
-                print(f'{username} login result: {login_allowed}')
+                users = app.db.users
+                print("users complete")
+
+                login_allowed = app.db.check_login_credentials(username, password)
+                print("login_allowed complete")
+
                 if login_allowed:
                     session['user_id'] = username
                     return redirect(url_for('show_nba'))
@@ -236,10 +236,9 @@ def register():
             error_message = "Passwords do not match. Please try again."
             return render_template('register.html', username_exists=False, form_data=request.form, error_message=error_message)
         else:
-            my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
-            users = my_db.users
-            login_allowed = my_db.check_login_credentials(username, password)
-
+            app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
+            # users = app.db.users
+            login_allowed = app.db.check_login_credentials(username, password)
             print(f'{username} login result: {login_allowed}')
             if login_allowed:
                 session['user_id'] = username

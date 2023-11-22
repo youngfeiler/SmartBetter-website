@@ -15,5 +15,5 @@ mysql-connector-python
 redis
 celery==5.2.3
 stripe>=6.0.0
-pymysql
+pymysql==1.4.46
 sshtunnel

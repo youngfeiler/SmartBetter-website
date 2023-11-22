@@ -7,31 +7,47 @@ class User():
         self.password = ''
 
 
-    def create_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
-      #df = pd.read_csv('users/login_info.csv')
+    def create_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, db_manager):
       try:
-          session = db_manager.create_session()
           df = pd.read_sql_table('login_info', con=db_manager.get_engine())
+          print("df acquired")
       except Exception as e:
         print(e)
         return str(e)
-      finally:
-        session.close()
       
       #change the column date_signed_up to string
       df['date_signed_up'] = df['date_signed_up'].astype(str)
+
       sign_up_date = str(sign_up_date)
 
-      info_row = [firstname, lastname, self.username, password, phone, bankroll, payed, sign_up_date]
+      info_row = pd.DataFrame(
+         [
+            firstname, 
+            lastname,
+            self.username, 
+            password, 
+            phone, 
+            bankroll, 
+            payed, 
+            sign_up_date]
+         )
+      
 
-      df.loc[len(df)] = info_row
+      # df.loc[len(df)] = info_row
+
+      # df['date_signed_up'] = pd.to_datetime(df['date_signed_up'])
+
+      print("df manipulated")
       try:
-          df.to_sql('login_info', con=db_manager.get_engine(), if_exists='replace', index=False)
+          info_row.to_sql('login_info', con=db_manager.get_engine(), if_exists='append', index=False)
+          print("df put in there")
       except Exception as e:
         print(e)
         return (str(e))
       finally:
         return 
+      
+
     def add_strategy_to_user(self, username, strategy_name):
       df = pd.read_csv('users/user_strategy_names.csv')
       info_row = [username, strategy_name, False]

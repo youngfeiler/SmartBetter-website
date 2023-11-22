@@ -14,10 +14,6 @@ ssh_pkey_path = '/Users/stefanfeiler/Desktop/SMARTBETTOR_CODEBASE/SmartBetter-we
 mysql_host = '127.0.0.1'
 mysql_port = 3306
 mysql_database = os.environ.get('db_name')
-print(os.environ.get('db_name'))
-
-# mysql_database = "Micah"
-
 
 class DBManager:
     def __init__(self):
