@@ -1,32 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="static/css/globals.css" />
-    <link rel="stylesheet" href="static/css/styleguide.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- <link rel="stylesheet" href="static/css/globals.css" /> -->
+    <!-- <link rel="stylesheet" href="static/css/styleguide.css" /> -->
     <link rel="stylesheet" href="static/css/landing_page.css" />
   </head>
   <body> 
     <div class="home background-image">
-      <div class="navbar">
-        <div class="container">
-          <a href="/"><img class="content top-left-logo" src="static/images/sidebar_logo.png" /></a>
-          <div class="column">
-            <div class="div">
-              <div class="text-wrapper"><a href="/about">About Us</a></div>
-              <div class="text-wrapper"><a href="/how_it_works">How it Works</a></div>
-              <div class="text-wrapper"><a href="/product">Product</a></div>
-              <div class="text-wrapper"><a href="#pricing">Pricing</a></div>
-              <div class="text-wrapper"><a href="/blogs">Blogs</a></div>
-              <div class="text-wrapper"><a href="/careers">Careers</a></div>
-            </div>
-            <div class="actions">
-              <button class="button-sign-up scroll-link" href="#pricing">Sign Up</button>
-              <button class="style-primary-small"><button class="button-log-in">Login</button></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="header">
+    {% include "marketing_header.html" %}
+
+      <div class="header" id = "#header">
         <div class="div-2">
           <div class="div-3">
             <p class="medium-length-hero">Unleash Your Betting Potential with AI</p>
@@ -46,8 +31,8 @@
       </div>
       <div class="container-wrapper">
         <div class="container-2">
-          <img class="placeholder-image" src="static/images/phone_dashboard.gif" />
-          <div class="div-2">
+          <img class="placeholder-image" src="static/images/phone_dashboard.gif" id = "order-2"/>
+          <div class="div-2" id = "order-1">
             <p class="heading">Uncover Winning Opportunities with Advanced Statistics and Machine Learning</p>
             <p class="p">
               Our AI-powered platform utilizes advanced statistics and machine learning models to identify statistically
@@ -78,8 +63,9 @@
               <div class="content-3">
                 <img class="icon-relume" src="static/images/cloud-download.svg" /> <img class="divider" src="static/images/divider.svg" />
               </div>
+
               <div class="div-5">
-                <div class="heading-3">Step 1: Data Collection</div>
+                <p class="heading-3">Step 1: Data Collection</p>
                 <p class="text-wrapper-2">
                   Our API collects live odds data from 20+ sportsbooks on a minute-by-minute basis, 24/7.
                 </p>
@@ -89,6 +75,7 @@
               <div class="content-3">
                 <img class="icon-relume" src="static/images/calculate.svg" /> <img class="divider" src="static/images/divider.svg" />
               </div>
+
               <div class="div-5">
                 <p class="heading-3">Step 2: Expected Value Calculation</p>
                 <p class="text-wrapper-2">
@@ -97,6 +84,7 @@
                 </p>
               </div>
             </div>
+
             <div class="timeline-item">
               <div class="content-3">
                 <img class="icon-relume" src="static/images/machine-learning.svg" />
@@ -129,7 +117,7 @@
       </div>
       <div class="container-wrapper">
         <div class="container-2">
-          <img class="placeholder-image" src="static/images/vs_oddsjam.gif" />
+          <img class="placeholder-image" src="static/images/vs_oddsjam.gif" id = "order-2" />
           <div class="div-2">
             <div class="div-6">
               <div class="div-4">
@@ -158,6 +146,7 @@
             <div class="actions-3">
               <a href="/about"><button class="style-secondary-2"><button class="button-learn-more">Learn More</button></button></a>
               <div class="style-link-small">
+                <button class="button-2 scroll-link" href="#pricing">Sign Up</button> 
               </div>
             </div>
           </div>
@@ -216,8 +205,6 @@
               <div class="style-link-small">
                 <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
               </div>
-              <div class="style-link-small">
-              </div>
             </div>
           </div>
         </div>
@@ -245,10 +232,6 @@
               <div class="heading-5">Pricing Options</div>
               <p class="text">Choose the plan that suits your needs and budget.</p>
             </div>
-          </div>
-          <div class="tabs">
-            <!-- <button class="button-3"><div class="text-wrapper-4">Monthly</div></button> -->
-            <!-- <button class="button-4"><div class="text-wrapper">Yearly</div></button> -->
           </div>
         </div>
         <div class="content-7">
@@ -322,58 +305,7 @@
         <p class="subheading-4">Not ready yet? <a class="green" href="{{ url_for('create_checkout_session_non_recurring', price_id='price_1NqjvgHM5Jv8uc5M1ePpqOgy') }}">Start a 7 day free trial.</a> Cancel anytime.</p>
         <div class="content-8"></div>
       </div>
-      <div class="footer">
-        <div class="content-11">
-          <div class="links">
-            <div class="div-5">
-              <div class="text-wrapper-7">About Us</div>
-              <div class="div-9">
-                <div class="link"><div class="text-wrapper-8"><a href="/about">About Us</a></div></div>
-                <div class="link"><div class="text-wrapper-8"><a href="/how_it_works">How it Works</a></div></div>
-                <div class="link"><div class="text-wrapper-8"><a href="/product">Product</a></div></div>
-                <div class="link"><div class="text-wrapper-8"><a href="/blog">Blog</a></div></div>
-                <div class="link"><div class="text-wrapper-8"><a href="/careers">Careers</a></div></div>
-              </div>
-            </div>
-            <div class="div-5 right">
-              <div class="text-wrapper-7">Follow us</div>
-              <div class="div-9">
-                <div class="link-2">
-                  <a href="https://www.tiktok.com/@smartbettor.ai" target="_blank"><img class="img" src="static/images/tik-tok.svg" /></a>
-                  <div class="text-wrapper-9">TikTok</div>
-                </div>
-                <div class="link-2">
-                  <a href="https://www.instagram.com/smartbettor.ai/?hl=en" target="_blank">
-                  <img class="img" src="static/images/instagram.svg" /></a>
-                  <div class="text-wrapper-9">Instagram</div>
-                </div>
-                <div class="link-2">
-                  <a href="https://twitter.com/smartbettorai?lang=en" target="_blank">
-                  <img class="img" src="static/images/twitter.svg" /></a>
-                  <div class="text-wrapper-9">X</div>
-                </div>
-                <div class="link-2"></div>
-                <div class="link-2"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="div-6">
-          <div class="divider-2"></div>
-          <div class="row">
-            <p class="element-relume-all">
-              © 2023 SmartBettor. All rights reserved.<br /><br />This site is 100% for entertainment purposes only and
-              does not involve real money betting. If you or someone you know has a gambling problem and wants help,
-              call 1-800 GAMBLER. This service is intended for <br />adult users&nbsp;&nbsp;21+ years of age only.<br />*Historical
-              results do not indicate or guarantee future results.
-            </p>
-            <div class="footer-links">
-              <div class="text-wrapper-10">Privacy Policy</div>
-              <div class="text-wrapper-10">Terms of Service</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    {% include "marketing_footer.html" %}
     </div>
   </body>
   <script type="text/javascript" src="static/js/jquery.3.6.0.js"></script>

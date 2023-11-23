@@ -205,7 +205,7 @@ button{
   padding: 12px 25px 12px 30px;
   width:180px;
   text-align: center;
-}
+} 
 
 .home .button-learn-more-3{
   font-size: var(--text-regular-normal-font-size);
@@ -307,9 +307,10 @@ a {
   text-align: center;
 }
 
-.home .header {
+.header {
   display: flex;
-  width: 1440px;
+  flex-direction: row;
+  width: 100%;
   align-items: center;
   gap: 0px;
   padding: 112px 64px;
@@ -419,7 +420,7 @@ a {
 .home .container-wrapper {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   align-items: center;
   gap: 80px;
   padding: 112px 64px;
@@ -453,7 +454,7 @@ a {
 .home .div-wrapper-2 {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   align-items: flex-start;
   gap: 80px;
   padding: 112px 64px;
@@ -720,7 +721,7 @@ a {
 .home .pricing {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   align-items: center;
   gap: 48px;
   padding: 32px 64px;
@@ -1276,7 +1277,7 @@ a {
 .home .footer {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   gap: 80px;
   padding: 80px 64px;
   align-items: flex-start;
@@ -1457,4 +1458,102 @@ a {
   text-decoration: underline;
   white-space: nowrap;
   font-style: var(--text-small-link-font-style);
+}
+
+@media (max-width: 800px) {
+  .home .placeholder-image{
+    width: 100%;
+  }
+  .header{
+    flex-direction: column;
+    padding: 20px 20px;
+  }
+
+  .home .container-wrapper, .container-2{
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 20px;
+  }
+
+  #order-1{
+    width: 100%;
+    order:-1;
+  }
+  #order-2{
+    order:2;
+  }
+  .home .div-wrapper-2{
+    padding: 20px 20px;
+    flex-direction: column;
+    padding-bottom: 40px;
+  }
+
+  .home .content-2{
+    align-items: center;
+    padding: 20px 20px;
+    flex-direction: column;
+  }
+
+  .div-5{
+    padding-bottom: 0px;
+  }
+
+  .content-3 .divider{
+    display: none;
+  }
+
+  .home .container-2{
+    flex-direction: column;
+  }
+
+  .home .actions-3{
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .list {
+    flex-direction: column;
+  }
+
+  #order-last{
+    order: 99;
+  }
+  .home .content-4{
+    flex-direction: column;
+  }
+
+  .content-4 .actions-3{
+    flex-direction: row;
+  }
+
+  .home .column-3{
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .home .pricing{
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+  }
+  
+  .home .content-7{
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .home .column-5{
+    width: 100%;
+  }
+
+  .home .button-learn-more-3{
+    width: 100%;
+  }
+
+
+
+
 }
