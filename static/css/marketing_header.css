@@ -144,6 +144,10 @@
     gap: 0px;
   }
 
+  .div-3 .medium-length-hero .p{
+    font-size: 36px;
+  }
+
   .text-wrapper-mh,
   .actions-mh {
     margin: 0px 0;
