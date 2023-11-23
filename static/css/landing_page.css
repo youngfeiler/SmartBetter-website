@@ -27,6 +27,10 @@ body{
   height: 24px;
 }
 
+button{
+  cursor: pointer;
+}
+
 .home .navbar {
   display: flex;
   flex-direction: column;
@@ -150,6 +154,7 @@ body{
   padding: 12px 25px 12px 30px;
   width:180px;
   text-align: center;
+  cursor: pointer;
 }
 
 .home .button-sign-up{
