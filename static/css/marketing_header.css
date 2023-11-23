@@ -138,6 +138,7 @@
   }
 
   .column-mh {
+    margin-top: 10px;
     display: none;
     align-items: flex-start;
     gap: 0px;
