@@ -132,7 +132,7 @@
   .column-mh, .navbar-mh .container-mh, .navbar-mh .div-mh {
     flex-direction: column;
   }
-  .container-mh{
+  .container-mh, .actions-mh{
     width: 100%;
     align-items: flex-start;
   }
@@ -166,6 +166,34 @@
   .container-mh, .navbar-mh{
     justify-content: flex-start;
   }
+
+  .actions-mh{
+    padding-left: 0px;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+  button{
+    padding-left: 0px;
+    text-decoration: none;
+    font-weight: normal;
+  }
+
+  .button-sign-up-mh{
+    font-size: 16px;
+    background-color: none;
+    font-weight: normal;
+
+  }
+
+  .button-log-in-mh{
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0);
+    font-weight: normal;
+    text-align: left;
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+
 
   
 }
