@@ -1,12 +1,26 @@
+body{
+  background-image: url("/static/images/dark-gradient.png");
+  background-size: cover;
+  background-position: left top;
+  height: 100%;
+  width: 100%;
+  color: white
+}
+
+button{
+  cursor: pointer;
+}
+
 .box {
-  width: 1440px;
-  height: 2009px;
+  height: 100%;
+  width: 100%;
+  color: white
 }
 
 .box .about-us {
-  position: fixed;
-  width: 1440px;
-  height: 2009px;
+  position: relative;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
 }
@@ -16,31 +30,34 @@
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  background-color: #ffffff;
+  width: 100%;
 }
 
 .box .navbar {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   height: 72px;
   align-items: center;
   justify-content: center;
   padding: 0px 64px;
   position: relative;
-  background-color: var(--white);
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-color: #000000;
+  border-color: white;
+}
+
+.top-left-logo{
+  height: 24px;
 }
 
 .box .container {
-  justify-content: space-between;
-  display: flex;
   align-items: center;
-  position: relative;
+  justify-content: space-between;
   align-self: stretch;
   width: 100%;
+  display: flex;
+  position: relative;
   flex: 0 0 auto;
 }
 
@@ -58,6 +75,7 @@
   flex: 0 0 auto;
 }
 
+
 .box .column-2 {
   display: inline-flex;
   align-items: flex-start;
@@ -72,7 +90,7 @@
   margin-top: -1px;
   font-family: var(--text-regular-normal-font-family);
   font-weight: var(--text-regular-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-regular-normal-font-size);
   letter-spacing: var(--text-regular-normal-letter-spacing);
   line-height: var(--text-regular-normal-line-height);
@@ -96,10 +114,11 @@
 }
 
 .box .actions {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  display: inline-flex;
+  gap: 6px;
   position: relative;
   flex: 0 0 auto;
 }
@@ -122,7 +141,7 @@
 }
 
 .box .button {
-  color: var(--black);
+  color: var(--white);
   position: relative;
   width: fit-content;
   font-family: var(--text-regular-normal-font-family);
@@ -147,38 +166,64 @@
   margin-top: -1px;
   margin-bottom: -1px;
   margin-right: -1px;
-  background-color: var(--black);
   border: 1px solid;
   border-color: #000000;
   all: unset;
   box-sizing: border-box;
 }
 
-.box .button-2 {
-  color: var(--white);
+.button-2 {
+  background: none;
   position: relative;
   width: fit-content;
   font-family: var(--text-regular-normal-font-family);
   font-weight: var(--text-regular-normal-font-weight);
+  color: var(--white);
   font-size: var(--text-regular-normal-font-size);
   letter-spacing: var(--text-regular-normal-letter-spacing);
-  line-height: var(--text-regular-normal-line-height);
   white-space: nowrap;
   font-style: var(--text-regular-normal-font-style);
-  all: unset;
   box-sizing: border-box;
+  color:white;
+  border: none;
+  border-radius:6px;
+  padding: 12px 25px 12px 30px;
+  width:180px;
+  text-align: center;
+}
+
+.button-2-1 {
+  position: relative;
+  width: fit-content;
+  font-family: var(--text-regular-normal-font-family);
+  font-weight: var(--text-regular-normal-font-weight);
+  color: var(--white);
+  font-size: var(--text-regular-normal-font-size);
+  letter-spacing: var(--text-regular-normal-letter-spacing);
+  /* line-height: var(--text-regular-normal-line-height); */
+  white-space: nowrap;
+  font-style: var(--text-regular-normal-font-style);
+  /* all: unset; */
+  box-sizing: border-box;
+  color:black;
+  border: 2px solid white;
+  background-color: white;
+  border-radius:6px;
+  padding: 12px 25px 12px 30px;
+  width:180px;
+  text-align: center;
+  box-shadow: 0px 5px 30px -9px white;
 }
 
 .box .div-wrapper {
   display: flex;
-  width: 1440px;
+  width: 100%;
   gap: 80px;
   padding: 112px 64px;
   flex: 0 0 auto;
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  background-color: var(--white);
 }
 
 .box .content-2 {
@@ -207,7 +252,7 @@
   margin-top: -1px;
   font-family: var(--text-regular-semi-bold-font-family);
   font-weight: var(--text-regular-semi-bold-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-regular-semi-bold-font-size);
   text-align: center;
   letter-spacing: var(--text-regular-semi-bold-letter-spacing);
@@ -221,7 +266,7 @@
   align-self: stretch;
   font-family: var(--heading-h1-font-family);
   font-weight: var(--heading-h1-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--heading-h1-font-size);
   letter-spacing: var(--heading-h1-letter-spacing);
   line-height: var(--heading-h1-line-height);
@@ -244,7 +289,7 @@
   margin-top: -1px;
   font-family: var(--text-medium-normal-font-family);
   font-weight: var(--text-medium-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-medium-normal-font-size);
   letter-spacing: var(--text-medium-normal-letter-spacing);
   line-height: var(--text-medium-normal-line-height);
@@ -271,7 +316,6 @@
   margin-top: -1px;
   margin-bottom: -1px;
   margin-left: -1px;
-  background-color: var(--black);
   border: 1px solid;
   border-color: #000000;
   all: unset;
@@ -333,7 +377,7 @@
   margin-top: -1px;
   font-family: var(--heading-h2-font-family);
   font-weight: var(--heading-h2-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--heading-h2-font-size);
   letter-spacing: var(--heading-h2-letter-spacing);
   line-height: var(--heading-h2-line-height);
@@ -345,7 +389,7 @@
   align-self: stretch;
   font-family: var(--text-medium-normal-font-family);
   font-weight: var(--text-medium-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-medium-normal-font-size);
   letter-spacing: var(--text-medium-normal-letter-spacing);
   line-height: var(--text-medium-normal-line-height);
@@ -390,6 +434,7 @@
 .box .placeholder-image {
   flex-grow: 1;
   height: 640px;
+  width: 618px;
   object-fit: cover;
   position: relative;
   flex: 1;
@@ -398,14 +443,14 @@
 .box .footer {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+  width: 100%;
   gap: 80px;
   padding: 80px 64px;
-  background-color: var(--white);
   align-items: flex-start;
   position: relative;
   flex: 0 0 auto;
 }
+
 
 .box .content-4 {
   display: flex;
@@ -415,6 +460,25 @@
   position: relative;
   align-self: stretch;
   width: 100%;
+}
+
+.button-sign-up{
+  border: none;
+  background-color: transparent;
+  color:white;
+  font-weight: bold;
+  margin: 0px 0px 0px 0px;
+}
+
+.button-log-in{
+  border: none;
+  padding: 6px 16px 6px 16px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color:white;
+  font-weight: bold;
+  margin: 0px 0px 0px 0px;
+
 }
 
 .box .newsletter {
@@ -429,7 +493,7 @@
 .box .logo {
   position: relative;
   width: 63px;
-  height: 27px;
+  /* height: 27px; */
 }
 
 .box .join-our-newsletter {
@@ -437,7 +501,7 @@
   align-self: stretch;
   font-family: var(--text-regular-normal-font-family);
   font-weight: var(--text-regular-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-regular-normal-font-size);
   letter-spacing: var(--text-regular-normal-letter-spacing);
   line-height: var(--text-regular-normal-line-height);
@@ -465,7 +529,6 @@
   margin-top: -1px;
   margin-bottom: -1px;
   margin-left: -1px;
-  background-color: var(--white);
   border: 1px solid;
   border-color: #000000;
 }
@@ -504,7 +567,7 @@
   align-self: stretch;
   font-family: var(--text-tiny-normal-font-family);
   font-weight: var(--text-tiny-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-tiny-normal-font-size);
   letter-spacing: var(--text-tiny-normal-letter-spacing);
   line-height: var(--text-tiny-normal-line-height);
@@ -518,6 +581,7 @@
   position: relative;
   flex: 1;
   flex-grow: 1;
+  font-size: 16px;
 }
 
 .box .text-wrapper-4 {
@@ -526,7 +590,7 @@
   margin-top: -1px;
   font-family: var(--text-regular-semi-bold-font-family);
   font-weight: var(--text-regular-semi-bold-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-regular-semi-bold-font-size);
   letter-spacing: var(--text-regular-semi-bold-letter-spacing);
   line-height: var(--text-regular-semi-bold-line-height);
@@ -541,6 +605,51 @@
   align-self: stretch;
   width: 100%;
   flex: 0 0 auto;
+}
+
+.div-5{
+  flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+}
+
+.div-9{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.text-wrapper-8{
+  position: relative;
+    flex: 1;
+    margin-top: -1px;
+    font-family: var(--text-small-normal-font-family);
+    font-weight: var(--text-small-normal-font-weight);
+    color: white;
+    font-size: var(--text-small-normal-font-size);
+    letter-spacing: var(--text-small-normal-letter-spacing);
+    line-height: var(--text-small-normal-line-height);
+    font-style: var(--text-small-normal-font-style);
+}
+
+.text-wrapper-9{
+  position: relative;
+    width: fit-content;
+    font-family: var(--text-small-normal-font-family);
+    font-weight: var(--text-small-normal-font-weight);
+    color: white;
+    font-size: var(--text-small-normal-font-size);
+    letter-spacing: var(--text-small-normal-letter-spacing);
+    line-height: var(--text-small-normal-line-height);
+    white-space: nowrap;
+    font-style: var(--text-small-normal-font-style);
 }
 
 .box .link {
@@ -559,7 +668,7 @@
   margin-top: -1px;
   font-family: var(--text-small-normal-font-family);
   font-weight: var(--text-small-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-small-normal-font-size);
   letter-spacing: var(--text-small-normal-letter-spacing);
   line-height: var(--text-small-normal-line-height);
@@ -582,7 +691,7 @@
   width: fit-content;
   font-family: var(--text-small-normal-font-family);
   font-weight: var(--text-small-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-small-normal-font-size);
   letter-spacing: var(--text-small-normal-letter-spacing);
   line-height: var(--text-small-normal-line-height);
@@ -596,7 +705,7 @@
   margin-top: -1px;
   font-family: var(--text-small-normal-font-family);
   font-weight: var(--text-small-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-small-normal-font-size);
   letter-spacing: var(--text-small-normal-letter-spacing);
   line-height: var(--text-small-normal-line-height);
@@ -620,7 +729,6 @@
   align-self: stretch;
   width: 100%;
   height: 1px;
-  background-color: var(--black);
 }
 
 .box .row {
@@ -639,7 +747,7 @@
   margin-top: -1px;
   font-family: var(--text-small-normal-font-family);
   font-weight: var(--text-small-normal-font-weight);
-  color: var(--black);
+  color: var(--white);
   font-size: var(--text-small-normal-font-size);
   letter-spacing: var(--text-small-normal-letter-spacing);
   line-height: var(--text-small-normal-line-height);
@@ -655,17 +763,40 @@
   flex: 0 0 auto;
 }
 
+.content-11{
+      display: flex;
+    height: 248px;
+    align-items: flex-start;
+    gap: 128px;
+    position: relative;
+}
+
 .box .text-wrapper-7 {
   position: relative;
+  align-self: stretch;
   width: fit-content;
   margin-top: -1px;
   font-family: var(--text-small-link-font-family);
-  font-weight: var(--text-small-link-font-weight);
-  color: var(--black);
+  font-weight: bold;
+  color: var(--white);
   font-size: var(--text-small-link-font-size);
   letter-spacing: var(--text-small-link-letter-spacing);
   line-height: var(--text-small-link-line-height);
-  text-decoration: underline;
+  text-decoration: none;
   white-space: nowrap;
   font-style: var(--text-small-link-font-style);
+}
+
+
+@media (max-width: 800px) {
+  .box .about-us{
+    height: auto;
+  }
+  .box .content-2{
+    flex-direction: column;
+  }
+  .box .div-wrapper{
+    padding: 20px 20px 20px 20px;
+  }
+
 }

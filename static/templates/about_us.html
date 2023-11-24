@@ -1,34 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="static/css/globals.css" />
+    <link rel="stylesheet" href="static/css/styleguide.css" />
+    <link rel="stylesheet" href="static/css/about_us.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   </head>
   <body>
-    <div class="box">
+    <div class="box background-image">
       <div class="about-us">
-        <div class="div">
-          <div class="navbar">
-            <div class="container">
-              <img class="content" src="img/content-2.svg" />
-              <div class="column">
-                <div class="column-2">
-                  <div class="text-wrapper">About Us</div>
-                  <div class="text-wrapper">Services</div>
-                  <div class="text-wrapper">Pricing</div>
-                  <div class="nav-link-dropdown">
-                    <div class="text-wrapper">More</div>
-                    <img class="img" src="img/chevron-down-2.svg" />
-                  </div>
-                </div>
-                <div class="actions">
-                  <button class="style-secondary"><button class="button">Sign Up</button></button>
-                  <button class="style-primary-small"><button class="button-2">Login</button></button>
-                </div>
-              </div>
-            </div>
-          </div>
+        {% include "marketing_header.html" %}
           <div class="div-wrapper">
             <div class="content-2">
               <div class="column-3">
@@ -43,8 +25,8 @@
                   outperform Vegas and other sites, like OddsJam.
                 </p>
                 <div class="actions-2">
-                  <button class="button-wrapper"><button class="button-2">Learn More</button></button>
-                  <button class="style-secondary-2"><button class="button">Sign Up</button></button>
+                  <a href="/how_it_works"><button class="button-wrapper"><button class="button-2">Learn More</button></button></a>
+                  <a href="/#pricing"><button class="style-secondary-2"><button class="button-2-1">Sign Up</button></button></a>
                 </div>
               </div>
             </div>
@@ -65,78 +47,18 @@
                   </div>
                 </div>
                 <div class="actions-3">
-                  <button class="style-secondary-3"><button class="button">Learn More</button></button>
+                  <a href="/how_it_works"><button class="style-secondary-3"><button class="button-2">Learn More</button></button></a>
                   <div class="style-link-small">
-                    <button class="button">Sign Up</button> <img class="img" src="img/icon-chevron-right-1.png" />
+                    <a href="/#pricing"><button class="style-secondary-2"><button class="button-2-1">Sign Up</button></button></a>
                   </div>
                 </div>
               </div>
-              <img class="placeholder-image" src="img/placeholder-image.png" />
+              <img class="placeholder-image" src="static/images/magic_comp.gif" />
             </div>
-          </div>
-          <div class="footer">
-            <div class="content-4">
-              <div class="newsletter">
-                <img class="logo" src="img/logo-2.svg" />
-                <p class="join-our-newsletter">
-                  Stay up to date on our latest features and releases by joining our newsletter.
-                </p>
-                <div class="div-3">
-                  <div class="form">
-                    <div class="type-default"><div class="text-wrapper-3">Placeholder</div></div>
-                    <button class="style-secondary-4"><button class="button">Join</button></button>
-                  </div>
-                  <p class="by-subscribing-you">
-                    By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
-                  </p>
-                </div>
-              </div>
-              <div class="links">
-                <div class="column-3">
-                  <div class="text-wrapper-4">About Us</div>
-                  <div class="div-4">
-                    <div class="link"><div class="text-wrapper-5">About Us</div></div>
-                    <div class="link"><div class="text-wrapper-5">How it Works</div></div>
-                    <div class="link"><div class="text-wrapper-5">Product</div></div>
-                    <div class="link"><div class="text-wrapper-5">Blog</div></div>
-                    <div class="link"><div class="text-wrapper-5">Careers</div></div>
-                  </div>
-                </div>
-                <div class="column-3">
-                  <div class="text-wrapper-4">Follow us</div>
-                  <div class="div-4">
-                    <div class="link-2">
-                      <img class="img" src="img/icon-facebook-3.png" />
-                      <div class="text-wrapper-6">TikTok</div>
-                    </div>
-                    <div class="link-2">
-                      <img class="img" src="img/icon-instagram-3.svg" />
-                      <div class="text-wrapper-6">Instagram</div>
-                    </div>
-                    <div class="link-2">
-                      <img class="img" src="img/icon-x-4.svg" />
-                      <div class="text-wrapper-6">X</div>
-                    </div>
-                    <div class="link-2"><div class="youtube"></div></div>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div class="credits">
-              <div class="divider"></div>
-              <div class="row">
-                <p class="element-relume-all">
-                  © 2023 SmartBettor. All rights reserved.<br /><br />This site is 100% for entertainment purposes only
-                  and does not involve real money betting. If you or someone you know has a gambling problem and wants
-                  help, call 1-800 GAMBLER. This service is intended for <br />adult users 21+ years of age only<br />*Historical
-                  results do not indicate or guarantee future results.
-                </p>
-                <div class="footer-links">
-                  <div class="text-wrapper-7">Privacy Policy</div>
-                  <div class="text-wrapper-7">Terms of Service</div>
-                </div>
-              </div>
-            </div>
+          
+              {% include "marketing_footer.html" %}
+          
           </div>
         </div>
       </div>
