@@ -1572,10 +1572,12 @@ a {
   }
 
 
-  .actions-2{
+  .home .actions-2{
     padding-left: 00px;
     padding-right: 50px;
     width: 100%;
+    justify-content: flex-start;
+
   }
 
   .home .content-4 {
