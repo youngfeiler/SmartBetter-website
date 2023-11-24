@@ -1664,7 +1664,12 @@ a {
   .home .content-5, .content-6 p{
     width: 100% !important;
     white-space: normal !important;  
+  }
 
+  .home .content-7 a{
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 110%;
   }
 
 
