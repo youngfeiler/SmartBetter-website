@@ -1,20 +1,23 @@
-body{
+/* body{
   background-image: url("/static/images/dark-gradient.png");
   background-size: cover;
   background-position: left top;
   width: 100%;
   color: white
-}
+} */
 
-.box {
+.products {
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 4613px;
+  background-image: url("/static/images/dark-gradient.png"); 
+  background-size: cover;
 }
 
 .box .products {
   position: static;
   width: 100%;
-  height: 4613px;
+
   top: 0;
   left: 0;
 }
@@ -203,7 +206,7 @@ body{
   margin-bottom: -1px;
   margin-left: -1px;
   border: 1px solid;
-  border-color: #000000;
+  border-color: white;
 }
 
 .box .button {
@@ -233,7 +236,7 @@ body{
   margin-bottom: -1px;
   margin-right: -1px;
   border: 1px solid;
-  border-color: #000000;
+  border-color: white;
 }
 
 .button-2-1 {
@@ -584,7 +587,7 @@ body{
   align-self: stretch;
   flex-grow: 1;
   border: 1px solid;
-  border-color: #000000;
+  border-color: white;
 }
 
 .box .div-6 {
@@ -733,7 +736,7 @@ body{
   flex: 1;
   flex-grow: 1;
   border: 1px solid;
-  border-color: #000000;
+  border-color: white;
 }
 
 .box .footer {
@@ -784,7 +787,7 @@ body{
   margin-bottom: -1px;
   margin-left: -1px;
   border: 1px solid;
-  border-color: #000000;
+  border-color: white;
 }
 
 .box .text-wrapper-5 {
@@ -811,7 +814,7 @@ body{
   position: relative;
   margin-bottom: -1px;
   border: 1px solid;
-  border-color: #000000;
+  border-color: white;
   all: unset;
   box-sizing: border-box;
 }
