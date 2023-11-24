@@ -1568,7 +1568,8 @@ a {
 
 
   .actions-2{
-    padding-left: 50px;
+
+    padding-left: 00px;
     padding-right: 50px;
     width: 100%;
   }
@@ -1578,9 +1579,8 @@ a {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    height: 32px;
   }
-
+  
 
   .actions-2 .button-2-1,
   .actions-2 a,
@@ -1588,7 +1588,7 @@ a {
   .actions-3 .style-link-small,
   .actions-2 .button-2{
     width: 40%;
-    padding: 0px
+    height: 46px;
   }
   .actions-2 .button,
   .actions-2 .button-learn-more,
