@@ -1573,10 +1573,13 @@ a {
 
 
   .actions-2{
-
     padding-left: 00px;
     padding-right: 50px;
     width: 100%;
+  }
+
+  .home .content-4 {
+    gap: 72px;
   }
 
   .home .actions-2{
@@ -1632,6 +1635,14 @@ a {
   .pricing .price-2{
     font-size: 36px;
     font-weight: bold;
+  }
+
+  .div-8{
+    width: 100%;
+  }
+
+  .div-8 .text-wrapper{
+    width: 80%;
   }
 
 
