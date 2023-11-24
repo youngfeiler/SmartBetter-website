@@ -1597,6 +1597,8 @@ a {
     align-items: center;
     justify-content: center;
     padding: 0;
+    font-weight: bold;
+
   }
 
   .actions-2 .button,
@@ -1619,6 +1621,7 @@ a {
   .pricing .heading-5,
   .pricing .price-2{
     font-size: 36px;
+    font-weight: bold;
   }
 
 
