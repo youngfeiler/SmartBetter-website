@@ -1577,7 +1577,6 @@ a {
     padding-right: 50px;
     width: 100%;
     justify-content: flex-start;
-
   }
 
   .home .content-4 {
@@ -1648,8 +1647,16 @@ a {
   }
 
   .home .content-4 .button-learn-more-2,
-  .home .content-4 .button-2-2{
+  .home .content-4 .button-2-2,
+  .div-wrapper-2 .button-2, 
+  .div-wrapper-2 .button-learn-more{
     display: none;
+  }
+
+  .home .content-5, .content-6 p{
+    width: 100% !important;
+    white-space: normal !important;  
+
   }
 
 
