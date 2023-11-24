@@ -1,13 +1,17 @@
-body{
-  background-image:url("/static/images/dark-gradient.png");
-  background-size: 100% auto;
-  background-repeat:no-repeat;
-  background-attachment: fixed;
-  background-position: center top;
-  margin: 0;
-  height: 100vh;
+/* body{
+  background-image: url("/static/images/dark-gradient.png");
+  background-size: cover;
+  background-position: left top;
   width: 100%;
   color: white
+} */
+
+.background-image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-image: url("/static/images/dark-gradient.png"); 
+  background-size: cover;
 }
 
 .a{
@@ -1468,6 +1472,10 @@ a {
   .body{
     overflow: hidden;
   }
+
+  /* html, body{
+    background-image:url("static/images/dark-gradient_2.png");
+  } */
 
   .home .placeholder-image{
     width: 100%;

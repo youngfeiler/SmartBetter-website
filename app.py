@@ -59,7 +59,7 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 @app.route('/')
 def index():
-    return render_template('index.html', 
+    return render_template('landing_page.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
 @app.route('/home_test')
@@ -189,11 +189,11 @@ def create_checkout_session_non_recurring(price_id):
 @app.route('/test_func')
 def test_func():
     tasks.start_dashboard_runner.delay()
-    return render_template('index.html')
+    return render_template('nba.html')
 
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('landing_page.html')
 
 @app.route('/account')
 def account():
