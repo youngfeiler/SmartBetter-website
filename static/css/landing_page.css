@@ -1588,7 +1588,10 @@ a {
   .actions-3 .style-link-small,
   .actions-2 .button-2{
     width: 40%;
-    height: 46px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
   .actions-2 .button,
   .actions-2 .button-learn-more,
