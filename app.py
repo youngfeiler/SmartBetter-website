@@ -57,7 +57,6 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 
 
-<<<<<<< HEAD
 @app.route('/home_test')
 def index_test():
     return render_template('landing_page.html', 
