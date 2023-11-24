@@ -1579,7 +1579,7 @@ a {
   }
 
   .home .content-4 {
-    gap: 72px;
+    gap: 32px;
   }
 
   .home .actions-2{
@@ -1644,6 +1644,13 @@ a {
   .div-8 .text-wrapper{
     width: 80%;
   }
+
+  .home .content-4 .button-learn-more-2,
+  .home .content-4 .button-2-2{
+    display: none;
+  }
+
+
 
 
 
