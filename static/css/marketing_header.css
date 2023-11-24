@@ -116,7 +116,7 @@
   .navbar-mh{
     height: 100%;
     width: 100%;
-    padding: 30px 30px 20px 20px;
+    padding: 30px 50px 20px 20px;
     border-bottom: none;
   }
 
@@ -161,6 +161,7 @@
   }
 
   .down-arrow{
+    width: 18px;
     display: block;
   }
 
