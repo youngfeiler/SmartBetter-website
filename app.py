@@ -57,11 +57,14 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 
 
-@app.route('/test_home')
-def index():
+@app.route('/home_test')
+def index_test():
     return render_template('landing_page.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
+@app.route('/')
+def index():
+    return render_template('index.html', checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
 @app.route('/about')
 def about():
