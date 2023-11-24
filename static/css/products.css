@@ -50,7 +50,7 @@ body{
 
 .box .placeholder-image {
   flex-grow: 1;
-  height: 640px;
+  width: 616px;
   object-fit: cover;
   position: relative;
   flex: 1;
@@ -1142,6 +1142,10 @@ button{
 
   .box .text-wrapper-2{
     font-size: 36px;
+  }
+
+  .box .placeholder-image{
+    width: 100vw;
   }
 
 

@@ -151,3 +151,39 @@
 a{
   font-weight: normal;
 }
+
+.first-line{
+  flex-direction: row;
+}
+
+.links{
+  justify-content: flex-end;
+}
+
+@media (max-width: 800px) {
+  .footer-mf{
+    gap: 0px;
+  }
+  
+  .links-mf{
+    gap: 0px;
+  }
+
+  .content-11-mf{
+    padding-bottom: 4px;
+  }
+  .row-mf{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-links-mf{
+    flex-direction: column;
+  }
+
+  .div-6-mf{
+    gap: 0px;
+  }
+}
