@@ -57,17 +57,26 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 
 
-@app.route('/test_home')
+@app.route('/')
 def index():
-    return render_template('landing_page.html', 
+    return render_template('index.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
+@app.route('/home_test')
+def home_test():
+    return render_template('landing_page.html')
 
 @app.route('/about')
 def about():
     return render_template('about_us.html')
 
+@app.route('/how_it_works')
+def how_it_works():
+    return render_template('how_it_works.html')
 
+@app.route('/product')
+def product():
+    return render_template('product.html')
 
 @app.route('/scenarios')
 def scenarios():
