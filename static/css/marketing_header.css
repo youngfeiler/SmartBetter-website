@@ -114,7 +114,9 @@
 /* Media query for mobile screens */
 @media (max-width: 768px) {
 
-  .navbar-mh .column-mh a{
+  .navbar-mh .column-mh a,
+  .navbar-mh .button-log-in-mh,
+  .navbar-mh .button-sign-up-mh{
     font-size: 18px !important;
   }
   .navbar-mh{
