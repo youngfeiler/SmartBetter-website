@@ -1476,6 +1476,11 @@ a {
     flex-direction: column;
     width: 100%;
     padding: 20px 10px;
+
+  }
+
+  .home .container-2{
+    gap: 0px;
   }
 
   #order-1{
