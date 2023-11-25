@@ -36,10 +36,10 @@ function extractAndTrackPaymentInfo() {
 
 
 function hashString(str) {
-  const shaObj = new jsSHA('SHA-256', 'TEXT');
-  shaObj.update(str);
-  return shaObj.getHash('HEX');
+  const hashedString = CryptoJS.SHA256(str).toString(CryptoJS.enc.Hex);
+  return hashedString;
 }
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
