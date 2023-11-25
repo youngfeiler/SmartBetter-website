@@ -13,16 +13,18 @@ document.querySelectorAll('.scroll-link').forEach(anchor => {
 });
 
 
-function initiateCheckout(event, price_id) {
-  event.preventDefault();
-  fetch('/checkoutnow/' + price_id)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-
-      window.location.href = data.checkout_session_url;
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+function trackClickButtonEvent() {
+  ttq.track('ClickButton', {
+    "contents": [
+      {
+        "content_type": "get started",
+        "content_name": "99 version" 
+      }
+    ]
+  });
 }
+const trackButton = document.getElementById('get-started-id');
+
+trackButton.addEventListener('click', function(event) {
+  trackClickButtonEvent();
+});
