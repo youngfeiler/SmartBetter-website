@@ -17,6 +17,9 @@ function extractAndTrackPaymentInfo() {
           "external_id": "none"
         });
 
+        console.log(hashedEmail);
+        console.log(hashedPhoneNumber);
+
         ttq.track('CompletePayment', {
           "contents": [
             {
