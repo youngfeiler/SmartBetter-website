@@ -20,7 +20,7 @@ function extractAndTrackPaymentInfo() {
 
   const price = urlParams.get('price');
   const currency = "USD"
-  if (sessionID && amount && currency) {
+  if (urlParams && amount && currency) {
     trackPurchaseEventToTikTok(price, currency);
   }
 }
