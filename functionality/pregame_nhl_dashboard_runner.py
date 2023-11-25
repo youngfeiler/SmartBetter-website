@@ -382,9 +382,9 @@ class pregame_nhl_dashboard_runner():
 
         df['ev'] = ((1/df['average_market_odds_old'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds_old'])) * 100)
 
-        # df = df[df['ev'] >= self.model_storage['SmartBetterNHLModel']['params']['min_ev']]
+        df = df[df['ev'] >= self.model_storage['SmartBetterNHLModel']['params']['min_ev']]
 
-        df = df[df['ev'] >= -100]
+        # df = df[df['ev'] >= -100]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNHLModel']['params']['max_ev']]
 
@@ -535,8 +535,8 @@ class pregame_nhl_dashboard_runner():
           print(strategy_dict['pred_thresh'])
 
           predictions_array = predictions.detach().numpy()
-          # mask = predictions_array > strategy_dict['pred_thresh']
-          mask = predictions_array > -100
+          mask = predictions_array > strategy_dict['pred_thresh']
+          # mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 
