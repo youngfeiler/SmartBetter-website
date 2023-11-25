@@ -29,7 +29,7 @@ function extractAndTrackPaymentInfo() {
               "content_id":"non_id"
             }
           ],
-          "value": price,
+          "value": parseFloat(price),
           "currency": currency
         });
   }
