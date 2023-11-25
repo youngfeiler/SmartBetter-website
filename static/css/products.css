@@ -298,7 +298,7 @@
   position: relative;
   flex: 1;
   flex-grow: 1;
-  height: 400px;
+  width: 616px;
   object-fit: cover;
 }
 
