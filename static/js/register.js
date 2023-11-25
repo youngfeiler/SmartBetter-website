@@ -44,7 +44,7 @@ function hashString(str) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  const myButton = document.getElementById('TEST-BUTTON');
+  const myButton = document.getElementById('register-button');
   myButton.addEventListener('click', extractAndTrackPaymentInfo);
 
 })
