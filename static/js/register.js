@@ -15,6 +15,10 @@ function extractAndTrackPaymentInfo() {
   const urlParams = new URLSearchParams(window.location.search);
   console.log("console logging:");
   console.log(urlParams);
+  for (const [key, value] of urlParams) {
+    console.log(`${key}: ${value}`);
+  }
+
   // const sessionID = urlParams.get('session_id');
   // const amount = urlParams.get('amount');
   // const currency = urlParams.get('currency');
