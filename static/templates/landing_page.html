@@ -2,9 +2,6 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- <link rel="stylesheet" href="static/css/globals.css" /> -->
-    <!-- <link rel="stylesheet" href="static/css/styleguide.css" /> -->
     <link rel="stylesheet" href="static/css/landing_page.css" />
     <title>SmartBettor</title>
     <link rel="icon" type="image/png" href="static/images/favicon.png">
@@ -297,7 +294,8 @@
         </div>
       </div>
       <div class="section-title">
-        <p class="subheading-4">Not ready yet? <a class="green" href="{{ url_for('create_checkout_session_non_recurring', price_id='price_1NqjvgHM5Jv8uc5M1ePpqOgy') }}">Start a 7 day free trial.</a> Cancel anytime.</p>
+        <p class="subheading-4">Not ready yet?   <a class="green" href="#" onclick="initiateCheckout(event, 'price_1NqjvgHM5Jv8uc5M1ePpqOgy')">Start a 7 day free trial.</a> Cancel anytime.
+          Cancel anytime.</p>
         <div class="content-8"></div>
       </div>
     {% include "marketing_footer.html" %}
