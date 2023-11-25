@@ -44,6 +44,8 @@ async function hashString(str) {
   return hashedString;
 }
 
-const myButton = document.getElementById('register-button');
+document.addEventListener('DOMContentLoaded', function() {
+  const myButton = document.getElementById('register-button');
 
 myButton.addEventListener('click', extractAndTrackPaymentInfo);
+})
