@@ -13,7 +13,7 @@ function trackPurchaseEventToTikTok(value, currency) {
 
 function extractAndTrackPaymentInfo() {
   const urlParams = new URLSearchParams(window.location.search);
-
+  console.log("console logging:");
   console.log(urlParams);
   // const sessionID = urlParams.get('session_id');
   // const amount = urlParams.get('amount');
