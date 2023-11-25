@@ -144,7 +144,6 @@ def get_scenario_data():
 
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
-    # Create a checkout session with the provided price_id
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         allow_promotion_codes=True,
@@ -155,7 +154,7 @@ def create_checkout_session(price_id):
             },
         ],
         mode='subscription',
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}&price={price_id}',
         cancel_url=url_for('index', _external=True),
     )
     return redirect(checkout_session.url,code=302)
@@ -163,13 +162,8 @@ def create_checkout_session(price_id):
 
 @app.route('/checkoutnow/<string:price_id>')
 def create_checkout_session_non_recurring(price_id):
-    # Extract customer email from the query string
-    email = request.args.get('email')  # Use request.args to get the email from the query string
-
-    # Create a new customer in Stripe with the provided email
-    customer = stripe.Customer.create(email=email)  # You can add more customer details as needed
-
-    # Create a checkout session with the provided price_id and the created customer
+    email = request.args.get('email')
+    customer = stripe.Customer.create(email=email)
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[
@@ -180,7 +174,7 @@ def create_checkout_session_non_recurring(price_id):
         ],
         customer=customer.id,
         mode='payment',
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}&price=0',
         cancel_url=url_for('index', _external=True),
     )
     return redirect(checkout_session.url, code=302)
