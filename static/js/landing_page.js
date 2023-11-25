@@ -18,7 +18,7 @@ function initiateCheckout(event, price_id) {
   fetch('/checkoutnow/' + price_id)
     .then(response => response.json())
     .then(data => {
-      console.log(response);
+      console.log(data);
 
       window.location.href = data.checkout_session_url;
     })
