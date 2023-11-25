@@ -10,18 +10,18 @@ function extractAndTrackPaymentInfo() {
     const phoneNumber = phoneNumberInput.value;
     const email = emailInput.value;
     
-    Promise.all([hashString(email), hashString(phoneNumber)])
-      .then(([hashedEmail, hashedPhoneNumber]) => {
-        ttq.identify({
+    hashedEmail = hashString(email);
+    hashedPhoneNumber = hashString(phoneNumber);
+    ttq.identify({
           "email": hashedEmail,
           "phone_number": hashedPhoneNumber,
           "external_id": "none"
-        });
+    });
 
-        console.log(hashedEmail);
-        console.log(hashedPhoneNumber);
+    console.log(hashedEmail);
+    console.log(hashedPhoneNumber);
 
-        ttq.track('CompletePayment', {
+    ttq.track('CompletePayment', {
           "contents": [
             {
               "content_type": "Subscription",
@@ -31,22 +31,16 @@ function extractAndTrackPaymentInfo() {
           "value": price,
           "currency": currency
         });
-      })
-      .catch(error => {
-        console.error('Error while hashing:', error);
-      });
   }
 }
 
 
-async function hashString(str) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hash));
-  const hashedString = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hashedString;
+function hashString(str) {
+  const shaObj = new jsSHA('SHA-256', 'TEXT');
+  shaObj.update(str);
+  return shaObj.getHash('HEX');
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const myButton = document.getElementById('TEST-BUTTON');
