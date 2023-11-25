@@ -139,7 +139,7 @@ def get_scenario_data():
     return response
 
 
-@app.route('/checkout/<string:price_id>')
+@app.route('/create_checkout_session/<string:price_id>')
 def create_checkout_session(price_id):
     # Create a checkout session with the provided price_id
     checkout_session = stripe.checkout.Session.create(
