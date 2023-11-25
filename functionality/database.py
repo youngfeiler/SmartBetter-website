@@ -285,9 +285,8 @@ class database():
 
        if sport == "NFL":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
-       elif sport == "NBA" or sport == "NHL":
+       elif sport == "NBA" or sport == "NHL" or sport == "NHL_PREGAME" or sport == 'NBA_PREGAME':
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
-          
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 

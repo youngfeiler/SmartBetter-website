@@ -117,8 +117,10 @@
   .navbar-mh .column-mh a,
   .navbar-mh .button-log-in-mh,
   .navbar-mh .button-sign-up-mh
-  .navbar-mh .text-wrapper-mh{
+  .navbar-mh .text-wrapper-mh,
+  .navbar-mh .text-wrapper-mh a{
     font-size: 18px !important;
+    font-weight: bold !important;
   }
   .navbar-mh{
     height: 100%;

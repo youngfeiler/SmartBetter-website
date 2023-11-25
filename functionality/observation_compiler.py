@@ -14,6 +14,10 @@ class observation_compiler():
 
     self.current_amount_of_nhl_observations = self.get_amount_of_master_sport_obs("NHL")
 
+    self.current_amount_of_nhl_observations_pregame = self.get_amount_of_master_sport_obs("NHL_PREGAME")
+
+    self.current_amount_of_nba_observations_pregame = self.get_amount_of_master_sport_obs("NBA_PREGAME")
+
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
 
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used']
@@ -24,7 +28,8 @@ class observation_compiler():
     mlb_obs = pd.read_csv('users/model_obs.csv')
     nba_obs = pd.read_csv('users/model_obs_nba.csv')
     nhl_obs = pd.read_csv('users/model_obs_nhl.csv')
-
+    nhl_obs_pregame = pd.read_csv('users/model_obs_nhl_pregame.csv')
+    nba_obs_pregame = pd.read_csv('users/model_obs_nba_pregame.csv')
 
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
@@ -35,6 +40,8 @@ class observation_compiler():
       new_nfl_obs['sport_title'] = 'NFL'
 
       new_nfl_obs['team'] = nfl_obs['team_1']
+
+      new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
 
       new_nfl_obs['completed'] = False
 
@@ -67,6 +74,26 @@ class observation_compiler():
 
       self.current_amount_of_nba_observations = len(nba_obs)
     
+    if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
+      amount_of_new_observations = len(nba_obs_pregame) - self.current_amount_of_nba_observations_pregame
+
+      new_nba_obs = nba_obs_pregame.tail(amount_of_new_observations).copy()
+
+      new_nba_obs['sport_title'] = 'NBA_PREGAME'
+
+      new_nba_obs['team'] = nba_obs['team_1']
+
+      new_nba_obs['completed'] = False
+
+      new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
+
+      new_df = new_nba_obs[self.schema]
+
+      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
+
+      self.current_amount_of_nba_observations_pregame = len(nba_obs_pregame)
+    
+
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
       amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
 
@@ -85,7 +112,25 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nhl_observations = len(nhl_obs)
+    
+    if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
+      amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
 
+      new_nhl_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
+
+      new_nhl_obs['sport_title'] = 'NHL_PREGAME'
+
+      new_nhl_obs['team'] = nhl_obs['team_1']
+
+      new_nhl_obs['completed'] = False
+
+      new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
+
+      new_df = new_nhl_obs[self.schema]
+
+      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
+
+      self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
