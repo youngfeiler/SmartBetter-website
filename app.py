@@ -141,7 +141,8 @@ def get_scenario_data():
 
 @app.route('/create_checkout_session/<string:price_id>')
 def create_checkout_session(price_id):
-    # Create a checkout session with the provided price_id
+    print('here')
+    print(price_id)
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         allow_promotion_codes=True,
@@ -155,6 +156,7 @@ def create_checkout_session(price_id):
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
         cancel_url=url_for('index', _external=True),
     )
+    print(checkout_session.url)
 
     return jsonify({'checkout_session_url': checkout_session.url})
 
