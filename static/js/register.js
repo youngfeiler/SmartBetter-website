@@ -4,6 +4,7 @@ function extractAndTrackPaymentInfo() {
   const currency = "USD";
   const phoneNumberInput = document.getElementById('phone_number');
   const emailInput = document.getElementById('email');
+  console.log("clicked")
   
   if (price && currency && phoneNumberInput && emailInput) {
     const phoneNumber = phoneNumberInput.value;
@@ -49,6 +50,6 @@ async function hashString(str) {
 
 document.addEventListener('DOMContentLoaded', function() {
   const myButton = document.getElementById('TEST-BUTTON');
+  myButton.addEventListener('click', extractAndTrackPaymentInfo);
 
-myButton.addEventListener('click', extractAndTrackPaymentInfo);
 })
