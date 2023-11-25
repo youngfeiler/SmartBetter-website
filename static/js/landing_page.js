@@ -14,16 +14,15 @@ document.querySelectorAll('.scroll-link').forEach(anchor => {
 
 
 function initiateCheckout(event, price_id) {
-  event.preventDefault(); // Prevent the default link behavior (i.e., navigating to href)
-
+  event.preventDefault();
   fetch('/create_checkout_session/' + price_id)
     .then(response => response.json())
     .then(data => {
-      // Redirect the user to the Stripe Checkout Session URL
+      console.log(response);
+
       window.location.href = data.checkout_session_url;
     })
     .catch(error => {
       console.error('Error:', error);
-      // Handle errors or show a message to the user
     });
 }
