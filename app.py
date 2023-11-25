@@ -141,7 +141,10 @@ def get_scenario_data():
 
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
-    print(price_id)
+    if price_id == "price_1OG9CDHM5Jv8uc5MTtdQOZMv":
+        price = 99
+    else:
+        price = 199
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         allow_promotion_codes=True,
@@ -152,7 +155,7 @@ def create_checkout_session(price_id):
             },
         ],
         mode='subscription',
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}&price={price_id}',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}&price={price}',
         cancel_url=url_for('index', _external=True),
     )
     return redirect(checkout_session.url,code=302)
