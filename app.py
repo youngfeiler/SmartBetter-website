@@ -330,6 +330,23 @@ def show_nhl():
         return render_template('nhl.html')
     else:
         return redirect(url_for('register'))
+    
+
+@app.route('/nhl_pregame')
+def show_nhl_pregame():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nhl_pregame.html')
+    else:
+        return redirect(url_for('register'))
+    
+@app.route('/nba_pregame')
+def show_nba_pregame():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nba_pregame.html')
+    else:
+        return redirect(url_for('register'))
 
 
 @app.route('/get_performance_data', methods=["POST", "GET"])
