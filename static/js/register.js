@@ -25,7 +25,8 @@ function extractAndTrackPaymentInfo() {
           "contents": [
             {
               "content_type": "Subscription",
-              "content_name": "Subscription" 
+              "content_name": "Subscription",
+              "content_id":"non_id"
             }
           ],
           "value": price,
