@@ -184,8 +184,8 @@ def create_checkout_session_non_recurring(price_id):
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
         cancel_url=url_for('index', _external=True),
     )
-    return redirect(checkout_session.url, code=302)
 
+    return jsonify({'checkout_session_url': checkout_session.url})      
 
 @app.route('/test_func')
 def test_func():

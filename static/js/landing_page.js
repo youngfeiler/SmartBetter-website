@@ -15,7 +15,7 @@ document.querySelectorAll('.scroll-link').forEach(anchor => {
 
 function initiateCheckout(event, price_id) {
   event.preventDefault();
-  fetch('/create_checkout_session/' + price_id)
+  fetch('/checkoutnow/' + price_id)
     .then(response => response.json())
     .then(data => {
       console.log(response);
