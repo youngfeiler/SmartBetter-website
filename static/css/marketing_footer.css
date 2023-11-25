@@ -7,6 +7,11 @@
   align-items: flex-start;
   position: relative;
   flex: 0 0 auto;
+  color: white;
+}
+
+.link-2-mf{
+  color: white;
 }
 
 .content-11-mf {
