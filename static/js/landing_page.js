@@ -13,18 +13,52 @@ document.querySelectorAll('.scroll-link').forEach(anchor => {
 });
 
 
-function trackClickButtonEvent() {
+function trackClickButtonEvent99() {
   ttq.track('ClickButton', {
     "contents": [
       {
-        "content_type": "get started",
-        "content_name": "99 version" 
+        "content_type": "Get Started Button",
+        "content_name": "$99 Box" 
       }
     ]
   });
 }
-const trackButton = document.getElementById('get-started-id');
 
-trackButton.addEventListener('click', function(event) {
-  trackClickButtonEvent();
+function trackClickButtonEvent199() {
+  ttq.track('ClickButton', {
+    "contents": [
+      {
+        "content_type": "Get Started Button",
+        "content_name": "$199 Box" 
+      }
+    ]
+  });
+}
+
+function trackClickButtonEventFree() {
+  ttq.track('ClickButton', {
+    "contents": [
+      {
+        "content_type": "Get Started Button",
+        "content_name": "Trial Link" 
+      }
+    ]
+  });
+}
+
+const trackButton99 = document.getElementById('get-started-99');
+const trackButton199 = document.getElementById('get-started-199');
+const trackButtonFree = document.getElementById('get-started-free');
+
+
+trackButton99.addEventListener('click', function(event) {
+  trackClickButtonEvent99();
+});
+
+trackButton199.addEventListener('click', function(event) {
+  trackClickButtonEvent199();
+});
+
+trackButtonFree.addEventListener('click', function(event) {
+  trackClickButtonEventFree();
 });
