@@ -18,6 +18,8 @@ class observation_compiler():
 
     self.current_amount_of_nba_observations_pregame = self.get_amount_of_master_sport_obs("NBA_PREGAME")
 
+    self.current_amount_of_nfl_observations_pregame = self.get_amount_of_master_sport_obs("NFL_PREGAME")
+
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
 
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used']
@@ -30,6 +32,7 @@ class observation_compiler():
     nhl_obs = pd.read_csv('users/model_obs_nhl.csv')
     nhl_obs_pregame = pd.read_csv('users/model_obs_nhl_pregame.csv')
     nba_obs_pregame = pd.read_csv('users/model_obs_nba_pregame.csv')
+    nfl_obs_pregame = pd.read_csv('users/model_obs_nfl_pregame.csv')
 
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
@@ -52,6 +55,27 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nfl_observations = len(nfl_obs)
+
+    if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
+      amount_of_new_observations = len(nfl_obs_pregame) - self.current_amount_of_nfl_observations_pregame
+
+      new_nfl_obs = nfl_obs_pregame.tail(amount_of_new_observations).copy()
+
+      new_nfl_obs['sport_title'] = 'NFL_PREGAME'
+
+      new_nfl_obs['team'] = nfl_obs['team_1']
+
+      new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
+
+      new_nfl_obs['completed'] = False
+
+      new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
+
+      new_df = new_nfl_obs[self.schema]
+
+      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
+
+      self.current_amount_of_nfl_observations_pregame = len(nfl_obs_pregame)
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
       amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
