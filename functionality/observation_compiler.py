@@ -142,7 +142,7 @@ class observation_compiler():
 
       new_nhl_obs['sport_title'] = 'NHL_PREGAME'
 
-      new_nhl_obs['team'] = nhl_obs['team_1']
+      new_nhl_obs['team'] = nhl_obs_pregame['team_1']
 
       new_nhl_obs['completed'] = False
 
