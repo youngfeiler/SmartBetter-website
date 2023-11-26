@@ -67,7 +67,7 @@ class observation_compiler():
 
       new_nfl_obs['team'] = nfl_obs_pregame['team_1']
 
-      new_nfl_obs['average_market_odds'] = nfl_obs_pregame['average_market_odds_recent']
+      new_nfl_obs['average_market_odds'] = nfl_obs_pregame['average_market_odds']
 
       new_nfl_obs['completed'] = False
 
