@@ -413,20 +413,13 @@ class pregame_nhl_dashboard_runner():
 
       self.market_odds = self.add_extra_info(df)
 
-
       self.stacked_df_missing_vals = self.replace_missing_vals(self.market_odds)
 
       self.stacked_df_plain = self.stack_df(self.stacked_df_missing_vals)
 
       self.stacked_df_features_added = self.make_some_features(self.stacked_df_plain)
 
-      self.stacked_df_features_added.to_csv("users/nhl_preg_test_stacked.csv")
-
-
       self.filtered_df = self.filter_by_params(self.stacked_df_features_added)
-
-      self.filtered_df.to_csv("users/nhl_preg_test_stacked_filtered.csv")
-
 
       self.display_df = self.filtered_df.copy()
 
@@ -446,6 +439,8 @@ class pregame_nhl_dashboard_runner():
 
         time_columns = [col for col in df.columns if 'time' in col]
         return_df = df.drop(columns=time_columns)
+
+        
 
         return return_df
 
