@@ -324,6 +324,9 @@ class live_nfl_dashboard_runner():
           # Calculate the mean odds for each row (ignoring NaN values)
           df['average_market_odds'] = odds_df_masked.mean(axis=1, skipna=True)
 
+          df['barstool_1_odds'] = df['draftkings_1_odds']
+
+
           return df
 
        df = make_average_market_odds_old(df)
