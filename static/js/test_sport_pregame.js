@@ -76,50 +76,11 @@ function updateTable(data) {
                     <span class="tooltiptext"></span>
         </div>
       </li>
-      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
-      <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+
       <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
-      <li before-data="+EV%: " id="ev">${row.ev}%</li>
       <li id ="game-date">${row.game_date}</li>
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
-      <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
-      align-items: center; justify-content: center;"><svg
-      viewBox="0 0 20 20"
-      width="20"
-      height="20"
-      version="1.1"
-      id="svg1"
-      sodipodi:docname="icons8-plus.svg"
-      inkscape:version="1.3 (0e150ed, 2023-07-21)"
-      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:svg="http://www.w3.org/2000/svg">
-     <defs
-        id="defs1" />
-     <sodipodi:namedview
-        id="namedview1"
-        pagecolor="#ffffff"
-        bordercolor="#000000"
-        borderopacity="0.25"
-        inkscape:showpageshadow="2"
-        inkscape:pageopacity="0.0"
-        inkscape:pagecheckerboard="0"
-        inkscape:deskcolor="#d1d1d1"
-        inkscape:zoom="9.8333333"
-        inkscape:cx="12"
-        inkscape:cy="12"
-        inkscape:window-width="1312"
-        inkscape:window-height="449"
-        inkscape:window-x="0"
-        inkscape:window-y="25"
-        inkscape:window-maximized="0"
-        inkscape:current-layer="svg1" />
-     <path
-        d="M 10,0 C 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 Z m 4,11 h -3 v 3 c 0,0.552 -0.448,1 -1,1 v 0 C 9.448,15 9,14.552 9,14 V 11 H 6 C 5.448,11 5,10.552 5,10 v 0 C 5,9.448 5.448,9 6,9 H 9 V 6 C 9,5.448 9.448,5 10,5 v 0 c 0.552,0 1,0.448 1,1 v 3 h 3 c 0.552,0 1,0.448 1,1 v 0 c 0,0.552 -0.448,1 -1,1 z"
-        id="path1"
-        style="fill:var(--table-btn-bg)" />
-   </svg></li>
+      
       <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
       <li class="desktop-no-display" id="green">Moneyline</li>
       <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
@@ -480,15 +441,19 @@ function getImage(sportsbook_string, row){
 function fetchDataAndUpdateTable() {
   var currentURL = window.location.href;
   var urlSegments = currentURL.split('/');
+
+  // TODO: Redo this when we figure out how we want to segment this page
   // Get the last segment (element) of the URL
   var tabValue = urlSegments[urlSegments.length - 1].toUpperCase();
+
+
   const url = '/get_live_dash_data?';
   fetch(url,{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sport_title: tabValue }),
+    body: JSON.stringify({ sport_title: "PREGAME" }),
   })
     .then(response => response.json())
     .then(data => {

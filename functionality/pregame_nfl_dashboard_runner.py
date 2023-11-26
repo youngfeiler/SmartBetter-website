@@ -8,7 +8,7 @@ from .util import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 import os
 
-class live_nfl_dashboard_runner():
+class pregame_nfl_dashboard_runner():
     def __init__(self):
         self.model_storage = {}
         self.store_model_info()
@@ -17,14 +17,14 @@ class live_nfl_dashboard_runner():
                             'commence_time', 'time_pulled', 'team_1', 'team_2', 'barstool_1_odds', 'barstool_1_time', 'barstool_2_odds', 'barstool_2_time', 'betclic_1_odds', 'betclic_1_odds', 'betclic_1_time', 'betclic_1_time', 'betclic_2_odds', 'betclic_2_odds', 'betclic_2_time', 'betclic_2_time', 'betfair_1_odds', 'betfair_1_time', 'betfair_2_odds', 'betfair_2_time', 'betfred_1_odds', 'betfred_1_time', 'betfred_2_odds', 'betfred_2_time', 'betmgm_1_odds', 'betmgm_1_time', 'betmgm_2_odds', 'betmgm_2_time', 'betonlineag_1_odds', 'betonlineag_1_time', 'betonlineag_2_odds', 'betonlineag_2_time', 'betrivers_1_odds', 'betrivers_1_time', 'betrivers_2_odds', 'betrivers_2_time', 'betsson_1_odds', 'betsson_1_time', 'betsson_2_odds', 'betsson_2_time', 'betus_1_odds', 'betus_1_time', 'betus_2_odds', 'betus_2_time', 'betvictor_1_odds', 'betvictor_1_time', 'betvictor_2_odds', 'betvictor_2_time', 'betway_1_odds', 'betway_1_time', 'betway_2_odds', 'betway_2_time', 'bovada_1_odds', 'bovada_1_time', 'bovada_2_odds', 'bovada_2_time', 'casumo_1_odds', 'casumo_1_time', 'casumo_2_odds', 'casumo_2_time', 'circasports_1_odds', 'circasports_1_time', 'circasports_2_odds', 'circasports_2_time', 'coral_1_odds', 'coral_1_time', 'coral_2_odds', 'coral_2_time', 'draftkings_1_odds', 'draftkings_1_time', 'draftkings_2_odds', 'draftkings_2_time', 'fanduel_1_odds', 'fanduel_1_time', 'fanduel_2_odds', 'fanduel_2_time', 'foxbet_1_odds', 'foxbet_1_time', 'foxbet_2_odds', 'foxbet_2_time', 'gtbets_1_odds', 'gtbets_1_time', 'gtbets_2_odds', 'gtbets_2_time', 'intertops_1_odds', 'intertops_1_time', 'intertops_2_odds', 'intertops_2_time', 'ladbrokes_1_odds', 'ladbrokes_1_time', 'ladbrokes_2_odds', 'ladbrokes_2_time', 'livescorebet_1_odds', 'livescorebet_1_time', 'livescorebet_2_odds', 'livescorebet_2_time', 'lowvig_1_odds', 'lowvig_1_odds', 'lowvig_1_time', 'lowvig_1_time', 'lowvig_2_odds', 'lowvig_2_odds', 'lowvig_2_time', 'lowvig_2_time', 'marathonbet_1_odds', 'marathonbet_1_time', 'marathonbet_2_odds', 'marathonbet_2_time', 'matchbook_1_odds', 'matchbook_1_time', 'matchbook_2_odds', 'matchbook_2_time', 'mrgreen_1_odds', 'mrgreen_1_odds', 'mrgreen_1_time', 'mrgreen_1_time', 'mrgreen_2_odds', 'mrgreen_2_odds', 'mrgreen_2_time', 'mrgreen_2_time', 'mybookieag_1_odds', 'mybookieag_1_time', 'mybookieag_2_odds', 'mybookieag_2_time', 'nordicbet_1_odds', 'nordicbet_1_time', 'nordicbet_2_odds', 'nordicbet_2_time', 'onexbet_1_odds', 'onexbet_1_time', 'onexbet_2_odds', 'onexbet_2_time', 'paddypower_1_odds', 'paddypower_1_time', 'paddypower_2_odds', 'paddypower_2_time', 'pinnacle_1_odds', 'pinnacle_1_odds', 'pinnacle_1_time', 'pinnacle_1_time', 'pinnacle_2_odds', 'pinnacle_2_odds', 'pinnacle_2_time', 'pinnacle_2_time', 'pointsbetus_1_odds', 'pointsbetus_1_time', 'pointsbetus_2_odds', 'pointsbetus_2_time', 'sport888_1_odds', 'sport888_1_time', 'sport888_2_odds', 'sport888_2_time', 'sugarhouse_1_odds', 'sugarhouse_1_time', 'sugarhouse_2_odds', 'sugarhouse_2_time', 'superbook_1_odds', 'superbook_1_time', 'superbook_2_odds', 'superbook_2_time', 'twinspires_1_odds', 'twinspires_1_time', 'twinspires_2_odds', 'twinspires_2_time', 'unibet_eu_1_odds', 'unibet_eu_1_time', 'unibet_eu_2_odds', 'unibet_eu_2_time', 'unibet_uk_1_odds', 'unibet_uk_1_time', 'unibet_uk_2_odds', 'unibet_uk_2_time', 'unibet_us_1_odds', 'unibet_us_1_time', 'unibet_us_2_odds', 'unibet_us_2_time', 'virginbet_1_odds', 'virginbet_1_time', 'virginbet_2_odds', 'virginbet_2_time', 'williamhill_us_1_odds', 'williamhill_us_1_time', 'williamhill_us_2_odds', 'williamhill_us_2_time', 'wynnbet_1_odds', 'wynnbet_1_odds', 'wynnbet_1_time', 'wynnbet_1_time', 'wynnbet_2_odds', 'wynnbet_2_odds', 'wynnbet_2_time', 'wynnbet_2_time']
         
     def store_model_info(self):
-          with open(f'models/encoders/nfl_model_1.pkl', 'rb') as f:
+          with open(f'models/encoders/nfl_model_pregame.pkl', 'rb') as f:
             loaded_encoder = pickle.load(f)
-          with open(f'models/scalers/nfl_model_1.pkl', 'rb') as f:
+          with open(f'models/scalers/nfl_model_pregame.pkl', 'rb') as f:
             loaded_scaler = pickle.load(f)
-          with open(f'models/params/nfl_model_1.pkl', 'rb') as f:
+          with open(f'models/params/nfl_model_pregame.pkl', 'rb') as f:
             loaded_ordered_params_dict = pickle.load(f)
             loaded_params_dict = dict(loaded_ordered_params_dict)
-          loaded_model = torch.load(f'models/model_objs/nfl_model_1.pth')
+          loaded_model = torch.load(f'models/model_objs/nfl_model_pregame.pth')
 
           this_model_dict = {
             'model': loaded_model,
@@ -358,8 +358,6 @@ class live_nfl_dashboard_runner():
 
         df['ev'] = ((1/df['average_market_odds_old'])*(100*df['highest_bettable_odds']-100)) - ((1-(1/df['average_market_odds_old'])) * 100)
 
-        # print(self.model_storage['SmartBetterNFLModel']['params']['min_ev'])
-
         df = df[df['ev'] >= self.model_storage['SmartBetterNFLModel']['params']['min_ev']]
 
         # df = df[df['ev'] >= -100]
@@ -466,6 +464,8 @@ class live_nfl_dashboard_runner():
 
        self.final_data_for_model = self.final_data_for_model.astype(np.float32)
 
+       print(self.final_data_for_model.shape)
+
        return
 
     def make_live_dash_data(self):
@@ -477,7 +477,7 @@ class live_nfl_dashboard_runner():
           return [process_column_header(col) for col in bettable_books if row[col+'_1_odds'] == row['highest_bettable_odds']]
       
 
-      print('nfl running')
+      print('nfl pregame running')
       market_odds_df = self.get_nfl_odds()
 
       # Makes self.filtered_df
@@ -497,19 +497,16 @@ class live_nfl_dashboard_runner():
           # mask = predictions_array > -10000
           filtered_df = self.display_df[mask]
 
-          print(predictions_array)
-          print(strategy_dict['pred_thresh'])
-
           if not filtered_df.empty:
           
             filtered_df['sportsbooks_used'] = filtered_df.apply(find_matching_columns, axis=1)
 
-            existing_df = pd.read_csv('users/model_obs_nfl.csv')
+            existing_df = pd.read_csv('users/model_obs_nfl_pregame.csv')
 
             df_new_reordered = filtered_df[existing_df.columns]
 
             result = pd.concat([existing_df, df_new_reordered], ignore_index=True)
-            result.to_csv('users/model_obs_nfl.csv', index=False) 
+            result.to_csv('users/model_obs_nfl_pregame.csv', index=False) 
 
             print(f"{len(filtered_df)} NFL bets found" )
 

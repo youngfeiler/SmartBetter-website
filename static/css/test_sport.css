@@ -918,6 +918,22 @@ option {
   height: none !important;
 }
 
+.line-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.line {
+  flex: 1;
+  height: 1px; /* Thickness of the line */
+  background-color: var(--sidebar-border-color); /* Or your desired line color */
+}
+
+.text {
+  font-size: 12px;
+  padding: 0 5px; 
+  color: inherit;
+}
 
 
 @media (max-width: 767px) {

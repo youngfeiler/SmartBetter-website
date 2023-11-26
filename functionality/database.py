@@ -234,8 +234,13 @@ class database():
        conn.close()
 
        df = pd.read_csv('users/master_model_observations.csv')
-       
-       df_sport = df[df['sport_title'] == sport]
+
+       if sport != "PREGAME":
+          df_sport = df[df['sport_title'] == sport]
+       else:
+          # df_sport = df[df['sport_title'] == sport]
+          df_sport = df[df['sport_title'].str.contains('PREGAME', na=False)]
+
        
        filtered_df = df_sport[df_sport['completed'] == False]
        filtered_df = filtered_df[filtered_df['average_market_odds'] > 0.01]
@@ -738,7 +743,6 @@ class database():
           return f"-${abs(num):.2f}"
        if num >=0:
           return f"+${num:.2f}"
-
 
     def get_bet_tracker_dashboard_data(self, params):
 

@@ -79,6 +79,10 @@ def product():
 def scenarios():
     return render_template('scenarios.html')
 
+@app.route('/pregame')
+def pregame_beta():
+    return render_template('pregame.html')
+
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
        teams = pd.read_csv('../extra_info_sheets/teams.csv')
