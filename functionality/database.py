@@ -197,7 +197,15 @@ class database():
        
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
        df['win_prob'] =  (1 / df['average_market_odds']) 
-       bankroll = self.calculate_user_bankroll(user)
+       session = self.db_manager.create_session()
+       user_bankroll = session.query(LoginInfo.bankroll).filter_by(username=user).first()
+       if user_bankroll:
+          bankroll = user_bankroll[0]  # Extracting bankroll value
+          session.close()
+       else:
+          bankroll = None  # User not found or no bankroll
+          session.close()
+       print(bankroll)
        bankroll = float(bankroll)
        df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
                           #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
@@ -286,21 +294,28 @@ class database():
         return value_new
        try:
           session = self.db_manager.create_session()
-          print(datetime.now())
-          df = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
-          print(datetime.now())
+          #df = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine(), chunksize=1000)
+          engine = self.db_manager.get_engine()
+          sport = 'NBA'  # Replace with the sport you're filtering for
 
+          query = """
+          SELECT *
+          FROM master_model_observations
+          WHERE sport_title = %s AND completed = False AND average_market_odds > 0.01
+          ORDER BY snapshot_time DESC
+          """
+          filtered_df = pd.read_sql_query(query, engine, params=[sport])
        except Exception as e:
-                print(e)
-                return str(e)
+          print(e)
+          return str(e)
        finally:
          session.close()
+      #OLD PANDAS LOGIC
+      #  df_sport = df[df['sport_title'] == sport]
        
-       df_sport = df[df['sport_title'] == sport]
-       
-       filtered_df = df_sport[df_sport['completed'] == False]
-       filtered_df = filtered_df[filtered_df['average_market_odds'] > 0.01]
-       filtered_df.sort_values(by='snapshot_time', ascending=False, inplace=True)
+      #  filtered_df = df_sport[df_sport['completed'] == False]
+      #  filtered_df = filtered_df[filtered_df['average_market_odds'] > 0.01]
+      #  filtered_df.sort_values(by='snapshot_time', ascending=False, inplace=True)
        filtered_df = filtered_df.dropna(subset=['team'])  # Drop NaN values
        filtered_df = filtered_df.dropna(subset=['opponent'])  # Drop NaN values
 
@@ -449,21 +464,58 @@ class database():
     
     def calculate_user_bankroll(self, username):
       try:
-          session = self.db_manager.create_session()
+        print('time to pull all of the datums')
+        print(datetime.now())
+        engine = self.db_manager.get_engine()
+        session = self.db_manager.create_session()
+
+        # SQL query to fetch filtered placed bets
+        placed_bets_query = f"""
+        SELECT pb.*
+        FROM placed_bets pb
+        WHERE pb.user_name = %s
+        """
+        placed_bets = pd.read_sql_query(placed_bets_query, engine, params=[username])
+
+        # SQL query to fetch only game_id and winning_team from scores
+        scores_query = """
+        SELECT game_id, winning_team
+        FROM scores
+        """
+        scores_df = pd.read_sql_query(scores_query, engine)
+
+        # SQL query to perform the merge (join) operation
+        merged_query = f"""
+        SELECT pb.*, sc.winning_team
+        FROM placed_bets pb
+        LEFT JOIN scores sc ON pb.game_id = sc.game_id
+        WHERE pb.user_name = %s AND sc.winning_team IS NOT NULL
+        """
+        merged_df = pd.read_sql_query(merged_query, engine, params=[username])
+        print(datetime.now())
           
-          placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
-          scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
-          login_info = pd.read_sql_table('login_info', con=self.db_manager.get_engine())
+
+
+          # session = self.db_manager.create_session()
+          # print('time to pull all of the datums')
+          # print(datetime.now())
+          # placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
+          # scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
+          # login_info = pd.read_sql_table('login_info', con=self.db_manager.get_engine())
+          # print(datetime.now())
       except Exception as e:
         print(e)
         return str(e)
       finally:
         session.close()
+
+      print('time to run pandas stuff')
+      print(datetime.now())
       current_bankroll = self.get_user_bank_roll(username)
-      placed_bets = placed_bets[placed_bets['user_name'] == username]
-      scores_df = scores_df[['game_id', 'winning_team']]
-      merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
-      merged_df = merged_df[merged_df['winning_team'].notna()]
+      # placed_bets = placed_bets[placed_bets['user_name'] == username]
+      # scores_df = scores_df[['game_id', 'winning_team']]
+      # merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
+      # merged_df = merged_df[merged_df['winning_team'].notna()]
 
       merged_df['team'] = merged_df['team'].str.replace(r'\s+v\.', 'v.')
       merged_df['team'] = merged_df['team'].str.replace(r'v\.\s+', 'v.')
@@ -481,12 +533,27 @@ class database():
       # add total profit/loss to current bankroll
       new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
       # update users/login_info.csv with new bankroll
-      login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
+      # login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
+      print(datetime.now())
       #login_info.to_csv('users/login_info.csv', index=False)
       try:
-          session = self.db_manager.create_session()
-          login_info.to_sql('login_info', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-          session.close()
+        engine = self.db_manager.get_engine()
+        print('time to push')
+        print(datetime.now())
+        query = """
+            UPDATE login_info
+            SET bankroll = %s
+            WHERE username = %s
+        """
+
+# Execute the query
+        engine = self.db_manager.get_engine()
+        with engine.connect() as connection:
+            connection.execute(query, (new_bankroll, username))
+              # session = self.db_manager.create_session()
+              # login_info.to_sql('login_info', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+              # session.close()
+            print(datetime.now())
 
       except Exception as e:
         print(e)
