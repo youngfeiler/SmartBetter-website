@@ -5,7 +5,7 @@ import os
 
 # Define your MySQL database parameters
 mysql_database = os.environ.get('db_name')
-endpoint = 'database-3.cgsvu7bg7jl5.us-east-2.rds.amazonaws.com'  # RDS endpoint
+endpoint = os.environ.get('database_endpoint')  # RDS endpoint
 username = 'admin'
 password = os.environ.get('mysql_pass')
 
