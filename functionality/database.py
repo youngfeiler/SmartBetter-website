@@ -305,7 +305,7 @@ class database():
             query = """
             SELECT *
             FROM master_model_observations
-            WHERE sport_title = %s AND completed = False AND average_market_odds > 0.01
+            WHERE sport_title = %s AND completed = 0 AND average_market_odds > 0.01
             ORDER BY snapshot_time DESC
             """
             filtered_df = pd.read_sql_query(query, engine, params=[sport])
@@ -314,7 +314,7 @@ class database():
             query = """
             SELECT *
             FROM master_model_observations
-            WHERE sport_title LIKE '%%PREGAME%% AND completed = False AND average_market_odds > 0.01
+            WHERE sport_title LIKE '%%PREGAME%% AND completed = 0 AND average_market_odds > 0.01
             ORDER BY snapshot_time DESC'
             """
             filtered_df = pd.read_sql_query(query, engine)
