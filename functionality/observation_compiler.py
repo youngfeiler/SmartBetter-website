@@ -44,13 +44,13 @@ class observation_compiler():
 
       new_nfl_obs['team'] = nfl_obs['team_1']
 
-      new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
+      new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds']
 
       new_nfl_obs['completed'] = False
 
       new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
-      new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
+      # new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
 
       new_df = new_nfl_obs[self.schema]
 

@@ -87,7 +87,7 @@ class live_nba_dashboard_runner():
       SPORT = 'basketball_nba'
       REGIONS = 'us,eu,uk'
       MARKETS = 'h2h' 
-      ODDS_FORMAT = 'decimal'  # decimal | american
+      ODDS_FORMAT = 'decimal'
       DATE_FORMAT = 'iso'
 
       odds_response = requests.get(
@@ -106,7 +106,6 @@ class live_nba_dashboard_runner():
       else:
         odds_json = odds_response.json()
 
-        # Make a dataframe from this pull
         df = pd.DataFrame.from_dict(odds_json)
 
         # Process this data
@@ -302,7 +301,6 @@ class live_nba_dashboard_runner():
           time_diff_df = snapshot_date.to_frame().join(time_df).apply(lambda row: pd.Timestamp.combine(row[0], row['draftkings_1_time']), axis=1) - df['snapshot_time']
           # Calculate absolute values of time differences
           time_diff_df = time_diff_df.abs()
-          time_df.to_csv('time_diff_df.csv')
           # Create a mask based on the threshold
           threshold = self.model_storage['SmartBetterNBAModel']['params']['update_time_threshold']
 
@@ -398,23 +396,26 @@ class live_nba_dashboard_runner():
         time_columns = [col for col in df.columns if 'time' in col]
         return_df = df.drop(columns=time_columns)
 
+        test_series = return_df['team_1_division'].copy()
+
+        return_df.drop(columns = ['team_1_division'], inplace=True)
+
+        return_df['team_1_division'] = test_series.iloc[:, 0]
+
         return return_df
 
        def standardize_numerical_values(df):
-        self.categorical_columns = ['team_1', 'this_team_division', 'team_1_conference', 'hour_of_start', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division',  'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away']
+        self.categorical_columns = ['team_1', 'this_team_division', 'team_1_conference', 'hour_of_start', 'day_of_week', 'home_away_neutral', 'home_team_division', 'away_team_division', 'team_2_division', 'home_team_conference', 'away_team_conference', 'day_night', 'opponent', 'this_team_division', 'opponent_team_division', 'this_team_conference', 'opponent_team_conference', 'home_away', 'team_1_division']
 
-        self.numerical_columns = [
-           'barstool_1_odds', 'betclic_1_odds', 'betfair_1_odds', 'betfred_1_odds','betmgm_1_odds','betonlineag_1_odds', 'betrivers_1_odds', 'betsson_1_odds', 'betus_1_odds', 'betvictor_1_odds', 'betway_1_odds', 'bovada_1_odds', 'casumo_1_odds', 'circasports_1_odds','coral_1_odds', 'draftkings_1_odds', 'fanduel_1_odds','foxbet_1_odds', 'gtbets_1_odds', 'intertops_1_odds','ladbrokes_1_odds', 'livescorebet_1_odds', 'lowvig_1_odds','marathonbet_1_odds', 'matchbook_1_odds', 'mrgreen_1_odds','mybookieag_1_odds', 'nordicbet_1_odds', 'onexbet_1_odds','paddypower_1_odds', 'pinnacle_1_odds', 'pointsbetus_1_odds','sport888_1_odds', 'sugarhouse_1_odds', 'superbook_1_odds','twinspires_1_odds', 'unibet_1_odds', 'unibet_eu_1_odds','unibet_uk_1_odds','unibet_us_1_odds', 'virginbet_1_odds','williamhill_1_odds','williamhill_us_1_odds', 'wynnbet_1_odds','minutes_since_commence','average_market_odds_old','highest_bettable_odds', 'average_market_odds'
-           ] 
+        self.numerical_columns = ['barstool_1_odds', 'betclic_1_odds', 'betfair_1_odds', 'betfred_1_odds', 'betmgm_1_odds', 'betonlineag_1_odds', 'betrivers_1_odds', 'betsson_1_odds', 'betus_1_odds', 'betvictor_1_odds', 'betway_1_odds', 'bovada_1_odds', 'casumo_1_odds', 'circasports_1_odds', 'coral_1_odds', 'draftkings_1_odds', 'fanduel_1_odds', 'foxbet_1_odds', 'gtbets_1_odds', 'intertops_1_odds', 'ladbrokes_1_odds', 'livescorebet_1_odds', 'lowvig_1_odds', 'marathonbet_1_odds', 'matchbook_1_odds', 'mrgreen_1_odds', 'mybookieag_1_odds', 'nordicbet_1_odds', 'onexbet_1_odds', 'paddypower_1_odds', 'pinnacle_1_odds', 'pointsbetus_1_odds', 'sport888_1_odds', 'sugarhouse_1_odds', 'superbook_1_odds', 'twinspires_1_odds', 'unibet_1_odds', 'unibet_eu_1_odds', 'unibet_uk_1_odds', 'unibet_us_1_odds', 'virginbet_1_odds', 'williamhill_1_odds', 'williamhill_us_1_odds', 'wynnbet_1_odds', 'minutes_since_commence', 'average_market_odds_old', 'highest_bettable_odds', 'average_market_odds']
 
         # Select the subset 
         df_numerical = df[self.numerical_columns]
+
         df = df.drop(columns='target')
 
         # Create an instance of StandardScaler and fit it on the training data
         scaler = self.model_storage['SmartBetterNBAModel']['scaler']
-
-        expected_feature_names = scaler.get_feature_names_out()
 
         scaled_df = scaler.transform(df[self.numerical_columns])
         
@@ -483,7 +484,7 @@ class live_nba_dashboard_runner():
 
           predictions_array = predictions.detach().numpy()
           mask = predictions_array > strategy_dict['pred_thresh']
-          # mask = predictions_array > -100
+          # mask = predictions_array > -1000
 
           filtered_df = self.display_df[mask]
 
@@ -497,15 +498,13 @@ class live_nba_dashboard_runner():
 
             result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
 
-            filtered_df.to_csv('users/test.csv', mode='w')
             result_df.to_csv( 'users/model_obs_nba.csv', 
                mode = 'w', 
-               header= False, 
                index = False
                )
 
 
-            print(f"{len(filtered_df)} NBA bets found" )
+            print(f"{len(filtered_df)} NBA live bets found" )
 
           elif filtered_df.empty:
              pass
