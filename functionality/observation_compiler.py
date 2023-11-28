@@ -2,9 +2,13 @@ import pandas as pd
 import sqlite3
 import numpy as np
 import time
+from functionality.db_manager import DBManager
+
 
 class observation_compiler():
   def __init__(self):
+
+    self.db_manager = DBManager()
     
     self.current_amount_of_nfl_observations = self.get_amount_of_master_sport_obs("NFL")
 
@@ -19,6 +23,16 @@ class observation_compiler():
     self.current_amount_of_nba_observations_pregame = self.get_amount_of_master_sport_obs("NBA_PREGAME")
 
     self.current_amount_of_nfl_observations_pregame = self.get_amount_of_master_sport_obs("NFL_PREGAME")
+
+    try:
+          session = self.db_manager.create_session()
+          self.master_observations_sheet = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
+    except Exception as e:
+      print(e)
+      raise
+    finally:
+      session.close()
+    
 
     self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
 
@@ -43,8 +57,6 @@ class observation_compiler():
       new_nfl_obs['sport_title'] = 'NFL'
 
       new_nfl_obs['team'] = nfl_obs['team_1']
-
-      new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
 
       new_nfl_obs['completed'] = False
 
@@ -103,7 +115,7 @@ class observation_compiler():
 
       new_nba_obs['sport_title'] = 'NBA_PREGAME'
 
-      new_nba_obs['team'] = nba_obs['team_1']
+      new_nba_obs['team'] = nba_obs_pregame['team_1']
 
       new_nba_obs['completed'] = False
 
@@ -115,7 +127,6 @@ class observation_compiler():
 
       self.current_amount_of_nba_observations_pregame = len(nba_obs_pregame)
     
-
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
       amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
 
@@ -136,6 +147,7 @@ class observation_compiler():
       self.current_amount_of_nhl_observations = len(nhl_obs)
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
+      print("yes")
       amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
 
       new_nhl_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
@@ -154,6 +166,8 @@ class observation_compiler():
 
       self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
 
+      print(new_df)
+
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
 
@@ -171,25 +185,50 @@ class observation_compiler():
       self.current_amount_of_mlb_observations = len(mlb_obs)
 
     self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
+    self.master_observations_sheet['new_column'] = self.master_observations_sheet['game_id'].astype(str) + self.master_observations_sheet['snapshot_time'].astype(str)
+    
+    try:
+          session = self.db_manager.create_session()
+          self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+
 
   def update_completed_observations(self):
-    conn = sqlite3.connect('smartbetter.db')
-    scores = pd.read_sql('SELECT * FROM scores', conn)
-    conn.close()
+    try:
+          session = self.db_manager.create_session()
+          scores =  pd.read_sql_table('scores', con=self.db_manager.get_engine())
+    except Exception as e:
+        print(e)
+        return str(e)
+    finally:
+        session.close()
 
     completed_ids = scores['game_id'].unique().tolist()
 
     self.master_observations_sheet['completed'] = np.where(self.master_observations_sheet['game_id'].isin(completed_ids), True, False)
 
-    self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
+    try:
+          self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+        return 
+    finally:
+        return 
 
 
   def get_amount_of_master_sport_obs(self, sport_title):
-    master_model_obs = pd.read_csv('users/master_model_observations.csv')
+    try:
+          session = self.db_manager.create_session()
+          master_model_obs = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
+    except Exception as e:
+      print(e)
+      return str(e)
+    finally:
+      session.close()
     sport_obs = master_model_obs[master_model_obs['sport_title'] == sport_title]
 
     return len(sport_obs)
-
 
 
     

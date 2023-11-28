@@ -3,7 +3,7 @@ import time as ttime
 import torch
 import pickle
 from .database import database
-from .live_data_collector import data_collector
+# from .live_data_collector import data_collector
 from .util import *
 from .result_updater import result_updater
 from .texter import texter

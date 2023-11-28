@@ -351,7 +351,7 @@ class live_nba_dashboard_runner():
 
         df = df[df['ev'] >= self.model_storage['SmartBetterNBAModel']['params']['min_ev']]
 
-        # df = df[df['ev'] >= -100]
+        df = df[df['ev'] >= -100]
         
         df = df[df['ev'] <= self.model_storage['SmartBetterNBAModel']['params']['max_ev']]
 
@@ -360,6 +360,7 @@ class live_nba_dashboard_runner():
         return df
        
        def filter_by_best_odds(df):
+
           df = df[df['highest_bettable_odds'] >= self.model_storage['SmartBetterNBAModel']['params']['min_avg_odds']]
           df = df[df['highest_bettable_odds'] <= self.model_storage['SmartBetterNBAModel']['params']['max_avg_odds']]
 
@@ -482,7 +483,9 @@ class live_nba_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
+
           mask = predictions_array > strategy_dict['pred_thresh']
+
           # mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
@@ -497,10 +500,9 @@ class live_nba_dashboard_runner():
 
             result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
 
-            filtered_df.to_csv('users/test.csv', mode='w')
             result_df.to_csv( 'users/model_obs_nba.csv', 
                mode = 'w', 
-               header= False, 
+               header= True, 
                index = False
                )
 
