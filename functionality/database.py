@@ -314,7 +314,8 @@ class database():
             query = """
             SELECT *
             FROM master_model_observations
-            WHERE sport_title LIKE '%%PREGAME%%'
+            WHERE sport_title LIKE '%%PREGAME%% AND completed = False AND average_market_odds > 0.01
+            ORDER BY snapshot_time DESC'
             """
             filtered_df = pd.read_sql_query(query, engine)
 
@@ -519,7 +520,7 @@ class database():
       total_profit_loss = merged_df['bet_result'].sum()
 
       new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
-      
+
       return new_bankroll
       
     def filter_5_min_cooloff(self, username, sport, df):
