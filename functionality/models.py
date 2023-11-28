@@ -6,11 +6,10 @@ Base = declarative_base()
 
 class MasterModelObservations(Base):
     __tablename__ = 'master_model_observations'
-
+    new_column = Column(String(255), primary_key=True)
     sport_title = Column(String(255))
-    text = Column(Text)
     completed = Column(Boolean)
-    game_id = Column(String(255), primary_key=True)
+    game_id = Column(String(255))
     game_date = Column(String(255))
     team = Column(String(255))
     minutes_since_commence = Column(Float)

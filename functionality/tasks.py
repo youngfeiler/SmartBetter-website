@@ -70,9 +70,6 @@ def start_dashboard_runner():
     pregame_nba_dashboard_runner_instance = pregame_nba_dashboard_runner()
     pregame_nfl_dashboard_runner_instance = pregame_nfl_dashboard_runner()
 
-
-    db = database()
-
     result_updater_instance = result_updater()
 
     observation_compiler_instace = observation_compiler()
@@ -86,8 +83,6 @@ def start_dashboard_runner():
       result_updater_instance.update_results('basketball_nba')
 
       result_updater_instance.update_results('icehockey_nhl')
-
-      db.check_payments()
 
       pregame_nhl_dashboard_runner_instance.make_live_dash_data()
 

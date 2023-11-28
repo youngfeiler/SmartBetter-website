@@ -1,7 +1,7 @@
 import requests 
 import numpy 
 import pandas as pd
-from .live_data_collector import data_collector
+# from .live_data_collector import data_collector
 from .util import get_odds, preprocess, make_stacked_df
 import pickle
 import torch
