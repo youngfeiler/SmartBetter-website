@@ -324,6 +324,9 @@ class live_nfl_dashboard_runner():
           # Calculate the mean odds for each row (ignoring NaN values)
           df['average_market_odds'] = odds_df_masked.mean(axis=1, skipna=True)
 
+          df['barstool_1_odds'] = df['draftkings_1_odds']
+
+
           return df
 
        df = make_average_market_odds_old(df)
@@ -506,15 +509,8 @@ class live_nfl_dashboard_runner():
             df_new_reordered = filtered_df[existing_df.columns]
 
             result = pd.concat([existing_df, df_new_reordered], ignore_index=True)
-
             result.to_csv('users/model_obs_nfl.csv', index=False) 
 
-            try:
-              df_new_reordered.to_sql('model_obs_nfl', con=db_manager.get_engine(), if_exists='append', index=False)
-            except Exception as e:
-               print(e)
-               return (str(e))
-            
             print(f"{len(filtered_df)} NFL bets found" )
 
           elif filtered_df.empty:

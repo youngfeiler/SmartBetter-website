@@ -16,11 +16,9 @@ import json
 from datetime import timedelta
 from datetime import datetime
 import os
+import sqlite3
 import stripe
 import time
-import atexit
-from functionality.db_manager import DBManager
-from functionality.models import LoginInfo  
 
 
 
@@ -28,10 +26,28 @@ def create_app():
     app = Flask(__name__, template_folder='static/templates', static_folder='static')
     # TODO: Put this key in the secret file
     app.secret_key = 'to_the_moon'
-    app.db_manager = DBManager()
-    app.db = database(app.db_manager)
     app.celery = celery
     return app
+
+# Connect to the SQLite database (or create if it doesn't exist)
+#create a functions that adds to the database by taking in a csv file string and adding it to the database
+def add_to_database(csv_file, conn,nm):
+    #pull csv file 
+    df = pd.read_csv(csv_file)
+    #add to database
+    df.to_sql(nm, conn, if_exists='replace', index=False)
+    #commit changes
+    conn.commit()
+
+def add_bool_column_to_table(df, conn, table_name, column_name):
+    df[column_name] = False
+    df.to_sql(table_name, conn, if_exists='replace', index=False)
+    conn.commit()
+
+def add_date_column_to_table(df, conn, table_name, column_name):
+    df[column_name] = datetime.now()
+    df.to_sql(table_name, conn, if_exists='replace', index=False)
+    conn.commit()
 
 
 app = create_app()
@@ -41,25 +57,41 @@ stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 
 
-@atexit.register
-def close_db():
-    app.db_manager.close()
-
 @app.route('/')
 def index():
-    app.db.check_payments()
-    return render_template('index.html', 
+    return render_template('landing_page.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
+
+@app.route('/home_test')
+def home_test():
+    return render_template('landing_page.html')
+
+@app.route('/about')
+def about():
+    return render_template('about_us.html')
+
+@app.route('/how_it_works')
+def how_it_works():
+    return render_template('how_it_works.html')
+
+@app.route('/product')
+def product():
+    return render_template('product.html')
 
 @app.route('/scenarios')
 def scenarios():
     return render_template('scenarios.html')
+
+@app.route('/pregame')
+def pregame_beta():
+    return render_template('pregame.html')
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
        teams = pd.read_csv('../extra_info_sheets/teams.csv')
        teams.sort_values(by="team", inplace=True)
        return teams.to_json(orient='records', date_format='iso')
+
 
 @app.route('/get_divisions_teams_from_conference', methods=['GET', 'POST'])
 def get_divisions_teams_from_conference():
@@ -87,12 +119,13 @@ def get_teams_from_division():
     except Exception as e:
         print(e)
     
+
 @app.route('/get_scenario_data', methods=['GET', 'POST'])
 def get_scenario_data():
     try:
         data = request.json
         print(data)
-        db = database(app.db_manager)
+        db = database()
         start = time.time()
 
         graph_data = db.get_scenario_results(app.config['raw_odds_data'], data)
@@ -112,9 +145,13 @@ def get_scenario_data():
 
     return response
 
+
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
-    # Create a checkout session with the provided price_id
+    if price_id == "price_1OG9CDHM5Jv8uc5MTtdQOZMv":
+        price = 99
+    else:
+        price = 199
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         allow_promotion_codes=True,
@@ -125,20 +162,16 @@ def create_checkout_session(price_id):
             },
         ],
         mode='subscription',
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
     )
     return redirect(checkout_session.url,code=302)
 
+
 @app.route('/checkoutnow/<string:price_id>')
 def create_checkout_session_non_recurring(price_id):
-    # Extract customer email from the query string
-    email = request.args.get('email')  # Use request.args to get the email from the query string
-
-    # Create a new customer in Stripe with the provided email
-    customer = stripe.Customer.create(email=email)  # You can add more customer details as needed
-
-    # Create a checkout session with the provided price_id and the created customer
+    email = request.args.get('email')
+    customer = stripe.Customer.create(email=email)
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[
@@ -149,24 +182,26 @@ def create_checkout_session_non_recurring(price_id):
         ],
         customer=customer.id,
         mode='payment',
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}&price=0',
         cancel_url=url_for('index', _external=True),
     )
     return redirect(checkout_session.url, code=302)
 
+
 @app.route('/test_func')
 def test_func():
     tasks.start_dashboard_runner.delay()
-    return render_template('index.html')
+    return render_template('nba.html')
 
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('landing_page.html')
 
 @app.route('/account')
 def account():
+  db = database()
   if 'user_id' in session:
-        users = app.db.get_user_info(session['user_id'])
+        users = db.get_user_info(session['user_id'])
         return render_template('account_settings.html', users = users)
   else:
         return redirect(url_for('login'))
@@ -178,8 +213,10 @@ def show_performance():
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
     if request.method == 'POST':
+        # You can access the data sent by the form here
         new_bankroll = request.form.get('Name-5')
-        success = app.db.update_bankroll(session['user_id'], new_bankroll)
+        db = database()
+        success = db.update_bankroll(session['user_id'], new_bankroll)
         if success:
             flash('Your bankroll has been updated!', 'success')
             return redirect(url_for('account'))
@@ -203,21 +240,14 @@ def register():
         sign_up_date = datetime.now()
         payed = False
         if username in users:
-            print("if usrname in users")
-
-            has_payed=app.db.check_duplicate_account(username)
-            print("made it here")
+            has_payed=my_db.check_duplicate_account(username)
             if has_payed:
                 payed = True
-                app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
-                print("add_user complete")
+                my_db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
+                users = my_db.users
+                login_allowed = my_db.check_login_credentials(username, password)
 
-                users = app.db.users
-                print("users complete")
-
-                login_allowed = app.db.check_login_credentials(username, password)
-                print("login_allowed complete")
-
+                print(f'{username} login result: {login_allowed}')
                 if login_allowed:
                     session['user_id'] = username
                     return redirect(url_for('show_nba'))
@@ -247,7 +277,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
   user_id = session.get('user_id')
-  my_db = database(app.db_manager)
+  my_db = database()
   if (user_id is not None):
       payed = my_db.check_account(user_id)
       if payed:
@@ -302,6 +332,23 @@ def show_nhl():
         return render_template('nhl.html')
     else:
         return redirect(url_for('register'))
+    
+
+@app.route('/nhl_pregame')
+def show_nhl_pregame():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nhl_pregame.html')
+    else:
+        return redirect(url_for('register'))
+    
+@app.route('/nba_pregame')
+def show_nba_pregame():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return render_template('nba_pregame.html')
+    else:
+        return redirect(url_for('register'))
 
 
 @app.route('/get_performance_data', methods=["POST", "GET"])
@@ -310,7 +357,7 @@ def get_performance_data():
         data = request.json
         dict_params = data['params']
         print(dict_params)
-        db = database(app.db_manager)
+        db = database()
         return_data = db.get_bet_tracker_dashboard_data(dict_params)        
     except Exception as e:
         print(e)
@@ -323,7 +370,7 @@ def add_saved_bet():
         data = request.json 
         user = session['user_id']
         data['user_name'] = user
-        myDatabase = database(app.db_manager)
+        myDatabase = database()
         myDatabase.add_made_bet_to_db(data)
         response = {'status_code': 'success', 'message': 'Bet saved successfully'}
     except Exception as e:
@@ -335,18 +382,10 @@ def add_saved_bet():
 def get_live_dash_data():
     data = request.get_json()
     sport_title = data.get('sport_title', '')
+
     my_db = database(app.db_manager)
-    print(sport_title)
-    print(datetime.now())
     bankroll = my_db.calculate_user_bankroll(session["user_id"])
-    print(datetime.now())
-    print(bankroll)
-    print('before ldd')
-    print(datetime.now())
     data = my_db.get_live_dash_data(session['user_id'], sport_title)
-    print('after ldd')
-    print(datetime.now())
-    print(data)
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
@@ -361,7 +400,7 @@ def get_unsettled_bet_data():
 
     user = session['user_id']
 
-    my_db = database(app.db_manager)
+    my_db = database()
 
     data = my_db.get_unsettled_bet_data(user)
 
@@ -407,7 +446,7 @@ def cancel_subscription():
     if action == "cancel":
         # Implement the subscription cancellation process here
         # You can interact with your subscription service or database
-        db = database(app.db_manager)
+        db = database()
         db.cancel_subscription(session['user_id'])
         return redirect(url_for('logout'))
     else:

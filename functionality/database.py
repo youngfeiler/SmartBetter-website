@@ -10,11 +10,10 @@ from flask import jsonify
 import math
 from datetime import datetime, timedelta
 import ast
+import sqlite3
 import stripe
 import logging
 import json
-from functionality.models import LoginInfo  # Import your SQLAlchemy model
-from sqlalchemy.orm.exc import NoResultFound
 
 # Configure the logging level for the stripe module
 logging.getLogger("stripe").setLevel(logging.ERROR)
@@ -25,10 +24,20 @@ stripe.api_key = STRIPE_PRIVATE_KEY
 
 
 class database():
-    def __init__(self, db_manager):
+    def __init__(self):
         self = self
         self.db_manager = db_manager
 
+    def make_conn(self):
+        conn = sqlite3.connect('smartbetter.db')
+        return conn
+    
+    def get_scores(self):
+       conn = self.make_conn()
+       scores_df = pd.read_sql('SELECT * FROM scores', conn)
+       conn.close()
+       return scores_df
+      
     def get_all_usernames(self):
       try:
         session = self.db_manager.create_session()
@@ -46,9 +55,6 @@ class database():
     
     def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
        new_user = User(username)
-
-       print("adding user")
-
        new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, self.db_manager)
 
        self.users = self.get_all_usernames()
@@ -193,6 +199,7 @@ class database():
       finally:
         session.close()
 
+
     def get_recommended_bet_size(self, user, df):
        
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
@@ -232,15 +239,13 @@ class database():
       finally:
         session.close()
       put_out = read_in.append(df, ignore_index=True)
-      try:
-          put_out.to_sql('placed_bets', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-      except Exception as e:
-        print(e)
-        return str(e)
+      put_out.to_sql('placed_bets', conn, if_exists='replace', index=False)
+      conn.close() 
       return
       
     def get_live_dash_data(self, user_name, sport):
        
+       # TODO: Check this logic
        def american_to_decimal(american_odds):
         positive_mask = american_odds > 0
         negative_mask = american_odds < 0
@@ -310,12 +315,6 @@ class database():
           return str(e)
        finally:
          session.close()
-      #OLD PANDAS LOGIC
-      #  df_sport = df[df['sport_title'] == sport]
-       
-      #  filtered_df = df_sport[df_sport['completed'] == False]
-      #  filtered_df = filtered_df[filtered_df['average_market_odds'] > 0.01]
-      #  filtered_df.sort_values(by='snapshot_time', ascending=False, inplace=True)
        filtered_df = filtered_df.dropna(subset=['team'])  # Drop NaN values
        filtered_df = filtered_df.dropna(subset=['opponent'])  # Drop NaN values
 
@@ -361,9 +360,8 @@ class database():
 
        if sport == "NFL":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
-       elif sport == "NBA" or sport == "NHL":
+       elif sport == "NBA" or sport == "NHL" or sport == "PREGAME" :
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
-          
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
@@ -494,15 +492,6 @@ class database():
         merged_df = pd.read_sql_query(merged_query, engine, params=[username])
         print(datetime.now())
           
-
-
-          # session = self.db_manager.create_session()
-          # print('time to pull all of the datums')
-          # print(datetime.now())
-          # placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
-          # scores_df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
-          # login_info = pd.read_sql_table('login_info', con=self.db_manager.get_engine())
-          # print(datetime.now())
       except Exception as e:
         print(e)
         return str(e)
@@ -512,10 +501,6 @@ class database():
       print('time to run pandas stuff')
       print(datetime.now())
       current_bankroll = self.get_user_bank_roll(username)
-      # placed_bets = placed_bets[placed_bets['user_name'] == username]
-      # scores_df = scores_df[['game_id', 'winning_team']]
-      # merged_df = placed_bets.merge(scores_df, on='game_id', how='left')
-      # merged_df = merged_df[merged_df['winning_team'].notna()]
 
       merged_df['team'] = merged_df['team'].str.replace(r'\s+v\.', 'v.')
       merged_df['team'] = merged_df['team'].str.replace(r'v\.\s+', 'v.')
@@ -528,18 +513,44 @@ class database():
 
       # merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_profit'] * -1)
       merged_df['bet_result'] = np.where(merged_df['winning_team'] == merged_df['team_bet_on'], merged_df['bet_profit'], merged_df['bet_amount'] * -1)
+      #call calculate_p_l_by_book
+      #profit_by_book = pd.read_csv('users/profit_by_book.csv')
+    
+      if username in profit_by_book['username'].values:
+          #if it does, remove the row
+          profit_by_book = profit_by_book[profit_by_book['username'] != username]
+      #make a new df called append_df with the same columns as profit_by_book
+      append_columns = profit_by_book.columns.to_list()
+      append_df = pd.DataFrame(columns = append_columns)
+      #add a row in append_df with 'username' as username and all of the other columns as 0
+      append_df.loc[0, 'username'] = username
+      #make all other columns at row 0 = 0
+      append_df = append_df.fillna(0)
+      #for each row in merged_df
+      for idx, row in merged_df.iterrows():
+
+        ls = row['sportsbooks_used'].split(', ')
+        # for each element in ls replace [ and ] with nothing
+        ls = [element.replace('[', '').replace(']', '').replace("'","") for element in ls]
+        for book in ls:
+          # Check if the book already exists in append_df DataFrame columns
+          if book in append_df.columns:
+            # If it does, add the profit/loss to the existing value 
+            append_df[book][0] += row['bet_result']
+          else:
+            # If it doesn't, add the book as a new column
+            #make a new column that is named book 
+            append_df[book] = 0 
+            append_df[book][0] += row['bet_result']
 
       total_profit_loss = merged_df['bet_result'].sum()
       # add total profit/loss to current bankroll
       new_bankroll = round(float(current_bankroll) + total_profit_loss, 2)
       # update users/login_info.csv with new bankroll
-      # login_info[login_info['username'] == username]['bankroll'].iloc[0] = new_bankroll
-      print(datetime.now())
+
       #login_info.to_csv('users/login_info.csv', index=False)
       try:
         engine = self.db_manager.get_engine()
-        print('time to push')
-        print(datetime.now())
         query = """
             UPDATE login_info
             SET bankroll = %s
@@ -550,10 +561,6 @@ class database():
         engine = self.db_manager.get_engine()
         with engine.connect() as connection:
             connection.execute(query, (new_bankroll, username))
-              # session = self.db_manager.create_session()
-              # login_info.to_sql('login_info', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-              # session.close()
-            print(datetime.now())
 
       except Exception as e:
         print(e)
@@ -587,6 +594,7 @@ class database():
        return df
 
     def check_payments(self):
+      conn = self.make_conn()
       try:
             # List all PaymentIntents from Stripe
             payment_intents = stripe.PaymentIntent.list()
@@ -600,6 +608,7 @@ class database():
                     paid_users.add(email)
 
             # Update the 'paid' column in the SQLite database
+            cursor = conn.cursor()
             for username in paid_users:
               try:
                 session = self.db_manager.create_session()
@@ -613,6 +622,9 @@ class database():
 
       except stripe.error.StripeError as e:
             print(f"Stripe Error: {e}")
+      except sqlite3.Error as e:
+            print(f"SQLite Error: {e}")
+      conn.close()
       return
 
     def get_user_info(self, username):
@@ -640,6 +652,7 @@ class database():
         session.close()
         return user_dict
 
+
     def cancel_subscription(self,username):
       try:
         # Get the user's subscription ID from the Stripe API
@@ -663,12 +676,10 @@ class database():
                 print(e)
                 return str(e)
               finally:
-                session.close()
                 return True, "Subscription canceled successfully."
     
         return False, "No active subscription found for this user."
       except stripe.error.StripeError as e:
-        print(e)
         return False, str(e)
     
     def get_scenario_results(self, data_holder, input):

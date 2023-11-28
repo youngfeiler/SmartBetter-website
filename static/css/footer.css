@@ -103,6 +103,10 @@
   flex-direction: column;
 }
 
+.footer-logo{
+  width:216px;
+}
+
 @media (max-width: 767px) {
   #footer{
     margin-left: 0;
