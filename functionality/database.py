@@ -314,8 +314,7 @@ class database():
             query = """
             SELECT *
             FROM master_model_observations
-            WHERE sport_title LIKE '%%PREGAME%% AND completed = 0 AND average_market_odds > 0.01
-            ORDER BY snapshot_time DESC'
+            WHERE sport_title LIKE '%%PREGAME%%'
             """
             filtered_df = pd.read_sql_query(query, engine)
 
@@ -325,6 +324,9 @@ class database():
        finally:
             if session:
                 session.close()
+
+
+       filtered_df = filtered_df[filtered_df['completed'] == False]
             
        filtered_df = filtered_df.dropna(subset=['team'])  # Drop NaN values
        filtered_df = filtered_df.dropna(subset=['opponent'])  # Drop NaN values
