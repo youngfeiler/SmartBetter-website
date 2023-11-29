@@ -49,10 +49,6 @@ def index():
     return render_template('landing_page.html', 
                            checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0f73682908a9ac2495b24e7ef08b2e937ec847ed
 @app.route('/about')
 def about():
     return render_template('about_us.html')
