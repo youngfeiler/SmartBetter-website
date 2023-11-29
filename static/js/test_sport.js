@@ -392,6 +392,11 @@ function changeRowDisplay(row){
   bestOddsNumber.appendChild(oddsTakenInput);
 }
 
+function toggleOverlay() {
+  var overlay = document.getElementById('loom-container');
+  overlay.style.display = 'none'
+}
+
 
 function changePlusSignDisplay(row){
   buttonLi = row.querySelector("#add-to-betslip-button");

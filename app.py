@@ -306,9 +306,16 @@ def show_nfl():
     
 @app.route('/nba')
 def show_nba():
+    # Set to false for prod
+    show_div = False
+
+    referrer = request.referrer
+    if referrer:
+        if referrer.endswith('/login') or referrer.endswith('/register'):
+            show_div = True
     user_id = session.get('user_id')
     if user_id is not None:
-        return render_template('nba.html')
+        return render_template('nba.html', show_div=show_div)
     else:
         return redirect(url_for('register'))
 
@@ -369,7 +376,9 @@ def get_live_dash_data():
     # wrong calculation
     bankroll = app.db.calculate_user_bankroll(session["user_id"])
     print(bankroll)
+
     data = app.db.get_live_dash_data(session['user_id'], sport_title)
+    print(data)
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
