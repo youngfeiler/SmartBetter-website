@@ -53,7 +53,31 @@
       </nav>
 
       <div class="content-custom">
+        {% if show_div %}
+        <div id="loom-container">
+          <div id="loom-div">
+            <div id="loom-div-header">
+              <h2>Welcome to SmartBettor!</h2>
+              <p>Please take a second to watch our tutorial.</p>
+            </div>
+            <div id="loom-div-vid-box">
+            
+              <div id="frame-container"><iframe src="https://www.loom.com/embed/adc80b28d4a44ba78d23a2e0692cbaa0?sid=6d16df35-725f-4c9e-b01f-53f3c9341118" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen ></iframe></div>
+
+            </div>
+            <div id="button-container">
+              <button id="got-it-button" onclick="toggleOverlay()">
+                Okay, got it!
+              </button>
+              
+            </div>
+            
+          </div>
+        </div>
+        {% endif %}
+        
         <div class="table-custom">
+         
           <div class="table-custom__header">
             <div>
               <h2>Live bets NBA</h2>

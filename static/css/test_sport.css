@@ -935,6 +935,80 @@ option {
   color: inherit;
 }
 
+#loom-container{
+  position: fixed;
+  width: 82%;
+  height: 80%;
+  z-index: 9999;
+  display: flex;
+  margin: 1.875rem;
+}
+
+#loom-div{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  background-color: var(--table-bg);
+  border: 2px solid var(--nav-border);
+  box-shadow: 0 0 10px 1px white;
+  color: var(--table-btn-bg);
+
+}
+
+#loom-div-header{
+  font-family: Poppins;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.25px;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loom-div-vid-box{
+  /* display: flex; */
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+#frame-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#frame-container iframe{
+  width: 100%;
+  height: 100%;
+
+}
+
+#button-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+#got-it-button{
+  background-color: var(--table-btn-bg);
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 @media (max-width: 767px) {
   #rec-bet-size-number.adding-to-bet-tracker{
@@ -959,6 +1033,7 @@ option {
     padding-right: 0.5rem !important;
     width: 100% !important;
     table-layout: fixed !important;
+    align-items: center;
   }
   .desktop-no-display{
     display: flex !important;
