@@ -373,7 +373,7 @@ class database():
 
        if sport == "NFL":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
-       elif sport == "NBA" or sport == "NHL":
+       elif sport == "NBA" or sport == "NHL" or sport == "PREGAME":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
 
 
