@@ -215,7 +215,7 @@ class observation_compiler():
 
       new_obs['completed'] = False
 
-      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+      new_obs['game_date'] = new_obs['date']
 
       new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
