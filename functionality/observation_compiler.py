@@ -241,10 +241,10 @@ class observation_compiler():
 
     completed_ids = scores['game_id'].unique().tolist()
 
-    uncompleted_obs = self.master_observations_sheet[self.master_observations_sheet['completed'] == 0]['game_id'].unique().tolist()
-
+    uncompleted_obs = self.master_observations_sheet[self.master_observations_sheet['completed'] == False]['game_id'].unique().tolist()
+    print(uncompleted_obs)
     obs_to_update = [game_id for game_id in completed_ids if game_id in uncompleted_obs]
-
+    print(obs_to_update)
     if len(obs_to_update) > 0:
        
       self.master_observations_sheet['completed'] = np.where(
