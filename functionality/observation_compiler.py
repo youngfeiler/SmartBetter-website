@@ -268,19 +268,23 @@ class observation_compiler():
     uncompleted_obs = self.master_observations_sheet[self.master_observations_sheet['completed'] == False]['game_id'].unique().tolist()
 
     obs_to_update = [game_id for game_id in completed_ids if game_id in uncompleted_obs]
+<<<<<<< HEAD
     print(obs_to_update)
     if len(obs_to_update) > 0:
+=======
+
+>>>>>>> fcf415824280a0d15f9638bc8265a0d5671804c9
        
-      self.master_observations_sheet['completed'] = np.where(
-        self.master_observations_sheet['game_id'].isin(obs_to_update),
+    self.master_observations_sheet['completed'] = np.where(
+        self.master_observations_sheet['game_id'].isin(completed_ids),
         True,
-        self.master_observations_sheet['completed']  # Keep the existing values for other rows
+        False,
       )
-      try:
-            self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-      except Exception as e:
-          print(e)
-          return 
+    try:
+          self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+    except Exception as e:
+        print(e)
+        return 
 
   def get_amount_of_master_sport_obs(self, sport_title):
     try:
