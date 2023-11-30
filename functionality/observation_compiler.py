@@ -211,7 +211,7 @@ class observation_compiler():
 
       new_obs['sport_title'] = 'MLB'
 
-      new_obs['team'] = new_obs['team_1']
+      new_obs['team'] = new_obs['team']
 
       new_obs['completed'] = False
 
