@@ -67,7 +67,7 @@ class result_updater():
                 home_score = get_final_score(each['home_team'], each)
                 away_score = get_final_score(each['away_team'], each)
                 row_data = {
-                      'id': each['id'],
+                      'game_id': each['id'],
                       'sport_title': each['sport_title'],
                       'commence_time': each['commence_time'],
                       'home_team': each['home_team'],
