@@ -73,8 +73,8 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
+      
+      
 
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
 
@@ -101,8 +101,6 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
       amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
@@ -128,8 +126,6 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
     
     if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
       amount_of_new_observations = len(nba_obs_pregame) - self.current_amount_of_nba_observations_pregame
@@ -155,8 +151,6 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
     
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
 
@@ -183,8 +177,6 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
       amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
@@ -210,8 +202,6 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
 
@@ -238,8 +228,6 @@ class observation_compiler():
       except Exception as e:
         print(e)
         return (str(e))
-      finally:
-        return 
 
   def update_completed_observations(self):
     try:
@@ -269,8 +257,6 @@ class observation_compiler():
             self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
           print(e)
-          return 
-      finally:
           return 
 
   def get_amount_of_master_sport_obs(self, sport_title):
