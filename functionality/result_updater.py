@@ -66,20 +66,23 @@ class result_updater():
             elif each['completed'] == True:
                 home_score = get_final_score(each['home_team'], each)
                 away_score = get_final_score(each['away_team'], each)
-                df_list = []
-                df_list.append(each['id'])
-                df_list.append(each['sport_title'])
-                df_list.append(each['commence_time'])
-                df_list.append(each['home_team'])
-                df_list.append(each['away_team'])
-                df_list.append(home_score)
-                df_list.append(away_score)
+                row_data = {
+                      'id': each['id'],
+                      'sport_title': each['sport_title'],
+                      'commence_time': each['commence_time'],
+                      'home_team': each['home_team'],
+                      'away_team': each['away_team'],
+                      'home_score': home_score,
+                      'away_score': away_score
+                }
                 if home_score > away_score:
-                    df_list.append(each['home_team'])
+                  row_data['winning_team'] = each['home_team']
                 elif home_score < away_score:
-                    df_list.append(each['away_team'])
-                game_df = pd.DataFrame(df_list)
-                append_df = pd.concat([append_df, game_df])
+                  row_data['winning_team'] = each['away_team']
+        
+                # Append the dictionary data to the DataFrame
+                append_df = append_df.append(row_data, ignore_index=True)
+          
       print(append_df)
       new_games_df = append_df[~append_df['game_id'].isin(df['game_id'])]
 
