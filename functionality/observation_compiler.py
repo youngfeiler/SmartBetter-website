@@ -272,10 +272,10 @@ class observation_compiler():
     if len(obs_to_update) > 0:
        
       self.master_observations_sheet['completed'] = np.where(
-          self.master_observations_sheet['game_id'].isin(completed_ids),
-          True,
-          False
-        )
+        self.master_observations_sheet['game_id'].isin(obs_to_update),
+        True,
+        self.master_observations_sheet['completed']  # Keep the existing values for other rows
+      )
       try:
             self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
