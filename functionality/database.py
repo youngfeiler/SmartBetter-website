@@ -325,13 +325,14 @@ class database():
             if session:
                 session.close()
 
-
        filtered_df = filtered_df[filtered_df['completed'] == False]
             
-       filtered_df = filtered_df.dropna(subset=['team'])  # Drop NaN values
-       filtered_df = filtered_df.dropna(subset=['opponent'])  # Drop NaN values
+       filtered_df = filtered_df.dropna(subset=['team']) 
+       filtered_df = filtered_df.dropna(subset=['opponent'])
 
        filtered_df = filtered_df[filtered_df['team'].astype(str).str.strip() != '']
+
+       filtered_df.sort_values(by="snapshot_time", ascending=False, inplace=True)
 
        columns_to_compare = ['team']
 
@@ -374,6 +375,9 @@ class database():
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
        elif sport == "NBA" or sport == "NHL":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
+
+
+       first
           
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
