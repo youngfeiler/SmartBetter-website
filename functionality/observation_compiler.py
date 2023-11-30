@@ -58,11 +58,8 @@ class observation_compiler():
 
       new_nfl_obs['team'] = nfl_obs['team_1']
 
-<<<<<<< HEAD
       new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds']
 
-=======
->>>>>>> 0f73682908a9ac2495b24e7ef08b2e937ec847ed
       new_nfl_obs['completed'] = False
 
       new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
@@ -173,7 +170,6 @@ class observation_compiler():
 
       self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
 
-      print(new_df)
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
