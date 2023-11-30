@@ -80,7 +80,7 @@ class result_updater():
                     df_list.append(each['away_team'])
             game_df = pd.DataFrame(df_list)
             append_df = pd.concat([append_df, game_df])
-
+      print(append_df)
       new_games_df = append_df[~append_df['game_id'].isin(df['game_id'])]
 
       try:
