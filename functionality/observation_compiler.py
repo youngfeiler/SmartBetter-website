@@ -192,19 +192,6 @@ class observation_compiler():
 
       update = True
 
-<<<<<<< HEAD
-    #if len(mlb_obs) > self.current_amount_of_mlb_observations:
-            
-     # self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'MLB']
-
-      # mlb_obs['sport_title'] = 'MLB'
-
-      # mlb_obs['team'] = mlb_obs['team_1']
-
-      # mlb_obs['completed'] = False
-
-      # nhl_obs_pregame['game_date'] = pd.to_datetime(nhl_obs_pregame['commence_time']).dt.date
-=======
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
 
@@ -214,25 +201,18 @@ class observation_compiler():
       new_mlb_obs['completed'] = False
 
       new_mlb_obs['game_date'] = new_mlb_obs['date']
->>>>>>> c603b957715a40c1636218134bf3dba027f983e5
 
-      # new_df = pd.DataFrame()
+      new_df = pd.DataFrame()
 
-<<<<<<< HEAD
-      # new_df = nhl_obs_pregame[self.schema]
-=======
       new_df = new_mlb_obs[self.schema]
->>>>>>> c603b957715a40c1636218134bf3dba027f983e5
 
-      # self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
+      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
-<<<<<<< HEAD
-      # self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
-=======
+      self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
+
       self.current_amount_of_mlb_observations = len(mlb_obs)
->>>>>>> c603b957715a40c1636218134bf3dba027f983e5
 
-      # update = True
+      update = True
 
     self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
     self.master_observations_sheet['new_column'] = self.master_observations_sheet['game_id'].astype(str) + self.master_observations_sheet['snapshot_time'].astype(str)
