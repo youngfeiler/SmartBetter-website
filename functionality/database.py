@@ -332,7 +332,7 @@ class database():
 
        filtered_df = filtered_df[filtered_df['team'].astype(str).str.strip() != '']
 
-       filtered_df.sort_values(by="snapshot_time", ascending=False, inplace=True)
+       filtered_df.sort_values(by="snapshot_time", ascending=True, inplace=True)
 
        columns_to_compare = ['team']
 
@@ -375,9 +375,6 @@ class database():
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
        elif sport == "NBA" or sport == "NHL":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
-
-
-       first
           
         
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
