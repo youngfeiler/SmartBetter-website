@@ -48,6 +48,8 @@ class observation_compiler():
     nba_obs_pregame = pd.read_csv('users/model_obs_nba_pregame.csv')
     nfl_obs_pregame = pd.read_csv('users/model_obs_nfl_pregame.csv')
 
+    update = False
+
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
       amount_of_new_observations = len(nfl_obs) - self.current_amount_of_nfl_observations
@@ -72,6 +74,8 @@ class observation_compiler():
 
       self.current_amount_of_nfl_observations = len(nfl_obs)
 
+      update = True
+
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
       amount_of_new_observations = len(nfl_obs_pregame) - self.current_amount_of_nfl_observations_pregame
 
@@ -92,6 +96,8 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nfl_observations_pregame = len(nfl_obs_pregame)
+
+      update = True
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
       amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
@@ -111,6 +117,8 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nba_observations = len(nba_obs)
+
+      update = True
     
     if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
       amount_of_new_observations = len(nba_obs_pregame) - self.current_amount_of_nba_observations_pregame
@@ -130,6 +138,8 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nba_observations_pregame = len(nba_obs_pregame)
+
+      update = True
     
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
       amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
@@ -149,9 +159,10 @@ class observation_compiler():
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
       self.current_amount_of_nhl_observations = len(nhl_obs)
+
+      update = True
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
-      print("yes")
       amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
 
       new_nhl_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
@@ -170,6 +181,7 @@ class observation_compiler():
 
       self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
 
+      update = True
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
@@ -187,14 +199,17 @@ class observation_compiler():
 
       self.current_amount_of_mlb_observations = len(mlb_obs)
 
+      update = True
+
     self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
     self.master_observations_sheet['new_column'] = self.master_observations_sheet['game_id'].astype(str) + self.master_observations_sheet['snapshot_time'].astype(str)
     
-    try:
-          session = self.db_manager.create_session()
-          self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-    except Exception as e:
-        print(e)
+    if update: 
+      try:
+            session = self.db_manager.create_session()
+            self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+      except Exception as e:
+          print(e)
 
 
   def update_completed_observations(self):
