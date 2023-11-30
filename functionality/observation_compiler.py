@@ -45,10 +45,24 @@ class observation_compiler():
     nhl_obs_pregame = pd.read_csv('users/model_obs_nhl_pregame.csv')
     nba_obs_pregame = pd.read_csv('users/model_obs_nba_pregame.csv')
     nfl_obs_pregame = pd.read_csv('users/model_obs_nfl_pregame.csv')
+    self.current_amount_of_nfl_observations = self.get_amount_of_master_sport_obs("NFL")
+
+    self.current_amount_of_mlb_observations = self.get_amount_of_master_sport_obs("MLB")
+
+    self.current_amount_of_nba_observations = self.get_amount_of_master_sport_obs("NBA")
+
+    self.current_amount_of_nhl_observations = self.get_amount_of_master_sport_obs("NHL")
+
+    self.current_amount_of_nhl_observations_pregame = self.get_amount_of_master_sport_obs("NHL_PREGAME")
+
+    self.current_amount_of_nba_observations_pregame = self.get_amount_of_master_sport_obs("NBA_PREGAME")
+
+    self.current_amount_of_nfl_observations_pregame = self.get_amount_of_master_sport_obs("NFL_PREGAME")
 
     update = False
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
+      new_obs = pd.DataFrame()
 
       amount_of_new_observations = len(nfl_obs) - self.current_amount_of_nfl_observations
 
@@ -77,6 +91,7 @@ class observation_compiler():
       
 
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
+      new_obs = pd.DataFrame()
 
       amount_of_new_observations = len(nfl_obs_pregame) - self.current_amount_of_nfl_observations_pregame
 
@@ -103,6 +118,8 @@ class observation_compiler():
         return (str(e))
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
+      new_obs = pd.DataFrame()
+
       amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
 
       new_obs = nba_obs.tail(amount_of_new_observations).copy()
@@ -128,6 +145,8 @@ class observation_compiler():
         return (str(e))
     
     if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
+      new_obs = pd.DataFrame()
+
       amount_of_new_observations = len(nba_obs_pregame) - self.current_amount_of_nba_observations_pregame
 
       new_obs = nba_obs_pregame.tail(amount_of_new_observations).copy()
@@ -153,6 +172,8 @@ class observation_compiler():
         return (str(e))
     
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
+      new_obs = pd.DataFrame()
+
 
       amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
 
@@ -179,6 +200,8 @@ class observation_compiler():
         return (str(e))
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
+      new_obs = pd.DataFrame()
+
       amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
 
       new_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
@@ -204,6 +227,7 @@ class observation_compiler():
         return (str(e))
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
+      new_obs = pd.DataFrame()
 
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
 
@@ -242,7 +266,8 @@ class observation_compiler():
     completed_ids = scores['game_id'].unique().tolist()
 
     uncompleted_obs = self.master_observations_sheet[self.master_observations_sheet['completed'] == False]['game_id'].unique().tolist()
-    print(uncompleted_obs)
+
+
     obs_to_update = [game_id for game_id in completed_ids if game_id in uncompleted_obs]
     print(obs_to_update)
     if len(obs_to_update) > 0:
