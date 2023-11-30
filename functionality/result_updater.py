@@ -83,7 +83,6 @@ class result_updater():
                 # Append the dictionary data to the DataFrame
                 append_df = append_df.append(row_data, ignore_index=True)
           
-      print(append_df)
       new_games_df = append_df[~append_df['game_id'].isin(df['game_id'])]
 
       try:
