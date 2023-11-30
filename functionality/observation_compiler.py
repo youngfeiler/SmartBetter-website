@@ -66,11 +66,8 @@ class observation_compiler():
 
       new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
-<<<<<<< HEAD
       # new_nfl_obs['average_market_odds'] = nfl_obs['average_market_odds_recent']
-=======
       new_df = pd.DataFrame()
->>>>>>> 85e3e3741fba0dea9c6a96c4c52268f2f468680d
 
       new_df = new_nfl_obs[self.schema]
 
