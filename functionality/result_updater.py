@@ -72,8 +72,8 @@ class result_updater():
                       'commence_time': each['commence_time'],
                       'home_team': each['home_team'],
                       'away_team': each['away_team'],
-                      'home_score': home_score,
-                      'away_score': away_score
+                      'home_team_score': home_score,
+                      'away_team_score': away_score
                 }
                 if home_score > away_score:
                   row_data['winning_team'] = each['home_team']
