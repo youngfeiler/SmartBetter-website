@@ -53,6 +53,8 @@ class observation_compiler():
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
 
+      amount_of_new_observations = len(nfl_obs) - self.current_amount_of_nfl_observations
+
       new_nfl_obs = nfl_obs.tail(amount_of_new_observations).copy()
 
       new_nfl_obs['sport_title'] = 'NFL'
