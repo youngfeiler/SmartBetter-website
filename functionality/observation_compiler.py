@@ -34,8 +34,6 @@ class observation_compiler():
       session.close()
     
 
-    self.master_observations_sheet = pd.read_csv('users/master_model_observations.csv')
-
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used']
 
 
@@ -243,17 +241,6 @@ class observation_compiler():
       finally:
         return 
 
-    #self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
-    #self.master_observations_sheet['new_column'] = self.master_observations_sheet['game_id'].astype(str) + #self.master_observations_sheet['snapshot_time'].astype(str)
-    
-    #if update: 
-     # try:
-      #      session = self.db_manager.create_session()
-       #     self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-      #except Exception as e:
-       #   print(e)
-
-
   def update_completed_observations(self):
     try:
           session = self.db_manager.create_session()
@@ -264,18 +251,27 @@ class observation_compiler():
     finally:
         session.close()
 
+    # check if any false values are in this list
     completed_ids = scores['game_id'].unique().tolist()
 
-    self.master_observations_sheet['completed'] = np.where(self.master_observations_sheet['game_id'].isin(completed_ids), True, False)
+    uncompleted_obs = self.master_observations_sheet[self.master_observations_sheet['completed'] == False]['game_id'].unique().tolist()
 
-    try:
-          self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
-    except Exception as e:
-        print(e)
-        return 
-    finally:
-        return 
+    obs_to_update = [game_id for game_id in completed_ids if game_id in uncompleted_obs]
 
+    if len(obs_to_update) > 0:
+       
+      self.master_observations_sheet['completed'] = np.where(
+          self.master_observations_sheet['game_id'].isin(completed_ids),
+          True,
+          False
+        )
+      try:
+            self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+      except Exception as e:
+          print(e)
+          return 
+      finally:
+          return 
 
   def get_amount_of_master_sport_obs(self, sport_title):
     try:
