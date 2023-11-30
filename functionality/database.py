@@ -332,7 +332,7 @@ class database():
 
        filtered_df = filtered_df[filtered_df['team'].astype(str).str.strip() != '']
 
-       filtered_df.sort_values(by="snapshot_time", ascending=False, inplace=True)
+       filtered_df.sort_values(by="snapshot_time", ascending=True, inplace=True)
 
        columns_to_compare = ['team']
 
