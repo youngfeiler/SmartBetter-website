@@ -82,7 +82,7 @@ class result_updater():
             append_df = pd.concat([append_df, game_df])
 
       new_games_df = append_df[~append_df['game_id'].isin(df['game_id'])]
-      
+
       try:
         session = self.db_manager.create_session()
         new_games_df.to_sql('scores', con=self.db_manager.get_engine(), if_exists='append', index=False)
@@ -90,7 +90,8 @@ class result_updater():
           print(e)
       finally:
         return True
-     except:
+     except Exception as e:
+        print(e)
         print("Live results couldn't be updated. Trying agiain in 5 min... ")
         return False
 
