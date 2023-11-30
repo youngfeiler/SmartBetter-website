@@ -59,7 +59,7 @@ class result_updater():
         raise
       finally:
         session.close()
-
+      append_df = pd.DataFrame()
       for each in scores_dict:
             if each['completed'] == False:
                 pass
@@ -78,12 +78,14 @@ class result_updater():
                     df_list.append(each['home_team'])
                 elif home_score < away_score:
                     df_list.append(each['away_team'])
-            df.loc[len(df)] = df_list
-      df_unique_game_id = df.drop_duplicates(subset=['game_id'])
+            game_df = pd.DataFrame(df_list)
+            append_df = pd.concat([append_df, game_df])
 
+      new_games_df = append_df[~append_df['game_id'].isin(df['game_id'])]
+      
       try:
         session = self.db_manager.create_session()
-        df_unique_game_id.to_sql('scores', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+        new_games_df.to_sql('scores', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
           print(e)
       finally:
