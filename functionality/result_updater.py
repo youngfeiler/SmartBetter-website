@@ -1,20 +1,19 @@
 import pandas as pd
 import requests
-import sqlite3
 import os
+from functionality.db_manager import DBManager
+
 
 class result_updater():
     
   def __init__ (self):
+      self.db_manager = DBManager()
       self.API_KEY = os.environ.get("THE_ODDS_API_KEY")
       self.MARKETS = 'h2h'
       self.REGIONS = 'us,eu,uk'
       self.ODDS_FORMAT = 'decimal'
       self.DATE_FORMAT = 'iso'
-
-  def make_conn(self):
-        conn = sqlite3.connect('smartbetter.db')
-        return conn
+  
 
   def pull_scores(self, sport):
     self.scores_df = ''
@@ -48,11 +47,19 @@ class result_updater():
               return int(each['score'])
            else:
               pass
+     
      try:
       scores_dict = self.pull_scores(sport)
-      conn = self.make_conn()
-      df = pd.read_sql('SELECT * FROM scores', conn)
-      conn.close()
+
+      try:
+          session = self.db_manager.create_session()
+          df = pd.read_sql_table('scores', con=self.db_manager.get_engine())
+      except Exception as e:
+        print(e)
+        raise
+      finally:
+        session.close()
+
       for each in scores_dict:
             if each['completed'] == False:
                 pass
@@ -73,10 +80,14 @@ class result_updater():
                     df_list.append(each['away_team'])
             df.loc[len(df)] = df_list
       df_unique_game_id = df.drop_duplicates(subset=['game_id'])
-      conn = self.make_conn()
-      df_unique_game_id.to_sql('scores', conn, if_exists='replace', index=False)
-      conn.close()
-      return True
+
+      try:
+        session = self.db_manager.create_session()
+        df_unique_game_id.to_sql('scores', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+      except Exception as e:
+          print(e)
+      finally:
+        return True
      except:
         print("Live results couldn't be updated. Trying agiain in 5 min... ")
         return False
