@@ -50,177 +50,208 @@ class observation_compiler():
 
     update = False
 
-
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
 
       amount_of_new_observations = len(nfl_obs) - self.current_amount_of_nfl_observations
 
-      new_nfl_obs = nfl_obs.tail(amount_of_new_observations).copy()
+      new_obs = nfl_obs.tail(amount_of_new_observations).copy()
 
-      new_nfl_obs['sport_title'] = 'NFL'
+      new_obs['sport_title'] = 'NFL'
 
-      new_nfl_obs['team'] = nfl_obs['team_1']
+      new_obs['team'] = new_obs['team_1']
 
-      new_nfl_obs['completed'] = False
+      new_obs['completed'] = False
 
-      new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
       new_df = pd.DataFrame()
 
-      new_df = new_nfl_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_nfl_observations = len(nfl_obs)
-
-      update = True
+      try:
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
 
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
+
       amount_of_new_observations = len(nfl_obs_pregame) - self.current_amount_of_nfl_observations_pregame
 
-      new_nfl_obs = nfl_obs_pregame.tail(amount_of_new_observations).copy()
+      new_obs = nfl_obs_pregame.tail(amount_of_new_observations).copy()
 
-      new_nfl_obs['sport_title'] = 'NFL_PREGAME'
+      new_obs['sport_title'] = 'NFL_PREGAME'
 
-      new_nfl_obs['team'] = nfl_obs_pregame['team_1']
+      new_obs['team'] = new_obs['team_1']
 
-      new_nfl_obs['average_market_odds'] = nfl_obs_pregame['average_market_odds']
+      new_obs['completed'] = False
 
-      new_nfl_obs['completed'] = False
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
 
-      new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
       new_df = pd.DataFrame()
 
-      new_df = new_nfl_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_nfl_observations_pregame = len(nfl_obs_pregame)
-
-      update = True
+      try:
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
       amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
 
-      new_nba_obs = nba_obs.tail(amount_of_new_observations).copy()
+      new_obs = nba_obs.tail(amount_of_new_observations).copy()
 
-      new_nba_obs['sport_title'] = 'NBA'
+      new_obs['sport_title'] = 'NBA'
 
-      new_nba_obs['team'] = nba_obs['team_1']
+      new_obs['team'] = new_obs['team_1']
 
-      new_nba_obs['completed'] = False
+      new_obs['completed'] = False
 
-      new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
       new_df = pd.DataFrame()
 
-      new_df = new_nba_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_nba_observations = len(nba_obs)
-
-      update = True
+      try:
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
     
     if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
       amount_of_new_observations = len(nba_obs_pregame) - self.current_amount_of_nba_observations_pregame
 
-      new_nba_obs = nba_obs_pregame.tail(amount_of_new_observations).copy()
+      new_obs = nba_obs_pregame.tail(amount_of_new_observations).copy()
 
-      new_nba_obs['sport_title'] = 'NBA_PREGAME'
+      new_obs['sport_title'] = 'NBA_PREGAME'
 
-      new_nba_obs['team'] = nba_obs_pregame['team_1']
+      new_obs['team'] = new_obs['team_1']
 
-      new_nba_obs['completed'] = False
+      new_obs['completed'] = False
 
-      new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
-      
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
+
       new_df = pd.DataFrame()
 
-      new_df = new_nba_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_nba_observations_pregame = len(nba_obs_pregame)
-
-      update = True
+      try:
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
     
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
+
       amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
 
-      new_nhl_obs = nhl_obs.tail(amount_of_new_observations).copy()
+      new_obs = nhl_obs.tail(amount_of_new_observations).copy()
 
-      new_nhl_obs['sport_title'] = 'NHL'
+      new_obs['sport_title'] = 'NHL'
 
-      new_nhl_obs['team'] = nhl_obs['team_1']
+      new_obs['team'] = new_obs['team_1']
 
-      new_nhl_obs['completed'] = False
+      new_obs['completed'] = False
 
-      new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
       new_df = pd.DataFrame()
 
-      new_df = new_nhl_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_nhl_observations = len(nhl_obs)
-
-      update = True
+      try:
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
       amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
 
-      new_nhl_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
+      new_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
 
-      new_nhl_obs['sport_title'] = 'NHL_PREGAME'
+      new_obs['sport_title'] = 'NHL_PREGAME'
 
-      new_nhl_obs['team'] = nhl_obs_pregame['team_1']
+      new_obs['team'] = new_obs['team_1']
 
-      new_nhl_obs['completed'] = False
+      new_obs['completed'] = False
 
-      new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
       new_df = pd.DataFrame()
 
-      new_df = new_nhl_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
-
-      update = True
+      try:
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
+      except Exception as e:
+        print(e)
+        return (str(e))
+      finally:
+        return 
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
+
       amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
 
-      new_mlb_obs = mlb_obs.tail(amount_of_new_observations).copy()
-      new_mlb_obs['sport_title'] = 'MLB'
+      new_obs = mlb_obs.tail(amount_of_new_observations).copy()
 
-      new_mlb_obs['completed'] = False
+      new_obs['sport_title'] = 'MLB'
 
-      new_mlb_obs['game_date'] = new_mlb_obs['date']
+      new_obs['team'] = new_obs['team_1']
+
+      new_obs['completed'] = False
+
+      new_obs['game_date'] = pd.to_datetime(new_obs['commence_time']).dt.date
+
+      new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
       new_df = pd.DataFrame()
 
-      new_df = new_mlb_obs[self.schema]
+      new_df = new_obs[self.schema]
 
-      self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
-
-      self.current_amount_of_mlb_observations = len(mlb_obs)
-
-      update = True
-
-    self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
-    self.master_observations_sheet['new_column'] = self.master_observations_sheet['game_id'].astype(str) + self.master_observations_sheet['snapshot_time'].astype(str)
-    
-    if update: 
       try:
-            session = self.db_manager.create_session()
-            self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+          new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
-          print(e)
+        print(e)
+        return (str(e))
+      finally:
+        return 
+
+    #self.master_observations_sheet.to_csv('users/master_model_observations.csv', index=False)
+    #self.master_observations_sheet['new_column'] = self.master_observations_sheet['game_id'].astype(str) + #self.master_observations_sheet['snapshot_time'].astype(str)
+    
+    #if update: 
+     # try:
+      #      session = self.db_manager.create_session()
+       #     self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
+      #except Exception as e:
+       #   print(e)
 
 
   def update_completed_observations(self):
@@ -249,15 +280,24 @@ class observation_compiler():
   def get_amount_of_master_sport_obs(self, sport_title):
     try:
           session = self.db_manager.create_session()
-          master_model_obs = pd.read_sql_table('master_model_observations', con=self.db_manager.get_engine())
+          query = """
+            SELECT COUNT(*) 
+            FROM master_model_observations
+            WHERE sport_title = %s
+            """
+          engine = self.db_manager.get_engine()
+
+          length = int(pd.read_sql_query(query, engine, params=[sport_title]).iloc[0, 0])
+
+          print(length)
+          
     except Exception as e:
       print(e)
       return str(e)
     finally:
       session.close()
-    sport_obs = master_model_obs[master_model_obs['sport_title'] == sport_title]
 
-    return len(sport_obs)
+    return length
 
 
     
