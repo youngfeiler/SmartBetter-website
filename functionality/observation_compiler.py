@@ -53,19 +53,19 @@ class observation_compiler():
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
 
-      self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'NFL']
+      new_nfl_obs = nfl_obs.tail(amount_of_new_observations).copy()
 
-      nfl_obs['sport_title'] = 'NFL'
+      new_nfl_obs['sport_title'] = 'NFL'
 
-      nfl_obs['team'] = nfl_obs['team_1']
+      new_nfl_obs['team'] = nfl_obs['team_1']
 
-      nfl_obs['completed'] = False
+      new_nfl_obs['completed'] = False
 
-      nfl_obs['game_date'] = pd.to_datetime(nfl_obs['commence_time']).dt.date
+      new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
       new_df = pd.DataFrame()
 
-      new_df = nfl_obs[self.schema]
+      new_df = new_nfl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
@@ -74,20 +74,23 @@ class observation_compiler():
       update = True
 
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
+      amount_of_new_observations = len(nfl_obs_pregame) - self.current_amount_of_nfl_observations_pregame
 
-      self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'NFL_PREGAME']
+      new_nfl_obs = nfl_obs_pregame.tail(amount_of_new_observations).copy()
 
-      nfl_obs_pregame['sport_title'] = 'NFL_PREGAME'
+      new_nfl_obs['sport_title'] = 'NFL_PREGAME'
 
-      nfl_obs_pregame['team'] = nfl_obs_pregame['team_1']
+      new_nfl_obs['team'] = nfl_obs_pregame['team_1']
 
-      nfl_obs_pregame['completed'] = False
+      new_nfl_obs['average_market_odds'] = nfl_obs_pregame['average_market_odds']
 
-      nfl_obs_pregame['game_date'] = pd.to_datetime(nfl_obs_pregame['commence_time']).dt.date
+      new_nfl_obs['completed'] = False
+
+      new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
       new_df = pd.DataFrame()
 
-      new_df = nfl_obs_pregame[self.schema]
+      new_df = new_nfl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
@@ -96,20 +99,21 @@ class observation_compiler():
       update = True
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
+      amount_of_new_observations = len(nba_obs) - self.current_amount_of_nba_observations
 
-      self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'NBA']
+      new_nba_obs = nba_obs.tail(amount_of_new_observations).copy()
 
-      nba_obs['sport_title'] = 'NBA'
+      new_nba_obs['sport_title'] = 'NBA'
 
-      nba_obs['team'] = nba_obs['team_1']
+      new_nba_obs['team'] = nba_obs['team_1']
 
-      nba_obs['completed'] = False
+      new_nba_obs['completed'] = False
 
-      nba_obs['game_date'] = pd.to_datetime(nba_obs['commence_time']).dt.date
+      new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
 
       new_df = pd.DataFrame()
 
-      new_df = nba_obs[self.schema]
+      new_df = new_nba_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
@@ -118,20 +122,21 @@ class observation_compiler():
       update = True
     
     if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
+      amount_of_new_observations = len(nba_obs_pregame) - self.current_amount_of_nba_observations_pregame
 
-      self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'NBA_PREGAME']
+      new_nba_obs = nba_obs_pregame.tail(amount_of_new_observations).copy()
 
-      nba_obs_pregame['sport_title'] = 'NBA_PREGAME'
+      new_nba_obs['sport_title'] = 'NBA_PREGAME'
 
-      nba_obs_pregame['team'] = nba_obs_pregame['team_1']
+      new_nba_obs['team'] = nba_obs_pregame['team_1']
 
-      nba_obs_pregame['completed'] = False
+      new_nba_obs['completed'] = False
 
-      nba_obs_pregame['game_date'] = pd.to_datetime(nba_obs_pregame['commence_time']).dt.date
-
+      new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
+      
       new_df = pd.DataFrame()
 
-      new_df = nba_obs_pregame[self.schema]
+      new_df = new_nba_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
@@ -140,20 +145,21 @@ class observation_compiler():
       update = True
     
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
+      amount_of_new_observations = len(nhl_obs) - self.current_amount_of_nhl_observations
 
-      self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'NHL']
+      new_nhl_obs = nhl_obs.tail(amount_of_new_observations).copy()
 
-      nhl_obs['sport_title'] = 'NHL'
+      new_nhl_obs['sport_title'] = 'NHL'
 
-      nhl_obs['team'] = nhl_obs['team_1']
+      new_nhl_obs['team'] = nhl_obs['team_1']
 
-      nhl_obs['completed'] = False
+      new_nhl_obs['completed'] = False
 
-      nhl_obs['game_date'] = pd.to_datetime(nhl_obs['commence_time']).dt.date
+      new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
 
       new_df = pd.DataFrame()
 
-      new_df = nhl_obs[self.schema]
+      new_df = new_nhl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
@@ -162,20 +168,21 @@ class observation_compiler():
       update = True
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
+      amount_of_new_observations = len(nhl_obs_pregame) - self.current_amount_of_nhl_observations_pregame
 
-      self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'NHL_PREGAME']
+      new_nhl_obs = nhl_obs_pregame.tail(amount_of_new_observations).copy()
 
-      nhl_obs_pregame['sport_title'] = 'NHL_PREGAME'
+      new_nhl_obs['sport_title'] = 'NHL_PREGAME'
 
-      nhl_obs_pregame['team'] = nhl_obs_pregame['team_1']
+      new_nhl_obs['team'] = nhl_obs_pregame['team_1']
 
-      nhl_obs_pregame['completed'] = False
+      new_nhl_obs['completed'] = False
 
-      nhl_obs_pregame['game_date'] = pd.to_datetime(nhl_obs_pregame['commence_time']).dt.date
+      new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
 
       new_df = pd.DataFrame()
 
-      new_df = nhl_obs_pregame[self.schema]
+      new_df = new_nhl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
@@ -183,6 +190,7 @@ class observation_compiler():
 
       update = True
 
+<<<<<<< HEAD
     #if len(mlb_obs) > self.current_amount_of_mlb_observations:
             
      # self.master_observations_sheet = self.master_observations_sheet[self.master_observations_sheet['sport_title'] != 'MLB']
@@ -194,14 +202,33 @@ class observation_compiler():
       # mlb_obs['completed'] = False
 
       # nhl_obs_pregame['game_date'] = pd.to_datetime(nhl_obs_pregame['commence_time']).dt.date
+=======
+    if len(mlb_obs) > self.current_amount_of_mlb_observations:
+      amount_of_new_observations = len(mlb_obs) - self.current_amount_of_mlb_observations
+
+      new_mlb_obs = mlb_obs.tail(amount_of_new_observations).copy()
+      new_mlb_obs['sport_title'] = 'MLB'
+
+      new_mlb_obs['completed'] = False
+
+      new_mlb_obs['game_date'] = new_mlb_obs['date']
+>>>>>>> c603b957715a40c1636218134bf3dba027f983e5
 
       # new_df = pd.DataFrame()
 
+<<<<<<< HEAD
       # new_df = nhl_obs_pregame[self.schema]
+=======
+      new_df = new_mlb_obs[self.schema]
+>>>>>>> c603b957715a40c1636218134bf3dba027f983e5
 
       # self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
 
+<<<<<<< HEAD
       # self.current_amount_of_nhl_observations_pregame = len(nhl_obs_pregame)
+=======
+      self.current_amount_of_mlb_observations = len(mlb_obs)
+>>>>>>> c603b957715a40c1636218134bf3dba027f983e5
 
       # update = True
 
