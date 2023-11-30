@@ -64,6 +64,8 @@ class observation_compiler():
 
       new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
+      new_df = pd.DataFrame()
+
       new_df = new_nfl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
@@ -87,6 +89,8 @@ class observation_compiler():
 
       new_nfl_obs['game_date'] = pd.to_datetime(new_nfl_obs['commence_time']).dt.date
 
+      new_df = pd.DataFrame()
+
       new_df = new_nfl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
@@ -108,6 +112,8 @@ class observation_compiler():
 
       new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
 
+      new_df = pd.DataFrame()
+
       new_df = new_nba_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
@@ -128,6 +134,8 @@ class observation_compiler():
       new_nba_obs['completed'] = False
 
       new_nba_obs['game_date'] = pd.to_datetime(new_nba_obs['commence_time']).dt.date
+      
+      new_df = pd.DataFrame()
 
       new_df = new_nba_obs[self.schema]
 
@@ -150,6 +158,8 @@ class observation_compiler():
 
       new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
 
+      new_df = pd.DataFrame()
+
       new_df = new_nhl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
@@ -171,6 +181,8 @@ class observation_compiler():
 
       new_nhl_obs['game_date'] = pd.to_datetime(new_nhl_obs['commence_time']).dt.date
 
+      new_df = pd.DataFrame()
+
       new_df = new_nhl_obs[self.schema]
 
       self.master_observations_sheet = pd.concat([self.master_observations_sheet, new_df], axis=0)
@@ -188,6 +200,8 @@ class observation_compiler():
       new_mlb_obs['completed'] = False
 
       new_mlb_obs['game_date'] = new_mlb_obs['date']
+
+      new_df = pd.DataFrame()
 
       new_df = new_mlb_obs[self.schema]
 
