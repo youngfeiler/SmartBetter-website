@@ -45,21 +45,14 @@ class observation_compiler():
     nhl_obs_pregame = pd.read_csv('users/model_obs_nhl_pregame.csv')
     nba_obs_pregame = pd.read_csv('users/model_obs_nba_pregame.csv')
     nfl_obs_pregame = pd.read_csv('users/model_obs_nfl_pregame.csv')
+
     self.current_amount_of_nfl_observations = self.get_amount_of_master_sport_obs("NFL")
-
     self.current_amount_of_mlb_observations = self.get_amount_of_master_sport_obs("MLB")
-
     self.current_amount_of_nba_observations = self.get_amount_of_master_sport_obs("NBA")
-
     self.current_amount_of_nhl_observations = self.get_amount_of_master_sport_obs("NHL")
-
     self.current_amount_of_nhl_observations_pregame = self.get_amount_of_master_sport_obs("NHL_PREGAME")
-
     self.current_amount_of_nba_observations_pregame = self.get_amount_of_master_sport_obs("NBA_PREGAME")
-
     self.current_amount_of_nfl_observations_pregame = self.get_amount_of_master_sport_obs("NFL_PREGAME")
-
-    update = False
 
     if len(nfl_obs) > self.current_amount_of_nfl_observations:
       new_obs = pd.DataFrame()
@@ -86,9 +79,7 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
-      
-      
+        return (str(e))  
 
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
       new_obs = pd.DataFrame()
@@ -290,18 +281,17 @@ class observation_compiler():
             WHERE sport_title = %s
             """
           engine = self.db_manager.get_engine()
-
-          length = int(pd.read_sql_query(query, engine, params=[sport_title]).iloc[0, 0])
-
+          result = session.execute(query, {"sport_title": sport_title})
+          length = result.scalar()
+          session.close()
           print(length)
-          
+        
     except Exception as e:
       print(e)
       return str(e)
     finally:
-      session.close()
-
-    return length
+      # session.close()
+      return length
 
 
     
