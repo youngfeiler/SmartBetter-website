@@ -267,6 +267,8 @@ class observation_compiler():
       )
 
     if non_updated_master_model_obs_sheet.equals(self.master_observations_sheet):
+      return
+    else:
       try:
             self.master_observations_sheet.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='replace', index=False)
       except Exception as e:
