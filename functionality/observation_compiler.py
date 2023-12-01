@@ -278,7 +278,7 @@ class observation_compiler():
           query = """
             SELECT COUNT(*) 
             FROM master_model_observations
-            WHERE sport_title = %s
+            WHERE sport_title = :sport_title
             """
           engine = self.db_manager.get_engine()
           result = session.execute(query, {"sport_title": sport_title})
