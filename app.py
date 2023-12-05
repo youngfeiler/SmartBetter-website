@@ -224,6 +224,7 @@ def register():
 
             has_payed=app.db.check_duplicate_account(username)
             print("made it here")
+            print(has_payed)
             if has_payed:
                 payed = True
                 app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
