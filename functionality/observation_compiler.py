@@ -36,7 +36,6 @@ class observation_compiler():
 
     self.schema = ['sport_title', 'completed','game_id', 'game_date', 'team', 'minutes_since_commence', 'opponent', 'snapshot_time', 'ev', 'average_market_odds', 'highest_bettable_odds', 'sportsbooks_used', 'new_column']
 
-
   def compile_observations(self):
     nfl_obs = pd.read_csv('users/model_obs_nfl.csv')
     mlb_obs = pd.read_csv('users/model_obs.csv')
@@ -256,8 +255,6 @@ class observation_compiler():
 
     completed_ids = scores['game_id'].unique().tolist()
 
-    uncompleted_obs = self.master_observations_sheet[self.master_observations_sheet['completed'] == False]['game_id'].unique().tolist()
-
     non_updated_master_model_obs_sheet = self.master_observations_sheet.copy()
 
     self.master_observations_sheet['completed'] = np.where(
@@ -266,7 +263,7 @@ class observation_compiler():
         False
       )
 
-    if non_updated_master_model_obs_sheet.equals(self.master_observations_sheet):
+    if non_updated_master_model_obs_sheet['completed'].sum() == self.master_observations_sheet['completed'].sum():
       return
     else:
       try:
@@ -274,6 +271,9 @@ class observation_compiler():
       except Exception as e:
           print(e)
           return 
+      finally:
+        if 'session' in locals():
+            session.close()
 
   def get_amount_of_master_sport_obs(self, sport_title):
     try:
