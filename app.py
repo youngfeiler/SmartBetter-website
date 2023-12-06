@@ -149,32 +149,36 @@ def create_checkout_session(price_id):
         mode='subscription',
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
-        subscription_data = {
-             'trial_end': trial_end_date
-        }
+
     )
     return redirect(checkout_session.url,code=302)
 
 
-@app.route('/checkoutnow/<string:price_id>')
-def create_checkout_session_non_recurring(price_id):
-    email = request.args.get('email')
-    customer = stripe.Customer.create(email=email)
+@app.route('/checkout_free_trial/<string:price_id>')
+def create_checkout_session_free_trial(price_id):
+    if price_id == "price_1OG9CDHM5Jv8uc5MTtdQOZMv":
+        price = 99
+    else:
+        price = 199
+    trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
+
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
+        allow_promotion_codes=True,
         line_items=[
             {
                 'price': price_id,
                 'quantity': 1,
             },
         ],
-        customer=customer.id,
-        mode='payment',
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}&price=0',
+        mode='subscription',
+        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
+        subscription_data = {
+             'trial_end': trial_end_date
+        }
     )
-    return redirect(checkout_session.url, code=302)
-
+    return redirect(checkout_session.url,code=302)
 
 @app.route('/test_func')
 def test_func():
