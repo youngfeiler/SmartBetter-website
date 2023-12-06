@@ -135,6 +135,8 @@ def create_checkout_session(price_id):
         price = 99
     else:
         price = 199
+    trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
+
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         allow_promotion_codes=True,
@@ -147,6 +149,9 @@ def create_checkout_session(price_id):
         mode='subscription',
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
+        subscription_data = {
+             'trial_end': trial_end_date
+        }
     )
     return redirect(checkout_session.url,code=302)
 

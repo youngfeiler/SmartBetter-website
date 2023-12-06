@@ -555,19 +555,18 @@ class database():
     def check_payments(self):
       try:
             # List all PaymentIntents from Stripe
-            subscriptions = stripe.Subscription.list()
+            subscriptions = stripe.Subscription.list(status='active')
             cancelled_subscriptions = stripe.Subscription.list(status='canceled')
-            paid_users = set()  # Create a set to store usernames of paid users
-
+            paid_users = [] # Create a set to store usernames of paid users
             # Iterate through the PaymentIntents and add the usernames of paid users to the set
-            for subscription in subscriptions.data:
-              customer = stripe.Customer.retrieve(subscription.customer)
-              email = customer.email
-              paid_users.add((email, subscription.status == 'active'))
             for subscription in cancelled_subscriptions.data:
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
-              paid_users.add((email, subscription.status == 'active'))
+              paid_users.append((email, subscription.status == 'active'))
+            for subscription in subscriptions.data:
+              customer = stripe.Customer.retrieve(subscription.customer)
+              email = customer.email
+              paid_users.append((email, subscription.status == 'active'))
 
             # Update the 'paid' column in the SQLite database
             for username, is_active in paid_users:
