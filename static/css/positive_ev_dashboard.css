@@ -986,6 +986,7 @@ option {
 @media (max-width: 767px) {
   .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows {
     scroll-snap-type: y mandatory !important; /* Enable vertical snapping */
+    overflow: scroll !important;
   }
 
   #rec-bet-size-number.adding-to-bet-tracker{
