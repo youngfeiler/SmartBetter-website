@@ -984,6 +984,10 @@ option {
 }
 
 @media (max-width: 767px) {
+  .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows {
+    scroll-snap-type: y mandatory !important; /* Enable vertical snapping */
+  }
+
   #rec-bet-size-number.adding-to-bet-tracker{
     align-items: center;
     width: 50% !important;
@@ -1029,6 +1033,7 @@ option {
     padding-bottom: 1vh !important;
     padding-top: 1vh !important;
     align-items: stretch !important;
+    scroll-snap-align: start !important; /* Set the snap position */
   }
 
 
