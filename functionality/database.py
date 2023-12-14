@@ -123,6 +123,7 @@ class database():
         session.close()
     
     def check_duplicate_account(self,username):
+      print("checking duplicate account")
       self.check_payments()
       try:
         # Create a session
@@ -697,22 +698,27 @@ class database():
     def check_payments(self):
       try:
             # List all PaymentIntents from Stripe
-            payment_intents = stripe.PaymentIntent.list()
-            paid_users = set()  # Create a set to store usernames of paid users
-
+            subscriptions = stripe.Subscription.list(status='active')
+            cancelled_subscriptions = stripe.Subscription.list(status='canceled')
+            paid_users = [] # Create a set to store usernames of paid users
             # Iterate through the PaymentIntents and add the usernames of paid users to the set
-            for payment_intent in payment_intents.data:
-                if payment_intent.customer:
-                    customer = stripe.Customer.retrieve(payment_intent.customer)
-                    email = customer.email
-                    paid_users.add(email)
+            for subscription in cancelled_subscriptions.data:
+              customer = stripe.Customer.retrieve(subscription.customer)
+              email = customer.email
+              paid_users.append((email, subscription.status == 'active'))
+            for subscription in subscriptions.data:
+              customer = stripe.Customer.retrieve(subscription.customer)
+              email = customer.email
+              paid_users.append((email, subscription.status == 'active'))
 
             # Update the 'paid' column in the SQLite database
-            for username in paid_users:
+            for username, is_active in paid_users:
+              print(username)
+              print(is_active)
               try:
                 session = self.db_manager.create_session()
-                session.query(LoginInfo).filter_by(username=username).update({"payed": 1})
-
+                session.query(LoginInfo).filter_by(username=username).update({"payed": int(is_active)})
+                session.commit()
               except Exception as e:
                 print(e)
                 return str(e)
@@ -766,7 +772,7 @@ class database():
        
                 session = self.db_manager.create_session()
                 session.query(LoginInfo).filter_by(username=username).update({"payed": 0})
-
+                session.commit()
               except Exception as e:
                 print(e)
                 return str(e)
