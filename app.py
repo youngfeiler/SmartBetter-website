@@ -69,6 +69,10 @@ def scenarios():
 def pregame_beta():
     return render_template('pregame.html')
 
+@app.route('/positive_ev')
+def positive_ev():
+    return render_template('positive_ev_dashboard.html')
+
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
        teams = pd.read_csv('../extra_info_sheets/teams.csv')
@@ -179,6 +183,26 @@ def create_checkout_session_free_trial(price_id):
         }
     )
     return redirect(checkout_session.url,code=302)
+
+@app.route('/get_positive_ev_data')
+def get_positive_ev_data():
+    data = request.get_json()
+    sport_title = data.get('sport_title', '')
+    # wrong calculation
+    bankroll = app.db.calculate_user_bankroll(session["user_id"])
+    print(bankroll)
+
+    data = app.db.get_live_dash_data(session['user_id'], sport_title)
+
+    print(data)
+    if data.empty:
+        data = pd.DataFrame(columns=['bankroll', 'update'])
+        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+    else:
+        data['bankroll'] = bankroll
+    data_json = data.to_dict(orient='records')
+
+    return jsonify(data_json)
 
 @app.route('/test_func')
 def test_func():
@@ -384,11 +408,31 @@ def get_live_dash_data():
     data = request.get_json()
     sport_title = data.get('sport_title', '')
     # wrong calculation
+
     bankroll = app.db.calculate_user_bankroll(session["user_id"])
-    print(bankroll)
 
     data = app.db.get_live_dash_data(session['user_id'], sport_title)
-    print(data)
+    
+    if data.empty:
+        data = pd.DataFrame(columns=['bankroll', 'update'])
+        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+    else:
+        data['bankroll'] = bankroll
+    data_json = data.to_dict(orient='records')
+
+    return jsonify(data_json)
+
+
+@app.route('/get_positive_ev_dash_data', methods=['POST'])
+def get_positive_ev_dash_data():
+    data = request.get_json()
+
+    filters = data.get('filters', '')
+
+    bankroll = app.db.calculate_user_bankroll(session["user_id"])
+
+    data = app.db.get_positive_ev_dash_data(session['user_id'], filters, bankroll)
+    
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
@@ -416,6 +460,11 @@ def get_unsettled_bet_data():
 
     return jsonify(sorted_dict)
 
+
+@app.route('/get_filter_dropdown_values', methods=["GET"])
+def get_filter_dropwdown_values():
+    data = app.db.get_filter_dropdown_values()
+    return data
 
 @app.route('/bet_tracker')
 def bet_tracker():

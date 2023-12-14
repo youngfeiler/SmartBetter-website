@@ -15,6 +15,9 @@ import logging
 import json
 from functionality.models import LoginInfo  # Import your SQLAlchemy model
 from sqlalchemy.orm.exc import NoResultFound
+from ast import literal_eval
+import pytz
+
 
 # Configure the logging level for the stripe module
 logging.getLogger("stripe").setLevel(logging.ERROR)
@@ -208,7 +211,9 @@ class database():
     def get_recommended_bet_size(self, user, df):
        
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
+
        df['win_prob'] =  (1 / df['average_market_odds']) 
+
        session = self.db_manager.create_session()
        user_bankroll = session.query(LoginInfo.bankroll).filter_by(username=user).first()
        if user_bankroll:
@@ -219,9 +224,11 @@ class database():
           session.close()
        print(bankroll)
        bankroll = float(bankroll)
-       df['bet_amount'] = (((df['decimal_highest_bettable_odds'] - 1) * df['win_prob'] - (1 - df['win_prob'])) / (df['decimal_highest_bettable_odds']- 1)) * 0.5 * bankroll
-                          #((    Decimal Odds                    – 1) * Decimal Winning Percentage – (1 – Winning Percentage)) / (Decimal Odds – 1) * Kelly Multiplier
+
+       df['bet_amount'] = ((df['win_prob'] * df['decimal_highest_bettable_odds']) - 1) / (df['decimal_highest_bettable_odds']-1) * 0.5 * bankroll
+
        df['bet_amount'] = df['bet_amount'].round(2)
+
        return df
    
     def add_made_bet_to_db(self, jayson):
@@ -296,13 +303,44 @@ class database():
         value_new = round(value_new)
         return value_new
        
+       def calculate_accepted_bettable_odds_pos_ev_no_ai(row):
+          value_new = row['highest_bettable_odds']
+          # rewrite to make each thing still +EV
+          if value_new < 0:
+            if value_new < -500:
+              value_new = value_new + (value_new * 0.1)
+            else:
+              value_new = value_new + (value_new * 0.05)
+          else:
+            if value_new > 500:
+              value_new = value_new - (value_new * 0.1)
+            else:
+              if (value_new - (value_new * 0.05)) <= 100: 
+                  less_than_100 = 100 - (value_new - (value_new * 0.05))
+                  value_new = -100 - less_than_100
+              else:
+                value_new = value_new - (value_new * 0.05)
+          #round value_new to nearest whole number 
+          value_new = round(value_new)
+          return value_new
+          
        filtered_df = None
 
        try:
           session = self.db_manager.create_session()
           engine = self.db_manager.get_engine()
+          if sport == "POSITIVE_EV":
+            filtered_df = pd.read_csv("/Users/stefanfeiler/Desktop/headers.csv")
 
-          if sport != "PREGAME":
+          elif sport == "PREGAME": 
+            query = """
+            SELECT *
+            FROM master_model_observations
+            WHERE sport_title LIKE '%%PREGAME%%'
+            """
+            filtered_df = pd.read_sql_query(query, engine)
+
+          else:
             query = """
             SELECT *
             FROM master_model_observations
@@ -311,14 +349,6 @@ class database():
             """
             filtered_df = pd.read_sql_query(query, engine, params=[sport])
 
-          else: 
-            query = """
-            SELECT *
-            FROM master_model_observations
-            WHERE sport_title LIKE '%%PREGAME%%'
-            """
-            filtered_df = pd.read_sql_query(query, engine)
-
        except Exception as e:
         print(e)
         return str(e)
@@ -326,18 +356,18 @@ class database():
             if session:
                 session.close()
 
-       filtered_df = filtered_df[filtered_df['completed'] == False]
-            
-       filtered_df = filtered_df.dropna(subset=['team']) 
-       filtered_df = filtered_df.dropna(subset=['opponent'])
+       
+       if sport != 'POSITIVE_EV':
+        filtered_df = filtered_df[filtered_df['completed'] == False]
+        filtered_df = filtered_df.dropna(subset=['team'])
+        filtered_df = filtered_df.dropna(subset=['opponent'])
+        filtered_df = filtered_df[filtered_df['team'].astype(str).str.strip() != '']
+        filtered_df.sort_values(by="snapshot_time", ascending=False, inplace=True)
+        columns_to_compare = ['team']
+        df_no_duplicates = filtered_df.drop_duplicates(subset=columns_to_compare)
+       else:
+          df_no_duplicates = filtered_df.drop_duplicates()
 
-       filtered_df = filtered_df[filtered_df['team'].astype(str).str.strip() != '']
-
-       filtered_df.sort_values(by="snapshot_time", ascending=False, inplace=True)
-
-       columns_to_compare = ['team']
-
-       df_no_duplicates = filtered_df.drop_duplicates(subset=columns_to_compare)
 
        def decimal_to_american(decimal_odds):
         american_odds = np.where(decimal_odds >= 2.0, (decimal_odds - 1) * 100, -100 / (decimal_odds - 1))
@@ -377,7 +407,6 @@ class database():
        elif sport == "NBA" or sport == "NHL" or sport == "PREGAME":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
 
-
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
@@ -386,12 +415,130 @@ class database():
 
        first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
 
-       first_20_rows = self.filter_5_min_cooloff(user_name, sport, first_20_rows)
+       first_20_rows = self.filter_5_min_cooloff(user_name, first_20_rows)
 
        first_20_rows['ev'] = first_20_rows['ev'].round(1)
 
        return first_20_rows
-    
+
+    def get_positive_ev_dash_data(self, user_name, filters, user_bankroll):
+       
+       def minutes_seconds(row):
+          seconds = int(float(row['time_difference_seconds']))
+          if seconds < 60:
+            row['time_difference_formatted'] = f'{seconds} sec'
+
+          elif seconds >= 60 and seconds < 3600:
+            minutes = math.floor(seconds / 60)
+            new_seconds = (seconds % 60)
+            row['time_difference_formatted'] = f'{minutes} min {new_seconds} sec'
+             
+          else:
+            hours = math.floor(seconds / 3600)
+            seconds_after_hour = seconds % 3600
+            new_minutes = math.floor(seconds_after_hour / 60)
+            new_seconds = seconds_after_hour % 60
+            row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+          
+          return row
+
+       def format_list_of_strings(strings):
+           return ', '.join(strings[0])
+      
+       def calculate_accepted_bettable_odds(row):
+
+        pwin = row['no_vig_prob_1']
+        plose = 1-row['no_vig_prob_1']
+        winnings_needed = plose/pwin
+        decimal_odds = winnings_needed + 1
+        if decimal_odds > 2:
+           return int((decimal_odds - 1) * 100)
+        else:
+           return int(-100 / (decimal_odds - 1))
+      
+       def decimal_to_american(decimal_odds):
+        american_odds = np.where(decimal_odds >= 2.0, (decimal_odds - 1) * 100, -100 / (decimal_odds - 1))
+        return american_odds.astype(int) 
+       
+       def calculate_bet_amount(row, user_bankroll):
+          odds = row['highest_bettable_odds'] 
+          win_probability = row['no_vig_prob_1']
+          kelly_percentage = ((win_probability * odds) - 1) / (odds-1)
+          return kelly_percentage * user_bankroll * 0.25
+
+       df = pd.read_csv("users/positive_ev_dash_data.csv")
+
+       df = df[df['highest_bettable_odds'] > 1.01]
+
+       df['game_date'] = pd.to_datetime(df['game_date'])
+
+       current_time_gmt = datetime.now(pytz.timezone('GMT'))
+
+       df = df[df['game_date'] >= current_time_gmt]
+
+       df['game_date']= (df['game_date'] - pd.Timedelta(hours=6)).dt.strftime('%A, %B %d, %Y')
+
+       df['sportsbooks_used_formatted'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
+
+       if len(filters) > 1:
+          if filters['sport-league-filter'].upper() != 'ALL':
+            df = df[df['sport_league_display'] == filters['sport-league-filter']]
+          if filters['market-filter'].upper() != 'ALL':
+            df = df[df['market_display'] == filters['market-filter'].title()]
+          if filters['game-date-filter'].upper() != 'ALL':
+            df = df[df['game_date']== filters['game-date-filter'].title()]
+          if filters['sportsbook-filter'].upper() != 'ALL':
+            df = df[df['sportsbooks_used_formatted'].apply(lambda x: filters['sportsbook-filter'].title() in x)]
+          
+
+       df.drop(columns=['sportsbooks_used_formatted'], inplace=True)
+
+       df_no_duplicates = df.drop_duplicates()
+
+       df_no_duplicates['bet_amount'] = df_no_duplicates.apply(calculate_bet_amount, args=(5000,), axis=1)
+
+       df_no_duplicates['bet_amount'] = df_no_duplicates['bet_amount'].round(2)
+
+      # Apply the conversion function using NumPy vectorization
+       
+       df_no_duplicates['highest_bettable_odds'] = decimal_to_american(df_no_duplicates['highest_bettable_odds'])
+       
+       first_20_rows = df_no_duplicates
+
+       if 'team' in first_20_rows.columns:
+          first_20_rows['team_1'] = first_20_rows['team']
+       else:
+          pass
+       
+       if not first_20_rows.empty:
+        first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
+
+       current_time = datetime.now() 
+
+       first_20_rows['current_time'] = current_time #+ pd.Timedelta(hours=2)
+
+       first_20_rows['snapshot_time'].apply(pd.to_datetime)
+
+       first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
+
+       first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
+
+       first_20_rows['game_date'] = first_20_rows['game_date'].apply(lambda x: pd.to_datetime(x).strftime('%a %b %d, %Y'))
+
+       first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
+        
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
+
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
+       
+       first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
+
+       first_20_rows['ev'] = first_20_rows['ev'].round(1)
+
+       first_20_rows.sort_values(filters['sort-by'][0], ascending = filters['sort-by'][1], inplace= True)
+
+       return first_20_rows
+  
     def get_unsettled_bet_data(self, user):
       try:
         session = self.db_manager.create_session()
@@ -527,7 +674,7 @@ class database():
 
       return new_bankroll
       
-    def filter_5_min_cooloff(self, username, sport, df):
+    def filter_5_min_cooloff(self, username, df):
        try:
           session = self.db_manager.create_session()
           placed_bets =  pd.read_sql_table('placed_bets', con=self.db_manager.get_engine())
@@ -536,19 +683,15 @@ class database():
         return str(e)
        finally:
          session.close()
+
        user_df = placed_bets[placed_bets['user_name'] == username]
 
        user_df['time_placed'] = pd.to_datetime(user_df['time_placed'])
 
        user_time_df = user_df[(datetime.now()- user_df['time_placed']  < pd.Timedelta(seconds=300))]
        
-       if sport == "NFL" or sport == "NBA":
-          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
-          df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
-
-       elif sport == "MLB":
-          user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
-          df = df[~df['team'].isin(user_time_df['teams_bet_on'])]
+       user_time_df['teams_bet_on'] = user_time_df['team'].str.split('v.').str[0]
+       df = df[~df['team_1'].isin(user_time_df['teams_bet_on'])]
 
        return df
 
@@ -894,3 +1037,23 @@ class database():
       return_df['game_date'] = return_df['game_date'].dt.strftime('%b %d')
 
       return return_df.to_dict(orient='list')        
+
+    def get_filter_dropdown_values(self):
+
+       df = pd.read_csv('users/positive_ev_dash_data.csv')
+
+       df['game_date'] = pd.to_datetime(df['game_date'])
+
+       df = df.sort_values('game_date')
+
+       df['game_date'] = (df['game_date'] - pd.Timedelta(hours = 6)).dt.strftime('%A, %B %d, %Y')
+
+       df['sportsbooks_used'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
+       sportsbook_list = list({element for sublist in df['sportsbooks_used'] for element in sublist})
+
+       return jsonify({
+          'sport_league_display': ['all'] + sorted(df['sport_league_display'].unique().tolist()),
+          'market_display': ['all'] + sorted(df['market_display'].unique().tolist()),
+          'game_date': ['all'] + df['game_date'].unique().tolist(),
+          'sportsbooks_used': ['all'] + sorted(sportsbook_list),
+        })
