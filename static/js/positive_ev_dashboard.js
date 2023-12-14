@@ -71,7 +71,7 @@ function updateTable(data) {
 
       <li before-data="Team: " id ="team-bet-on"><p><b >${row.sport_title_display} </b><br class = "mobile-no-display"> ${row.sport_league_display} </p></li>
 
-      <li before-data="Team: " id ="market"><p><b>${row.market_display} </b><br>${row.wager_display}</p></li>
+      <li before-data="Team: " id ="market" class="mobile-no-display" ><p><b>${row.market_display} </b><br>${row.wager_display}</p></li>
 
       <li before-data="Team: " id ="team-bet-on"><p><b >${row.away_team} </b><br class = "mobile-no-display"> @ ${row.home_team} </p></li>
 
@@ -94,10 +94,12 @@ function updateTable(data) {
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
 
       <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
-      <li class="desktop-no-display" id="green">Moneyline</li>
-      <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
-      <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
-      `;
+      <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
+      <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
+
+      // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+      // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+      ;
       table_row_to_append_to.appendChild(tr);
       getImage(row.sportsbooks_used, tr);
     });
