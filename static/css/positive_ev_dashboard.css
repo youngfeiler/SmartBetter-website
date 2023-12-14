@@ -1032,47 +1032,27 @@ option {
   }
 
 
- /* EV */
-.table-custom__content__rows__row li:nth-child(8) { 
-  order: 0 !important;
-  width: 90% !important;
-  padding-right: 32% !important;
+ /* EV*/
+.table-custom__content__rows__row li:nth-child(11) { 
+  order: 1 !important;
+  width: 100% !important;
   margin: 0 !important;
-  text-align: right !important;  /* Center text vertically within the parent div */
+  text-align: center !important;  /* Center text vertically within the parent div */
   font-size: 1.5rem !important;
   padding-top: 0 !important;
   padding-bottom: 1vh !important;
 }
 
-/* Button */
-.table-custom__content__rows__row li:nth-child(11) { 
-  order: 1 !important;
-  width: 10% !important;
-  padding: 0px 10px 0 0 !important;
-}
-
-.plus-button {
-  height: 1.0rem !important; 
-  font-size: 1.0rem !important;
-  justify-content: center;
-  align-items: flex-end !important;
-  color: var(--scroll-bg) !important;
-
-}
-
-/* Team */
-.table-custom__content__rows__row li:nth-child(3) { 
-  order: 2 !important; 
+ /* Game*/
+ .table-custom__content__rows__row li:nth-child(5) { 
+  order: 2 !important;
   width: 100% !important;
-  border-top: 1px solid var(--table-trow-border) !important;
-  /* padding-top: 1vh !important; */
   gap: 0rem !important;
   padding-bottom: 0 !important;
-  /* font-weight: bold !important;   */
-  }
+}
 
  /* Game date */
- .table-custom__content__rows__row li:nth-child(9) { 
+ .table-custom__content__rows__row li:nth-child(6) { 
   order: 3 !important;
   width: 100% !important;
   margin: 0 !important;
@@ -1081,58 +1061,61 @@ option {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   gap: 0rem !important;
+  border-top: 1px solid var(--table-trow-border) !important;
 }
 
-/* "Moneyline"" */
-.table-custom__content__rows__row li:nth-child(13) { 
-  order: 4 !important;
+/* League */
+.table-custom__content__rows__row li:nth-child(3) { 
+  order: 4 !important; 
   width: 100% !important;
-  /* border-left: 1px solid var(--table-trow-border) !important; */
-  border-bottom: 1px solid white !important;
-  /* padding: 0 0 0 0 !important; */
-  margin: 0 0 0 0 !important;
-  gap: 0.4rem !important;
-  text-transform: none !important;
-  /* color: var(--table-trow-special-color) !important; */
-  position: relative;
-  }
+  gap: 0rem !important;
+}
 
-  .table-custom__content__rows__row li:nth-child(13)::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px; /* Adjust the height for the thickness of the top border */
-    background: linear-gradient(to top, var(--row-box-special-color-from), var(--row-box-special-color-to));
-    z-index: 1;
-  }
-
-  /* "REC BET SIZE"" */
-.table-custom__content__rows__row li:nth-child(12) { 
+/*Market */
+.table-custom__content__rows__row li:nth-child(14) { 
   order: 5 !important;
+  width: 100% !important;
+  color: var(--table-trow-special-color) !important;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+
+}
+
+.table-custom__content__rows__row li:nth-child(14)::after {
+  content: "";
+  /* position: absolute; */
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px; /* Adjust the height for the thickness of the top border */
+  background: linear-gradient(to top, var(--row-box-special-color-from), var(--row-box-special-color-to));
+  z-index: 1;
+}
+
+/* "REC BET SIZE"" */
+.table-custom__content__rows__row li:nth-child(13) { 
+  order: 6 !important;
   width: 50% !important;
   border-right: 1px solid var(--table-trow-border) !important;
   padding-top: 2vh !important;
   font-weight: bold !important;
   background-color: var(--row-box-special-color) !important;
   position: relative;
-  }
+}
 
-
-
- .table-custom__content__rows__row li:nth-child(14) { 
-    order: 6 !important;
-    width: 50% !important;
-    /* border-right: 1px solid var(--table-trow-border) !important; */
-    padding-top: 2vh !important;
-    font-weight: bold !important;
-    background-color: var(--row-box-special-color) !important;
-  }
+/* Wager */
+.table-custom__content__rows__row li:nth-child(15) {
+  order: 7 !important;
+  width: 50% !important;
+  padding-top: 2vh !important;
+  font-weight: bold !important;
+  background-color: var(--row-box-special-color) !important;
+}
 
 /* Rec bet size */
-.table-custom__content__rows__row li:nth-child(5) { 
-  order: 7 !important; 
+.table-custom__content__rows__row li:nth-child(8) { 
+  order: 8 !important; 
   width: 50% !important;
   border-right: 1px solid var(--table-trow-border) !important;
   font-weight: bold !important;
@@ -1141,13 +1124,12 @@ option {
   padding-left: 0 !important;
   padding-right: 0 !important;
   font-size: 1rem !important;
-  /* color: var(--table-trow-special-color) !important; */
   background-color: var(--row-box-special-color) !important;
-  }
+}
 
-     /*Min odds */
-.table-custom__content__rows__row li:nth-child(6) { 
-  order: 8 !important; 
+/* Min Odds */
+.table-custom__content__rows__row li:nth-child(9) { 
+  order: 9 !important; 
   width: 25% !important;
   font-weight: bold !important;
   padding-top: 0 !important;
@@ -1158,25 +1140,20 @@ option {
   font-size: 1rem !important;
   /* color: var(--table-trow-special-color); */
   background-color: var(--row-box-special-color) !important;
-  }
+}
 
-  #min-odds, #best-odds, #rec-bet-size-number, #green{
-    color: var(--table-trow-special-color) !important;
-  }
-  
-  .table-custom__content__rows__row li:nth-child(6):after { 
+/* "MIN" */
+.table-custom__content__rows__row li:nth-child(9):after { 
   content: attr(data-before);
   font-size: 0.5rem !important;
   text-align: center !important;
   font-weight: 250 !important;
   color: var(--table-trow-color) !important;
-  /* margin-left: 0.75rem !important;  */
+}
 
-  }
-
-  /* Max odds */
-.table-custom__content__rows__row li:nth-child(7) { 
-  order: 9 !important; 
+/* Max Odds */
+.table-custom__content__rows__row li:nth-child(10) { 
+  order: 10 !important; 
   width: 25% !important;
   font-weight: bold !important;
   padding-top: 0 !important;
@@ -1184,36 +1161,36 @@ option {
   gap: 0rem !important;
   text-align: center !important;
   font-size: 1rem !important;
-  /* color: var(--table-trow-special-color) !important; */
   background-color: var(--row-box-special-color) !important;
+}
+/* "MAX" */
+.table-custom__content__rows__row li:nth-child(10):after { 
+  content: attr(data-before);
+  font-size: 0.5rem !important;
+  font-weight: 250 !important;
+  text-align: center !important;
+  color: var(--table-trow-color) !important;
+}
 
-  }
-
-  .table-custom__content__rows__row li:nth-child(7):after { 
-    content: attr(data-before);
-    font-size: 0.5rem !important;
-    font-weight: 250 !important;
-    text-align: center !important;
-    color: var(--table-trow-color) !important;
-    /* margin-left: 0.75rem !important;  */
-
-  }
-
-/* Sportsbooks */
-.table-custom__content__rows__row li:nth-child(4) { 
- order: 10 !important; 
- width: 100% !important;
- border-top: 1px solid var(--table-trow-border) !important;
+/* sportsbooks */
+.table-custom__content__rows__row li:nth-child(7) { 
+  order: 11 !important; 
+  width: 100% !important;
+  border-top: 1px solid var(--table-trow-border) !important;
  gap: 0 !important;
  padding-top: 0.5rem !important;
- }
+}
 
-
-  /* Time Since Update */
- .table-custom__content__rows__row li:nth-child(10) { 
-  order: 21 !important;
+/* Time Since Update */
+.table-custom__content__rows__row li:nth-child(12) { 
+  order: 12 !important;
   gap: 0 !important;
-  }
+}
+
+
+#min-odds, #best-odds, #rec-bet-size-number, #green{
+  color: var(--table-trow-special-color) !important;
+}
 
   .mobile-no-display {
     display: none !important;
