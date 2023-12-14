@@ -495,7 +495,7 @@ class database():
 
        df_no_duplicates = df.drop_duplicates()
 
-       df_no_duplicates['bet_amount'] = df_no_duplicates.apply(calculate_bet_amount, args=(5000,), axis=1)
+       df_no_duplicates['bet_amount'] = df_no_duplicates.apply(calculate_bet_amount, args=(user_bankroll,), axis=1)
 
        df_no_duplicates['bet_amount'] = df_no_duplicates['bet_amount'].round(2)
 
