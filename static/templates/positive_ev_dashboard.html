@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartBettor - Positive EV</title>
+  <link rel="stylesheet" href="static/css/positive_ev_dashboard.css" />
+  <link rel="icon" type="image/x-icon" href="static/images/logo.ico" />
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/all.js');
+  fbq('init', '388817483493656');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=388817483493656&ev=PageView&noscript=1"
+  /></noscript>
+  <script>
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+</head>
+{% include "sidebar.html" %}
+
+<body>
+  <div class="container-custom">
+
+    <main class="main-custom">
+
+      <nav class="navbar-custom">
+        <div class="navbar-custom__left">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="navbar-custom__right">
+          <div class="navbar-custom__toggle-theme">
+            <button type="button" data-theme-toggle>
+              <i class="fa-solid fa-sun"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content-custom">
+        <div class="table-custom">
+          <div class="table-custom__header">
+            <div>
+              <h2>+EV Dashboard</h2>
+              <button id="fetch-button">Update Table</button>
+            </div>
+            <p class="bankroll" id="bankroll"></p>
+          </div>
+
+          <div class="table-custom__wrapper">
+
+
+            <div class="table-custom__content">
+              <ul class="table-custom__content__head">
+                <li style="display: flex;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                    <a> Sport League </a>
+                    <svg width="13" height="14" viewBox="0 0 13 14" class = "dropbtn">
+                      <path d="m 5.3508743,13.913666 c -0.07838,0 -0.1569151,-0.01979 -0.2275656,-0.05968 C 4.9773699,13.771746 4.8870855,13.617305 4.8870855,13.449878 V 7.0647412 L 0.09413674,0.74407205 C -0.01222552,0.60369879 -0.02984949,0.41524592 0.0483762,0.25755727 0.12675695,0.09971484 0.28769125,0 0.46377643,0 H 12.387635 c 0.176239,0 0.337019,0.09971488 0.415399,0.25755727 0.07839,0.15768865 0.06075,0.34614152 -0.04576,0.48651478 L 7.964329,7.0647412 v 5.0820428 c 0,0.162173 -0.084718,0.31244 -0.2233914,0.396541 l -2.149508,1.303092 c -0.073898,0.04467 -0.1572244,0.06725 -0.2405517,0.06725 z M 1.3975379,0.92757702 5.7205141,6.6286252 c 0.06122,0.080547 0.09415,0.1790218 0.09415,0.2802824 v 5.7175904 l 1.222083,-0.740825 v -4.97692 c 0,-0.1011057 0.033085,-0.1995835 0.09415,-0.2802825 L 11.453873,0.92757702 Z M 7.5005362,12.146785 h 0.00152 z" style="opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.154596;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"/>
+                    </svg>
+                    </div>
+                  <div class="dropdown">
+                    <div class="dropdown-content" id="sport-league-filter">
+                      <a class = "filter-dropdown-label"> Filter </a>
+                    </div>
+                </div>
+              </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                    <a> Market </a>
+                    <svg width="13" height="14" viewBox="0 0 13 14" class = "dropbtn">
+                      <path d="m 5.3508743,13.913666 c -0.07838,0 -0.1569151,-0.01979 -0.2275656,-0.05968 C 4.9773699,13.771746 4.8870855,13.617305 4.8870855,13.449878 V 7.0647412 L 0.09413674,0.74407205 C -0.01222552,0.60369879 -0.02984949,0.41524592 0.0483762,0.25755727 0.12675695,0.09971484 0.28769125,0 0.46377643,0 H 12.387635 c 0.176239,0 0.337019,0.09971488 0.415399,0.25755727 0.07839,0.15768865 0.06075,0.34614152 -0.04576,0.48651478 L 7.964329,7.0647412 v 5.0820428 c 0,0.162173 -0.084718,0.31244 -0.2233914,0.396541 l -2.149508,1.303092 c -0.073898,0.04467 -0.1572244,0.06725 -0.2405517,0.06725 z M 1.3975379,0.92757702 5.7205141,6.6286252 c 0.06122,0.080547 0.09415,0.1790218 0.09415,0.2802824 v 5.7175904 l 1.222083,-0.740825 v -4.97692 c 0,-0.1011057 0.033085,-0.1995835 0.09415,-0.2802825 L 11.453873,0.92757702 Z M 7.5005362,12.146785 h 0.00152 z" style="opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.154596;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"/>
+                    </svg>
+                    </div>
+                  <div class="dropdown">
+                    <div class="dropdown-content" id="market-filter">
+                      <a class = "filter-dropdown-label"> Filter </a>
+                    </div>
+                </div>
+              </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a>Game</a>
+                      </div>
+                    </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                    <a> Game Date </a>
+                    <svg width="13" height="14" viewBox="0 0 13 14" class = "dropbtn">
+                      <path d="m 5.3508743,13.913666 c -0.07838,0 -0.1569151,-0.01979 -0.2275656,-0.05968 C 4.9773699,13.771746 4.8870855,13.617305 4.8870855,13.449878 V 7.0647412 L 0.09413674,0.74407205 C -0.01222552,0.60369879 -0.02984949,0.41524592 0.0483762,0.25755727 0.12675695,0.09971484 0.28769125,0 0.46377643,0 H 12.387635 c 0.176239,0 0.337019,0.09971488 0.415399,0.25755727 0.07839,0.15768865 0.06075,0.34614152 -0.04576,0.48651478 L 7.964329,7.0647412 v 5.0820428 c 0,0.162173 -0.084718,0.31244 -0.2233914,0.396541 l -2.149508,1.303092 c -0.073898,0.04467 -0.1572244,0.06725 -0.2405517,0.06725 z M 1.3975379,0.92757702 5.7205141,6.6286252 c 0.06122,0.080547 0.09415,0.1790218 0.09415,0.2802824 v 5.7175904 l 1.222083,-0.740825 v -4.97692 c 0,-0.1011057 0.033085,-0.1995835 0.09415,-0.2802825 L 11.453873,0.92757702 Z M 7.5005362,12.146785 h 0.00152 z" style="opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.154596;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"/>
+                    </svg>
+                    </div>
+                  <div class="dropdown">
+                    <div class="dropdown-content" id="game-date-filter">
+                      <a class = "filter-dropdown-label"> Filter </a>
+                    </div>
+                </div>
+              </div>
+                </li>
+
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                    <a> Sportsbook </a>
+                    <svg width="13" height="14" viewBox="0 0 13 14" class = "dropbtn">
+                      <path d="m 5.3508743,13.913666 c -0.07838,0 -0.1569151,-0.01979 -0.2275656,-0.05968 C 4.9773699,13.771746 4.8870855,13.617305 4.8870855,13.449878 V 7.0647412 L 0.09413674,0.74407205 C -0.01222552,0.60369879 -0.02984949,0.41524592 0.0483762,0.25755727 0.12675695,0.09971484 0.28769125,0 0.46377643,0 H 12.387635 c 0.176239,0 0.337019,0.09971488 0.415399,0.25755727 0.07839,0.15768865 0.06075,0.34614152 -0.04576,0.48651478 L 7.964329,7.0647412 v 5.0820428 c 0,0.162173 -0.084718,0.31244 -0.2233914,0.396541 l -2.149508,1.303092 c -0.073898,0.04467 -0.1572244,0.06725 -0.2405517,0.06725 z M 1.3975379,0.92757702 5.7205141,6.6286252 c 0.06122,0.080547 0.09415,0.1790218 0.09415,0.2802824 v 5.7175904 l 1.222083,-0.740825 v -4.97692 c 0,-0.1011057 0.033085,-0.1995835 0.09415,-0.2802825 L 11.453873,0.92757702 Z M 7.5005362,12.146785 h 0.00152 z" style="opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.154596;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"/>
+                    </svg>
+                    </div>
+                  <div class="dropdown">
+                    <div class="dropdown-content" id="sportsbook-filter">
+                      <a class = "filter-dropdown-label"> Filter </a>
+                    </div>
+                </div>
+              </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Rec. Bet size </a>
+                      <svg width="10" height="14" viewBox="0 0 10 14" class = "sort-icon" xmlns="http://www.w3.org/2000/svg" id = "bet_amount">
+                    <defs id="defs1">&#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;</defs>&#10;
+                    <path d="m 2.4925484,13.778706 c -0.1699207,0 -0.3078468,-0.137915 -0.3078468,-0.307844 V 0.38224328 c 0,-0.16993011 0.1379148,-0.30784435 0.3078468,-0.30784435 0.1699207,0 0.3078439,0.13791424 0.3078439,0.30784435 V 13.470862 c 0,0.169929 -0.1379148,0.307844 -0.3078439,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path1"/>
+                    <path d="m 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" class="arrow-head" />
+                    <path
+                    d="m 7.4983715,4.2870097 c -1.157495,0 -2.099191,-0.941542 -2.099191,-2.0990367 0,-1.1574946 0.941696,-2.09919063 2.099191,-2.09919063 1.157495,0 2.099033,0.94169603 2.099033,2.09919063 0,1.1574947 -0.941693,2.0990367 -2.099033,2.0990367 z m 0,-3.58253853 c -0.817946,0 -1.483503,0.66540543 -1.483503,1.48350183 0,0.8177887 0.665405,1.4833477 1.483503,1.4833477 0.817788,0 1.483348,-0.665405 1.483348,-1.4833477 0,-0.8180964 -0.66556,-1.48350183 -1.483348,-1.48350183 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path3"/>
+                    <path d="m 6.9036155,6.2599837 c -0.119144,0 -0.232865,-0.06973 -0.28292,-0.186244 -0.06727,-0.156233 0.0048,-0.337243 0.160985,-0.404507 1.059601,-0.456071 2.200011,-1.739936 2.200011,-3.4812577 0,-0.1699292 0.137915,-0.3078442 0.307847,-0.3078442 0.16992,0 0.307841,0.1379148 0.307841,0.3078442 0,2.0197667 -1.333427,3.5135817 -2.572193,4.0467677 -0.0397,0.01708 -0.08113,0.02523 -0.121588,0.02523 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path4"/>
+                    <path d="M 9.6454958,13.969381 H 6.0629566 c -0.1699207,0 -0.307844,-0.137914 -0.307844,-0.307844 0,-0.169929 0.1379148,-0.307844 0.307844,-0.307844 h 3.5823847 c 0.1699207,0 0.3078406,0.137915 0.3078406,0.307844 0,0.169929 -0.1377738,0.307844 -0.3076861,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path5"/> 
+                    <path d="m 7.8543035,13.969381 c -0.1699488,0 -0.3078468,-0.137914 -0.3078468,-0.307844 V 8.9005701 L 6.2133365,9.646323 C 6.0644908,9.7294409 5.8773252,9.6761841 5.7943599,9.5279568 5.7112401,9.3795759 5.7643772,9.1919447 5.9127452,9.1089807 L 7.7040921,8.1069473 c 0.095456,-0.053257 0.2117897,-0.05218 0.3059978,0.00323 0.094191,0.055258 0.1520772,0.1563849 0.1520772,0.2655158 v 5.2858415 c 0,0.169929 -0.1379148,0.307844 -0.3078468,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path6" />&#10;&#10;
+                      </svg>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Min. Odds Req.</a>
+                      <svg width="10" height="14" viewBox="0 0 10 14" class = "sort-icon" xmlns="http://www.w3.org/2000/svg" id = "highest_acceptable_odds">
+                    <defs id="defs1">&#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;</defs>&#10;
+                    <path d="m 2.4925484,13.778706 c -0.1699207,0 -0.3078468,-0.137915 -0.3078468,-0.307844 V 0.38224328 c 0,-0.16993011 0.1379148,-0.30784435 0.3078468,-0.30784435 0.1699207,0 0.3078439,0.13791424 0.3078439,0.30784435 V 13.470862 c 0,0.169929 -0.1379148,0.307844 -0.3078439,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path1"/>
+                    <path d="m 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" class="arrow-head" />
+                    <path
+                    d="m 7.4983715,4.2870097 c -1.157495,0 -2.099191,-0.941542 -2.099191,-2.0990367 0,-1.1574946 0.941696,-2.09919063 2.099191,-2.09919063 1.157495,0 2.099033,0.94169603 2.099033,2.09919063 0,1.1574947 -0.941693,2.0990367 -2.099033,2.0990367 z m 0,-3.58253853 c -0.817946,0 -1.483503,0.66540543 -1.483503,1.48350183 0,0.8177887 0.665405,1.4833477 1.483503,1.4833477 0.817788,0 1.483348,-0.665405 1.483348,-1.4833477 0,-0.8180964 -0.66556,-1.48350183 -1.483348,-1.48350183 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path3"/>
+                    <path d="m 6.9036155,6.2599837 c -0.119144,0 -0.232865,-0.06973 -0.28292,-0.186244 -0.06727,-0.156233 0.0048,-0.337243 0.160985,-0.404507 1.059601,-0.456071 2.200011,-1.739936 2.200011,-3.4812577 0,-0.1699292 0.137915,-0.3078442 0.307847,-0.3078442 0.16992,0 0.307841,0.1379148 0.307841,0.3078442 0,2.0197667 -1.333427,3.5135817 -2.572193,4.0467677 -0.0397,0.01708 -0.08113,0.02523 -0.121588,0.02523 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path4"/>
+                    <path d="M 9.6454958,13.969381 H 6.0629566 c -0.1699207,0 -0.307844,-0.137914 -0.307844,-0.307844 0,-0.169929 0.1379148,-0.307844 0.307844,-0.307844 h 3.5823847 c 0.1699207,0 0.3078406,0.137915 0.3078406,0.307844 0,0.169929 -0.1377738,0.307844 -0.3076861,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path5"/> 
+                    <path d="m 7.8543035,13.969381 c -0.1699488,0 -0.3078468,-0.137914 -0.3078468,-0.307844 V 8.9005701 L 6.2133365,9.646323 C 6.0644908,9.7294409 5.8773252,9.6761841 5.7943599,9.5279568 5.7112401,9.3795759 5.7643772,9.1919447 5.9127452,9.1089807 L 7.7040921,8.1069473 c 0.095456,-0.053257 0.2117897,-0.05218 0.3059978,0.00323 0.094191,0.055258 0.1520772,0.1563849 0.1520772,0.2655158 v 5.2858415 c 0,0.169929 -0.1379148,0.307844 -0.3078468,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path6" />&#10;&#10;
+                      </svg>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Best Odds </a>
+                      <svg width="10" height="14" viewBox="0 0 10 14" class = "sort-icon" xmlns="http://www.w3.org/2000/svg" id = "highest_bettable_odds">
+                    <defs id="defs1">&#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;</defs>&#10;
+                    <path d="m 2.4925484,13.778706 c -0.1699207,0 -0.3078468,-0.137915 -0.3078468,-0.307844 V 0.38224328 c 0,-0.16993011 0.1379148,-0.30784435 0.3078468,-0.30784435 0.1699207,0 0.3078439,0.13791424 0.3078439,0.30784435 V 13.470862 c 0,0.169929 -0.1379148,0.307844 -0.3078439,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path1"/>
+                    <path d="m 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" class="arrow-head" />
+                    <path
+                    d="m 7.4983715,4.2870097 c -1.157495,0 -2.099191,-0.941542 -2.099191,-2.0990367 0,-1.1574946 0.941696,-2.09919063 2.099191,-2.09919063 1.157495,0 2.099033,0.94169603 2.099033,2.09919063 0,1.1574947 -0.941693,2.0990367 -2.099033,2.0990367 z m 0,-3.58253853 c -0.817946,0 -1.483503,0.66540543 -1.483503,1.48350183 0,0.8177887 0.665405,1.4833477 1.483503,1.4833477 0.817788,0 1.483348,-0.665405 1.483348,-1.4833477 0,-0.8180964 -0.66556,-1.48350183 -1.483348,-1.48350183 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path3"/>
+                    <path d="m 6.9036155,6.2599837 c -0.119144,0 -0.232865,-0.06973 -0.28292,-0.186244 -0.06727,-0.156233 0.0048,-0.337243 0.160985,-0.404507 1.059601,-0.456071 2.200011,-1.739936 2.200011,-3.4812577 0,-0.1699292 0.137915,-0.3078442 0.307847,-0.3078442 0.16992,0 0.307841,0.1379148 0.307841,0.3078442 0,2.0197667 -1.333427,3.5135817 -2.572193,4.0467677 -0.0397,0.01708 -0.08113,0.02523 -0.121588,0.02523 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path4"/>
+                    <path d="M 9.6454958,13.969381 H 6.0629566 c -0.1699207,0 -0.307844,-0.137914 -0.307844,-0.307844 0,-0.169929 0.1379148,-0.307844 0.307844,-0.307844 h 3.5823847 c 0.1699207,0 0.3078406,0.137915 0.3078406,0.307844 0,0.169929 -0.1377738,0.307844 -0.3076861,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path5"/> 
+                    <path d="m 7.8543035,13.969381 c -0.1699488,0 -0.3078468,-0.137914 -0.3078468,-0.307844 V 8.9005701 L 6.2133365,9.646323 C 6.0644908,9.7294409 5.8773252,9.6761841 5.7943599,9.5279568 5.7112401,9.3795759 5.7643772,9.1919447 5.9127452,9.1089807 L 7.7040921,8.1069473 c 0.095456,-0.053257 0.2117897,-0.05218 0.3059978,0.00323 0.094191,0.055258 0.1520772,0.1563849 0.1520772,0.2655158 v 5.2858415 c 0,0.169929 -0.1379148,0.307844 -0.3078468,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path6" />&#10;&#10;
+                      </svg>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  <div class = "filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> % +EV </a>
+                      <svg width="10" height="14" viewBox="0 0 10 14" class = "sort-icon active" xmlns="http://www.w3.org/2000/svg" style="margin-left: -30px" id = "ev">
+                    <defs id="defs1">&#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;	&#10;   &#10;</defs>&#10;
+                    <path d="m 2.4925484,13.778706 c -0.1699207,0 -0.3078468,-0.137915 -0.3078468,-0.307844 V 0.38224328 c 0,-0.16993011 0.1379148,-0.30784435 0.3078468,-0.30784435 0.1699207,0 0.3078439,0.13791424 0.3078439,0.30784435 V 13.470862 c 0,0.169929 -0.1379148,0.307844 -0.3078439,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path1"/>
+                    <path d="m 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" class="arrow-head" />
+                    <path
+                    d="m 7.4983715,4.2870097 c -1.157495,0 -2.099191,-0.941542 -2.099191,-2.0990367 0,-1.1574946 0.941696,-2.09919063 2.099191,-2.09919063 1.157495,0 2.099033,0.94169603 2.099033,2.09919063 0,1.1574947 -0.941693,2.0990367 -2.099033,2.0990367 z m 0,-3.58253853 c -0.817946,0 -1.483503,0.66540543 -1.483503,1.48350183 0,0.8177887 0.665405,1.4833477 1.483503,1.4833477 0.817788,0 1.483348,-0.665405 1.483348,-1.4833477 0,-0.8180964 -0.66556,-1.48350183 -1.483348,-1.48350183 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path3"/>
+                    <path d="m 6.9036155,6.2599837 c -0.119144,0 -0.232865,-0.06973 -0.28292,-0.186244 -0.06727,-0.156233 0.0048,-0.337243 0.160985,-0.404507 1.059601,-0.456071 2.200011,-1.739936 2.200011,-3.4812577 0,-0.1699292 0.137915,-0.3078442 0.307847,-0.3078442 0.16992,0 0.307841,0.1379148 0.307841,0.3078442 0,2.0197667 -1.333427,3.5135817 -2.572193,4.0467677 -0.0397,0.01708 -0.08113,0.02523 -0.121588,0.02523 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path4"/>
+                    <path d="M 9.6454958,13.969381 H 6.0629566 c -0.1699207,0 -0.307844,-0.137914 -0.307844,-0.307844 0,-0.169929 0.1379148,-0.307844 0.307844,-0.307844 h 3.5823847 c 0.1699207,0 0.3078406,0.137915 0.3078406,0.307844 0,0.169929 -0.1377738,0.307844 -0.3076861,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round"
+                    id="path5"/> 
+                    <path d="m 7.8543035,13.969381 c -0.1699488,0 -0.3078468,-0.137914 -0.3078468,-0.307844 V 8.9005701 L 6.2133365,9.646323 C 6.0644908,9.7294409 5.8773252,9.6761841 5.7943599,9.5279568 5.7112401,9.3795759 5.7643772,9.1919447 5.9127452,9.1089807 L 7.7040921,8.1069473 c 0.095456,-0.053257 0.2117897,-0.05218 0.3059978,0.00323 0.094191,0.055258 0.1520772,0.1563849 0.1520772,0.2655158 v 5.2858415 c 0,0.169929 -0.1379148,0.307844 -0.3078468,0.307844 z" style="fill-rule:nonzero;stroke:none;stroke-width:0.153922;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none" stroke-linecap="round" id="path6" />&#10;&#10;
+                      </svg>
+                    </div>
+                  </div>
+                </li>
+
+                <li style="display: flex; justify-content: center;">
+                  Time Since Update
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">Time elapsed since our algorithm found this bet with the posted odds</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    </svg>
+                  </div>
+                </li>
+              </ul>
+              <div class="table-custom__content__rows">
+              </div>
+            </div>
+            <div class="table-custom__footer">
+              <p class="footer-to-make-innerhtml"></p>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% include "footer.html" %}
+      
+    </main>
+
+
+  </div>
+</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="static/js/positive_ev_dashboard.js"></script>
+  {% include "sportsbook_selection_dropdown.html" %}
+
+</body>
+
+
+
+</html>
