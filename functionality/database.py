@@ -515,7 +515,7 @@ class database():
 
        current_time = datetime.now() 
 
-       first_20_rows['current_time'] = current_time + pd.Timedelta(hours=7)
+       first_20_rows['current_time'] = current_time - pd.Timedelta(hours=7)
 
        first_20_rows['snapshot_time'].apply(pd.to_datetime)
 
