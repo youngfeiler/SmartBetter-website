@@ -1349,6 +1349,11 @@ option {
      /* Adjust the scale factor as needed */
   }
 
+  .table-custom__content__head li:nth-child(3) {
+    display: none !important;
+  }
+
+
 
 }
 

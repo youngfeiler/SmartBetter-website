@@ -480,6 +480,7 @@ class database():
 
        df['sportsbooks_used_formatted'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
 
+      
        if len(filters) > 1:
           if filters['sport-league-filter'].upper() != 'ALL':
             df = df[df['sport_league_display'] == filters['sport-league-filter']]
@@ -490,7 +491,6 @@ class database():
           if filters['sportsbook-filter'].upper() != 'ALL':
             df = df[df['sportsbooks_used_formatted'].apply(lambda x: filters['sportsbook-filter'].title() in x)]
           
-
        df.drop(columns=['sportsbooks_used_formatted'], inplace=True)
 
        df_no_duplicates = df.drop_duplicates()
@@ -1043,6 +1043,10 @@ class database():
        df = pd.read_csv('users/positive_ev_dash_data.csv')
 
        df['game_date'] = pd.to_datetime(df['game_date'])
+
+       current_time_gmt = datetime.now(pytz.timezone('GMT'))
+
+       df = df[df['game_date'] >= current_time_gmt]
 
        df = df.sort_values('game_date')
 
