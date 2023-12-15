@@ -425,6 +425,8 @@ function getImage(sportsbook_string, row){
       Pinnacle: '/static/images/pinnacle.webp',
       Betmgm: '/static/images/betmgm.webp',
       Williamhill_Us: '/static/images/williamhillus.webp',
+      Bovada: '/static/images/bovada.webp',
+
     };
 
     var sportsBooks = sportsbook_string.split(', ');
