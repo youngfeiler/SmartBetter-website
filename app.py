@@ -67,11 +67,17 @@ def scenarios():
 
 @app.route('/pregame')
 def pregame_beta():
-    return render_template('pregame.html')
+    if 'user_id' in session:
+        return render_template('pregame.html')
+    else:
+        return redirect(url_for('register'))
 
 @app.route('/positive_ev')
 def positive_ev():
-    return render_template('positive_ev_dashboard.html')
+    if 'user_id' in session:
+        return render_template('positive_ev_dashboard.html')
+    else:
+        return redirect(url_for('register'))
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
@@ -223,7 +229,11 @@ def account():
 
 @app.route('/performance')
 def show_performance():
-    return render_template('performance.html')
+  if 'user_id' in session:
+        return render_template('performance.html')
+  else:
+        return redirect(url_for('login'))
+    
 
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
