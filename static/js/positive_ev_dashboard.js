@@ -426,7 +426,8 @@ function getImage(sportsbook_string, row){
       Betmgm: '/static/images/betmgm.webp',
       Williamhill_Us: '/static/images/williamhillus.webp',
       Bovada: '/static/images/bovada.webp',
-
+      Lowvig: '/static/images/lowvig.webp',
+      Superbook: '/static/images/superbook.webp',
     };
 
     var sportsBooks = sportsbook_string.split(', ');
