@@ -156,8 +156,8 @@
   flex-direction: column;
   gap: 2.125rem;
   position: relative;
-  border: 2px solid var(--nav-border)
-
+  border: 2px solid var(--nav-border);
+  overflow: hidden;
 }
 @media (max-width: 49em) {
   .table-custom {
@@ -931,6 +931,7 @@ option {
   max-height: 250px;
   overflow: scroll;
   padding: 0px;
+  z-index: 9999;
 }
 
 #filter{
@@ -984,8 +985,10 @@ option {
 }
 
 @media (max-width: 767px) {
-  .table-custom .table-custom__wrapper {
-    width: 100%
+  .table-custom .table-custom__wrapper,
+  .table-custom__content {
+    width: 100%;
+    overflow: hidden !important;
   }
   .table-custom__content__rows {
     overflow:  hidden !important;
@@ -1345,6 +1348,7 @@ option {
     order: 1;
      /* Adjust the scale factor as needed */
   }
+
 
 }
 
