@@ -267,7 +267,6 @@
 .table-custom .table-custom__wrapper .table-custom__content {
   display: flex;
   flex-direction: column;
-  /* overflow: auto; */
   width: 100%;
 }
 .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__head {
@@ -344,6 +343,7 @@
   gap: 1rem;
   width: 100%;
   overflow: hidden;
+
   text-wrap: pretty;
 }
 /* .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows .table-custom__content__rows__row li svg {
@@ -984,9 +984,11 @@ option {
 }
 
 @media (max-width: 767px) {
-  .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows {
-    scroll-snap-type: y mandatory !important; /* Enable vertical snapping */
-    overflow: scroll !important;
+  .table-custom .table-custom__wrapper {
+    width: 100%
+  }
+  .table-custom__content__rows {
+    overflow:  hidden !important;
   }
 
   #rec-bet-size-number.adding-to-bet-tracker{
@@ -1002,6 +1004,7 @@ option {
   }
 
   .table-custom {
+    height: calc(100vh - 60px);
     border-spacing: 0 !important;
     border-collapse: collapse !important;
     box-sizing: border-box !important;
@@ -1012,13 +1015,20 @@ option {
     width: 100% !important;
     table-layout: fixed !important;
     align-items: center;
+    scroll-snap-type: y mandatory !important;
+
   }
   .desktop-no-display{
     display: flex !important;
   }
 
   .table-custom__content__head{
-    display: none !important;
+    /* display: none !important; */
+  }
+  .table-custom__content__rows {
+    height: 1000px !important;
+    scroll-snap-type: y mandatory !important;
+    overflow: scroll !important;
   }
 
   .table-custom__content__rows__row {
@@ -1034,9 +1044,8 @@ option {
     padding-bottom: 1vh !important;
     padding-top: 1vh !important;
     align-items: stretch !important;
-    scroll-snap-align: start !important; /* Set the snap position */
+    scroll-snap-align: start !important; 
   }
-
 
  /* EV*/
 .table-custom__content__rows__row li:nth-child(11) { 
@@ -1209,7 +1218,6 @@ option {
 
   .table-custom__content__rows__row {
     width: 100% !important;
-    overflow:auto;
   }
 
   .li{
@@ -1296,6 +1304,46 @@ option {
 
   .toggle-button{
     margin-right:5px !important;
+  }
+
+  .table-custom__content__head{
+    height: auto !important;
+    margin-bottom: 50px;
+  }
+
+  .table-custom__content__head li
+  {
+    height: 100%;
+    padding: 5px;
+    gap: 0 !important;
+  }
+
+  .filter-container{
+    height: 100% !important;
+  }
+
+  .filter-container-2{
+    height: 100%;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding:5px;
+    align-items: center;
+  }
+
+  .dropdown{
+    height: 0px;
+  }
+
+  .filter-container-2 a{
+    order: 2;
+    font-size: 0.5rem !important;
+    display: none;
+
+
+  }
+  .filter-container-2 svg{
+    order: 1;
+     /* Adjust the scale factor as needed */
   }
 
 }
