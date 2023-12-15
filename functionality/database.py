@@ -537,7 +537,7 @@ class database():
 
        first_20_rows.sort_values(filters['sort-by'][0], ascending = filters['sort-by'][1], inplace= True)
 
-       return first_20_rows
+       return first_20_rows.head(200)
   
     def get_unsettled_bet_data(self, user):
       try:
