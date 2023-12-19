@@ -248,6 +248,8 @@ class pregame_nhl_dashboard_runner():
 
       df_stacked['home_away'] = np.where(df_stacked['team_1'] == df_stacked['home_team'], 1, 0)
 
+      df_stacked['home_away'] = np.where(df_stacked['team_1'] == df_stacked['home_team'], None, "@")
+
       # df_stacked['snapshot_time'] = df_stacked['snapshot_time_taken'].dt.time
 
       cols_to_drop=['time_pulled', 'home_team', 'away_team', 'winning_team']
