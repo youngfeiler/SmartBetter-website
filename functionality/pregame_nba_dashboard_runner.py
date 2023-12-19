@@ -223,6 +223,8 @@ class pregame_nba_dashboard_runner():
 
       df_stacked['home_away'] = np.where(df_stacked['team_1'] == df_stacked['home_team'], 1, 0)
 
+      df_stacked['home_away_neutral'] = np.where(df_stacked['team_1'] == df_stacked['home_team'], None, "@")
+
       # df_stacked['snapshot_time'] = df_stacked['snapshot_time_taken'].dt.time
 
       cols_to_drop=['time_pulled', 'home_team', 'away_team', 'winning_team']
@@ -483,6 +485,8 @@ class pregame_nba_dashboard_runner():
           predictions = strategy_dict['model'](input_tensor)
 
           predictions_array = predictions.detach().numpy()
+          print(predictions_array)
+          print(strategy_dict['pred_thresh'])
           mask = predictions_array > strategy_dict['pred_thresh']
           # mask = predictions_array > -1000
 
