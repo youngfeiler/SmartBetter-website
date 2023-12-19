@@ -530,8 +530,8 @@ class pregame_nhl_dashboard_runner():
           print(strategy_dict['pred_thresh'])
 
           predictions_array = predictions.detach().numpy()
-          # mask = predictions_array > strategy_dict['pred_thresh']
-          mask = predictions_array > -100
+          mask = predictions_array > strategy_dict['pred_thresh']
+          # mask = predictions_array > -100
 
           filtered_df = self.display_df[mask]
 
