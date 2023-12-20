@@ -317,7 +317,11 @@ class pregame_nba_dashboard_runner():
           # Calculate the mean odds for each row (ignoring NaN values)
           df['average_market_odds'] = odds_df_masked.mean(axis=1, skipna=True)
 
+<<<<<<< HEAD
           df['barstool_1_odds'] = df['draftkings_1_odds'].copy()
+=======
+          # df['barstool_1_odds'] = df['draftkings_1_odds'].copy()
+>>>>>>> da17d7adb72195d0be7f45103f3b3318ee1e70b0
 
           return df
 
@@ -394,7 +398,9 @@ class pregame_nba_dashboard_runner():
     
     def format_for_nn(self):
        def drop_unnecesary_columns(df):
-        df = df.drop(columns=['commence_time', 'game_id', 'my_game_id', 'ev'])
+        df = df.drop(columns=['commence_time', 'game_id', 'my_game_id', 'ev', 'target'])
+
+        print(df.columns.tolist())
         time_columns = [col for col in df.columns if 'time' in col]
         return_df = df.drop(columns=time_columns)
 
@@ -414,7 +420,7 @@ class pregame_nba_dashboard_runner():
         # Select the subset 
         df_numerical = df[self.numerical_columns]
 
-        df = df.drop(columns='target')
+        # df = df.drop(columns='target')
 
         # Create an instance of StandardScaler and fit it on the training data
         scaler = self.model_storage['SmartBetterNBAModel']['scaler']
@@ -435,7 +441,7 @@ class pregame_nba_dashboard_runner():
 
             col_encoder = encoder_obj[col]
 
-            col_data = df[[col]]
+            col_data = df[[col]].astype(str)
 
             encoded_columns = col_encoder.transform(col_data)
 
@@ -500,6 +506,8 @@ class pregame_nba_dashboard_runner():
             filtered_df = filtered_df.loc[:, ~filtered_df.columns.duplicated()]
 
             existing_df = pd.read_csv('users/model_obs_nba_pregame.csv')
+
+            print(filtered_df[['game_id', 'home_away_neutral']])
 
             result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
 
