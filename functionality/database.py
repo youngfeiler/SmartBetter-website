@@ -700,16 +700,24 @@ class database():
             # List all PaymentIntents from Stripe
             subscriptions = stripe.Subscription.list(status='active')
             cancelled_subscriptions = stripe.Subscription.list(status='canceled')
+            trialing_subscriptions = stripe.Subscription.list(status='trialing')
             paid_users = [] # Create a set to store usernames of paid users
             # Iterate through the PaymentIntents and add the usernames of paid users to the set
             for subscription in cancelled_subscriptions.data:
+              print(subscription)
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'active'))
             for subscription in subscriptions.data:
+              print(subscription)
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'active'))
+            for subscription in trialing_subscriptions.data:
+              print(subscription)
+              customer = stripe.Customer.retrieve(subscription.customer)
+              email = customer.email
+              paid_users.append((email, subscription.status == 'trialing'))
 
             # Update the 'paid' column in the SQLite database
             for username, is_active in paid_users:
