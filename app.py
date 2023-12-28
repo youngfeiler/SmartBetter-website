@@ -36,7 +36,7 @@ def create_app():
 
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("STRIPE_API_KEY")
+app.config['STRIPE_PRIVATE_KEY'] = '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'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 @atexit.register

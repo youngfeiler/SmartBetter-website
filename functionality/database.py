@@ -23,7 +23,7 @@ import pytz
 logging.getLogger("stripe").setLevel(logging.ERROR)
 
 STRIPE_PUBLIC_KEY = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-STRIPE_PRIVATE_KEY = os.environ.get("STRIPE_API_KEY")
+STRIPE_PRIVATE_KEY = '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'
 stripe.api_key = STRIPE_PRIVATE_KEY
 
 
@@ -705,11 +705,12 @@ class database():
             # Iterate through the PaymentIntents and add the usernames of paid users to the set
             for subscription in cancelled_subscriptions.data:
               print(subscription)
+              print("--------------------------------------------------------------")
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'active'))
             for subscription in subscriptions.data:
-              print(subscription)
+              # print(subscription)
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'active'))
