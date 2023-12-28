@@ -316,8 +316,16 @@ def login():
   if request.method == 'POST':
     username = request.form.get('username')
     password = request.form.get('password')
-    login_allowed = my_db.check_login_credentials(username, password)
 
+    print(f"username: {username}")
+
+    permission = my_db.get_permission(username)
+    print(f"app permission: {permission}")
+
+    session['permission'] = permission
+
+    login_allowed = my_db.check_login_credentials(username, password)
+    
     print(f'{username} login result: {login_allowed}')
     
     if login_allowed:

@@ -145,6 +145,30 @@ class database():
         return str(e)
       finally:
         session.close()
+
+
+    def get_permission(self, username):
+      print(username)
+      try:
+        subscriptions = stripe.Subscription.list(status='all')
+        
+        for subscription in subscriptions.auto_paging_iter():
+            customer_id = subscription.customer
+            customer = stripe.Customer.retrieve(customer_id)
+            
+            if customer.email == username:
+                if subscription.status == 'active':
+                    print(customer.email)
+                    print (subscription.status)
+                elif subscription.status == 'trialing':
+                    print(customer.email)
+                    print (subscription.status)
+        # If no matching subscription is found
+        return None
+
+      except stripe.error.StripeError as e:
+          print(f"Stripe Error: {e}")
+          return None
         
     def get_user_bank_roll(self, user):
       try:
