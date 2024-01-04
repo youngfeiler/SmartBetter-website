@@ -17,8 +17,8 @@ class PositiveEVDashboardRunner():
                    'americanfootball_ncaaf',     
                    'americanfootball_nfl', 
                   #  'aussierules_afl',
-                   'basketball_euroleague', 
-                   'basketball_ncaab', 
+                    'basketball_euroleague', 
+                    'basketball_ncaab', 
                   #  'boxing_boxing', 
                   #  'cricket_big_bash', 
                   #  'cricket_international_t20', 
@@ -29,8 +29,8 @@ class PositiveEVDashboardRunner():
                   #  'golf_the_open_championship_winner', 
                   #  'golf_us_open_winner', 
                   #  'icehockey_nhl_championship_winner', 
-                   'icehockey_sweden_allsvenskan', 
-                   'icehockey_sweden_hockey_league', 
+                    'icehockey_sweden_allsvenskan', 
+                    'icehockey_sweden_hockey_league', 
                   #  'mma_mixed_martial_arts', 
                   #  'politics_us_presidential_election_winner', 
                   #  'rugbyleague_nrl', 
@@ -272,7 +272,7 @@ class PositiveEVDashboardRunner():
     
       API_KEY = self.API_KEY
       SPORT = sport
-      REGIONS = 'us,eu,uk'
+      REGIONS = 'us'
       MARKETS = market
       ODDS_FORMAT = 'decimal'
       DATE_FORMAT = 'iso'
