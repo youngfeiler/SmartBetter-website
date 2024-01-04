@@ -1,3 +1,4 @@
+let userPermissionVar; 
 /**
  * Utility function to calculate the current theme setting.
  * Look for a local storage value.
@@ -48,6 +49,7 @@ function updateThemeOnHtmlEl({ theme }) {
 }
 
 function updateTable(data) {
+
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -59,6 +61,8 @@ function updateTable(data) {
   const tr = document.createElement('ul');
 
   boolin = true;
+
+  
   if (!(data.length === 1 && data[0].update === false) && boolin) {
     const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
     table_row_to_append_to.innerHTML = '';
@@ -103,6 +107,147 @@ function updateTable(data) {
       table_row_to_append_to.appendChild(tr);
       getImage(row.sportsbooks_used, tr);
     });
+  }
+  else
+  {
+    tr.innerHTML = `
+  <li class="centered">
+  No approved bets right now. Check back again soon.
+  </li>
+  `;
+  footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
+  table_row_to_append_to.appendChild(tr);
+    console.log('No update');
+  }
+  footer_to_append_to.appendChild(footer_to_change_innerhtml);
+}
+
+function updateTableFree(data) {
+  console.log(data);
+
+  const footer_to_append_to = document.querySelector('.table-custom__footer');
+  const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
+  footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
+
+  const tableBody = document.querySelector('.table-custom__content');
+  const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+  table_row_to_append_to.innerHTML = '';
+
+  const tr = document.createElement('ul');
+
+  boolin = true;
+
+  
+  if (!(data.length === 1 && data[0].update === false) && boolin ) {
+    const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+    table_row_to_append_to.innerHTML = '';
+
+    var i = 0;
+
+    data.forEach(row => {
+      if(i==0){
+      const tr = document.createElement('ul');
+      tr.classList.add('table-custom__content__rows__row');
+      tr.classList.add('no-bottom-border');
+      tr.innerHTML = `
+      <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+      <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+      <li before-data="Team: " id ="team-bet-on"><p><b >${row.sport_title_display} </b><br class = "mobile-no-display"> ${row.sport_league_display} </p></li>
+
+      <li before-data="Team: " id ="market" class="mobile-no-display" ><p><b>${row.market_display} </b><br>${row.wager_display}</p></li>
+
+      <li before-data="Team: " id ="team-bet-on"><p><b >${data[0].away_team} </b><br class = "mobile-no-display"> @ ${row.home_team} </p></li>
+
+      <li id ="game-date">${row.game_date}</li>
+
+      <li class="sportsbook-li">
+        <div class="tooltip" id="sportsbook">
+                    <span class="tooltiptext"></span>
+        </div>
+      </li>
+
+      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
+
+      <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+
+      <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+
+      <li before-data="+EV%: " id="ev">${row.ev}%</li>
+
+      <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+
+      <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+      <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
+      <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
+
+      // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+      // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+      ;
+      table_row_to_append_to.appendChild(tr);
+      getImage(row.sportsbooks_used, tr);
+      i+=1;
+      }else if(i==1){
+        tr.innerHTML = `
+  <li class="free-view-login-sign-up-container">
+        <div class = "free-view-login-sign-up-buttons-container">
+          <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+          <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+        </div>
+      <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+  </li>
+  `;
+  footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
+  table_row_to_append_to.appendChild(tr);
+    console.log('No update');
+    i+=1;
+  }else {
+    const tr = document.createElement('ul');
+    tr.classList.add('table-custom__content__rows__row');
+    tr.classList.add('blurred');
+    tr.innerHTML = `
+    <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+    <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+    <li before-data="Team: " id ="team-bet-on"><p><b >${row.sport_title_display} </b><br class = "mobile-no-display"> ${row.sport_league_display} </p></li>
+
+    <li before-data="Team: " id ="market" class="mobile-no-display" ><p><b>${row.market_display} </b><br>${row.wager_display}</p></li>
+
+    <li before-data="Team: " id ="team-bet-on"><p><b >${data[0].away_team} </b><br class = "mobile-no-display"> @ ${row.home_team} </p></li>
+
+    <li id ="game-date">${row.game_date}</li>
+
+    <li class="sportsbook-li">
+      <div class="tooltip" id="sportsbook">
+                  <span class="tooltiptext"></span>
+      </div>
+    </li>
+
+    <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
+
+    <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+
+    <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+
+    <li before-data="+EV%: " id="ev">${row.ev}%</li>
+
+    <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+
+    <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+    <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
+    <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
+
+    // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+    // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+    ;
+    table_row_to_append_to.appendChild(tr);
+    getImage(row.sportsbooks_used, tr);
+    i+=1;
+    }
+  footer_to_append_to.appendChild(footer_to_change_innerhtml);
+      
+    });
+
   }
   else
   {
@@ -493,8 +638,11 @@ function fetchDataAndUpdateTable() {
   })
     .then(response => response.json())
     .then(data => {
-      updateTable(data);
-      updatebankroll(data);
+      if(userPermissionVar =='standard' || userPermissionVar == 'premium'){
+        updateTable(data);
+      }else{
+        updateTableFree(data);
+      }
     })
     .catch(error => console.error('Error fetching data:', error));
 }
@@ -540,7 +688,6 @@ function addToBankroll() {
       console.log('Server response:', data);
       bankrollP.removeChild(input);
       bankrollP.removeChild(saveButton);
-      fetchDataAndUpdateTable();
     });
   });
 }
@@ -572,9 +719,6 @@ function findCousinWithClass(element, className) {
     return cousinElementSearchedFor[0];
   }
 }
-
-
-
 
 function greenIfFiltered(event){
   var filterSVG = findCousinWithClass(event.target, 'dropbtn');
@@ -693,6 +837,26 @@ function fillFilterValues(){
 }
 
 
+function getUserPermission() {
+  return fetch('/get_user_permission', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      throw error; // Re-throw the error to handle it outside this function if needed
+    });
+}
+
+
 $(document).ready(function(){
   // toggle sidebar
   const menuIcon = document.querySelector(".navbar-custom__left i");
@@ -777,8 +941,6 @@ $(document).ready(function(){
 
   fillFilterValues();
 
-  
-
     /** 
    * 5. Add an event listener to update table and bankroll
    */
@@ -807,6 +969,15 @@ $(document).ready(function(){
       }
       fetchDataAndUpdateTable();
       });
+    });
+
+    getUserPermission()
+    .then(userPermission => {
+      userPermissionVar = userPermission.permission;
+      fetchDataAndUpdateTable();
+    })
+    .catch(error => {
+      console.log(error);
     });
 
     

@@ -38,8 +38,6 @@
   --row-box-special-color-from:rgb(33,206, 153, 1);
   --row-box-special-color-to:rgba(33,206, 153, 0);
   --theme-color:#21ce99;
-
-
 }
 
 [data-theme=dark] {
@@ -80,7 +78,6 @@
   --row-box-special-color-from:rgba(255,255,255, 1) ;
   --row-box-special-color-to:rgba(255,255,255, 0);
   --theme-color:#041a13;
-
 }
 
 .navbar-custom {
@@ -910,6 +907,69 @@ option {
 }
 
 
+.no-bottom-border{
+  border-bottom:none !important;
+}
+
+.free-view-login-sign-up-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  display: block;
+  text-align: center;
+  font-family: "Inter", sans-serif !important;
+  color: var(--table-p-color);
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--table-trow-border);
+  border: 5px solid #21ce99;
+}
+
+.free-view-login-sign-up-buttons-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.free-view-login-container,
+.free-view-sign-up-container
+{
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.free-view-login-button{
+  padding: 1rem 1.5rem;
+  color: var(--table-btn-font-color) !important;
+  background-color: var(--table-btn-bg);
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 30%;
+}
+
+.free-view-sign-up-button{
+  padding: 1rem 1.5rem;
+  color: var(--table-btn-font-color) !important;
+  background-color: #21ce99;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 30%;
+}
+
+.blurred{
+  filter: blur(5px);
+}
+
+
 @media (max-width: 767px) {
   #rec-bet-size-number.adding-to-bet-tracker{
     align-items: center;
@@ -956,6 +1016,7 @@ option {
     padding-bottom: 1vh !important;
     padding-top: 1vh !important;
     align-items: stretch !important;
+    scroll-snap-align: start !important;
   }
 
 

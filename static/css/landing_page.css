@@ -14,6 +14,15 @@
   background-size: cover;
 }
 
+.sidebar-custom__logo img{
+  width: 100% !important;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+}
+
 .a{
   color: white;
 }
@@ -82,6 +91,12 @@ button{
   gap: 32px;
   position: relative;
   flex: 0 0 auto;
+}
+
+.main-guy{
+  flex: 1;
+  padding-left: 204px;
+  overflow-x: hidden;
 }
 
 .home .text-wrapper {
@@ -1468,6 +1483,10 @@ a {
 }
 
 @media (max-width: 800px) {
+
+  .main-guy{
+    padding-left: 0px;
+  }
 
   .body{
     overflow: hidden;

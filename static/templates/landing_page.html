@@ -19,8 +19,14 @@
     </script>
   </head>
   <body> 
+    
     <div class="home background-image">
-    {% include "marketing_header.html" %}
+    
+    <div class = "row">
+      {% include "sidebar.html" %}
+
+      <div class = "main-guy">
+      {% include "marketing_header.html" %}
 
       <div class="header" id = "#header">
         <div class="div-2">
@@ -240,6 +246,30 @@
           <div class="column-4">
             <div class="div-7">
               <div class="price">
+                <div class="heading-6">+EV Access</div>
+                <div class="container-3">
+                  <div class="price-2">$49/mo</div>
+                  <div class="price-3"></div>
+                </div>
+              </div>
+              <div class="list-2">
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Positive EV bets (Pregame)</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Optimized bet sizing</div>
+                </div>
+              </div>
+            </div>
+            <a href="{{ url_for('create_checkout_session', price_id='price_1OSlSoHM5Jv8uc5MR6vK5xrA') }}" id="get-started-99">
+            <button class="style-primary-small-2"><button class="button-learn-more-3">Get Started</button></button>
+          </a>
+          </div>
+          <div class="column-4">
+            <div class="div-7">
+              <div class="price">
                 <div class="heading-6">Standard</div>
                 <div class="container-3">
                   <div class="price-2">$99/mo</div>
@@ -257,7 +287,7 @@
                 </div>
                 <div class="div-8">
                   <img class="img" src="static/images/check.svg" />
-                  <p class="text-2">NFL, NBA, NHL, MLB, CFB (coming soon)<br />moneyline bets</p>
+                  <p class="text-2">AI powered NFL, NBA, NHL, MLB<br />moneyline bets</p>
                 </div>
               </div>
             </div>
@@ -265,6 +295,7 @@
             <button class="style-primary-small-2"><button class="button-learn-more-3">Get Started</button></button>
           </a>
           </div>
+
           <div class="column-5">
             <div class="div-7">
               <div class="price">
@@ -285,7 +316,7 @@
                 </div>
                 <div class="div-8">
                   <img class="img" src="static/images/check.svg" />
-                  <p class="text-2">NFL, NBA, NHL, MLB, CFB (coming soon)<br />moneyline bets</p>
+                  <p class="text-2">AI powered NFL, NBA, NHL, MLB<br />moneyline bets</p>
                 </div>
                 <div class="div-8">
                   <img class="img" src="static/images/check.svg" />
@@ -307,8 +338,14 @@
         <p class="subheading-4">Not ready yet? <a class="green" href="{{ url_for('create_checkout_session_free_trial', price_id='price_1OG9CDHM5Jv8uc5MTtdQOZMv') }}" id = "get-started-free">Start a 7 day free trial.</a> Cancel anytime.</p>
         <div class="content-8"></div>
       </div>
-    {% include "marketing_footer.html" %}
+      </div>
     </div>
+    {% include "marketing_footer.html" %}
+
+    </div>
+    </div>
+  </div>
+  </body>
   </body>
   <script type="text/javascript" src="static/js/jquery.3.6.0.js"></script>
 	<script type="text/javascript" src="static/js/landing_page.js"></script>

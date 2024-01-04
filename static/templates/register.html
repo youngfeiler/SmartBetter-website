@@ -78,3 +78,38 @@
 
 {% endblock %}
 
+
+
+
+server {
+
+  listen 443 ssl;
+
+  server_name  www.smartbettor.ai;
+
+
+  ssl_certificate /home/ec2-user/ssl/certificate.crt;
+  ssl_certificate_key /home/ec2-user/ssl/private.key;
+  ssl_trusted_certificate /home/ec2-user/ssl/ca_bundle.crt;
+
+  if ($scheme = http) {
+      return 301 https://$host$request_uri;
+  }
+
+  location / {
+      proxy_pass http://18.221.141.215:5000;  # Replace with your app server IP and port
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-Proto $scheme;  # Set protocol to HTTPS
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+      }
+
+  error_page 404 /404.html;
+  location = /404.html {
+  }
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+  }
+}

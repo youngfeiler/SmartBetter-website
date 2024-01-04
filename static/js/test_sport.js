@@ -1,13 +1,11 @@
+let userPermissionVar; 
 /**
  * Utility function to calculate the current theme setting.
  * Look for a local storage value.
  * Fall back to system setting.
  * Fall back to light mode.
  */
-function calculateSettingAsThemeString({
-  localStorageTheme,
-  systemSettingDark,
-}) {
+function calculateSettingAsThemeString({localStorageTheme, systemSettingDark,}) {
   if (localStorageTheme !== null) {
     return localStorageTheme;
   }
@@ -15,7 +13,6 @@ function calculateSettingAsThemeString({
   if (systemSettingDark.matches) {
     return "dark";
   }
-
   return "light";
 }
 
@@ -140,6 +137,262 @@ function updateTable(data) {
   footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
   table_row_to_append_to.appendChild(tr);
     console.log('No update');
+  }
+  footer_to_append_to.appendChild(footer_to_change_innerhtml);
+}
+
+
+function updateTableFree(data) {
+  console.log(data);
+  console.log(data.length);
+
+  const footer_to_append_to = document.querySelector('.table-custom__footer');
+  const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
+  footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
+
+
+  const tableBody = document.querySelector('.table-custom__content');
+  const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+  table_row_to_append_to.innerHTML = '';
+
+  const tr = document.createElement('ul');
+
+  boolin = true;
+
+  if (!(data.length === 1 && data[0].update === false) && boolin) {
+    if(data.length ===1){
+      const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+      table_row_to_append_to.innerHTML = '';
+      data.forEach(row => {
+      const tr = document.createElement('ul');
+      tr.classList.add('table-custom__content__rows__row');
+      tr.innerHTML = `
+      <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+      <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+      <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
+
+      <li class="sportsbook-li">
+        <div class="tooltip" id="sportsbook">
+                    <span class="tooltiptext"></span>
+        </div>
+      </li>
+      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
+      <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+      <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+      <li before-data="+EV%: " id="ev">${row.ev}%</li>
+      <li id ="game-date">${row.game_date}</li>
+      <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+      <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
+      align-items: center; justify-content: center;"><svg
+      viewBox="0 0 20 20"
+      width="20"
+      height="20"
+      version="1.1"
+      id="svg1"
+      sodipodi:docname="icons8-plus.svg"
+      inkscape:version="1.3 (0e150ed, 2023-07-21)"
+      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg">
+     <defs
+        id="defs1" />
+     <sodipodi:namedview
+        id="namedview1"
+        pagecolor="#ffffff"
+        bordercolor="#000000"
+        borderopacity="0.25"
+        inkscape:showpageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:deskcolor="#d1d1d1"
+        inkscape:zoom="9.8333333"
+        inkscape:cx="12"
+        inkscape:cy="12"
+        inkscape:window-width="1312"
+        inkscape:window-height="449"
+        inkscape:window-x="0"
+        inkscape:window-y="25"
+        inkscape:window-maximized="0"
+        inkscape:current-layer="svg1" />
+     <path
+        d="M 10,0 C 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 Z m 4,11 h -3 v 3 c 0,0.552 -0.448,1 -1,1 v 0 C 9.448,15 9,14.552 9,14 V 11 H 6 C 5.448,11 5,10.552 5,10 v 0 C 5,9.448 5.448,9 6,9 H 9 V 6 C 9,5.448 9.448,5 10,5 v 0 c 0.552,0 1,0.448 1,1 v 3 h 3 c 0.552,0 1,0.448 1,1 v 0 c 0,0.552 -0.448,1 -1,1 z"
+        id="path1"
+        style="fill:var(--table-btn-bg)" />
+   </svg></li>
+      <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+      <li class="desktop-no-display" id="green">Moneyline</li>
+      <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+      <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+      `;
+      table_row_to_append_to.appendChild(tr);
+      getImage(row.sportsbooks_used, tr);
+    });
+    console.log("HERE 2");
+      tr.innerHTML = `
+      <li class="free-view-login-sign-up-container">
+            <div class = "free-view-login-sign-up-buttons-container">
+              <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+              <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+            </div>
+          <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+      </li>
+      `;
+    footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
+    table_row_to_append_to.appendChild(tr);
+    
+    }
+    else{
+      const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+      table_row_to_append_to.innerHTML = '';
+
+      var i = 0;
+
+     data.forEach(row => {
+      if(i==0){
+      const tr = document.createElement('ul');
+      tr.classList.add('table-custom__content__rows__row');
+      tr.innerHTML = `
+      <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+      <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+      <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
+
+      <li class="sportsbook-li">
+        <div class="tooltip" id="sportsbook">
+                    <span class="tooltiptext"></span>
+        </div>
+      </li>
+      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
+      <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+      <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+      <li before-data="+EV%: " id="ev">${row.ev}%</li>
+      <li id ="game-date">${row.game_date}</li>
+      <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+      <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
+      align-items: center; justify-content: center;"><svg
+      viewBox="0 0 20 20"
+      width="20"
+      height="20"
+      version="1.1"
+      id="svg1"
+      sodipodi:docname="icons8-plus.svg"
+      inkscape:version="1.3 (0e150ed, 2023-07-21)"
+      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg">
+     <defs
+        id="defs1" />
+     <sodipodi:namedview
+        id="namedview1"
+        pagecolor="#ffffff"
+        bordercolor="#000000"
+        borderopacity="0.25"
+        inkscape:showpageshadow="2"
+        inkscape:pageopacity="0.0"
+        inkscape:pagecheckerboard="0"
+        inkscape:deskcolor="#d1d1d1"
+        inkscape:zoom="9.8333333"
+        inkscape:cx="12"
+        inkscape:cy="12"
+        inkscape:window-width="1312"
+        inkscape:window-height="449"
+        inkscape:window-x="0"
+        inkscape:window-y="25"
+        inkscape:window-maximized="0"
+        inkscape:current-layer="svg1" />
+     <path
+        d="M 10,0 C 4.477,0 0,4.477 0,10 0,15.523 4.477,20 10,20 15.523,20 20,15.523 20,10 20,4.477 15.523,0 10,0 Z m 4,11 h -3 v 3 c 0,0.552 -0.448,1 -1,1 v 0 C 9.448,15 9,14.552 9,14 V 11 H 6 C 5.448,11 5,10.552 5,10 v 0 C 5,9.448 5.448,9 6,9 H 9 V 6 C 9,5.448 9.448,5 10,5 v 0 c 0.552,0 1,0.448 1,1 v 3 h 3 c 0.552,0 1,0.448 1,1 v 0 c 0,0.552 -0.448,1 -1,1 z"
+        id="path1"
+        style="fill:var(--table-btn-bg)" />
+   </svg></li>
+      <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+      <li class="desktop-no-display" id="green">Moneyline</li>
+      <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+      <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+      `;
+      table_row_to_append_to.appendChild(tr);
+      getImage(row.sportsbooks_used, tr);
+      i+=1;
+    }else if(i==1){
+      tr.innerHTML = `
+<li class="free-view-login-sign-up-container">
+      <div class = "free-view-login-sign-up-buttons-container">
+        <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+        <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+      </div>
+    <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+</li>
+`;
+footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
+table_row_to_append_to.appendChild(tr);
+  console.log('No update');
+  i+=1;
+}else {
+  const tr = document.createElement('ul');
+  tr.classList.add('table-custom__content__rows__row');
+  tr.classList.add('blurred');
+  tr.innerHTML = `
+  <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+  <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+  <li before-data="Team: " id ="team-bet-on"><p><b >${row.sport_title_display} </b><br class = "mobile-no-display"> ${row.sport_league_display} </p></li>
+
+  <li before-data="Team: " id ="market" class="mobile-no-display" ><p><b>${row.market_display} </b><br>${row.wager_display}</p></li>
+
+  <li before-data="Team: " id ="team-bet-on"><p><b >${data[0].away_team} </b><br class = "mobile-no-display"> @ ${row.home_team} </p></li>
+
+  <li id ="game-date">${row.game_date}</li>
+
+  <li class="sportsbook-li">
+    <div class="tooltip" id="sportsbook">
+                <span class="tooltiptext"></span>
+    </div>
+  </li>
+
+  <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
+
+  <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+
+  <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+
+  <li before-data="+EV%: " id="ev">${row.ev}%</li>
+
+  <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+
+  <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+  <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
+  <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
+
+  // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+  // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+  ;
+  table_row_to_append_to.appendChild(tr);
+  getImage(row.sportsbooks_used, tr);
+  i+=1;
+  }
+    });
+
+    }
+    
+  }
+  else
+  {
+    tr.innerHTML = `
+<li class="free-view-login-sign-up-container">
+      <div class = "free-view-login-sign-up-buttons-container">
+        <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+        <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+      </div>
+    <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+</li>
+`;
+footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
+table_row_to_append_to.appendChild(tr);
+  footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
+  table_row_to_append_to.appendChild(tr);
   }
   footer_to_append_to.appendChild(footer_to_change_innerhtml);
 }
@@ -489,6 +742,7 @@ function fetchDataAndUpdateTable() {
   // Get the last segment (element) of the URL
   var tabValue = urlSegments[urlSegments.length - 1].toUpperCase();
   const url = '/get_live_dash_data?';
+
   fetch(url,{
     method: 'POST',
     headers: {
@@ -498,9 +752,11 @@ function fetchDataAndUpdateTable() {
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      updateTable(data);
-      updatebankroll(data);
+      if(userPermissionVar =='standard' || userPermissionVar == 'premium'){
+        updateTable(data);
+      }else{
+        updateTableFree(data);
+      }
     })
     .catch(error => console.error('Error fetching data:', error));
 }
@@ -546,7 +802,6 @@ function addToBankroll() {
       console.log('Server response:', data);
       bankrollP.removeChild(input);
       bankrollP.removeChild(saveButton);
-      fetchDataAndUpdateTable();
     });
   });
 }
@@ -566,7 +821,27 @@ function toggleSport(){
 }
 }
 
+function getUserPermission() {
+  return fetch('/get_user_permission', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      throw error;
+    });
+}
+
 $(document).ready(function(){
+
   // toggle sidebar
   const menuIcon = document.querySelector(".navbar-custom__left i");
   const closeIcon = document.querySelector(".sidebar-custom .close-icon");
@@ -586,7 +861,8 @@ $(document).ready(function(){
   /**
    * 2. Work out the current site settings
    */
-  let currentThemeSetting = calculateSettingAsThemeString({
+  let currentThemeSetting = "dark";
+  calculateSettingAsThemeString({
     localStorageTheme,
     systemSettingDark,
   });
@@ -629,13 +905,18 @@ $(document).ready(function(){
   /** 
    * 5. Add an event listener to update table and bankroll
    */
-  try{  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
-  fetchDataAndUpdateTable();
-  }catch(error){
-    console.log("");
-  }
+  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
-
+  getUserPermission()
+  .then(userPermission => {
+    userPermissionVar = userPermission.permission;
+    console.log("653");
+    console.log(userPermissionVar);
+    fetchDataAndUpdateTable();
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
 });
 

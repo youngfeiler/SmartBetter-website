@@ -67,24 +67,17 @@ def scenarios():
 
 @app.route('/pregame')
 def pregame_beta():
-    if 'user_id' in session:
-        return render_template('pregame.html')
-    else:
-        return redirect(url_for('register'))
+    return render_template('pregame.html')
 
 @app.route('/positive_ev')
 def positive_ev():
-    if 'user_id' in session:
-        return render_template('positive_ev_dashboard.html')
-    else:
-        return redirect(url_for('register'))
+    return render_template('positive_ev_dashboard.html')
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
        teams = pd.read_csv('../extra_info_sheets/teams.csv')
        teams.sort_values(by="team", inplace=True)
        return teams.to_json(orient='records', date_format='iso')
-
 
 @app.route('/get_divisions_teams_from_conference', methods=['GET', 'POST'])
 def get_divisions_teams_from_conference():
@@ -112,7 +105,6 @@ def get_teams_from_division():
     except Exception as e:
         print(e)
     
-
 @app.route('/get_scenario_data', methods=['GET', 'POST'])
 def get_scenario_data():
     try:
@@ -138,7 +130,6 @@ def get_scenario_data():
 
     return response
 
-
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
     if price_id == "price_1OG9CDHM5Jv8uc5MTtdQOZMv":
@@ -162,7 +153,6 @@ def create_checkout_session(price_id):
 
     )
     return redirect(checkout_session.url,code=302)
-
 
 @app.route('/checkout_free_trial/<string:price_id>')
 def create_checkout_session_free_trial(price_id):
@@ -192,10 +182,14 @@ def create_checkout_session_free_trial(price_id):
 
 @app.route('/get_positive_ev_data')
 def get_positive_ev_data():
+
     data = request.get_json()
     sport_title = data.get('sport_title', '')
-    # wrong calculation
-    bankroll = app.db.calculate_user_bankroll(session["user_id"])
+
+    try:
+        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+    except:
+        bankroll = 5000
     print(bankroll)
 
     data = app.db.get_live_dash_data(session['user_id'], sport_title)
@@ -234,7 +228,6 @@ def show_performance():
   else:
         return redirect(url_for('login'))
     
-
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
     if request.method == 'POST':
@@ -249,6 +242,7 @@ def update_bankroll():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+
     app.db.get_all_usernames()
     app.db.check_payments()
     users = app.db.users
@@ -266,8 +260,10 @@ def register():
             print("if usrname in users")
 
             has_payed=app.db.check_duplicate_account(username)
+
             print("made it here")
             print(has_payed)
+
             if has_payed:
                 payed = True
                 app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
@@ -317,24 +313,19 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    print(f"username: {username}")
-
-    permission = my_db.get_permission(username)
-    print(f"app permission: {permission}")
-
-    session['permission'] = permission
-
     login_allowed = my_db.check_login_credentials(username, password)
     
     print(f'{username} login result: {login_allowed}')
     
     if login_allowed:
-        payed = my_db.check_account(username)
+        permission = my_db.get_permission(username)
+        print(f"username: {username}")
+        print(f"app permission: {permission}")
         session['user_id'] = username
-        if not payed:
-            flash('Your Free Trial Has Ended. Check Out Our Purchase Plans At The Bottom Of The Page', 'error')
-            return redirect(url_for('index'))
-        return redirect(url_for('show_nba'))
+        session['permission'] = permission
+        
+        return redirect(url_for('positive_ev'))
+    
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
 
@@ -342,58 +333,28 @@ def login():
 
 @app.route('/mlb')
 def show_mlb():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return render_template('mlb.html')
-    else:
-        return redirect(url_for('register'))
-    
+    return render_template('mlb.html')
+
 @app.route('/nfl')
 def show_nfl():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return render_template('nfl.html')
-    else:
-        return redirect(url_for('register'))
+    return render_template('nfl.html')
+    
     
 @app.route('/nba')
 def show_nba():
     # Set to false for prod
     show_div = False
 
-    referrer = request.referrer
-    if referrer:
-        if referrer.endswith('/login') or referrer.endswith('/register'):
-            show_div = True
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return render_template('nba.html', show_div=show_div)
-    else:
-        return redirect(url_for('register'))
+    if request.referrer and (request.referrer.endswith('/login') or request.referrer.endswith('/register')):
+        show_div = True
+
+    return render_template('nba.html', show_div=show_div)
+   
 
 @app.route('/nhl')
 def show_nhl():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return render_template('nhl.html')
-    else:
-        return redirect(url_for('register'))   
-
-@app.route('/nhl_pregame')
-def show_nhl_pregame():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return render_template('nhl_pregame.html')
-    else:
-        return redirect(url_for('register'))
+    return render_template('nhl.html')
     
-@app.route('/nba_pregame')
-def show_nba_pregame():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return render_template('nba_pregame.html')
-    else:
-        return redirect(url_for('register'))
 
 @app.route('/get_performance_data', methods=["POST", "GET"])
 def get_performance_data():
@@ -427,9 +388,12 @@ def get_live_dash_data():
     sport_title = data.get('sport_title', '')
     # wrong calculation
 
-    bankroll = app.db.calculate_user_bankroll(session["user_id"])
+    try:
+        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+    except KeyError:
+        bankroll = 5000
 
-    data = app.db.get_live_dash_data(session['user_id'], sport_title)
+    data = app.db.get_live_dash_data(bankroll, sport_title)
     
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
@@ -440,16 +404,19 @@ def get_live_dash_data():
 
     return jsonify(data_json)
 
-
 @app.route('/get_positive_ev_dash_data', methods=['POST'])
 def get_positive_ev_dash_data():
+
     data = request.get_json()
 
     filters = data.get('filters', '')
 
-    bankroll = app.db.calculate_user_bankroll(session["user_id"])
+    try:
+        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+    except KeyError:
+        bankroll = 5000
 
-    data = app.db.get_positive_ev_dash_data(session['user_id'], filters, bankroll)
+    data = app.db.get_positive_ev_dash_data(filters, bankroll)
     
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
@@ -478,7 +445,6 @@ def get_unsettled_bet_data():
 
     return jsonify(sorted_dict)
 
-
 @app.route('/get_filter_dropdown_values', methods=["GET"])
 def get_filter_dropwdown_values():
     data = app.db.get_filter_dropdown_values()
@@ -491,7 +457,6 @@ def bet_tracker():
             return render_template('bet_tracker.html')
     except:
         return redirect(url_for('register'))
-
 
 @app.route('/logout')
 def logout():
@@ -507,7 +472,6 @@ def learn():
 def faq():
     return render_template('learn.html')
     
-
 @app.route("/cancel_subscription", methods=["POST"])
 def cancel_subscription():
     # Perform the subscription cancellation logic here
@@ -521,6 +485,19 @@ def cancel_subscription():
         return redirect(url_for('logout'))
     else:
         return jsonify({"success": False})
+
+@app.route("/get_user_permission", methods=['GET'])
+def get_user_permission():
+     if 'user_id' in session:
+        return jsonify({'permission': app.db.get_permission(session['user_id'])['permission']})
+     else:
+         return jsonify({'permission': 'free'})
+     
+@app.route("/blogs", methods=['GET'])
+def blogs_test():
+    return render_template('test.html')
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, use_reloader=False)

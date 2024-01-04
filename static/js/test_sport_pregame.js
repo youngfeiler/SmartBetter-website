@@ -109,6 +109,176 @@ function updateTable(data) {
   footer_to_append_to.appendChild(footer_to_change_innerhtml);
 }
 
+function updateTableFree(data) {
+
+  const footer_to_append_to = document.querySelector('.table-custom__footer');
+  const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
+  footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
+
+
+  const tableBody = document.querySelector('.table-custom__content');
+  const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+  table_row_to_append_to.innerHTML = '';
+
+  const tr = document.createElement('ul');
+
+  boolin = true;
+  if (!(data.length === 1 && data[0].update === false) && boolin) {
+    if(data.length===1){
+      const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+      table_row_to_append_to.innerHTML = '';
+      data.forEach(row => {
+        const tr = document.createElement('ul');
+        tr.classList.add('table-custom__content__rows__row');
+        tr.innerHTML = `
+        <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+        <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+        <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
+
+        <li class="sportsbook-li">
+          <div class="tooltip" id="sportsbook">
+                      <span class="tooltiptext"></span>
+          </div>
+        </li>
+      
+        <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">N/A</li>
+        <li data-before="Min" id = "min-odds">N/A</li>
+        <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+        <li before-data="+EV%: " id="ev">N/A</li>
+        <li id ="game-date">${row.game_date}</li>
+        <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+        <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
+        align-items: center; justify-content: center;"></li>
+        <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+        <li class="desktop-no-display" id="green">Moneyline</li>
+        <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+        <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+        `;
+        table_row_to_append_to.appendChild(tr);
+        getImage(row.sportsbooks_used, tr);
+      });
+      tr.innerHTML = `
+        <li class="free-view-login-sign-up-container">
+              <div class = "free-view-login-sign-up-buttons-container">
+                <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+                <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+              </div>
+            <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+        </li>
+        `;
+    }
+    else{
+    
+    const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+    table_row_to_append_to.innerHTML = '';
+
+    var i = 0;
+
+    data.forEach(row => {
+      if(i===0){
+        const tr = document.createElement('ul');
+        tr.classList.add('table-custom__content__rows__row');
+        tr.innerHTML = `
+        <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+        <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+
+        <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
+
+        <li class="sportsbook-li">
+          <div class="tooltip" id="sportsbook">
+                      <span class="tooltiptext"></span>
+          </div>
+        </li>
+    
+        <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">N/A</li>
+        <li data-before="Min" id = "min-odds">N/A</li>
+        <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+        <li before-data="+EV%: " id="ev">N/A</li>
+        <li id ="game-date">${row.game_date}</li>
+        <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+        <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
+        align-items: center; justify-content: center;"></li>
+        <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+        <li class="desktop-no-display" id="green">Moneyline</li>
+        <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+        <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+        `;
+        table_row_to_append_to.appendChild(tr);
+        getImage(row.sportsbooks_used, tr);
+        i+=1;
+      }
+      else if(i===1){
+        tr.innerHTML = `
+        <li class="free-view-login-sign-up-container">
+              <div class = "free-view-login-sign-up-buttons-container">
+                <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+                <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+              </div>
+            <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+        </li>
+        `;
+        table_row_to_append_to.appendChild(tr);
+        i+=1;
+      }
+      else{
+          const tr = document.createElement('ul');
+          tr.classList.add('table-custom__content__rows__row');
+          tr.classList.add('blurred');
+          tr.innerHTML = `
+          <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
+          <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
+  
+          <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
+  
+          <li class="sportsbook-li">
+            <div class="tooltip" id="sportsbook">
+                        <span class="tooltiptext"></span>
+            </div>
+          </li>
+      
+          <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">N/A</li>
+          <li data-before="Min" id = "min-odds">N/A</li>
+          <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
+          <li before-data="+EV%: " id="ev">N/A</li>
+          <li id ="game-date">${row.game_date}</li>
+          <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+          <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
+          align-items: center; justify-content: center;"></li>
+          <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+          <li class="desktop-no-display" id="green">Moneyline</li>
+          <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+          <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+          `;
+          table_row_to_append_to.appendChild(tr);
+          getImage(row.sportsbooks_used, tr);
+          i+=1;
+        }
+      })
+    };
+
+
+  }
+
+  else
+  {
+    tr.innerHTML = `
+        <li class="free-view-login-sign-up-container">
+              <div class = "free-view-login-sign-up-buttons-container">
+                <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+                <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
+              </div>
+            <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+        </li>
+        `;
+        table_row_to_append_to.appendChild(tr);
+  footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
+  table_row_to_append_to.appendChild(tr);
+    console.log('No update');
+  }
+  footer_to_append_to.appendChild(footer_to_change_innerhtml);
+}
+
 function updatebankroll(data){
   const bankroll = document.querySelector('#bankroll');
   bankroll.innerHTML = 'These are +EV bets that our machine learning model, with predictive pattern recognition, has identified as having value for an increased hit rate and profitability in the long run.';
@@ -443,28 +613,46 @@ function getImage(sportsbook_string, row){
   }
 }
 
+function getUserPermission() {
+  return fetch('/get_user_permission', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      throw error;
+    });
+}
+
 function fetchDataAndUpdateTable() {
   var currentURL = window.location.href;
   var urlSegments = currentURL.split('/');
-
-  // TODO: Redo this when we figure out how we want to segment this page
   // Get the last segment (element) of the URL
   var tabValue = urlSegments[urlSegments.length - 1].toUpperCase();
-
-
   const url = '/get_live_dash_data?';
+
   fetch(url,{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sport_title: "PREGAME" }),
+    body: JSON.stringify({ sport_title: tabValue }),
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      updateTable(data);
-      updatebankroll(data);
+      if(userPermissionVar =='standard' || userPermissionVar == 'premium'){
+        updateTable(data);
+      }else{
+        updateTableFree(data);
+      }
     })
     .catch(error => console.error('Error fetching data:', error));
 }
@@ -589,15 +777,20 @@ $(document).ready(function(){
   toggleSport();
 
 
-
   /** 
    * 5. Add an event listener to update table and bankroll
    */
-  try{  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
-  fetchDataAndUpdateTable();
-  }catch(error){
-    console.log("");
-  }
+  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
+  getUserPermission()
+  .then(userPermission => {
+    userPermissionVar = userPermission.permission;
+    console.log("653 - PRegame");
+    console.log(userPermissionVar);
+    fetchDataAndUpdateTable();
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
 
 
