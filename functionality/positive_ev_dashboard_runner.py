@@ -14,7 +14,7 @@ class PositiveEVDashboardRunner():
     self.sports = [
                    'basketball_nba', 
                    'icehockey_nhl', 
-                   'americanfootball_ncaaf',     
+                  #  'americanfootball_ncaaf',     
                    'americanfootball_nfl', 
                   #  'aussierules_afl',
                     'basketball_euroleague', 

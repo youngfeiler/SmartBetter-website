@@ -23,7 +23,7 @@ import pytz
 logging.getLogger("stripe").setLevel(logging.ERROR)
 
 STRIPE_PUBLIC_KEY = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-STRIPE_PRIVATE_KEY = os.environ.get("STRIPE_API_KEY")
+STRIPE_PRIVATE_KEY = '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'
 stripe.api_key = STRIPE_PRIVATE_KEY
 
 
@@ -145,7 +145,65 @@ class database():
         return str(e)
       finally:
         session.close()
-        
+
+    def get_permission(self, username):
+      try:
+          customer = stripe.Customer.list(email=username)
+          customer_id = customer.data[0].id if customer.data else None
+          if customer_id:
+              user_subscriptions = stripe.Subscription.list(customer=customer_id)
+              if user_subscriptions.data:
+                  highest_price = 0
+                  highest_price_subscription = None
+                  for subscription in user_subscriptions.data:
+                      for item in subscription['items']['data']:
+                          price = item['price']['unit_amount']
+                          price_id = item['price']['unit_amount']
+                          if price > highest_price:
+                              highest_price = price
+                              highest_price_subscription = subscription
+                              highest_price_price_id= price_id
+                  if highest_price_subscription:
+                      highest_price_status = highest_price_subscription.get('status')
+                      print("Highest Priced Subscription:")
+                      print(highest_price)
+                      print("Highest Priced Status:")
+                      print(highest_price_status)
+                      print("Highest Priced id:")
+                      print(highest_price_price_id)
+                      return({
+                         'status':highest_price_status,
+                         'permission':self.get_plan_from_price_id(highest_price_price_id)
+                         })
+                  else:
+                      return({
+                         'status': 'none',
+                         'permission': 'free' 
+                         })
+              else:
+                  return({
+                         'status': 'none',
+                         'permission': 'free' 
+                         })
+          else:
+              return({
+                         'status': 'none',
+                         'permission': 'free' 
+                         })
+
+      except stripe.error.StripeError as e:
+          print(f"Stripe Error: {e}")
+          return None
+
+    def get_plan_from_price_id(self, price_id):
+       plans = {
+        'price_1OSlSoHM5Jv8uc5MR6vK5xrA':'ev',
+        'price_1OG9CDHM5Jv8uc5MTtdQOZMv': 'standard',
+        'price_1NqdGPHM5Jv8uc5MkYrJm2UX': 'premium',
+        'price_1OG9DhHM5Jv8uc5MfiE2UdHR': 'premium',
+      }
+       return plans.get(price_id, 'Not found in plans')
+ 
     def get_user_bank_roll(self, user):
       try:
         # Create a session
@@ -208,21 +266,12 @@ class database():
       finally:
         session.close()
 
-    def get_recommended_bet_size(self, user, df):
+    def get_recommended_bet_size(self, bankroll, df):
        
        df['decimal_highest_bettable_odds'] = df['highest_bettable_odds'].apply(american_to_decimal)
 
        df['win_prob'] =  (1 / df['average_market_odds']) 
 
-       session = self.db_manager.create_session()
-       user_bankroll = session.query(LoginInfo.bankroll).filter_by(username=user).first()
-       if user_bankroll:
-          bankroll = user_bankroll[0]  # Extracting bankroll value
-          session.close()
-       else:
-          bankroll = None  # User not found or no bankroll
-          session.close()
-       print(bankroll)
        bankroll = float(bankroll)
 
        df['bet_amount'] = ((df['win_prob'] * df['decimal_highest_bettable_odds']) - 1) / (df['decimal_highest_bettable_odds']-1) * 0.5 * bankroll
@@ -258,7 +307,7 @@ class database():
         return str(e)
       return
       
-    def get_live_dash_data(self, user_name, sport):
+    def get_live_dash_data(self, bankroll, sport):
 
        def minutes_seconds(row):
           
@@ -413,15 +462,15 @@ class database():
        
        first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
 
-       first_20_rows = self.get_recommended_bet_size(user_name, first_20_rows)
+       first_20_rows = self.get_recommended_bet_size(bankroll, first_20_rows)
 
-       first_20_rows = self.filter_5_min_cooloff(user_name, first_20_rows)
+      #  first_20_rows = self.filter_5_min_cooloff(user_name, first_20_rows)
 
        first_20_rows['ev'] = first_20_rows['ev'].round(1)
 
        return first_20_rows
 
-    def get_positive_ev_dash_data(self, user_name, filters, user_bankroll):
+    def get_positive_ev_dash_data(self, filters, user_bankroll):
        
        def minutes_seconds(row):
           seconds = int(float(row['time_difference_seconds']))
@@ -480,7 +529,6 @@ class database():
 
        df['sportsbooks_used_formatted'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
 
-      
        if len(filters) > 1:
           if filters['sport-league-filter'].upper() != 'ALL':
             df = df[df['sport_league_display'] == filters['sport-league-filter']]
@@ -704,25 +752,22 @@ class database():
             paid_users = [] # Create a set to store usernames of paid users
             # Iterate through the PaymentIntents and add the usernames of paid users to the set
             for subscription in cancelled_subscriptions.data:
-              print(subscription)
+
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'active'))
             for subscription in subscriptions.data:
-              print(subscription)
+              # print(subscription)
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'active'))
             for subscription in trialing_subscriptions.data:
-              print(subscription)
               customer = stripe.Customer.retrieve(subscription.customer)
               email = customer.email
               paid_users.append((email, subscription.status == 'trialing'))
 
             # Update the 'paid' column in the SQLite database
             for username, is_active in paid_users:
-              print(username)
-              print(is_active)
               try:
                 session = self.db_manager.create_session()
                 session.query(LoginInfo).filter_by(username=username).update({"payed": int(is_active)})
