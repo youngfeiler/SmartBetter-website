@@ -641,7 +641,10 @@ option {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100v;
+  overflow-y: scroll;
 }
+
 @media (max-width: 49em) {
   .main-custom {
     margin-left: 0;
@@ -653,6 +656,7 @@ option {
   background-color: var(--content-bg);
   overflow: hidden;
   min-height: calc(100vh - 60px);
+  overflow-y: scroll;
 }/*# sourceMappingURL=main.css.map */
 
 .add-to-betslip-button{
@@ -922,6 +926,7 @@ option {
   display: inline-flex;
   align-items: center;
 }
+
 
 .line {
   flex: 1;
@@ -1265,6 +1270,23 @@ option {
 
   .toggle-button{
     margin-right:5px !important;
+  }
+
+  .free-view-login-sign-up-container{
+    border-radius: 10px;
+  }
+
+  .free-view-login-button,
+  .free-view-sign-up-button
+  {
+    width: 80%;
+    border-radius: 20px;
+  }
+
+  .free-view-login-container,
+  .free-view-sign-up-container{
+    width: 100%;
+    justify-content: center;
   }
 
 }

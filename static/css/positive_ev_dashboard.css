@@ -530,6 +530,8 @@ option {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100vh;
+  overflow-y: scroll;
 }
 @media (max-width: 49em) {
   .main-custom {
@@ -537,11 +539,14 @@ option {
   }
 }
 
+
+
 .content-custom {
   flex: 1;
   background-color: var(--content-bg);
   overflow: hidden;
   min-height: calc(100vh - 60px);
+  overflow-y: scroll;
 }/*# sourceMappingURL=main.css.map */
 
 .add-to-betslip-button{
@@ -996,8 +1001,8 @@ option {
   text-align: center;
   font-family: "Inter", sans-serif !important;
   color: var(--table-p-color);
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 30px;
+  padding-bottom: 25px;
   border-bottom: 1px solid var(--table-trow-border);
   border: 5px solid #21ce99;
 }
@@ -1007,6 +1012,7 @@ option {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .free-view-login-container,
@@ -1028,6 +1034,19 @@ option {
   box-sizing: border-box;
   cursor: pointer;
   width: 30%;
+}
+
+.free-view-login-container{
+  width: 100%;
+  justify-content: flex-end;
+  padding-right: 5%;
+
+}
+
+.free-view-sign-up-container{
+  width: 100%;
+  justify-content: flex-start;
+  padding-left: 5%;
 }
 
 .free-view-sign-up-button{
@@ -1411,6 +1430,23 @@ option {
 
   .table-custom__content__head li:nth-child(3) {
     display: none !important;
+  }
+
+  .free-view-login-sign-up-container{
+    border-radius: 10px;
+  }
+
+  .free-view-login-button,
+  .free-view-sign-up-button
+  {
+    width: 80%;
+    border-radius: 20px;
+  }
+
+  .free-view-login-container,
+  .free-view-sign-up-container{
+    width: 100%;
+    justify-content: center;
   }
 
 }

@@ -79,6 +79,10 @@
   --row-box-special-color-to:rgba(255,255,255, 0) ;
 }
 
+body{
+  overflow-x: hidden;
+}
+
 
 .sidebar-custom {
   position: fixed;
@@ -209,10 +213,4 @@ a:visited {
   margin-top: auto;
   padding-top: 1.5rem;
   border-top: 1px solid var(--sidebar-border-color);
-}
-
-@media (max-width: 49em) {
-  .sidebar-custom{
-    display: none !important;
-  }
 }

@@ -1295,4 +1295,8 @@ position: relative;
     width: 100vw;
   }
 
+  .sidebar-custom{
+    display: none !important;
+  }
+
 } 

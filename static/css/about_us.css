@@ -902,6 +902,10 @@ button{
     display: none !important;
   }
 
+  .sidebar-custom{
+    display: none !important;
+  }
+
 
 
 
