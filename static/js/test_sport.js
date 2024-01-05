@@ -234,6 +234,7 @@ function updateTableFree(data) {
       <li class="free-view-login-sign-up-container">
             <div class = "free-view-login-sign-up-buttons-container">
               <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+              <div class = "or">or</div>
               <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
             </div>
           <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
@@ -321,6 +322,7 @@ function updateTableFree(data) {
 <li class="free-view-login-sign-up-container">
       <div class = "free-view-login-sign-up-buttons-container">
         <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+        <div class = "or">or</div>
         <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
       </div>
     <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
@@ -384,6 +386,7 @@ table_row_to_append_to.appendChild(tr);
 <li class="free-view-login-sign-up-container">
       <div class = "free-view-login-sign-up-buttons-container">
         <div class = "free-view-login-container"><a class = "free-view-login-button" href = "/login">Login</a></div>
+        <div class = "or">or</div>
         <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
       </div>
     <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
