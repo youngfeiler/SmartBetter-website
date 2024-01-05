@@ -191,4 +191,21 @@ a:visited {
   flex: 1;
   height: 1px;
   background-color: var(--sidebar-border-color);
+  color: var(--sidebar-font-color);
+}
+
+.text {
+  font-size: 12px;
+  padding: 0 5px;
+  color: inherit;
+}
+
+
+.line-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
 }
