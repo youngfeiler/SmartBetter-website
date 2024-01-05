@@ -45,33 +45,47 @@ def close_db():
 
 @app.route('/')
 def index():
-    app.db.check_payments()
+    is_logged_in = True if 'user_id' in session else False
+
     return render_template('landing_page.html', 
-                           checkout_public_key=app.config['STRIPE_PUBLIC_KEY'])
+                           checkout_public_key=app.config['STRIPE_PUBLIC_KEY'],
+                           is_logged_in = is_logged_in)
 
 @app.route('/about')
 def about():
-    return render_template('about_us.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('about_us.html', is_logged_in = is_logged_in)
 
 @app.route('/how_it_works')
 def how_it_works():
-    return render_template('how_it_works.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('how_it_works.html', is_logged_in = is_logged_in)
 
 @app.route('/product')
 def product():
-    return render_template('product.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('product.html', is_logged_in = is_logged_in)
 
 @app.route('/scenarios')
 def scenarios():
-    return render_template('scenarios.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('scenarios.html', is_logged_in = is_logged_in)
 
 @app.route('/pregame')
 def pregame_beta():
-    return render_template('pregame.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('pregame.html', is_logged_in = is_logged_in)
 
 @app.route('/positive_ev')
 def positive_ev():
-    return render_template('positive_ev_dashboard.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('positive_ev_dashboard.html', is_logged_in = is_logged_in)
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
@@ -211,22 +225,26 @@ def test_func():
 
 @app.route('/home')
 def home():
-    return render_template('landing_page.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('landing_page.html', is_logged_in = is_logged_in)
 
 @app.route('/account')
 def account():
+  is_logged_in = True if 'user_id' in session else False
+
   if 'user_id' in session:
         users = app.db.get_user_info(session['user_id'])
-        return render_template('account_settings.html', users = users)
+        return render_template('account_settings.html', users = users, is_logged_in = is_logged_in)
   else:
         return redirect(url_for('login'))
 
 @app.route('/performance')
 def show_performance():
-  if 'user_id' in session:
-        return render_template('performance.html')
-  else:
-        return redirect(url_for('login'))
+  is_logged_in = True if 'user_id' in session else False
+
+  return render_template('performance.html', is_logged_in = is_logged_in)
+
     
 @app.route('/update_bankroll', methods=['POST'])
 def update_bankroll():
@@ -333,27 +351,35 @@ def login():
 
 @app.route('/mlb')
 def show_mlb():
-    return render_template('mlb.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('mlb.html', is_logged_in = is_logged_in)
 
 @app.route('/nfl')
 def show_nfl():
-    return render_template('nfl.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('nfl.html', is_logged_in = is_logged_in)
     
     
 @app.route('/nba')
 def show_nba():
+    is_logged_in = True if 'user_id' in session else False
+
     # Set to false for prod
     show_div = False
 
     if request.referrer and (request.referrer.endswith('/login') or request.referrer.endswith('/register')):
         show_div = True
 
-    return render_template('nba.html', show_div=show_div)
+    return render_template('nba.html', show_div=show_div, is_logged_in = is_logged_in)
    
 
 @app.route('/nhl')
 def show_nhl():
-    return render_template('nhl.html')
+    is_logged_in = True if 'user_id' in session else False
+
+    return render_template('nhl.html', is_logged_in = is_logged_in)
     
 
 @app.route('/get_performance_data', methods=["POST", "GET"])
@@ -452,9 +478,12 @@ def get_filter_dropwdown_values():
 
 @app.route('/bet_tracker')
 def bet_tracker():
+
+    is_logged_in = True if 'user_id' in session else False
+
     try:
         if session['user_id'] is not None:
-            return render_template('bet_tracker.html')
+            return render_template('bet_tracker.html', is_logged_in = is_logged_in)
     except:
         return redirect(url_for('register'))
 
