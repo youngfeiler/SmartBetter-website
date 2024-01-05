@@ -78,10 +78,10 @@ function updateTable(data) {
         </div>
       </li>
       
-      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">N/A</li>
-      <li data-before="Min" id = "min-odds">N/A</li>
+      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number"> --- </li>
+      <li data-before="Min" id = "min-odds"> --- </li>
       <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
-      <li before-data="+EV%: " id="ev">N/A</li>
+      <li before-data="+EV%: " id="ev"> --- </li>
       <li id ="game-date">${row.game_date}</li>
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
       <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
@@ -142,7 +142,7 @@ function updateTableFree(data) {
           </div>
         </li>
       
-        <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">N/A</li>
+        <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">---</li>
         <li data-before="Min" id = "min-odds">N/A</li>
         <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
         <li before-data="+EV%: " id="ev">N/A</li>
