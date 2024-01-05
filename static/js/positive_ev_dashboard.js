@@ -760,14 +760,13 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
-        filterValue.addEventListener('click', fetchDataAndUpdateTable);
-
         filterValue.addEventListener('click', function(e) {
           var filterItems = sportLeagueFilterDiv.querySelectorAll('.filter-dropdown-item');
           filterItems.forEach(function(item) {
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
+          fetchDataAndUpdateTable();
         });
 
         sportLeagueFilterDiv.appendChild(filterValue)
@@ -782,7 +781,6 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
-        filterValue.addEventListener('click', fetchDataAndUpdateTable);
 
         filterValue.addEventListener('click', function(e) {
           var filterItems = marketFilterDiv.querySelectorAll('.filter-dropdown-item');
@@ -790,6 +788,7 @@ function fillFilterValues(){
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
+          fetchDataAndUpdateTable();
         });
         marketFilterDiv.appendChild(filterValue)
       })
@@ -804,8 +803,6 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
-        filterValue.addEventListener('click', fetchDataAndUpdateTable);
-
 
         filterValue.addEventListener('click', function(e) {
           var filterItems = gameDateFilterDiv.querySelectorAll('.filter-dropdown-item');
@@ -813,6 +810,7 @@ function fillFilterValues(){
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
+          fetchDataAndUpdateTable();
         });
         gameDateFilterDiv.appendChild(filterValue)
       })
@@ -827,8 +825,6 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
-        filterValue.addEventListener('click', fetchDataAndUpdateTable);
-
 
         filterValue.addEventListener('click', function(e) {
           var filterItems = sportsbookFilterDiv.querySelectorAll('.filter-dropdown-item');
@@ -836,6 +832,7 @@ function fillFilterValues(){
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
+          fetchDataAndUpdateTable();
         });
         sportsbookFilterDiv.appendChild(filterValue)
       })
