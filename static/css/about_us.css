@@ -13,16 +13,33 @@
   width: 100%;
   background-image: url("/static/images/dark-gradient.png"); 
   background-size: cover;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 button{
   cursor: pointer;
 }
 
+.background-image {
+  height: 100%;
+}
+
+.main-guy{
+  height: 100vh;
+}
+
 .box {
   height: 100%;
   width: 100%;
-  color: white
+  color: white;
+  position: relative;
+  width: calc(100% - 204px);
+  height: 100vh;
+}
+.row-new{
+  display: flex;
+  flex-direction: row;
 }
 
 .box .about-us {
@@ -128,6 +145,15 @@ button{
   gap: 6px;
   position: relative;
   flex: 0 0 auto;
+}
+
+.sidebar-custom{
+  position: relative !important;
+  height: 100vh !important;
+}
+
+.sidebar-custom__logo img{
+  width: 100%;
 }
 
 .box .style-secondary {

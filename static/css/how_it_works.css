@@ -1,17 +1,33 @@
-/* body{
-  background-image: url("/static/images/dark-gradient.png");
-  background-size: cover;
-  background-position: left top;
-  width: 100%;
-  color: white
-} */
+body{
+overflow-x: hidden;
+}
 
 .how-it-works {
-  top: 0;
+  top: 0; 
   left: 0;
   width: 100%;
   background-image: url("/static/images/dark-gradient.png"); 
   background-size: cover;
+}
+
+
+.background-image{
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.row-new{
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar-custom{
+  position: relative !important;
+  height: 100vh  !important;
+}
+
+.sidebar-custom img{
+  width: 100%;
 }
 
 .top-left-logo{
@@ -20,6 +36,7 @@
 
 .box {
   width: 100%;
+  height: 100vh;
 }
 
 .box .how-it-works {
@@ -101,6 +118,23 @@
   gap: 32px;
   position: relative;
   flex: 0 0 auto;
+}
+
+.navbar-mh{
+  width: calc(100% - 190px) !important;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Optional: Hide scrollbar track and buttons (optional) */
+::-webkit-scrollbar-track {
+  display: none; /* Hide the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  display: none; /* Hide the scrollbar thumb */
 }
 
 

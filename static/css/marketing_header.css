@@ -10,6 +10,9 @@
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-color: white;
+  position: absolute;
+  z-index: 9999;
+  background-color: #041a13;
 }
 
 .down-arrow{

@@ -12,6 +12,23 @@
   width: 100%;
   background-image: url("/static/images/dark-gradient.png"); 
   background-size: cover;
+  overflow-y: scroll;
+}
+
+
+.row-new{
+  display:flex;
+  flex-direction: row;
+}
+
+
+.sidebar-custom{
+  position: relative !important;
+  height: 100vh !important;
+}
+
+.sidebar-custom__logo img{
+  width: 100%;
 }
 
 .box .products {
@@ -28,12 +45,13 @@
   align-items: flex-start;
   position: relative;
   overflow: hidden;
+  height: 100vh !important;
 }
 
 .box .layout {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  
   align-items: center;
   gap: 80px;
   padding: 112px 64px;
@@ -207,6 +225,14 @@
   margin-left: -1px;
   border: 1px solid;
   border-color: white;
+}
+
+.button-learn-more-3{
+  width: 100%;
+}
+
+.pricing a{
+  width: 80%;
 }
 
 .box .button {
@@ -563,7 +589,7 @@
   font-weight: bold;
   margin: 0px 0px 0px 0px;
   padding: 12px 25px 12px 30px;
-  width:420px;
+  width:100%;
   text-align: center;
 }
 
@@ -574,6 +600,8 @@
   gap: 32px;
   position: relative;
   flex: 0 0 auto;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .box .column-2 {
