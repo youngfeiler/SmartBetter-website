@@ -50,6 +50,8 @@ function updateThemeOnHtmlEl({ theme }) {
 
 function updateTable(data) {
 
+  console.log(data);
+
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -638,6 +640,7 @@ function fetchDataAndUpdateTable() {
   })
     .then(response => response.json())
     .then(data => {
+      console.log(userPermissionVar);
       if(userPermissionVar =='standard' || userPermissionVar == 'premium'){
         updateTable(data);
       }else{
@@ -756,13 +759,14 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
+        filterValue.addEventListener('click', fetchDataAndUpdateTable);
+
         filterValue.addEventListener('click', function(e) {
           var filterItems = sportLeagueFilterDiv.querySelectorAll('.filter-dropdown-item');
           filterItems.forEach(function(item) {
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
         });
 
         sportLeagueFilterDiv.appendChild(filterValue)
@@ -777,6 +781,7 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
+        filterValue.addEventListener('click', fetchDataAndUpdateTable);
 
         filterValue.addEventListener('click', function(e) {
           var filterItems = marketFilterDiv.querySelectorAll('.filter-dropdown-item');
@@ -784,7 +789,6 @@ function fillFilterValues(){
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
         });
         marketFilterDiv.appendChild(filterValue)
       })
@@ -799,6 +803,8 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
+        filterValue.addEventListener('click', fetchDataAndUpdateTable);
+
 
         filterValue.addEventListener('click', function(e) {
           var filterItems = gameDateFilterDiv.querySelectorAll('.filter-dropdown-item');
@@ -806,7 +812,6 @@ function fillFilterValues(){
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
         });
         gameDateFilterDiv.appendChild(filterValue)
       })
@@ -821,6 +826,8 @@ function fillFilterValues(){
           filterValue.classList.add("active");
         }
         filterValue.addEventListener('click', greenIfFiltered);
+        filterValue.addEventListener('click', fetchDataAndUpdateTable);
+
 
         filterValue.addEventListener('click', function(e) {
           var filterItems = sportsbookFilterDiv.querySelectorAll('.filter-dropdown-item');
@@ -828,7 +835,6 @@ function fillFilterValues(){
             item.classList.remove('active');
           });
           filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
         });
         sportsbookFilterDiv.appendChild(filterValue)
       })
@@ -950,6 +956,7 @@ $(document).ready(function(){
 
     svgs.forEach(function(svg) {
       svg.setAttribute('ascending', false);
+      svg.addEventListener('click', fetchDataAndUpdateTable);
       svg.addEventListener('click', function() {
         var path = this.querySelector('.arrow-head');
         var isActive = this.classList.contains('active');
@@ -967,12 +974,12 @@ $(document).ready(function(){
         this.classList.add('active');
         this.setAttribute('ascending', false);
       }
-      fetchDataAndUpdateTable();
       });
     });
 
     getUserPermission()
     .then(userPermission => {
+      console.log(userPermissionVar);
       userPermissionVar = userPermission.permission;
       fetchDataAndUpdateTable();
     })

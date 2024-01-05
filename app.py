@@ -201,7 +201,7 @@ def get_positive_ev_data():
     sport_title = data.get('sport_title', '')
 
     try:
-        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
     except:
         bankroll = 5000
     print(bankroll)
@@ -321,12 +321,18 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])  
 def login():
+  
+  is_logged_in = True if 'user_id' in session else False
+
+
+  if is_logged_in:
+      return redirect(url_for('positive_ev'))
+  
   user_id = session.get('user_id')
   my_db = database(app.db_manager)
-  if (user_id is not None):
-      payed = my_db.check_account(user_id)
-      if payed:
-        return redirect(url_for('show_nba'))
+
+    
+
   if request.method == 'POST':
     username = request.form.get('username')
     password = request.form.get('password')
@@ -415,7 +421,8 @@ def get_live_dash_data():
     # wrong calculation
 
     try:
-        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
+        print(bankroll)
     except KeyError:
         bankroll = 5000
 
@@ -438,7 +445,7 @@ def get_positive_ev_dash_data():
     filters = data.get('filters', '')
 
     try:
-        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
     except KeyError:
         bankroll = 5000
 

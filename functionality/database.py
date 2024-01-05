@@ -158,19 +158,15 @@ class database():
                   for subscription in user_subscriptions.data:
                       for item in subscription['items']['data']:
                           price = item['price']['unit_amount']
-                          price_id = item['price']['unit_amount']
+                          price_id = item['price']['id']
                           if price > highest_price:
                               highest_price = price
                               highest_price_subscription = subscription
-                              highest_price_price_id= price_id
+                              highest_price_price_id = price_id
                   if highest_price_subscription:
                       highest_price_status = highest_price_subscription.get('status')
-                      print("Highest Priced Subscription:")
-                      print(highest_price)
-                      print("Highest Priced Status:")
-                      print(highest_price_status)
-                      print("Highest Priced id:")
-                      print(highest_price_price_id)
+                      if highest_price_status == 'trialing':
+                         highest_price_status = 'active'
                       return({
                          'status':highest_price_status,
                          'permission':self.get_plan_from_price_id(highest_price_price_id)
@@ -200,21 +196,26 @@ class database():
         'price_1OSlSoHM5Jv8uc5MR6vK5xrA':'ev',
         'price_1OG9CDHM5Jv8uc5MTtdQOZMv': 'standard',
         'price_1NqdGPHM5Jv8uc5MkYrJm2UX': 'premium',
-        'price_1OG9DhHM5Jv8uc5MfiE2UdHR': 'premium',
+        'price_1OG9DhHM5Jv8uc5MfiE2UdHR': 'premium'
       }
        return plans.get(price_id, 'Not found in plans')
  
     def get_user_bank_roll(self, user):
       try:
+
         # Create a session
         session = self.db_manager.create_session()
 
-        # Query the user's record by username
-        user = session.query(LoginInfo).filter_by(username=user).first()
+        read_in =  pd.read_sql_table('login_info', con=self.db_manager.get_engine())
+
+        read_in['bankroll'].fillna(1000, inplace=True)
+
+        user_info = read_in[read_in['username'] == user]
+
+        bankroll = user_info['bankroll'].iloc[0]
 
         if user:
-            # If the user exists, you can directly access the 'bankroll' attribute
-            return user.bankroll
+            return int(bankroll)
         else:
             return None
       except Exception as e:
