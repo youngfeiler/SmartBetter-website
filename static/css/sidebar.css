@@ -186,3 +186,9 @@ a:visited {
   padding-top: 1.5rem;
   border-top: 1px solid var(--sidebar-border-color);
 }
+
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--sidebar-border-color);
+}
