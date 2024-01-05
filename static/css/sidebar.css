@@ -95,6 +95,7 @@
   padding: 1.4375rem 1rem;
   gap: 2rem;
   border-right: 1px solid var(--nav-border);
+  font-family: "Inter", sans-serif !important;
 }
 
 @media (max-width: 49em) {
