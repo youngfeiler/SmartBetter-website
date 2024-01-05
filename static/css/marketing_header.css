@@ -71,6 +71,10 @@
   font-style: var(--text-regular-normal-font-style);
 }
 
+.desktop-no-display{
+  display:none;
+}
+
 .actions-mh {
   display: flex;
   flex-direction: row;
@@ -215,6 +219,10 @@
     text-align: left;
     padding-left: 0px;
     padding-top: 0px;
+  }
+
+  .desktop-no-display{
+    display:flex;
   }
 
 
