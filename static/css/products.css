@@ -7,20 +7,26 @@
 } */
 
 .products {
+
+}
+
+
+.background-image{
+  height: 100%;
+  overflow-y: scroll;
   top: 0;
   left: 0;
   width: 100%;
   background-image: url("/static/images/dark-gradient.png"); 
   background-size: cover;
-  overflow-y: scroll;
-}
+  overflow-y: scroll; 
 
+}
 
 .row-new{
   display:flex;
   flex-direction: row;
 }
-
 
 .sidebar-custom{
   position: relative !important;
@@ -34,7 +40,7 @@
 .box .products {
   position: static;
   width: 100%;
-
+  height: 100vh !important;
   top: 0;
   left: 0;
 }
@@ -45,13 +51,12 @@
   align-items: flex-start;
   position: relative;
   overflow: hidden;
-  height: 100vh !important;
 }
 
 .box .layout {
   display: flex;
   flex-direction: column;
-  
+  width: 100%;
   align-items: center;
   gap: 80px;
   padding: 112px 64px;
@@ -225,14 +230,6 @@
   margin-left: -1px;
   border: 1px solid;
   border-color: white;
-}
-
-.button-learn-more-3{
-  width: 100%;
-}
-
-.pricing a{
-  width: 80%;
 }
 
 .box .button {
@@ -601,7 +598,10 @@
   position: relative;
   flex: 0 0 auto;
   width: 100%;
-  justify-content: space-between;
+}
+
+.box .content-5 a{
+  width: 100%;
 }
 
 .box .column-2 {
@@ -1177,6 +1177,10 @@ button{
 
   .box .placeholder-image{
     width: 100vw;
+  }
+
+  .box .img {
+    width: 100%;
   }
 
 
