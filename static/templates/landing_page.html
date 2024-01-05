@@ -1,384 +1,358 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="static/css/landing_page.css" />
-  <title>SmartBettor</title>
-  <link rel="icon" type="image/png" href="static/images/favicon.png">
-  <meta name="theme-color" content="#041a13" />
-
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/landing_page.css" />
+    <title>SmartBettor</title>
+    <link rel="icon" type="image/png" href="static/images/favicon.png">
+    <meta name="theme-color" content="#041a13" />
 
 
-  <script>
-    !function (w, d, t) {
-      w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || []; ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"], ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } }; for (var i = 0; i < ttq.methods.length; i++)ttq.setAndDefer(ttq, ttq.methods[i]); ttq.instance = function (t) { for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++)ttq.setAndDefer(e, ttq.methods[n]); return e }, ttq.load = function (e, n) { var i = "https://analytics.tiktok.com/i18n/pixel/events.js"; ttq._i = ttq._i || {}, ttq._i[e] = [], ttq._i[e]._u = i, ttq._t = ttq._t || {}, ttq._t[e] = +new Date, ttq._o = ttq._o || {}, ttq._o[e] = n || {}; var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = i + "?sdkid=" + e + "&lib=" + t; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(o, a) };
 
-      ttq.load('CLGKSSJC77U4D7KCHNB0');
-      ttq.page();
-    }(window, document, 'ttq');
-  </script>
-</head>
+    <script>
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+      
+        ttq.load('CLGKSSJC77U4D7KCHNB0');
+        ttq.page();
+      }(window, document, 'ttq');
+    </script>
+  </head>
+  <body> 
 
-<body>
-  <div class="row-new">
-    {% include "sidebar.html" %}
+    <div class = "row-new">
+      {% include "sidebar.html" %}
 
-    <div class="home">
       <div class="background-image">
+        {% include "marketing_header.html" %}
+
+      <div class="home">
 
 
-
-
-        <div class="main-guy">
-          {% include "marketing_header.html" %}
-
-          <div class="header" id="#header">
-            <div class="div-2">
-              <div class="div-3">
-                <p class="medium-length-hero">Unleash Your Betting Potential with AI</p>
-                <p class="p">
-                  Discover statistically favorable sports betting opportunities with our advanced AI tool. Beat the odds
-                  and
-                  maximize your winnings.</p>
-              </div>
-              <div class="actions-2">
-                <button class="button-2-1 scroll-link" href="#pricing">
-                  Get Started
-                </button>
-                <a href="/about"><button class="button" href="/about">Learn More</button></a>
-              </div>
-            </div>
-            <img class="placeholder-image" src="static/images/5-Phones.gif" />
+      <div class="header" id = "#header">
+        <div class="div-2">
+          <div class="div-3">
+            <p class="medium-length-hero">Unleash Your Betting Potential with AI</p>
+            <p class="p">
+              Discover statistically favorable sports betting opportunities with our advanced AI tool. Beat the odds and
+              maximize your winnings.
+            </p>
           </div>
-          <div class="container-wrapper">
-            <div class="container-2">
-              <img class="placeholder-image" src="static/images/phone_dashboard.gif" id="order-2" />
-              <div class="div-2" id="order-1">
-                <p class="heading">Uncover Winning Opportunities with Advanced Statistics and Machine Learning</p>
-                <p class="p">
-                  Our AI-powered platform utilizes advanced statistics and machine learning models to identify
-                  statistically
-                  favorable sports betting opportunities. With our cutting-edge technology, professional sports bettors
-                  can
-                  gain an edge over Vegas and other +EV sites, like OddsJam.</p>
-              </div>
-            </div>
-          </div>
-          <div class="div-wrapper-2">
-            <div class="content-2">
-              <div class="column-2">
-                <div class="div-4">
-                  <p class="heading-2">How Our AI Tool Provides Betting Opportunities</p>
-                </div>
-                <div class="actions-3">
-                  <a href="/about"><button class="style-secondary-2"><button class="button-learn-more">Learn
-                        More</button></button></a>
-                  <div class="style-link-small">
-                    <button class="button-2 scroll-link" href="#pricing">
-                      Sign Up
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="div-5">
-                <div class="timeline-item">
-                  <div class="content-3">
-                    <img class="icon-relume" src="static/images/cloud-download.svg" /> <img class="divider"
-                      src="static/images/divider.svg" />
-                  </div>
-
-                  <div class="div-5">
-                    <p class="heading-3">Step 1: Data Collection</p>
-                    <p class="text-wrapper-2">
-                      Our API collects live odds data from 20+ sportsbooks on a minute-by-minute basis, 24/7.
-                    </p>
-                  </div>
-                </div>
-                <div class="timeline-item">
-                  <div class="content-3">
-                    <img class="icon-relume" src="static/images/calculate.svg" /> <img class="divider"
-                      src="static/images/divider.svg" />
-                  </div>
-
-                  <div class="div-5">
-                    <p class="heading-3">Step 2: Expected Value Calculation</p>
-                    <p class="text-wrapper-2">
-                      Our model aggregates and compares live odds data from multiple sportsbooks in order to identify
-                      statistically favorable betting opportunities (+EV).
-                    </p>
-                  </div>
-                </div>
-
-                <div class="timeline-item">
-                  <div class="content-3">
-                    <img class="icon-relume" src="static/images/machine-learning.svg" />
-                    <img class="divider" src="static/images/divider.svg" />
-                  </div>
-                  <div class="div-5">
-                    <div class="heading-3">Step 3: Machine Learning</div>
-                    <p class="text-wrapper-2">
-                      Using machine learning, our model analyzes the +EV betting opportunities and recommends the bets
-                      with
-                      the highest probability of predicted success. It continuously improves its predictions and
-                      accuracy
-                      as
-                      the number of observations increase.
-                    </p>
-                  </div>
-                </div>
-                <div class="timeline-item">
-                  <div class="content-3">
-                    <img class="icon-relume" src="static/images/bet-sizing.svg" />
-                  </div>
-                  <div class="div-5">
-                    <p class="heading-3">Step 4: Smart Bet Sizes</p>
-                    <p class="text-wrapper-2">
-                      Based on the analysis, our model provides smart bet sizes to maximize your bankroll growth and
-                      minimize potential losses. This is one of the secret ingredients that will help you accelerate
-                      your
-                      potential winnings.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-wrapper">
-            <div class="container-2">
-              <img class="placeholder-image" src="static/images/vs_oddsjam.gif" id="order-2" />
-              <div class="div-2">
-                <div class="div-6">
-                  <div class="div-4">
-                    <div class="div-3">
-                      <p class="text-wrapper-3">Unmatched Performance in Sports Betting Analysis</p>
-                      <p class="p">
-                        Our AI-powered platform consistently outperforms Vegas and other +EV sites, like OddsJam,
-                        providing
-                        statistically favorable sports betting opportunities.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="list">
-                    <div class="list-item">
-                      <div class="text-wrapper-3">10% ROI</div>
-                      <p class="text-wrapper-2">
-                        An average of 10% return on cash across all sports and betting opportunities*
-                      </p>
-                    </div>
-                    <div class="list-item">
-                      <div class="text-wrapper-3">5x OddsJam</div>
-                      <p class="text-wrapper-2">Our proprietary model outperforms OddsJam by an average of 5x</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="actions-3">
-                  <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn
-                        More</button></button></a>
-                  <div class="style-link-small">
-                    <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div-wrapper-2">
-            <div class="content-4">
-              <div class="div-2">
-                <div class="div-3">
-                  <p class="heading-4">Sports and Betting Markets Offered</p>
-                  <p class="text-wrapper-2">
-                    Our platform covers NFL, NBA, NHL, MLB, and CFB (coming soon) and offers moneyline bets, totals
-                    (coming soon), spreads (coming soon), and player props (coming soon).
-                  </p>
-                </div>
-                <div class="actions-3">
-                  <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn
-                        More</button></button></a>
-                  <div class="style-link-small">
-                    <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button>
-                  </div>
-                </div>
-              </div>
-              <div class="div-2">
-                <div class="div-3">
-                  <div class="heading-4">Integration with Betting Platforms</div>
-                  <p class="text-wrapper-2">
-                    Our platform pulls live odds from over 20 of the most popular betting platforms in the US. You will
-                    see the best odds currently being offered, along with the minimum acceptable odds that still
-                    constitute +EV.
-                  </p>
-                </div>
-                <div class="actions-3">
-                  <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn
-                        More</button></button></a>
-
-                  <div class="style-link-small">
-                    <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button>
-                  </div>
-                </div>
-              </div>
-              <div class="div-2">
-                <div class="div-3">
-                  <div class="heading-4">Statistics and Machine Learning</div>
-                  <p class="text-wrapper-2">
-                    Our platform provides optimized bet sizing based on your recent betting performance. The model will
-                    scale your unit sizes accordingly in order to accelerate your winnings and slow down your losses.
-                  </p>
-                </div>
-                <div class="actions-3">
-                  <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn
-                        More</button></button></a>
-                  <div class="style-link-small">
-                    <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div-wrapper-2">
-            <div class="column-3">
-              <div class="div-3">
-                <p class="text-wrapper-3">Unlock Profitable Opportunities in 60-Seconds</p>
-                <p class="p">
-                  Join our platform and gain access to statistically favorable sports betting opportunities and dynamic
-                  bet
-                  sizing.
-                </p>
-              </div>
-              <div class="actions-2">
-                <button class="button-2 scroll-link" href="#pricing">Sign Up</button>
-                <a href="/about"><button class="div-wrapper"><button class="button-learn-more">Learn
-                      More</button></button></a>
-              </div>
-            </div>
-          </div>
-          <div class="pricing" id="pricing">
-            <div class="content-5">
-              <div class="section-title">
-                <div class="content-6">
-                  <div class="heading-5">Pricing Options</div>
-                  <p class="text">Choose the plan that suits your needs and budget.</p>
-                </div>
-              </div>
-            </div>
-            <div class="content-7">
-              <div class="column-4">
-                <div class="div-7">
-                  <div class="price">
-                    <div class="heading-6">Basic Access</div>
-                    <div class="container-3">
-                      <div class="price-2">$49/mo</div>
-                      <div class="price-3"></div>
-                    </div>
-                  </div>
-                  <div class="list-2">
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Positive EV bets</div>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Optimized bet sizing</div>
-                    </div>
-                  </div>
-                </div>
-                <a href="{{ url_for('create_checkout_session', price_id='price_1OSlSoHM5Jv8uc5MR6vK5xrA') }}"
-                  id="get-started-99">
-                  <button class="style-primary-small-2"><button class="button-learn-more-3">Get
-                      Started</button></button>
-                </a>
-              </div>
-              <div class="column-4">
-                <div class="div-7">
-                  <div class="price">
-                    <div class="heading-6">Standard</div>
-                    <div class="container-3">
-                      <div class="price-2">$99/mo</div>
-                      <div class="price-3"></div>
-                    </div>
-                  </div>
-                  <div class="list-2">
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Positive EV bets</div>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Optimized bet sizing</div>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <p class="text-2">AI powered NFL, NBA, NHL, MLB<br />moneyline bets</p>
-                    </div>
-                  </div>
-                </div>
-                <a href="{{ url_for('create_checkout_session', price_id='price_1OG9CDHM5Jv8uc5MTtdQOZMv') }}"
-                  id="get-started-99">
-                  <button class="style-primary-small-2"><button class="button-learn-more-3">Get
-                      Started</button></button>
-                </a>
-              </div>
-
-              <div class="column-5">
-                <div class="div-7">
-                  <div class="price">
-                    <div class="heading-6">Premium</div>
-                    <div class="container-3">
-                      <div class="price-2">$199/mo</div>
-                      <div class="price-3"></div>
-                    </div>
-                  </div>
-                  <div class="list-2">
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Positive EV bets</div>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Optimized bet sizing</div>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <p class="text-2">AI powered NFL, NBA, NHL, MLB<br />moneyline bets</p>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <div class="text-wrapper">Text alerts (coming soon)</div>
-                    </div>
-                    <div class="div-8">
-                      <img class="img" src="static/images/check.svg" />
-                      <p class="text-2">Player props, totals, spreads, arbitrage<br />(all coming soon)</p>
-                    </div>
-                  </div>
-                </div>
-                <a href="{{ url_for('create_checkout_session_free_trial', price_id='price_1OG9DhHM5Jv8uc5MfiE2UdHR') }}"
-                  id="get-started-199">
-                  <button class="style-primary-small-2"><button class="button-learn-more-3">Get
-                      Started</button></button>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="section-title">
-            <p class="subheading-4">Not ready yet? <a class="green"
-                href="{{ url_for('create_checkout_session_free_trial', price_id='price_1OG9CDHM5Jv8uc5MTtdQOZMv') }}"
-                id="get-started-free">Start a 7 day free trial.</a> Cancel anytime.</p>
-            <div class="content-8"></div>
+          <div class="actions-2">
+              <button class="button-2-1 scroll-link" href="#pricing">
+                Get Started
+              </button>
+            <a href="/about"><button class="button" href="/about">Learn More</button></a>
           </div>
         </div>
-        {% include "marketing_footer.html" %}
+        <img class="placeholder-image" src="static/images/5-Phones.gif" />
+      </div>
+      <div class="container-wrapper">
+        <div class="container-2">
+          <img class="placeholder-image" src="static/images/phone_dashboard.gif" id = "order-2"/>
+          <div class="div-2" id = "order-1">
+            <p class="heading">Uncover Winning Opportunities with Advanced Statistics and Machine Learning</p>
+            <p class="p">
+              Our AI-powered platform utilizes advanced statistics and machine learning models to identify statistically
+              favorable sports betting opportunities. With our cutting-edge technology, professional sports bettors can
+              gain an edge over Vegas and other +EV sites, like OddsJam.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="div-wrapper-2">
+        <div class="content-2">
+          <div class="column-2">
+            <div class="div-4">
+              <p class="heading-2">How Our AI Tool Provides Betting Opportunities</p>
+            </div>
+            <div class="actions-3">
+            <a href="/about"><button class="style-secondary-2"><button class="button-learn-more">Learn More</button></button></a>
+              <div class="style-link-small">
+                <button class="button-2 scroll-link" href="#pricing">
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="div-5">
+            <div class="timeline-item">
+              <div class="content-3">
+                <img class="icon-relume" src="static/images/cloud-download.svg" /> <img class="divider" src="static/images/divider.svg" />
+              </div>
+
+              <div class="div-5">
+                <p class="heading-3">Step 1: Data Collection</p>
+                <p class="text-wrapper-2">
+                  Our API collects live odds data from 20+ sportsbooks on a minute-by-minute basis, 24/7.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="content-3">
+                <img class="icon-relume" src="static/images/calculate.svg" /> <img class="divider" src="static/images/divider.svg" />
+              </div>
+
+              <div class="div-5">
+                <p class="heading-3">Step 2: Expected Value Calculation</p>
+                <p class="text-wrapper-2">
+                  Our model aggregates and compares live odds data from multiple sportsbooks in order to identify
+                  statistically favorable betting opportunities (+EV).
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="content-3">
+                <img class="icon-relume" src="static/images/machine-learning.svg" />
+                <img class="divider" src="static/images/divider.svg" />
+              </div>
+              <div class="div-5">
+                <div class="heading-3">Step 3: Machine Learning</div>
+                <p class="text-wrapper-2">
+                  Using machine learning, our model analyzes the +EV betting opportunities and recommends the bets with
+                  the highest probability of predicted success. It continuously improves its predictions and accuracy as
+                  the number of observations increase.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="content-3">
+                <img class="icon-relume" src="static/images/bet-sizing.svg" />
+              </div>
+              <div class="div-5">
+                <p class="heading-3">Step 4: Smart Bet Sizes</p>
+                <p class="text-wrapper-2">
+                  Based on the analysis, our model provides smart bet sizes to maximize your bankroll growth and
+                  minimize potential losses. This is one of the secret ingredients that will help you accelerate your
+                  potential winnings.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-wrapper">
+        <div class="container-2">
+          <img class="placeholder-image" src="static/images/vs_oddsjam.gif" id = "order-2" />
+          <div class="div-2">
+            <div class="div-6">
+              <div class="div-4">
+                <div class="div-3">
+                  <p class="text-wrapper-3">Unmatched Performance in Sports Betting Analysis</p>
+                  <p class="p">
+                    Our AI-powered platform consistently outperforms Vegas and other +EV sites, like OddsJam, providing
+                    statistically favorable sports betting opportunities.
+                  </p>
+                </div>
+              </div>
+              <div class="list">
+                <div class="list-item">
+                  <div class="text-wrapper-3">10% ROI</div>
+                  <p class="text-wrapper-2">
+                    An average of 10% return on cash across all sports and betting opportunities*
+                  </p>
+                </div>
+                <div class="list-item">
+                  <div class="text-wrapper-3">5x OddsJam</div>
+                  <p class="text-wrapper-2">Our proprietary model outperforms OddsJam by an average of 5x</p>
+                </div>
+              </div>
+            </div>
+            <div class="actions-3">
+              <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
+              <div class="style-link-small">
+                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-wrapper-2">
+        <div class="content-4">
+          <div class="div-2">
+            <div class="div-3">
+                <p class="heading-4">Sports and Betting Markets Offered</p>
+                <p class="text-wrapper-2">
+                  Our platform covers NFL, NBA, NHL, MLB, and CFB (coming soon) and offers moneyline bets, totals
+                  (coming soon), spreads (coming soon), and player props (coming soon).
+                </p>
+            </div>
+            <div class="actions-3">
+              <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
+              <div class="style-link-small">
+                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+              </div>
+            </div>
+          </div>
+          <div class="div-2">
+            <div class="div-3">
+                <div class="heading-4">Integration with Betting Platforms</div>
+                <p class="text-wrapper-2">
+                  Our platform pulls live odds from over 20 of the most popular betting platforms in the US. You will
+                  see the best odds currently being offered, along with the minimum acceptable odds that still
+                  constitute +EV.
+                </p>
+            </div>
+            <div class="actions-3">
+              <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
+
+              <div class="style-link-small">
+                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+              </div>
+            </div>
+          </div>
+          <div class="div-2">
+              <div class="div-3">
+                <div class="heading-4">Statistics and Machine Learning</div>
+                <p class="text-wrapper-2">
+                  Our platform provides optimized bet sizing based on your recent betting performance. The model will
+                  scale your unit sizes accordingly in order to accelerate your winnings and slow down your losses.
+                </p>
+            </div>
+            <div class="actions-3">
+              <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
+              <div class="style-link-small">
+                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-wrapper-2">
+        <div class="column-3">
+          <div class="div-3">
+            <p class="text-wrapper-3">Unlock Profitable Opportunities in 60-Seconds</p>
+            <p class="p">
+              Join our platform and gain access to statistically favorable sports betting opportunities and dynamic bet
+              sizing.
+            </p>
+          </div>
+          <div class="actions-2">
+            <button class="button-2 scroll-link" href="#pricing">Sign Up</button>
+            <a href="/about"><button class="div-wrapper"><button class="button-learn-more">Learn More</button></button></a>
+          </div>
+        </div>
+      </div>
+      <div class="pricing" id="pricing">
+        <div class="content-5">
+          <div class="section-title">
+            <div class="content-6">
+              <div class="heading-5">Pricing Options</div>
+              <p class="text">Choose the plan that suits your needs and budget.</p>
+            </div>
+          </div>
+        </div>
+        <div class="content-7">
+          <div class="column-4">
+            <div class="div-7">
+              <div class="price">
+                <div class="heading-6">Basic</div>
+                <div class="container-3">
+                  <div class="price-2">$49/mo</div>
+                  <div class="price-3"></div>
+                </div>
+              </div>
+              <div class="list-2">
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Positive EV bets</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Optimized bet sizing</div>
+                </div>
+              </div>
+            </div>
+            <a href="{{ url_for('create_checkout_session', price_id='price_1OSlSoHM5Jv8uc5MR6vK5xrA') }}" id="get-started-99">
+            <button class="style-primary-small-2"><button class="button-learn-more-3">Get Started</button></button>
+          </a>
+          </div>
+          <div class="column-4">
+            <div class="div-7">
+              <div class="price">
+                <div class="heading-6">Standard</div>
+                <div class="container-3">
+                  <div class="price-2">$99/mo</div>
+                  <div class="price-3"></div>
+                </div>
+              </div>
+              <div class="list-2">
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Positive EV bets</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Optimized bet sizing</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <p class="text-2">AI powered NFL, NBA, NHL, MLB<br />moneyline bets</p>
+                </div>
+              </div>
+            </div>
+            <a href="{{ url_for('create_checkout_session', price_id='price_1OG9CDHM5Jv8uc5MTtdQOZMv') }}" id="get-started-99">
+            <button class="style-primary-small-2"><button class="button-learn-more-3">Get Started</button></button>
+          </a>
+          </div>
+
+          <div class="column-5">
+            <div class="div-7">
+              <div class="price">
+                <div class="heading-6">Premium</div>
+                <div class="container-3">
+                  <div class="price-2">$199/mo</div>
+                  <div class="price-3"></div>
+                </div>
+              </div>
+              <div class="list-2">
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Positive EV bets</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Optimized bet sizing</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <p class="text-2">AI powered NFL, NBA, NHL, MLB<br />moneyline bets</p>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <div class="text-wrapper">Text alerts (coming soon)</div>
+                </div>
+                <div class="div-8">
+                  <img class="img" src="static/images/check.svg" />
+                  <p class="text-2">Player props, totals, spreads, arbitrage<br />(all coming soon)</p>
+                </div>
+              </div>
+            </div>
+            <a href="{{ url_for('create_checkout_session_free_trial', price_id='price_1OG9DhHM5Jv8uc5MfiE2UdHR') }}" id = "get-started-199">
+              <button class="style-primary-small-2"><button class="button-learn-more-3">Get Started</button></button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="section-title">
+        <p class="subheading-4">Not ready yet? <a class="green" href="{{ url_for('create_checkout_session_free_trial', price_id='price_1OG9CDHM5Jv8uc5MTtdQOZMv') }}" id = "get-started-free">Start a 7 day free trial.</a> Cancel anytime.</p>
+        <div class="content-8"></div>
+      </div>
+  {% include "marketing_footer.html" %}
 
       </div>
-
+      
+    </div>
 
     </div>
-  </div>
-  </div>
-  </div>
-</body>
-</body>
-<script type="text/javascript" src="static/js/jquery.3.6.0.js"></script>
-<script type="text/javascript" src="static/js/landing_page.js"></script>
+    
 
+    </div>
+
+  </div>
+  
+  </body>
+  <script type="text/javascript" src="static/js/jquery.3.6.0.js"></script>
+	<script type="text/javascript" src="static/js/landing_page.js"></script>
 </html>

@@ -22,6 +22,7 @@
 
 .sidebar-custom{
   height: 100vh !important;
+  position:  relative !important;
 }
 
 .row-new{
@@ -37,12 +38,16 @@
   color: white;
 }
 
+/* .navbar-mh{
+  width: 100% !important;
+} */
+
 .home {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  width: calc(100% - 204px);
+  /* width: calc(100% - 204px); */
   height: 100vh;
 }
 
@@ -58,7 +63,7 @@ button{
 .home .navbar {
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
+  width: 100%;
   height: 72px;
   align-items: center;
   justify-content: center;
@@ -102,7 +107,7 @@ button{
 }
 
 .main-guy{
-  width: 100%;
+  /* width: 100%; */
   overflow-x: hidden;
 }
 
@@ -1494,11 +1499,6 @@ a {
   white-space: nowrap;
   font-style: var(--text-small-link-font-style);
 }
-
-.sidebar-custom{
-  position: relative !important;
-}
-
 @media (max-width: 800px) {
 
   .main-guy{

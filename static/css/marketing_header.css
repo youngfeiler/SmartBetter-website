@@ -9,10 +9,12 @@
   position: relative;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-color: white;
+  border-color: var(--nav-border);;
   position: absolute;
   z-index: 9999;
   background-color: #041a13;
+  width: calc(100% - 190px) ;
+  
 }
 
 .down-arrow{
@@ -130,6 +132,8 @@
     width: 100%;
     padding: 30px 40px 20px 20px;
     border-bottom: none;
+    position: relative;
+    background-color: transparent;
   }
 
   .top-left-logo-mh{
@@ -212,6 +216,8 @@
     padding-left: 0px;
     padding-top: 0px;
   }
+
+
 
 
   
