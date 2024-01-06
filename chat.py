@@ -1,63 +1,115 @@
 from functionality.db_manager import DBManager
 import pandas as pd 
-DB = DBManager()
-
-try:
-    session = DB.create_session()
-    df =  pd.read_sql_table('placed_bets', con=DB.get_engine())
-except Exception as e:
-    print(e)
-finally:
-    session.close()
-print(df.head())
 from openai import OpenAI
+import os
 
-client = OpenAI(api_key='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')
-def create_table_definition_prompt(df):
-   prompt = '''### sql table, with its properties:
-#
-# placed_bets({})
-#
-'''.format(', '.join(str(x) for x in df.columns))
-   return prompt
-print(create_table_definition_prompt(df))
 
-def prompt_input():
-    nlp_prompt = input("Enter your prompt: ")
-    return nlp_prompt
-nlp_text = prompt_input()   
-def combine_prompts(df, query_prompt):
-    definition = create_table_definition_prompt(df)
-    query_init_string = f'### A query to answer: {query_prompt}\nSELECT'
-    return definition + query_init_string
-prompt = combine_prompts(df, nlp_text)
+class Chat():
+    def __init__(self):
+        self.DB = DBManager()
 
-# Make the API call using OpenAI's new method
-response = client.completions.create(
-    model="text-davinci-003",
-    prompt=prompt,
-    temperature=0,
-    max_tokens=150,
-    top_p=1.0,
-    frequency_penalty=0.0,
-    presence_penalty=0.0,
-    stop=["#", ";"]
-)
+        try:
+            self.session = self.DB.create_session()
+            # self.df2 = pd.read_sql_table('nba_extra_info', con=self.DB.get_engine())
+        except Exception as e:
+            print(e)
+        finally:
+            self.session.close()
 
-# Access the generated text
-generated_text = response.choices[0].text
-def handle_response(query):
-    if query.startswith(' '):
-        query = 'SELECT' + query
-    return query
+        self.client = OpenAI(api_key='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')
 
-print(generated_text)
 
-generated_text = handle_response(generated_text)
-try:
-    result_df = pd.read_sql_query(generated_text, con=DB.get_engine())
-    print("Query executed successfully. Results:")
-    print(result_df)
-except Exception as e:
-    print("Error executing the query:")
-    print(e)
+    def create_table_definition_prompt(self):
+        prompt = '''### sql table, with its properties:
+        #
+        # props_data(active, date, points_scored, plus_minus, team, location, opponent, outcome, seconds_played, made_field_goals, attempted_field_goals, made_three_point_field_goals, attempted_three_point_field_goals, made_free_throws, attempted_free_throws, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls, game_score, player)
+        #
+        '''
+        return prompt
+
+
+    def create_another_table_definition_prompt(self):
+        prompt2 = '''### And another sql table, with its properties:
+        #
+        # nba_extra_info(active, date, points_scored, plus_minus, team, location, opponent, outcome, seconds_played, made_field_goals, attempted_field_goals, made_three_point_field_goals, attempted_three_point_field_goals, made_free_throws, attempted_free_throws, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls, game_score, player)
+        #
+        '''
+        return prompt2
+
+
+    def combine_prompts(self, query_prompt):
+        definition = self.create_table_definition_prompt()
+        second_def = self.create_another_table_definition_prompt()
+        query_init_string = f'### A query using one or more of the tables provided to answer: {query_prompt}\nSELECT'
+        return definition + second_def + query_init_string
+    
+    def handle_response(self, query):
+        if query.startswith(' '):
+            query = 'SELECT' + query
+        return query
+    
+    def generate_combined_response(self, user_prompt, response):
+            new_query = f"""Create a nice answer using the prompt and the response.
+            prompt: {user_prompt}
+            response: {response}
+            """
+
+            print(new_query)
+
+            # Use GPT-3 to generate the combined response
+            completion = self.client.completions.create(
+                model="text-davinci-003",
+                prompt=new_query,
+                temperature=0,
+                max_tokens=150,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=0.0,
+            )
+            
+            return completion.choices[0].text.strip()
+
+    def ask(self, prompt):
+
+        nlp_text = prompt
+
+        prompt = self.combine_prompts(nlp_text)
+
+        print(prompt)       
+
+        response = self.client.completions.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=0,
+            max_tokens=150,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            stop=["#", ";"]
+        )
+
+        # Access the generated text
+        generated_text = response.choices[0].text
+
+        print(generated_text)
+
+        generated_text = self.handle_response(generated_text)
+
+        try:
+            result_df = pd.read_sql_query(generated_text, con=self.DB.get_engine())
+            print("Query executed successfully. Results:")
+            print(result_df)
+            
+            value_to_convert = result_df.iloc[0, 0]
+            print("++++++++++")
+            print(value_to_convert) 
+
+            final_response = self.generate_combined_response(nlp_text, value_to_convert)
+
+            return final_response
+
+
+        except Exception as e:
+            print("Error executing the query:")
+            print(e)
+        

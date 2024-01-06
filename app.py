@@ -22,7 +22,7 @@ import atexit
 from functionality.db_manager import DBManager
 from functionality.models import LoginInfo  
 from flask_socketio import SocketIO
-# import chat
+from chat import Chat
 
 
 
@@ -33,6 +33,7 @@ def create_app():
     app.db_manager = DBManager()
     app.db = database(app.db_manager)
     app.celery = celery
+    app.chat = Chat()
     return app
 
 
@@ -384,11 +385,11 @@ def show_chat():
 @app.route('/handle_chat', methods = ["GET", "POST"])
 def handle_chat():
 
-    text = request.json
+    text = request.form['text']
 
-    time.sleep(3)
+    response = app.chat.ask(text)
     
-    return "testing"
+    return f"{response} "
 
 
 

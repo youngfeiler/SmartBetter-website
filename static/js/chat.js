@@ -4,6 +4,8 @@ function submitQuestion(){
 
   addQuestionToDisplay(inputValue);
 
+  clearInput();
+
   addResponseToDisplay();
 
   $.ajax({
@@ -116,8 +118,18 @@ function fillResponse(response){
 
 }
 
-function handleResponse(response){
+function handleEnterKeyPress(event) {
+  if (event.key === 'Enter') {
+    submitQuestion();
+  }
+}
 
+function clearInput(){
+  var inputElement = document.getElementById("input-box");
+  
+  inputElement.value = "";
+
+  return;
 }
 
 
@@ -126,6 +138,7 @@ $(document).ready(function(){
 
   const submit = document.querySelector(".submit-button");
   submit.addEventListener('click', submitQuestion);
+  document.addEventListener('keypress', handleEnterKeyPress);
 
 
 });
