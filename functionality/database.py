@@ -148,48 +148,51 @@ class database():
 
     def get_permission(self, username):
       try:
-          customer = stripe.Customer.list(email=username)
-          customer_id = customer.data[0].id if customer.data else None
-          if customer_id:
+          customers = stripe.Customer.list(email=username)
+
+          for customer in customers.data:
+
+            customer_id = customer['id']
+
+            if len(stripe.Subscription.list(customer=customer_id)) > 0:
+
               user_subscriptions = stripe.Subscription.list(customer=customer_id)
-              if user_subscriptions.data:
-                  highest_price = 0
-                  highest_price_subscription = None
-                  for subscription in user_subscriptions.data:
-                      for item in subscription['items']['data']:
-                          price = item['price']['unit_amount']
-                          price_id = item['price']['id']
-                          if price > highest_price:
-                              highest_price = price
-                              highest_price_subscription = subscription
-                              highest_price_price_id = price_id
-                  if highest_price_subscription:
-                      highest_price_status = highest_price_subscription.get('status')
-                      if highest_price_status == 'trialing':
-                         highest_price_status = 'active'
-                      return({
-                         'status':highest_price_status,
-                         'permission':self.get_plan_from_price_id(highest_price_price_id)
-                         })
-                  else:
-                      return({
-                         'status': 'none',
-                         'permission': 'free' 
-                         })
-              else:
-                  return({
-                         'status': 'none',
-                         'permission': 'free' 
-                         })
-          else:
-              return({
-                         'status': 'none',
-                         'permission': 'free' 
-                         })
+              if user_subscriptions['data']:
+                highest_price = 0
+                highest_price_subscription = None
+
+                for subscription in user_subscriptions['data']:
+                  status = subscription['status']
+
+                  if status == 'trialing' or status == 'active':
+
+                    for item in subscription['items']['data']:
+
+                      price = item['price']['unit_amount']
+                      price_id = item['price']['id']
+
+                    
+
+                      if price > highest_price:
+                          highest_price = price
+                          highest_price_subscription = subscription
+                          highest_price_price_id = price_id
+                      if highest_price_subscription:
+                          highest_price_status = highest_price_subscription.get('status')
+                          if highest_price_status == 'trialing':
+                            highest_price_status = 'active'
+                          return({
+                            'status':highest_price_status,
+                            'permission':self.get_plan_from_price_id(highest_price_price_id)
+                            })
+                      
+          return({'status': 'none', 
+                  'permission': 'free' 
+                  })
 
       except stripe.error.StripeError as e:
-          print(f"Stripe Error: {e}")
-          return None
+            print(f"Stripe Error: {e}")
+            return None
 
     def get_plan_from_price_id(self, price_id):
        plans = {
