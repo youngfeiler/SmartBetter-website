@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartBettor - NHL</title>
+  <link rel="stylesheet" href="static/css/test_sport.css" />
+  <link rel="icon" type="image/x-icon" href="static/images/logo.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+{% include "sidebar.html" %}
+
+<body>
+  <div class="container-custom">
+
+    <main class="main-custom">
+
+      <nav class="navbar-custom">
+        <div class="navbar-custom__left">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="navbar-custom__right">
+          <div class="navbar-custom__toggle-theme">
+            <button type="button" data-theme-toggle>
+              <i class="fa-solid fa-sun"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content-custom">
+        <div class="table-custom">
+          <div class="table-custom__header">
+            <div>
+              <h2>Pregame bets NHL</h2>
+              <button id="fetch-button">Update Table</button>
+            </div>
+            <p class="bankroll" id="bankroll"></p>
+          </div>
+
+          <div class="table-custom__wrapper">
+
+
+            <div class="table-custom__content">
+              <ul class="table-custom__content__head">
+                <li style="display: flex; justify-content: center;">
+                  Team to bet on
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">The team in bold is the team to place your Moneyline bet on</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  Sportsbook With Best Odds
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">The sportsbook which had the best odds posted at the time the AI reommended placing this wager.
+              
+                      Other sportsbooks may have similiar odds or better at this point in time.</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  Recommended Bet Size
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">Recommended size of your wager based on the Kelley Criterion and the size of your bankroll. This is a common sizing technique used by professional gamblers. Please change your wagering bankroll the settings page.</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  Minimum Accepted Odds
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">The lowest odds our model finds value placing this wager at. Aim to place your wagers at or above this line.</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+                </li>
+
+                <li style="display: flex; justify-content: center;">
+                  Best Odds
+                  <div class="tooltip">
+                  <span class="tooltiptext lowercase">The highest odds at the time our model found value in placing this wager. Aim to place your wagers near this line.</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+                    </div>
+
+                </li>
+                
+                <li style="display: flex; justify-content: center;">
+                  % +EV
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">
+                      The % of positive expected value this bet contains relative to market implied probabilities. This value is calculated from the "best odds" line.
+                    </span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  Game Date
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  Time Since Update
+                  <div class="tooltip">
+                    <span class="tooltiptext lowercase">Time elapsed since our AI found this bet with the posted odds</span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+                    
+
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;">
+                  Add to Bet Tracker
+                  <div class="tooltip">
+                    <span class="tooltiptext-left lowercase">
+                      Clicking this button allows you to input details of a bet you placed. This allows the model to optimize your wagering based on previous bets you've placed for this game, as well as allows you to track your results and view your wagering history.
+                    </span>
+                  <svg width="8px" height="8px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="hover" style="margin-left:-10px;">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                    <g id="SVGRepo_iconCarrier"> <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/> <path d="M12 17V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/> <circle cx="1" cy="1" r="1" transform="matrix(1 0 0 -1 11 9)" fill="currentColor"/> </g>
+                    
+                    </svg>
+                </li>
+              </ul>
+
+              <div class="table-custom__content__rows">
+              </div>
+            </div>
+
+            <div class="table-custom__footer">
+              <p class="footer-to-make-innerhtml"></p>
+
+            </div>
+          </div>
+        </div>
+    </div>
+    {% include "footer.html" %}
+      
+    </main>
+
+
+  </div>
+</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="static/js/test_sport.js"></script>
+  {% include "sportsbook_selection_dropdown.html" %}
+
+
+
+</body>
+
+
+
+</html>

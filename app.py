@@ -517,7 +517,9 @@ def cancel_subscription():
 
 @app.route("/get_user_permission", methods=['GET'])
 def get_user_permission():
+     
      if 'user_id' in session:
+        print(app.db.get_permission(session['user_id']))
         return jsonify({'permission': app.db.get_permission(session['user_id'])['permission']})
      else:
          return jsonify({'permission': 'free'})

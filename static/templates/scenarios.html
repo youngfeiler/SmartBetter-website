@@ -1,0 +1,503 @@
+{% include "header.html" %}
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="static/css/scenarios_dev.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta name="theme-color" content="var(--nav-bg-mobile)" />
+
+
+<style>
+
+</style>
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '388817483493656');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=388817483493656&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+<div class="gradient-text">
+  <h2>Scenario Creation</h2>
+  <p>Use the tool to select options that craft your scenario</p>
+</div>
+  
+<div class="flex-container">
+  <div class="left-quarter">
+  <div class="dropdown">
+    <h5>Sport</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="sport" data-value="default">All
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up sport" tabindex="-1" data-label="sport" data-value="NFL">NFL</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up sport" tabindex="-1" data-label="sport" data-value="NBA">NBA</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <h5>Conference</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="this_team_conference" data-value="default" >Both
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="this_team_conference" data-value="AFC" data-sport="NFL">AFC</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="this_team_conference" data-value="NFC" data-sport="NFL">NFC</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="this_team_conference" data-value="AL" data-sport="NBA">Eastern</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="this_team_conference" data-value="NL" data-sport="NBA">Western</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <h5>Division</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="this_team_division" data-value="default" >All
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="East" data-sport="NFL">East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="West" data-sport="NFL">West</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="North" data-sport="NFL">North</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="South" data-sport="NFL">South</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="Northwest"  data-sport="NBA">Northwest</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-sport="NBA" data-label="this_team_division"  data-value="Southwest" >Southwest</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-sport="NBA" data-label="this_team_division"  data-value="Atlantic" >Atlantic</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1"  data-label="this_team_division"  data-value="Pacific" data-sport="NBA">Pacific</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="Central"  data-sport="NBA">Central</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="this_team_division"  data-value="Southeast"  data-sport="NBA">Southeast</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <h5>Team</h5>
+    <button class="btn" type="button" data-toggle="dropdown">All
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" id ="teams">
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <h5>Opponent Conferences</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="opponent_team_conference" data-value="default" >Both
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_conference" data-value="AFC" data-sport="NFL">AFC</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_conference" data-value="NFC" data-sport="NFL">NFC</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_conference" data-value="Eastern" data-sport="NBA">Eastern</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_conference" data-value="Western" data-sport="NBA">Western</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <h5>Division</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="opponent_team_division" data-value="default" >All
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="East" data-sport="NFL">East</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="West" data-sport="NFL">West</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="North" data-sport="NFL">North</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="South" data-sport="NFL">South</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="Northwest"  data-sport="NBA">Northwest</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-sport="NBA" data-label="opponent_team_division"  data-value="Southwest" >Southwest</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-sport="NBA" data-label="opponent_team_division"  data-value="Atlantic" >Atlantic</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1"  data-label="opponent_team_division"  data-value="Pacific" data-sport="NBA">Pacific</a>
+      </li>
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="Central"  data-sport="NBA">Central</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="opponent_team_division"  data-value="Southeast"  data-sport="NBA">Southeast</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="dropdown">
+    <h5>Opponents</h5>
+    <button class="btn" type="button" data-toggle="dropdown">All
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" id ="opponents">
+    </ul>
+  </div>
+
+
+  <div class="dropdown">
+    <h5>Day or Night</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="day_night" data-value="default" >Both
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="day_night" data-value="D" >Day</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_night" data-value="N" >Night</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="dropdown">
+    <h5>Day of Week</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="day_of_week" data-value="default" >Any
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Mon">Monday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Tue">Tuesday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Wed">Wenesday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Thu">Thursday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Fri">Friday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Sat">Saturday</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="day_of_week" data-value="Sun">Sunday</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <h5>Pregame Favorites?</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="pregame_favorites" data-value="default">Yes or No
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li >        
+        <a class="toggle_up" tabindex="-1" data-label="pregame_favorites" data-value="==1">Yes</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" data-label="pregame_favorites" data-value="==0">No</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- CUSTOM USE CASES -->
+  <div class="dropdown">
+    <h5>Winning Streak Home Team</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="team_1_win_streak" data-value="default">No Specification
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">1">>1</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">2">>2</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">3">>3</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">4">>4</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">5">>5</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">6">>6</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">7">>7</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">8">>8</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">9">>9</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">10">>10</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;1">&lt;1</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;2">&lt;2</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;3">&lt;3</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;4">&lt;4</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;5">&lt;5</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;6">&lt;6</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;7">&lt;7</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;8">&lt;8</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;9">&lt;9</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;10">&lt;10</a>
+      </li>
+      
+      
+    </ul>
+    <div id="customButton" style="display: none;">
+      <input type="text" id="customText" placeholder="Enter custom text">
+      <button id="submitCustom">Submit</button>
+    </div>
+  </div>
+
+
+  <div class="dropdown">
+    <h5>Winning Streak Away Team</h5>
+    <button class="btn" type="button" data-toggle="dropdown" data-label="team_1_win_streak" data-value="default">No Specification
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">1">>1</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">2">>2</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">3">>3</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">4">>4</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">5">>5</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">6">>6</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">7">>7</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">8">>8</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">9">>9</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value=">10">>10</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;1">&lt;1</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;2">&lt;2</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;3">&lt;3</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;4">&lt;4</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;5">&lt;5</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;6">&lt;6</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;7">&lt;7</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;8">&lt;8</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;9">&lt;9</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" data-label="team_1_win_streak" data-value="&lt;10">&lt;10</a>
+      </li>
+      
+      
+    </ul>
+    <div id="customButton" style="display: none;">
+      <input type="text" id="customText" placeholder="Enter custom text">
+      <button id="submitCustom">Submit</button>
+    </div>
+  </div>
+
+
+  <div class="dropdown">
+    <h5>Odds of Winning Team (+/-)</h5>
+    <button class="btn" type="button" data-toggle="dropdown">No Specification
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">+</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">-</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+ 
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+</div>
+
+  <div class="dropdown">
+    <h5>Record Against Opponent</h5>
+    <button class="btn" type="button" data-toggle="dropdown">No Specification
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Winning</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Losing</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Tied</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+</div>
+
+  <div class="dropdown">
+    <h5>Record Over Last 10 Games</h5>
+    <button class="btn" type="button" data-toggle="dropdown">No Specification
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Winning</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Losing</a>
+      </li>
+      <li class="dropdown-submenu">
+        <a class="toggle_up" tabindex="-1" href="#">Even</a>
+      </li>
+      <li>
+        <a class="toggle_up" tabindex="-1" href="#">Custom</a>
+      </li>
+    </ul>
+  <div id="customButton" style="display: none;">
+    <input type="text" id="customText" placeholder="Enter custom text">
+    <button id="submitCustom">Submit</button>
+  </div>
+</div>
+<button class="btn" type="button" id="goButton">Go
+</div>
+<div class="right-three-quarter" id="chart">
+  
+</div>
+
+</div> 
+
+
+
+
+  
+ 
+
+
+
+<script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
+<script src="static/js/scenarios.js"></script>
+
+
+</body>
+</html>
