@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartBettor - Chat</title>
+  <link rel="stylesheet" href="static/css/Chat.css" />
+  <link rel="icon" type="image/x-icon" href="static/images/logo.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/all.js');
+  fbq('init', '388817483493656');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=388817483493656&ev=PageView&noscript=1"
+  /></noscript>
+  <script>
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+
+  <meta name="theme-color" content="var(--theme-color)" />
+
+</head>
+{% include "sidebar.html" %}
+
+<body>
+  <div class="container-custom">
+
+    <main class="main-custom">
+
+      <nav class="navbar-custom">
+        <div class="navbar-custom__left">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="navbar-custom__right">
+          <div class="navbar-custom__toggle-theme">
+            <button type="button" data-theme-toggle>
+              <i class="fa-solid fa-sun"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content-custom">
+
+        <div class = "conversation-container">
+          <div class = "conversation">
+
+          </div>
+        
+          <div class = "input-container">
+            <div class = "input-area">
+              <input type="text" class = "input-box" id = "input-box">
+              <button type="submit" id="submitButton" class = "submit-button">Ask</button>
+            </div>
+              <label for="input-box" class = "input-box-label">SportGPT can make mistakes. Consider checking important information</label>
+
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+
+
+  </div>
+</div>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="static/js/chat.js"></script>
+
+</html>

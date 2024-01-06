@@ -21,6 +21,8 @@ import time
 import atexit
 from functionality.db_manager import DBManager
 from functionality.models import LoginInfo  
+from flask_socketio import SocketIO
+# import chat
 
 
 
@@ -374,6 +376,21 @@ def show_nba():
 
     return render_template('nba.html', show_div=show_div, is_logged_in = is_logged_in)
    
+@app.route('/chat')
+def show_chat():
+    is_logged_in = True if 'user_id' in session else False
+    return render_template('chat.html', is_logged_in = is_logged_in)
+
+@app.route('/handle_chat', methods = ["GET", "POST"])
+def handle_chat():
+
+    text = request.json
+
+    time.sleep(3)
+    
+    return "testing"
+
+
 
 @app.route('/nhl')
 def show_nhl():

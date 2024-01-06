@@ -1,4 +1,4 @@
-from functionality.db_manager_2 import DBManager
+from functionality.db_manager import DBManager
 import pandas as pd 
 DB = DBManager()
 
