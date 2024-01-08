@@ -4,7 +4,7 @@ from sqlalchemy.pool import QueuePool
 import os
 
 # Define your MySQL database parameters
-mysql_database = "prod"
+mysql_database = "micah"
 print(mysql_database)
 endpoint =   'smartbettor-prod.cgsvu7bg7jl5.us-east-2.rds.amazonaws.com'
 username = 'admin'
