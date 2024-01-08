@@ -4,7 +4,6 @@ from flask_wtf.csrf import CSRFProtect
 import plotly.graph_objects as go
 import plotly as plotly
 from functionality.user import User
-from functionality.raw_odds_data_holders import RawOddsHolders
 from functionality.database import database
 from functionality.result_updater import result_updater
 from functionality.live_dashboard_runner import live_dashboard_runner

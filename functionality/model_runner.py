@@ -6,7 +6,6 @@ from .database import database
 # from .live_data_collector import data_collector
 from .util import *
 from .result_updater import result_updater
-from .texter import texter
 
 class model_runner():
     def __init__(self):

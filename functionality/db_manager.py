@@ -5,7 +5,7 @@ import os
 
 # Define your MySQL database parameters
 mysql_database = os.environ.get('db_name')
-endpoint = os.environ.get('database_endpoint')  # RDS endpoint
+endpoint = os.environ.get('database_endpoint')
 username = 'admin'
 password = os.environ.get('mysql_pass')
 
