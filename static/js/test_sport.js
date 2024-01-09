@@ -6,42 +6,15 @@ let userPermissionVar;
  * Fall back to light mode.
  */
 function calculateSettingAsThemeString({localStorageTheme, systemSettingDark,}) {
-  if (localStorageTheme !== null) {
-    return localStorageTheme;
-  }
-
-  if (systemSettingDark.matches) {
-    return "dark";
-  }
-  return "light";
+  return "dark";
 }
 
-/**
- * Utility function to update the button text and aria-label.
- */
-function updateButton({ buttonEl, isDark }) {
-  const lightIcon = `<i class="fa-solid fa-sun"></i>`;
-  const darkIcon = `<i class="fa-solid fa-moon"></i>`;
-  const newCta = isDark ? lightIcon : darkIcon;
-  buttonEl.innerHTML = newCta;
-}
 
 /**
  * Utility function to update the theme setting on the html tag
  */
 function updateThemeOnHtmlEl({ theme }) {
   document.querySelector("html").setAttribute("data-theme", theme);
-  var img = document.createElement('img'); 
-  if(theme == "dark"){
-    img.src = "static/images/footer_logo_dark_mode.png"
-  }
-  else{
-    img.src = "static/images/footer_logo_light_mode.png"
-
-  }
-  img.classList.add("footer-logo");
-  document.querySelector(".talk-to-us").innerHTML = '';
-  document.querySelector(".talk-to-us").appendChild(img);
 }
 
 function updateTable(data) {
@@ -871,39 +844,13 @@ $(document).ready(function(){
   });
 
 
-  if (currentThemeSetting === "light") {
-    logo.setAttribute("src", "static/images/sidebar_logo.png");
-  } else {
-    logo.setAttribute("src", "static/images/sidebar_logo.png");
-  }
   /**
    * 3. Update the theme setting and button text accoridng to current settings
    */
-  updateButton({ buttonEl: button, isDark: currentThemeSetting === "dark" });
   updateThemeOnHtmlEl({ theme: currentThemeSetting });
 
-  /**
- * 4. Add an event listener to toggle the theme
- */
-  button.addEventListener("click", (event) => {
-    const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
-    if (newTheme === "light") {
-      logo.setAttribute("src", "static/images/sidebar_logo.png");
-    } else {
-      logo.setAttribute("src", "static/images/sidebar_logo.png");
-    }
-
-    localStorage.setItem("theme", newTheme);
-    updateButton({ buttonEl: button, isDark: newTheme === "dark" });
-    updateThemeOnHtmlEl({ theme: newTheme });
-
-    currentThemeSetting = newTheme;
-  });
   
-
   toggleSport();
-
-
 
   /** 
    * 5. Add an event listener to update table and bankroll
