@@ -98,23 +98,23 @@ function updateTableFree(data) {
         tr.innerHTML = `
         <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
         <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
-
+  
         <li before-data="Team: " id ="team-bet-on"><p><b >${row.team} </b><br class = "mobile-no-display"> v. ${row.opponent} </p></li>
-
+  
         <li class="sportsbook-li">
           <div class="tooltip" id="sportsbook">
                       <span class="tooltiptext"></span>
           </div>
         </li>
-      
-        <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">---</li>
-        <li data-before="Min" id = "min-odds">---</li>
+        
+        <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number" class = "desktop-no-display"> --- </li>
+        <li data-before="Min" id = "min-odds" class = "desktop-no-display"> --- </li>
         <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
-        <li before-data="+EV%: " id="ev">---</li>
+        <li before-data="+EV%: " id="ev" class = "desktop-no-display"> ${row.sport_title.split('_')[0]} </li>
         <li id ="game-date">${row.game_date}</li>
         <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
-        <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
-        align-items: center; justify-content: center;"></li>
+        <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: none;
+        align-items: center; justify-content: center;" class = "desktop-no-display"></li>
         <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
         <li class="desktop-no-display" id="green">Moneyline</li>
         <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
