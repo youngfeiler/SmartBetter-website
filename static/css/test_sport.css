@@ -1321,6 +1321,7 @@ option {
   }
 
   .free-view-login-sign-up-container{
+    scroll-snap-align: start !important; 
     border-radius: 10px;
   }
 

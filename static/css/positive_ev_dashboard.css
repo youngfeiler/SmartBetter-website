@@ -343,7 +343,6 @@
   gap: 1rem;
   width: 100%;
   overflow: hidden;
-
   text-wrap: pretty;
 }
 /* .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows .table-custom__content__rows__row li svg {
@@ -1433,6 +1432,7 @@ option {
   }
 
   .free-view-login-sign-up-container{
+    scroll-snap-align: start !important; 
     border-radius: 10px;
   }
 
