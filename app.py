@@ -20,6 +20,8 @@ import time
 import atexit
 from functionality.db_manager import DBManager
 from functionality.models import LoginInfo  
+import warnings
+warnings.filterwarnings("ignore")
 
 
 
