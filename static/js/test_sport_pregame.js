@@ -46,7 +46,7 @@ function updateTable(data) {
       <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number"> --- </li>
       <li data-before="Min" id = "min-odds"> --- </li>
       <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
-      <li before-data="+EV%: " id="ev"> --- </li>
+      <li before-data="+EV%: " id="ev"> ${row.sport_title.split('_')[0]} </li>
       <li id ="game-date">${row.game_date}</li>
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
       <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
@@ -207,7 +207,7 @@ function updateTableFree(data) {
           <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">---</li>
           <li data-before="Min" id = "min-odds">---</li>
           <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
-          <li before-data="+EV%: " id="ev">---</li>
+          <li before-data="+EV%: " id="ev">${row.sport_title}</li>
           <li id ="game-date">${row.game_date}</li>
           <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
           <li data-title="button" onclick="editRow(this)" class="add-to-betslip-button" id="add-to-betslip-button" data-ev="${row.ev}" data-team="${row.team_1}" data-odds="${row.highest_bettable_odds}" style="display:flex; display: flex;
@@ -712,8 +712,6 @@ $(document).ready(function(){
   getUserPermission()
   .then(userPermission => {
     userPermissionVar = userPermission.permission;
-    console.log("653 - PRegame");
-    console.log(userPermissionVar);
     fetchDataAndUpdateTable();
   })
   .catch(error => {
