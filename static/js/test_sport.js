@@ -849,7 +849,6 @@ $(document).ready(function(){
    */
   updateThemeOnHtmlEl({ theme: currentThemeSetting });
 
-  
   toggleSport();
 
   /** 
