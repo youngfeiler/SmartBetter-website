@@ -197,8 +197,11 @@ class database():
     def get_plan_from_price_id(self, price_id):
        plans = {
         'price_1OSlSoHM5Jv8uc5MR6vK5xrA':'ev',
+        'price_1OZhXvHM5Jv8uc5MyZO28LI1': 'ev',
         'price_1OG9CDHM5Jv8uc5MTtdQOZMv': 'standard',
+        'price_1OZhbIHM5Jv8uc5MAJ16Vs1h': 'standard',
         'price_1NqdGPHM5Jv8uc5MkYrJm2UX': 'premium',
+        'price_1OZhdhHM5Jv8uc5MaLORELDu': 'premium', 
         'price_1OG9DhHM5Jv8uc5MfiE2UdHR': 'premium'
       }
        return plans.get(price_id, 'Not found in plans')
@@ -896,30 +899,50 @@ class database():
     def make_bet_tracker_dashboard_data_kelley(self, df):
        
        allowed_or_not = pd.DataFrame()
+
        appended = pd.DataFrame()
 
        df['my_game_id'] = df['team'] + df['game_id']
 
        for team in df['my_game_id'].unique():
+          counter = 0
           try:
             team_df = df[df['my_game_id'] == team]
             team_df_sorted = team_df.sort_values(by='snapshot_time')
             start_time = team_df_sorted['snapshot_time'].iloc[0]
             for index, row in team_df_sorted.iterrows():
-              if row['snapshot_time'] - start_time >= pd.Timedelta(minutes=5):
+
+              if "PREGAME" in row['sport_title_x'] and counter == 0:
+                team_df_sorted.at[index, 'allowed'] = 1
+                counter +=1
+
+              elif 'PREGAME' in row['sport_title_x'] and counter != 0:
+                team_df_sorted.at[index, 'allowed'] = 0 
+                counter +=1
+
+              elif 'PREGAME' not in row['sport_title_x'] and row['snapshot_time'] - start_time >= pd.Timedelta(minutes=5):
                 start_time = row['snapshot_time']
                 team_df_sorted.at[index, 'allowed'] = 1
+
             allowed_or_not = pd.concat([allowed_or_not, team_df_sorted], axis=0)
           except Exception as e:
             print(e)
+            pass
        
        df = allowed_or_not[allowed_or_not['allowed'] == 1]
+
+       df.to_csv("test.csv", index=False)
 
        initial_bankroll = 1000
 
        df['decimal_prob'] = 1/df['average_market_odds']
 
        df['kelley_perc'] = ((df['highest_bettable_odds'] - 1) * df['decimal_prob'] - (1-df['decimal_prob'])) / (df['highest_bettable_odds']-1) * 0.5
+
+       df['kelley_perc'] = np.where(df['sport_title_x'].str.contains("PREGAME"), 
+                                    ((df['highest_bettable_odds'] - 1) * df['decimal_prob'] - (1-df['decimal_prob'])) / (df['highest_bettable_odds']-1) * 0.5,
+                                    .1
+                                    )
 
        grouped_df = df.groupby('game_date')
       
@@ -971,8 +994,6 @@ class database():
        initial_bankroll = 1000
 
        unit_size = 100
-
-
 
        grouped_df = df.groupby('game_date')
       
@@ -1051,23 +1072,47 @@ class database():
           return f"+${num:.2f}"
 
     def get_bet_tracker_dashboard_data(self, params):
-      
-      #Could work, could switch to sql, whatever 
-      master_model_obs = pd.read_csv('users/master_model_observations.csv')
+
+      sport = params['sport_title']
+
+      try:
+          session = self.db_manager.create_session()
+          engine = self.db_manager.get_engine()
+          if params['sport_title'] != 'All':
+            query = f"""
+            SELECT *
+            FROM master_model_observations
+            WHERE sport_title LIKE '%%{params['sport_title']}%%'
+            """
+            master_model_obs = pd.read_sql_query(query, engine, params=[sport])
+          else:
+             query = f"""
+             SELECT *
+             FROM master_model_observations
+             """
+             master_model_obs = pd.read_sql_query(query, engine)
+
+      except Exception as e:
+        print(e)
+        return str(e)
+      finally:
+            if session:
+                session.close()
 
       master_model_obs = master_model_obs[master_model_obs['average_market_odds'] > 1]
+      print(master_model_obs)
 
-      if params['sport_title'] != 'All':
-          master_model_obs = master_model_obs[master_model_obs['sport_title'] == params['sport_title']]
-          print(master_model_obs['sport_title'])
       if params['timing'] == 'Pregame only':
-         master_model_obs = master_model_obs[master_model_obs['minutes_since_commence'] <= 0]
+         master_model_obs = master_model_obs[master_model_obs['sport_title'].str.contains('PREGAME')]
+         print(master_model_obs)
       if params['timing'] == 'Live only':
          master_model_obs = master_model_obs[master_model_obs['minutes_since_commence'] >= 0]
+         print(master_model_obs)
 
       master_model_obs = self.add_winning_teams(master_model_obs)
 
       master_model_obs['game_date'] = pd.to_datetime(master_model_obs['game_date'])
+
       master_model_obs['snapshot_time'] = pd.to_datetime(master_model_obs['snapshot_time'])
 
       master_model_obs = master_model_obs.sort_values('snapshot_time')
@@ -1076,7 +1121,7 @@ class database():
          master_model_obs, return_df = self.make_bet_tracker_dashboard_data_kelley(master_model_obs)
       if params['bet_size'] == 'Standard':
           master_model_obs, return_df = self.make_bet_tracker_dashboard_data_standard(master_model_obs)
-    
+
       return_df['hover_info'] = self.make_daily_game_results(master_model_obs)
 
       return_df['total_pl'] = master_model_obs['result'].sum()

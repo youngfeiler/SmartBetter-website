@@ -656,13 +656,20 @@
 }
 
 .box .container-3 {
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   display: flex;
   position: relative;
   align-self: stretch;
   width: 100%;
   flex: 0 0 auto;
+  flex-direction: column;
+}
+
+.sale-initial{
+  text-decoration: line-through;
+  text-decoration-color: grey;
+  color: grey !important;
 }
 
 .box .price-2 {
