@@ -2,6 +2,7 @@ from functionality.db_manager import DBManager
 import pandas as pd 
 from openai import OpenAI
 import os
+from functionality.models import ChatQuestions
 
 
 class Chat():
@@ -105,11 +106,22 @@ class Chat():
             print(value_to_convert) 
 
             final_response = self.generate_combined_response(nlp_text, value_to_convert)
+            self.session = self.DB.create_session()
+            new_question = ChatQuestions(question=nlp_text, response=final_response, worked_bool=True)
+            self.session.add(new_question)
+            self.session.commit()
+            self.session.close()
 
             return final_response
 
 
         except Exception as e:
             print("Error executing the query:")
-            print(e)
+            self.session = self.DB.create_session()
+            new_question = ChatQuestions(question=nlp_text, response=str(e), worked_bool=False)
+            self.session.add(new_question)
+            self.session.commit()
+            self.session.close()
+
+            return final_response
         
