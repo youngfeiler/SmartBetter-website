@@ -148,7 +148,7 @@ class database():
 
     def get_permission(self, username):
       try:
-          customers = stripe.Customer.list(email=username)
+          customers = stripe.Customer.list(email=username.lower())
 
           for customer in customers.data:
 
@@ -163,16 +163,11 @@ class database():
 
                 for subscription in user_subscriptions['data']:
                   status = subscription['status']
-
                   if status == 'trialing' or status == 'active':
-
                     for item in subscription['items']['data']:
 
                       price = item['price']['unit_amount']
                       price_id = item['price']['id']
-
-                    
-
                       if price > highest_price:
                           highest_price = price
                           highest_price_subscription = subscription

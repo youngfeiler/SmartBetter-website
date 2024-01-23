@@ -617,7 +617,7 @@ function fetchDataAndUpdateTable() {
     .then(response => response.json())
     .then(data => {
       console.log(userPermissionVar);
-      if(userPermissionVar =='standard' || userPermissionVar == 'premium'){
+      if(userPermissionVar =='standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev'){
         updateTable(data);
       }else{
         updateTableFree(data);
@@ -827,6 +827,7 @@ function getUserPermission() {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      console.log(response)
       return response.json();
     })
     .catch(error => {
@@ -913,8 +914,9 @@ $(document).ready(function(){
 
     getUserPermission()
     .then(userPermission => {
-      console.log(userPermissionVar);
       userPermissionVar = userPermission.permission;
+      console.log(userPermissionVar);
+
       fetchDataAndUpdateTable();
     })
     .catch(error => {

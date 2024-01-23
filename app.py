@@ -85,7 +85,7 @@ def pregame_beta():
 @app.route('/positive_ev')
 def positive_ev():
     is_logged_in = True if 'user_id' in session else False
-
+    print(is_logged_in)
     return render_template('positive_ev_dashboard.html', is_logged_in = is_logged_in)
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
@@ -268,7 +268,7 @@ def register():
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
-        username = request.form['email']
+        username = request.form['email'].lower()
         password = request.form['password']
         confirm_password = request.form['confirm_password']
         phone = '+1' + str(request.form['phone_number'])
@@ -324,10 +324,12 @@ def register():
 def login():
   user_id = session.get('user_id')
   my_db = database(app.db_manager)
-  if (user_id is not None):
-      payed = my_db.check_account(user_id)
-      if payed:
-        return redirect(url_for('show_nba'))
+
+#   if (user_id is not None):
+#       payed = my_db.check_account(user_id)
+#       if payed:
+#         return redirect(url_for('show_nba'))
+      
   if request.method == 'POST':
     username = request.form.get('username')
     password = request.form.get('password')
@@ -385,12 +387,15 @@ def show_nhl():
 
 @app.route('/get_performance_data', methods=["POST", "GET"])
 def get_performance_data():
+    print("-------------------")   
+
     try:
         data = request.json
         dict_params = data['params']
         print(dict_params)
         db = database(app.db_manager)
-        return_data = db.get_bet_tracker_dashboard_data(dict_params)        
+        return_data = db.get_bet_tracker_dashboard_data(dict_params)     
+        print(jsonify(return_data))
     except Exception as e:
         print(e)
     return jsonify(return_data)
