@@ -22,6 +22,8 @@ from functionality.db_manager import DBManager
 from functionality.models import LoginInfo  
 import warnings
 warnings.filterwarnings("ignore")
+from flask_socketio import SocketIO
+from chat import Chat
 
 
 
@@ -32,6 +34,7 @@ def create_app():
     app.db_manager = DBManager()
     app.db = database(app.db_manager)
     app.celery = celery
+    app.chat = Chat()
     return app
 
 
@@ -377,6 +380,21 @@ def show_nba():
 
     return render_template('nba.html', show_div=show_div, is_logged_in = is_logged_in)
    
+@app.route('/chat')
+def show_chat():
+    is_logged_in = True if 'user_id' in session else False
+    return render_template('chat.html', is_logged_in = is_logged_in)
+
+@app.route('/handle_chat', methods = ["GET", "POST"])
+def handle_chat():
+
+    text = request.form['text']
+
+    response = app.chat.ask(text)
+    
+    return f"{response} "
+
+
 
 @app.route('/nhl')
 def show_nhl():
@@ -523,7 +541,9 @@ def cancel_subscription():
 
 @app.route("/get_user_permission", methods=['GET'])
 def get_user_permission():
+     
      if 'user_id' in session:
+        print(app.db.get_permission(session['user_id']))
         return jsonify({'permission': app.db.get_permission(session['user_id'])['permission']})
      else:
          return jsonify({'permission': 'free'})
