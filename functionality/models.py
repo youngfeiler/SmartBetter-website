@@ -3,6 +3,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+class ChatQuestions(Base):
+    __tablename__ = 'chat_questions'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    question = Column(Text, nullable=True)
+    response = Column(Text, nullable=True)
+    worked_bool = Column(Boolean, nullable=True)
 
 class MasterModelObservations(Base):
     __tablename__ = 'master_model_observations'
