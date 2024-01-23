@@ -516,11 +516,11 @@ class pregame_nhl_dashboard_runner():
 
       print('nhl pregame running')
       market_odds_df = self.get_nfl_odds()
-
+      print(market_odds_df)
+      print("--------")
       # Makes self.filtered_df
       self.preprocess(market_odds_df)
-
-      
+      print(self.filtered_df) 
       if not self.filtered_df.empty:
         for strategy_name, strategy_dict in self.model_storage.items():
           self.format_for_nn()

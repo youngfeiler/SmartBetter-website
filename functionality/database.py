@@ -148,6 +148,7 @@ class database():
 
     def get_permission(self, username):
       try:
+
           customers = stripe.Customer.list(email=username.lower())
 
           for customer in customers.data:
@@ -457,7 +458,7 @@ class database():
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -32400
        elif sport == "NBA" or sport == "NHL" or sport == "PREGAME":
           first_20_rows['time_difference_seconds'] = first_20_rows['time_difference_seconds'] -21600
-          
+
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
@@ -1133,13 +1134,7 @@ class database():
 
       return_df['game_date'] = return_df['game_date'].dt.strftime('%b %d')
 
-      return_df.drop(columns=['new_column'], inplace=True)
-
-      print("1126")
-
-      print(return_df)
-      print(return_df.to_dict(orient='list'))
-      return return_df.to_dict(orient='list')
+      return return_df.to_dict(orient='list')        
 
     def get_filter_dropdown_values(self):
 

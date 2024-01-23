@@ -333,13 +333,13 @@ def login():
   if request.method == 'POST':
     username = request.form.get('username')
     password = request.form.get('password')
-
+    
     login_allowed = my_db.check_login_credentials(username, password)
     
     print(f'{username} login result: {login_allowed}')
     
     if login_allowed:
-        permission = my_db.get_permission(username)
+        permission = my_db.get_permission(username.lower())
         print(f"username: {username}")
         print(f"app permission: {permission}")
         session['user_id'] = username
@@ -528,9 +528,9 @@ def get_user_permission():
      else:
          return jsonify({'permission': 'free'})
      
-@app.route("/blogs", methods=['GET'])
-def blogs_test():
-    return render_template('test.html')
+# @app.route("/blogs", methods=['GET'])
+# def blogs_test():
+  #  return render_template('test.html')
     
 
 
