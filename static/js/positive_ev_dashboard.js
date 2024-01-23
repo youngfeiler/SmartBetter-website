@@ -617,7 +617,7 @@ function fetchDataAndUpdateTable() {
     .then(response => response.json())
     .then(data => {
       console.log(userPermissionVar);
-      if(userPermissionVar =='standard' || userPermissionVar == 'premium'){
+      if(userPermissionVar =='standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev'){
         updateTable(data);
       }else{
         updateTableFree(data);

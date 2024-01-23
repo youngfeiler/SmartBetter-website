@@ -148,7 +148,8 @@ class database():
 
     def get_permission(self, username):
       try:
-          customers = stripe.Customer.list(email=username)
+
+          customers = stripe.Customer.list(email=username.lower())
 
           for customer in customers.data:
 

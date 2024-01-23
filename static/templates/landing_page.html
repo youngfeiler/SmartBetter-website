@@ -6,6 +6,11 @@
     <title>SmartBettor</title>
     <link rel="icon" type="image/png" href="static/images/favicon.png">
     <meta name="theme-color" content="#041a13" />
+    <script async src="//cdn.trackdesk.com/tracking.js"></script> <script> 
+    (function(t,d,k){(t[k]=t[k]||[]).push(d);t[d]=t[d]||t[k].f||function(){(t[d].q=t[d].q||[]).push(arguments)}})(window,"trackdesk","TrackdeskObject"); 
+
+    trackdesk('smartbettor', 'click');
+    </script>
     <script>
       !function (w, d, t) {
         w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
@@ -351,7 +356,26 @@
     </div>
 
   </div>
-  
+  <!-- Trackdesk set client_reference_id help fuction begin -->
+<script>
+(function () {
+    var cookie = document.cookie.match('(^|;)\\s*trakdesk_cid\\s*=\\s*([^;]+)');
+    if (Array.isArray(cookie)) {
+        try {
+            var trakdeskCid = JSON.parse(cookie.pop());
+            var cid = trakdeskCid['cid'];
+            document.querySelectorAll('a[href^="https://buy.stripe.com/"]').forEach(function (a) {
+                var url = new URL(a.href);
+                url.searchParams.set('client_reference_id', cid);
+                a.href = url.href;
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+})();
+</script>
+<!-- Trackdesk set client_reference_id help fuction end -->
   </body>
   <script type="text/javascript" src="static/js/jquery.3.6.0.js"></script>
 	<script type="text/javascript" src="static/js/landing_page.js"></script>
