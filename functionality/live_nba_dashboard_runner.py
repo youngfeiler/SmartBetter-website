@@ -486,12 +486,8 @@ class live_nba_dashboard_runner():
           predictions_array = predictions.detach().numpy()
 
           mask = predictions_array > strategy_dict['pred_thresh']
-<<<<<<< HEAD
-          # mask = predictions_array > -1000
-=======
 
           # mask = predictions_array > -100
->>>>>>> 0f73682908a9ac2495b24e7ef08b2e937ec847ed
 
           filtered_df = self.display_df[mask]
 
@@ -507,10 +503,7 @@ class live_nba_dashboard_runner():
 
             result_df.to_csv( 'users/model_obs_nba.csv', 
                mode = 'w', 
-<<<<<<< HEAD
-=======
                header= True, 
->>>>>>> 0f73682908a9ac2495b24e7ef08b2e937ec847ed
                index = False
                )
 

@@ -17,11 +17,11 @@ class Chat():
         finally:
             self.session.close()
 
-        self.client = OpenAI(api_key='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')
+        self.client = OpenAI(api_key='')
 
 
     def create_table_definition_prompt(self):
-        prompt = '''### sql table, with its properties:
+        prompt = '''### sql table with stats for individual player's games. Names in camel case. If a column exists in one table and not another you will need to merge on my_game_id's before executing your query. Properties:
         #
         # props_data(active, date, points_scored, plus_minus, team, location, opponent, outcome, seconds_played, made_field_goals, attempted_field_goals, made_three_point_field_goals, attempted_three_point_field_goals, made_free_throws, attempted_free_throws, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls, game_score, player)
         #
@@ -30,9 +30,9 @@ class Chat():
 
 
     def create_another_table_definition_prompt(self):
-        prompt2 = '''### And another sql table, with its properties:
+        prompt2 = '''### And another sql table with additional information about full games. you can merge these two tables on the 'my_game_id' column. with its properties:
         #
-        # nba_extra_info(active, date, points_scored, plus_minus, team, location, opponent, outcome, seconds_played, made_field_goals, attempted_field_goals, made_three_point_field_goals, attempted_three_point_field_goals, made_free_throws, attempted_free_throws, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls, game_score, player)
+        # nba_extra_info(date,Start (ET), away_team, PTS, home_team, PTS.1, Arena, winning_team, home_away_neutral, losing_team,team_1, team_2, home_team_conference, home_team_division, away_team_conference, away_team_division, team_1_division, team_2_division, team_1_conference, team_2_conference, day_of_week, time,compare_time, day_night, commence_date, my_game_id)
         #
         '''
         return prompt2
@@ -50,7 +50,7 @@ class Chat():
         return query
     
     def generate_combined_response(self, user_prompt, response):
-            new_query = f"""Create a nice answer using the prompt and the response.
+            new_query = f"""Create a concise answer using the prompt and the response.
             prompt: {user_prompt}
             response: {response}
             """
@@ -59,7 +59,7 @@ class Chat():
 
             # Use GPT-3 to generate the combined response
             completion = self.client.completions.create(
-                model="text-davinci-003",
+                model="gpt-3.5-turbo-instruct",
                 prompt=new_query,
                 temperature=0,
                 max_tokens=150,
@@ -79,7 +79,7 @@ class Chat():
         print(prompt)       
 
         response = self.client.completions.create(
-            model="text-davinci-003",
+            model="gpt-3.5-turbo-instruct",
             prompt=prompt,
             temperature=0,
             max_tokens=150,

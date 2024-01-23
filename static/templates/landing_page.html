@@ -41,9 +41,13 @@
             </p>
           </div>
           <div class="actions-2">
-              <button class="button-2-1 scroll-link" href="#pricing">
+            <div class="button-2-1">
+            <a href="/#pricing">
                 Get Started
-              </button>
+            </a>
+          </div>
+
+
             <a href="/about"><button class="button" href="/about">Learn More</button></a>
           </div>
         </div>
@@ -71,9 +75,10 @@
             <div class="actions-3">
             <a href="/about"><button class="style-secondary-2"><button class="button-learn-more">Learn More</button></button></a>
               <div class="style-link-small">
-                <button class="button-2 scroll-link" href="#pricing">
+                <div class="button-2" href="/#pricing">
+                  <a href = '/#pricing'>
                   Sign Up
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -164,7 +169,9 @@
             <div class="actions-3">
               <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
               <div class="style-link-small">
-                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+                <div class="button-2-2" href="#pricing"><a href = '/#pricing'>
+                  Sign Up
+                </a></div> 
               </div>
             </div>
           </div>
@@ -183,7 +190,9 @@
             <div class="actions-3">
               <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
               <div class="style-link-small">
-                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+                <div class="button-2-2" href="#pricing"><a href = '/#pricing'>
+                  Sign Up
+                </a></div> 
               </div>
             </div>
           </div>
@@ -200,7 +209,9 @@
               <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
 
               <div class="style-link-small">
-                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+                <div class="button-2-2" href="#pricing"><a href = '/#pricing'>
+                  Sign Up
+                </a></div> 
               </div>
             </div>
           </div>
@@ -215,7 +226,9 @@
             <div class="actions-3">
               <a href="/about"><button class="style-secondary-2"><button class="button-learn-more-2">Learn More</button></button></a>
               <div class="style-link-small">
-                <button class="button-2-2 scroll-link" href="#pricing">Sign Up</button> 
+                <div class="button-2-2" href="#pricing"><a href = '/#pricing'>
+                  Sign Up
+                </a></div> 
               </div>
             </div>
           </div>
@@ -231,7 +244,9 @@
             </p>
           </div>
           <div class="actions-2">
-            <button class="button-2 scroll-link" href="#pricing">Sign Up</button>
+            <div class="button-2" href="#pricing"><a href = '/#pricing'>
+              Sign Up
+            </a></div>
             <a href="/about"><button class="div-wrapper"><button class="button-learn-more">Learn More</button></button></a>
           </div>
         </div>
@@ -365,24 +380,33 @@
     // It attempts to match the trakdesk_cid cookie and extract its value using a regular expression.
     
     if (Array.isArray(cookie)) {
+      console.log("poop");
         // If the cookie is found and is an array (matches were found),
         try {
             var trakdeskCid = JSON.parse(cookie.pop());
+            console.log(trakdeskCid);
+
             // Parse the JSON content of the cookie. Assumes the cookie contains valid JSON.
             
             var cid = trakdeskCid['cid'];
+            console.log(cid);
+
             // Extract the 'cid' property from the parsed JSON.
             
             // Modify the selector to target your specific payment links
             var paymentLinks = document.querySelectorAll('a[id^="get-started-"]');
+            console.log(paymentLinks)
             // Select all <a> elements whose 'id' attribute starts with "get-started-".
             
             paymentLinks.forEach(function (a) {
+
+              // console.log(paymentLinks);
                 // For each selected link,
                 var url = new URL(a.href);
                 // Create a new URL object using the link's href attribute.
                 
-                var priceId = url.searchParams.get('price_id');
+                var priceId = url.pathname.split('/')[url.pathname.split('/').length -1];
+                console.log(priceId);
                 // Extract the 'price_id' parameter from the URL's search parameters.
                 
                 if (priceId) {
