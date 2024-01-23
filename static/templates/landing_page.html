@@ -359,21 +359,48 @@
   <!-- Trackdesk set client_reference_id help fuction begin -->
 <script>
 (function () {
+    // The function is wrapped in parentheses and immediately invoked, creating a private scope.
+
     var cookie = document.cookie.match('(^|;)\\s*trakdesk_cid\\s*=\\s*([^;]+)');
+    // It attempts to match the trakdesk_cid cookie and extract its value using a regular expression.
+    
     if (Array.isArray(cookie)) {
+        // If the cookie is found and is an array (matches were found),
         try {
             var trakdeskCid = JSON.parse(cookie.pop());
+            // Parse the JSON content of the cookie. Assumes the cookie contains valid JSON.
+            
             var cid = trakdeskCid['cid'];
-            document.querySelectorAll('a[href^="https://buy.stripe.com/"]').forEach(function (a) {
+            // Extract the 'cid' property from the parsed JSON.
+            
+            // Modify the selector to target your specific payment links
+            var paymentLinks = document.querySelectorAll('a[id^="get-started-"]');
+            // Select all <a> elements whose 'id' attribute starts with "get-started-".
+            
+            paymentLinks.forEach(function (a) {
+                // For each selected link,
                 var url = new URL(a.href);
-                url.searchParams.set('client_reference_id', cid);
-                a.href = url.href;
+                // Create a new URL object using the link's href attribute.
+                
+                var priceId = url.searchParams.get('price_id');
+                // Extract the 'price_id' parameter from the URL's search parameters.
+                
+                if (priceId) {
+                    // If a valid 'price_id' is present,
+                    url.searchParams.set('client_reference_id', cid);
+                    // Set the 'client_reference_id' parameter in the URL to the extracted 'cid'.
+                    
+                    a.href = url.href;
+                    // Update the link's href attribute with the modified URL.
+                }
             });
         } catch (e) {
-            console.log(e);
+            console.error('Error:', e);
+            // Handle any errors that occur during the process and log them to the console.
         }
     }
 })();
+
 </script>
 <!-- Trackdesk set client_reference_id help fuction end -->
   </body>
