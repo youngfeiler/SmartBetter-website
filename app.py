@@ -155,6 +155,7 @@ def create_checkout_session(price_id):
     else:
         price = 199
     trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
+    trakdesk_cid = request.args.get('client_reference_id')
 
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
@@ -166,6 +167,7 @@ def create_checkout_session(price_id):
             },
         ],
         mode='subscription',
+        client_reference_id=trakdesk_cid,
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
 
@@ -179,6 +181,7 @@ def create_checkout_session_free_trial(price_id):
     else:
         price = 199
     trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
+    trakdesk_cid = request.args.get('client_reference_id')
 
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
@@ -190,6 +193,7 @@ def create_checkout_session_free_trial(price_id):
             },
         ],
         mode='subscription',
+        client_reference_id=trakdesk_cid,
         success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
         subscription_data = {
