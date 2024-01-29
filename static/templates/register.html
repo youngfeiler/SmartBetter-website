@@ -17,6 +17,29 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.14.0/sha256.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
+    <!-- Add this script at the end of the body tag -->
+    <script>
+      function showReferralInput() {
+        document.getElementById("referral-input").style.display = "block";
+        document.getElementById("other-input").style.display = "none";
+      }
+
+      function showOtherInput() {
+        document.getElementById("other-input").style.display = "block";
+        document.getElementById("referral-input").style.display = "none";
+      }
+
+      function hideInputs() {
+        document.getElementById("referral-input").style.display = "none";
+        document.getElementById("other-input").style.display = "none";
+      }
+    </script>
+
+    <!-- reddit -->
+    <script>
+      const registerButton = document.getElementById('"register-button"');
+      registerButton.addEventListener('click', () => rdt('track', 'SignUp'));
+    </script>
 
 
 </head>
@@ -64,6 +87,29 @@
       <div>
         <label class="block text-sm font-medium leading-6 text-gray-900 mb-4">Bankroll (For Personalized Bet Sizing, Default: $1,000)</label>
         <input type="tel" id="bankroll" name="bankroll" class="block w-full rounded-md border border-green-300 py-1.5 pl-2 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="{{ form_data.get('bankroll', '') }}" required>
+      </div>
+      <!-- Add the following HTML code within the form tag -->
+      <div>
+        <label class="block text-sm font-medium leading-6 text-gray-900 mb-4">How did you hear about us?</label>
+        <select onchange="hideInputs(); if (this.value === 'referral') showReferralInput(); else if (this.value === 'other') showOtherInput();"name="how_heard">
+          <option value="none">Select an option</option>
+          <option value="referral">Referral</option>
+          <option value="Reddit">Reddit</option>
+          <option value="Twitter">Twitter</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Google">Google</option>
+          <option value="Discord">Discord</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div id="referral-input" style="display: none;">
+        <label class="block text-sm font-medium leading-6 text-gray-900 mb-4">Who referred you?</label>
+        <input type="text" id="referral-name" name="referral_name" class="block w-full rounded-md border border-green-300 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+      </div>
+
+      <div id="other-input" style="display: none;">
+        <label class="block text-sm font-medium leading-6 text-gray-900 mb-4">Other (please specify)</label>
+        <input type="text" id="other-source" name="other_source" class="block w-full rounded-md border border-green-300 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       </div>
       <div>
         <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 pl-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"style="background-color: #21ce99 !important;" id ="register-button">Register</button>

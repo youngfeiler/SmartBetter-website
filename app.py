@@ -182,7 +182,7 @@ def create_checkout_session_free_trial(price_id):
         price = 199
     trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
     trakdesk_cid = request.args.get('client_reference_id')
-
+    print(trakdesk_cid)
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         allow_promotion_codes=True,
@@ -282,17 +282,16 @@ def register():
         bankroll = request.form['bankroll']
         sign_up_date = datetime.now()
         payed = False
+        how_heard = request.form['how_heard']
+        referral_name = request.form['referral_name']
+        other_source = request.form['other_source']
         if username in users:
-            print("if usrname in users")
 
             has_payed=app.db.check_duplicate_account(username)
 
-            print("made it here")
-            print(has_payed)
-
             if has_payed:
                 payed = True
-                app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
+                app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed, how_heard, referral_name, other_source)
                 print("add_user complete")
 
                 users = app.db.users
@@ -315,7 +314,7 @@ def register():
             error_message = "Passwords do not match. Please try again."
             return render_template('register.html', username_exists=False, form_data=request.form, error_message=error_message)
         else:
-            app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed)
+            app.db.add_user(first_name, last_name, username, password, phone, bankroll, sign_up_date, payed, how_heard, referral_name, other_source)
             login_allowed = app.db.check_login_credentials(username, password)
             print(f'{username} login result: {login_allowed}')
             if login_allowed:
