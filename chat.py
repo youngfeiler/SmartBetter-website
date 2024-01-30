@@ -17,17 +17,30 @@ class Chat():
         finally:
             self.session.close()
 
-        self.client = OpenAI(api_key='')
-
+        self.client = OpenAI(api_key='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')
 
     def create_table_definition_prompt(self):
-        prompt = '''### sql table with stats for individual player's games. Names in camel case. If a column exists in one table and not another you will need to merge on my_game_id's before executing your query. Properties:
-        #
-        # props_data(active, date, points_scored, plus_minus, team, location, opponent, outcome, seconds_played, made_field_goals, attempted_field_goals, made_three_point_field_goals, attempted_three_point_field_goals, made_free_throws, attempted_free_throws, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls, game_score, player)
-        #
-        '''
-        return prompt
+        prompt =  """
+    ### SQL Query Generation Prompt
+    #### Objective: Write an SQL query to retrieve specific information from the database based on user requirements. Use the provided properties and tables for reference.
+    #### Properties:
+        - `props_data` Table:
+            - Columns: active, date, points_scored, plus_minus, team, location, opponent, outcome, seconds_played, made_field_goals, attempted_field_goals, made_three_point_field_goals, attempted_three_point_field_goals, made_free_throws, attempted_free_throws, offensive_rebounds, defensive_rebounds, assists, steals, blocks, turnovers, personal_fouls, game_score, player
+        - `nba_extra_info` Table:
+            - Columns: date, Start (ET), away_team, PTS, home_team, PTS.1, Arena, winning_team, home_away_neutral, losing_team, team_1, team_2, home_team_conference, home_team_division, away_team_conference, away_team_division, team_1_division, team_2_division, team_1_conference, team_2_conference, day_of_week, time, compare_time, day_night, commence_date, my_game_id
+    #### Instructions:
+    0. Write the SQL command for MySQL
+    1. Clearly state the goal or question you want the SQL query to address.
+    2. Break down the task into logical steps.
+    3. Explicitly mention any conditions or filters that should be applied.
+    4. Specify the output format or additional calculations if needed.
+    5. If aggregating data, use proper aggregate functions and include a GROUP BY clause.
+    6. Use semicolons to separate multiple queries if necessary.
+    7. Include the initial `SELECT` statement in your query.
 
+
+    """
+        return prompt
 
     def create_another_table_definition_prompt(self):
         prompt2 = '''### And another sql table with additional information about full games. you can merge these two tables on the 'my_game_id' column. with its properties:
@@ -42,7 +55,7 @@ class Chat():
         definition = self.create_table_definition_prompt()
         second_def = self.create_another_table_definition_prompt()
         query_init_string = f'### A query using one or more of the tables provided to answer: {query_prompt}\nSELECT'
-        return definition + second_def + query_init_string
+        return definition + query_init_string
     
     def handle_response(self, query):
         if query.startswith(' '):
@@ -73,10 +86,13 @@ class Chat():
     def ask(self, prompt):
 
         nlp_text = prompt
+        print(nlp_text)
 
         prompt = self.combine_prompts(nlp_text)
 
-        print(prompt)       
+        print(prompt)
+
+        print(prompt)
 
         response = self.client.completions.create(
             model="gpt-3.5-turbo-instruct",
