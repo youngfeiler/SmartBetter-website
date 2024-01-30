@@ -58,12 +58,12 @@ class database():
         session.close()
         return read_in
     
-    def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed):
+    def add_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, how_heard, referral_name, other_source):
        new_user = User(username)
 
        print("adding user")
 
-       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, self.db_manager)
+       new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed,how_heard, referral_name, other_source, self.db_manager)
 
        self.users = self.get_all_usernames()
        print(self.users)

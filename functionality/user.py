@@ -7,7 +7,7 @@ class User():
         self.password = ''
 
 
-    def create_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed, db_manager):
+    def create_user(self, firstname, lastname, username, password, phone, bankroll, sign_up_date, payed,how_heard, referral_name, other_source, db_manager):
       try:
           df = pd.read_sql_table('login_info', con=db_manager.get_engine())
           print("df acquired")
@@ -22,9 +22,9 @@ class User():
 
       info_row = pd.DataFrame(
         [
-            [firstname, lastname, username, password, phone, bankroll, payed, sign_up_date]
+            [firstname, lastname, username, password, phone, bankroll, payed, sign_up_date, how_heard, referral_name, other_source,]
         ],
-        columns=['firstname', 'lastname', 'username', 'password', 'phone', 'bankroll', 'payed', 'date_signed_up']
+        columns=['firstname', 'lastname', 'username', 'password', 'phone', 'bankroll', 'payed', 'date_signed_up','how_heard', 'referral_name', 'other_source',]
        )
 
       # df.loc[len(df)] = info_row

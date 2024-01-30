@@ -134,6 +134,7 @@ class Chat():
         except Exception as e:
             print("Error executing the query:")
             self.session = self.DB.create_session()
+            final_response = self.generate_combined_response(nlp_text, 'Sorry, I could not find an answer to your question. Please try again.')
             new_question = ChatQuestions(question=nlp_text, response=str(e), worked_bool=False)
             self.session.add(new_question)
             self.session.commit()
