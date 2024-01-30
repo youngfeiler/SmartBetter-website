@@ -3,7 +3,18 @@
 <head>
   <link rel="icon" type="image/png" href="static/images/favicon.png">
   <meta name="theme-color" content="var(--nav-bg-mobile)" />
-
+      <!-- reddit -->
+    <script>
+      !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);rdt('init','a2_e3xug8b0s3bp', {"useDecimalCurrencyValues":true,"email":document.getElementById("email")});
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const registerButton = document.getElementById('register-button');
+        console.log(registerButton);
+        console.log('here')
+        registerButton.addEventListener('click', () => rdt('track', 'SignUp'));
+      });
+    </script>
   <script>
     !function (w, d, t) {
       w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
@@ -33,12 +44,6 @@
         document.getElementById("referral-input").style.display = "none";
         document.getElementById("other-input").style.display = "none";
       }
-    </script>
-
-    <!-- reddit -->
-    <script>
-      const registerButton = document.getElementById('"register-button"');
-      registerButton.addEventListener('click', () => rdt('track', 'SignUp'));
     </script>
 
 
