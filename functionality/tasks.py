@@ -76,30 +76,32 @@ def start_dashboard_runner():
 
 
     while True:
+        try:   
       # result_updater_instance.update_results('baseball_mlb')
-      result_updater_instance.update_results('americanfootball_nfl')
+            result_updater_instance.update_results('americanfootball_nfl')
 
-      result_updater_instance.update_results('basketball_nba')
+            result_updater_instance.update_results('basketball_nba')
 
-      result_updater_instance.update_results('icehockey_nhl')
+            result_updater_instance.update_results('icehockey_nhl')
 
-      pregame_nhl_dashboard_runner_instance.make_live_dash_data()
+            pregame_nhl_dashboard_runner_instance.make_live_dash_data()
 
-      pregame_nba_dashboard_runner_instance.make_live_dash_data()
+            pregame_nba_dashboard_runner_instance.make_live_dash_data()
 
-      pregame_nfl_dashboard_runner_instance.make_live_dash_data()
+            pregame_nfl_dashboard_runner_instance.make_live_dash_data()
 
-      live_nba_dashboard_runner_instance.make_live_dash_data()
-      observation_compiler_instace.compile_observations()
+            live_nba_dashboard_runner_instance.make_live_dash_data()
+            observation_compiler_instace.compile_observations()
 
-      live_nfl_dashboard_runner_instance.make_live_dash_data()
-      observation_compiler_instace.compile_observations()
+            live_nfl_dashboard_runner_instance.make_live_dash_data()
+            observation_compiler_instace.compile_observations()
 
-      live_nhl_dashboard_runner_instance.make_live_dash_data()
-      observation_compiler_instace.compile_observations()
+            live_nhl_dashboard_runner_instance.make_live_dash_data()
+            observation_compiler_instace.compile_observations()
       
-      observation_compiler_instace.update_completed_observations()
-
+            observation_compiler_instace.update_completed_observations()
+        except Exception as e:
+            print(e)
 
 
 
