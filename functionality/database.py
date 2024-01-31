@@ -513,6 +513,7 @@ class database():
         return american_odds.astype(int) 
        
        def calculate_bet_amount(row, user_bankroll):
+          user_bankroll = float(user_bankroll)
           odds = row['highest_bettable_odds'] 
           win_probability = row['no_vig_prob_1']
           kelly_percentage = ((win_probability * odds) - 1) / (odds-1)
@@ -677,19 +678,21 @@ class database():
         session = self.db_manager.create_session()
 
         # SQL query to fetch filtered placed bets
-        placed_bets_query = f"""
-        SELECT pb.*
-        FROM placed_bets pb
-        WHERE pb.user_name = %s
-        """
-        placed_bets = pd.read_sql_query(placed_bets_query, engine, params=[username])
+        # placed_bets_query = f"""
+        # SELECT pb.*
+        # FROM placed_bets pb
+        # WHERE pb.user_name = %s
+        # """
+        # placed_bets = pd.read_sql_query(placed_bets_query, engine, params=[username])
 
         # SQL query to fetch only game_id and winning_team from scores
-        scores_query = """
-        SELECT game_id, winning_team
-        FROM scores
-        """
-        scores_df = pd.read_sql_query(scores_query, engine)
+        # scores_query = """
+        # SELECT game_id, winning_team
+        # FROM scores
+        # """
+        # scores_df = pd.read_sql_query(scores_query, engine)
+
+        params = [(username,)]
 
         # SQL query to perform the merge (join) operation
         merged_query = f"""
@@ -698,7 +701,7 @@ class database():
         LEFT JOIN scores sc ON pb.game_id = sc.game_id
         WHERE pb.user_name = %s AND sc.winning_team IS NOT NULL
         """
-        merged_df = pd.read_sql_query(merged_query, engine, params=[username])
+        merged_df = pd.read_sql_query(merged_query, engine, params=[(username,)])
         print(datetime.now())
       except Exception as e:
         print(e)

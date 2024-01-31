@@ -209,7 +209,7 @@ def get_positive_ev_data():
     sport_title = data.get('sport_title', '')
 
     try:
-        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
     except:
         bankroll = 5000
     print(bankroll)
@@ -442,7 +442,7 @@ def get_live_dash_data():
     # wrong calculation
 
     try:
-        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
     except KeyError:
         bankroll = 5000
 
@@ -465,7 +465,7 @@ def get_positive_ev_dash_data():
     filters = data.get('filters', '')
 
     try:
-        bankroll = app.db.calculate_user_bankroll(session["user_id"])
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
     except KeyError:
         bankroll = 5000
 
