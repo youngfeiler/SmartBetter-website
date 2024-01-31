@@ -701,7 +701,7 @@ class database():
         LEFT JOIN scores sc ON pb.game_id = sc.game_id
         WHERE pb.user_name = %s AND sc.winning_team IS NOT NULL
         """
-        merged_df = pd.read_sql_query(merged_query, engine, params=[(username,)])
+        merged_df = pd.read_sql_query(merged_query, engine, params=[username])
         print(datetime.now())
       except Exception as e:
         print(e)
