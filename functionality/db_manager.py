@@ -4,10 +4,10 @@ from sqlalchemy.pool import QueuePool
 import os
 
 # Define your MySQL database parameters
-mysql_database = os.environ.get('db_name')
-endpoint = os.environ.get('database_endpoint')
+mysql_database = "micah"
+endpoint = "smartbettor-prod.cgsvu7bg7jl5.us-east-2.rds.amazonaws.com"
 username = 'admin'
-password = os.environ.get('mysql_pass')
+password = "smartbettor"
 
 class DBManager:
     def __init__(self):
