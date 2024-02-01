@@ -914,7 +914,7 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 32px 32px;
+  padding: 32px;
   position: relative;
   flex: 1;
   align-self: stretch;
@@ -1555,7 +1555,7 @@ a {
   }
 
   .home .pricing{
-    padding: 32px 0px;
+    padding: 32px 32px;
   }
 
   .home .div-wrapper-2{
