@@ -210,7 +210,7 @@ function updateTableFree(data) {
               <div class = "or">or</div>
               <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
             </div>
-          <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+          <div><p>This is an AI Powered Feature. Subscribe to see thousands of +EV bets refresh all day long...</p> <div>
       </li>
       `;
     footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
@@ -298,7 +298,7 @@ function updateTableFree(data) {
         <div class = "or">or</div>
         <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
       </div>
-    <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+    <div><p>This is an AI Powered Feature. Subscribe to see thousands of +EV bets refresh all day long...</p> <div>
 </li>
 `;
 footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
@@ -362,7 +362,7 @@ table_row_to_append_to.appendChild(tr);
         <div class = "or">or</div>
         <div class = "free-view-sign-up-container"><a class = "free-view-sign-up-button"href = "/register">Sign Up</a></div>
       </div>
-    <div><p>To see thousands of +EV bets refresh all day long...</p> <div>
+    <div><p>This is an AI Powered Feature. Subscribe to see thousands of +EV bets refresh all day long...</p> <div>
 </li>
 `;
 footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
