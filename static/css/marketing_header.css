@@ -131,6 +131,10 @@
     font-size: 18px !important;
     font-weight: bold !important;
   }
+
+  .navbar-mh img{
+    height:36px;
+  }
   .navbar-mh{
     height: 100%;
     width: 100%;

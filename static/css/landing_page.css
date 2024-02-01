@@ -1659,6 +1659,7 @@ a {
   .actions-3 a,
   .actions-3 .style-link-small,
   .actions-2 .button-2{
+    display: flex;
     width: 40%;
     height: 36px;
     align-items: center;
@@ -1671,12 +1672,19 @@ a {
   .actions-2 .button-learn-more,
   .actions-3 .button-learn-more,
   .actions-3 .button-learn-more-2,
-  .actions-3 .button-2{
+  .actions-3 .button-2,
+  .actions-3 .button-2-2{
     width: 100%;
     height: 100%;
     padding: 0px;
     font-weight: bold;
   }
+
+  .actions-3 .button-2-2 a{
+    width: 100%;
+  }
+
+  
 
   .home .div-2 .actions-2 .button-2-1{
     color: #222021
