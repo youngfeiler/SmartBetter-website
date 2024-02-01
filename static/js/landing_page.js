@@ -62,3 +62,29 @@ trackButton199.addEventListener('click', function(event) {
 trackButtonFree.addEventListener('click', function(event) {
   trackClickButtonEventFree();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const gifContainer = document.querySelector(".container-2");
+  const gif = document.querySelector("#order-2");
+
+  gif.src = "static/images/5-Phones-small.gif";
+
+  gif.style.display = "none";
+
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+
+              gif.src = "static/images/5-Phones-small.gif";
+              gif.style.display = "block";
+
+              gifContainer.style.opacity = 1;
+
+              // Stop observing to avoid unnecessary loads
+              observer.unobserve(gifContainer);
+          }
+      });
+  }, { threshold: 0.25 }); // Set the threshold to 25%
+
+  observer.observe(gifContainer);
+});
