@@ -914,7 +914,7 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 32px;
+  padding: 32px 32px;
   position: relative;
   flex: 1;
   align-self: stretch;
