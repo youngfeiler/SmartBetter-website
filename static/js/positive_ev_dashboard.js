@@ -575,6 +575,7 @@ function getImage(sportsbook_string, row){
 }
 
 function fetchDataAndUpdateTable() {
+  console.log('found it')
 
   // Retrieve elements with 'active' class
   var activeElements = document.querySelectorAll('.filter-dropdown-item.active');
@@ -585,7 +586,8 @@ function fetchDataAndUpdateTable() {
   });
 
   var ascendingBool =  document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("ascending");
-
+  // TODO: Error with only two options (need third for if ascending)
+  // It is in the ascending
   if(ascendingBool == null){
     ascendingBool = false;
   }else if(ascendingBool == 'true'){
@@ -891,9 +893,32 @@ $(document).ready(function(){
 
     svgs.forEach(function(svg) {
       svg.setAttribute('ascending', false);
-      svg.addEventListener('click', fetchDataAndUpdateTable);
       svg.addEventListener('click', function() {
+        var content = this.previousElementSibling.innerHTML;
+        
+
+        // Create a dropdown
+        var dropdown = document.createElement('div');
+        dropdown.className = 'dropdown-content-show';
+        dropdown.id = 'sportsbook-filter'
+        dropdown.innerHTML = '<p style="color:#f7f7f7 ;font-size:14px;">' + content + '</p>'; // Set text color to white
+
+        // Remove existing dropdowns
+        document.querySelectorAll('.dropdown-content-show').forEach(function (existingDropdown) {
+            existingDropdown.remove();
+        });
+
+        // Append the dropdown to the body
+        document.body.appendChild(dropdown);
+
+        // Position the dropdown relative to the clicked SVG
+        var svgRect = this.getBoundingClientRect();
+        dropdown.style.position = 'absolute';
+        dropdown.style.top = svgRect.bottom + 'px';
+        dropdown.style.left = svgRect.left + 'px';
         var path = this.querySelector('.arrow-head');
+        // svg.addEventListener('click', fetchDataAndUpdateTable);
+        fetchDataAndUpdateTable()
         var isActive = this.classList.contains('active');
         if (isActive) {
           var currentD = path.getAttribute('d');
