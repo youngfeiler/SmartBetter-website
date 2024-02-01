@@ -17,7 +17,7 @@ class Chat():
         finally:
             self.session.close()
 
-        self.client = OpenAI(api_key='')
+        self.client = OpenAI(api_key='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')
 
 
     def create_table_definition_prompt(self):
