@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function() {
   const downArrow = document.querySelector('.down-arrow');
   const displayElement = document.querySelector('.column-mh');
   const chev = document.querySelector('.down-arrow');

@@ -1525,6 +1525,10 @@ a {
     width: 100%;
   }
 
+  .home{
+    width: 100vw;
+  }
+
   .header{
     flex-direction: column;
     padding: 66px 20px;
