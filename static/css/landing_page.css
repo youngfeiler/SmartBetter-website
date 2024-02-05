@@ -59,6 +59,9 @@
 button{
   cursor: pointer;
 }
+div.actions-2 div.button-2-1 a[href="/#pricing"] {
+  color: black;
+}
 
 
 .home .navbar {
