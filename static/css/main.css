@@ -342,7 +342,7 @@
   align-items: center;
   flex-wrap: nowrap;
   background-color: var(--table-thead-bg);
-  height: 2.5rem;
+  /* height: 2.5rem; */
   border-radius: 10px;
   min-width: -moz-max-content;
   min-width: max-content;

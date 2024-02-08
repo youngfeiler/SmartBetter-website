@@ -1,4 +1,5 @@
 let userPermissionVar; 
+//container flex row, overflow scroll, time since update
 /**
  * Utility function to calculate the current theme setting.
  * Look for a local storage value.
@@ -24,8 +25,7 @@ function updateButton({ buttonEl, isDark }) {
 
 
 function updateTable(data) {
-
-  console.log(data);
+  //Todo  
 
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
@@ -576,7 +576,7 @@ function getImage(sportsbook_string, row){
 
 function fetchDataAndUpdateTable() {
   console.log('found it')
-
+  //what to send to flask
   // Retrieve elements with 'active' class
   var activeElements = document.querySelectorAll('.filter-dropdown-item.active');
   var innerTextDictionary = {};
@@ -598,7 +598,8 @@ function fetchDataAndUpdateTable() {
   }
 
   innerTextDictionary['sort-by'] = [document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("id"), ascendingBool]
-
+  //finding the things that are active:
+  console.log(innerTextDictionary)
   // Get the last segment (element) of the URL
   const url = '/get_positive_ev_dash_data?';
 
@@ -619,6 +620,8 @@ function fetchDataAndUpdateTable() {
     .then(response => response.json())
     .then(data => {
       console.log(userPermissionVar);
+      console.log('here is the data')
+      console.log(data)
       if(userPermissionVar =='standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev'){
         updateTable(data);
       }else{
@@ -719,6 +722,7 @@ function greenIfFiltered(event){
 }
 
 function fillFilterValues(){
+  // for the ones where you can select 
   fetch('/get_filter_dropdown_values',{
     method: 'GET',
     headers: {
@@ -840,6 +844,7 @@ function getUserPermission() {
 
 
 $(document).ready(function(){
+  //document ready
   // toggle sidebar
   const menuIcon = document.querySelector(".navbar-custom__left i");
   const closeIcon = document.querySelector(".sidebar-custom .close-icon");
@@ -890,11 +895,11 @@ $(document).ready(function(){
     document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
     var svgs = document.querySelectorAll('.sort-icon');
-
+    //Each one of the icons for filtering
     svgs.forEach(function(svg) {
       svg.setAttribute('ascending', false);
       svg.addEventListener('click', function() {
-        var content = this.previousElementSibling.innerHTML;
+        var content = ''
         
 
         // Create a dropdown
@@ -921,10 +926,13 @@ $(document).ready(function(){
         fetchDataAndUpdateTable()
         var isActive = this.classList.contains('active');
         if (isActive) {
+          //if currently clicked
           var currentD = path.getAttribute('d');
+          //change color
           var newD = currentD === 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z' ? 'm 2.4925484,0.06306169 c -0.081574,0 -0.1599452,0.03248 -0.2176345,0.0902 L 0.20880797,2.2193567 c -0.1202399,0.120215 -0.1202399,0.315079 0,0.435292 0.1200713,0.120215 0.31523142,0.120215 0.43528867,0 L 2.4925512,0.80619669 4.3408483,2.6546487 c 0.1200713,0.120215 0.3150797,0.120215 0.4352915,0 0.1202399,-0.120212 0.1202399,-0.315079 0,-0.435292 L 2.7101969,0.15325969 c -0.057746,-0.05772 -0.1360602,-0.0902 -0.2176345,-0.0902 z' : 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z';
           path.setAttribute('d', newD);
-          this.setAttribute('ascending', this.getAttribute('ascending') === true ? false: true);
+          // TODO: toggle it 
+          this.setAttribute('ascending', this.getAttribute('ascending') == 'true' ? 'false': 'true');
         } 
         else {
           svgs.forEach(function(s) {

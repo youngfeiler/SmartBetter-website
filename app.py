@@ -40,7 +40,7 @@ def create_app():
 
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-app.config['STRIPE_PRIVATE_KEY'] = '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'
+app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("STRIPE_API_KEY")
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 @atexit.register
@@ -447,7 +447,7 @@ def get_live_dash_data():
         bankroll = 5000
 
     data = app.db.get_live_dash_data(bankroll, sport_title)
-    
+
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
@@ -461,7 +461,7 @@ def get_live_dash_data():
 def get_positive_ev_dash_data():
 
     data = request.get_json()
-
+    
     filters = data.get('filters', '')
 
     try:
