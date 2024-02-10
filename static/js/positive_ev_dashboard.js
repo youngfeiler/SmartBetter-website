@@ -575,9 +575,6 @@ function getImage(sportsbook_string, row){
 }
 
 function fetchDataAndUpdateTable() {
-  console.log('found it')
-  //what to send to flask
-  // Retrieve elements with 'active' class
   var activeElements = document.querySelectorAll('.filter-dropdown-item.active');
   var innerTextDictionary = {};
   activeElements.forEach(function(element) {
@@ -586,8 +583,6 @@ function fetchDataAndUpdateTable() {
   });
 
   var ascendingBool =  document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("ascending");
-  // TODO: Error with only two options (need third for if ascending)
-  // It is in the ascending
   if(ascendingBool == null){
     ascendingBool = false;
   }else if(ascendingBool == 'true'){
@@ -923,8 +918,8 @@ $(document).ready(function(){
         dropdown.style.left = svgRect.left + 'px';
         var path = this.querySelector('.arrow-head');
         // svg.addEventListener('click', fetchDataAndUpdateTable);
-        fetchDataAndUpdateTable()
         var isActive = this.classList.contains('active');
+        console.log('this is active', isActive)
         if (isActive) {
           //if currently clicked
           var currentD = path.getAttribute('d');
@@ -935,13 +930,15 @@ $(document).ready(function(){
           this.setAttribute('ascending', this.getAttribute('ascending') == 'true' ? 'false': 'true');
         } 
         else {
+          console.log("this is where I thing")
           svgs.forEach(function(s) {
             s.classList.remove('active');
             s.setAttribute('ascending', false);
-        })
-        this.classList.add('active');
-        this.setAttribute('ascending', false);
+          })
+          this.classList.add('active');
+          this.setAttribute('ascending', false);
       }
+      fetchDataAndUpdateTable()
       });
     });
 
