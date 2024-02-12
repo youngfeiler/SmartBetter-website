@@ -78,7 +78,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))  
 
     if len(nfl_obs_pregame) > self.current_amount_of_nfl_observations_pregame:
       new_obs = pd.DataFrame()
@@ -105,7 +104,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
     
     if len(nba_obs) > self.current_amount_of_nba_observations:
       new_obs = pd.DataFrame()
@@ -132,7 +130,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
     
     if len(nba_obs_pregame) > self.current_amount_of_nba_observations_pregame:
       new_obs = pd.DataFrame()
@@ -159,7 +156,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
     
     if len(nhl_obs) > self.current_amount_of_nhl_observations:
       new_obs = pd.DataFrame()
@@ -187,7 +183,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
     
     if len(nhl_obs_pregame) > self.current_amount_of_nhl_observations_pregame:
       new_obs = pd.DataFrame()
@@ -214,7 +209,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
 
     if len(mlb_obs) > self.current_amount_of_mlb_observations:
       new_obs = pd.DataFrame()
@@ -241,7 +235,6 @@ class observation_compiler():
           new_df.to_sql('master_model_observations', con=self.db_manager.get_engine(), if_exists='append', index=False)
       except Exception as e:
         print(e)
-        return (str(e))
 
   def update_completed_observations(self):
     try:
@@ -249,7 +242,6 @@ class observation_compiler():
           scores =  pd.read_sql_table('scores', con=self.db_manager.get_engine())
     except Exception as e:
         print(e)
-        return str(e)
     finally:
         session.close()
 
@@ -291,7 +283,6 @@ class observation_compiler():
         
     except Exception as e:
       print(e)
-      return str(e)
     finally:
       # session.close()
       return length
