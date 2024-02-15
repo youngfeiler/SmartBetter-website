@@ -732,6 +732,51 @@ function greenIfFiltered(event){
 
 }
 }
+function greenIfFilteredOdds(event) {
+  var filterSVG = findCousinWithClass(event.target, 'dropbtnodds');
+  console.log('here is svg')
+  console.log(filterSVG)
+  if (filterSVG) {
+      console.log(filterSVG)
+      var activeElementsOdds = document.querySelectorAll('#min-odds-filter')
+      temp = activeElementsOdds[0].querySelectorAll('input')
+      minOddsInput = temp[0].value
+      maxOddsInput = temp[1].value
+      console.log('here is mion odds ')
+      console.log(minOddsInput)
+
+      if (minOddsInput.value !== '' && maxOddsInput.value !== '') {
+          var paths = filterSVG.querySelectorAll('path');
+          paths.forEach(function (path) {
+              path.style.fill = '#21ce99';
+          });
+      } else {
+          var paths = filterSVG.querySelectorAll('path');
+          paths.forEach(function (path) {
+              path.style.fill = 'var(--table-thead-color)';
+          });
+      }
+
+
+      var activeBestElementsOdds = document.querySelectorAll('#best-odds-filter')
+      temp2 = activeBestElementsOdds[0].querySelectorAll('input')
+      minBestOddsInput = temp2[0].value
+      maxBestOddsInput = temp2[1].value
+
+      if (minBestOddsInput.value !== '' && maxBestOddsInput.value !== '') {
+          var paths2 = filterSVG.querySelectorAll('path');
+          paths2.forEach(function (path2) {
+              path2.style.fill = '#21ce99';
+          });
+      } else {
+          var paths2 = filterSVG.querySelectorAll('path');
+          paths.forEach(function (path) {
+              path.style.fill = 'var(--table-thead-color)';
+          });
+      }
+  }
+}
+
 
 function fillFilterValues(){
   // for the ones where you can select 
@@ -824,6 +869,7 @@ function fillFilterValues(){
       applyButton.addEventListener('click', function () {
           fetchDataAndUpdateTable();
       });
+      applyButton.addEventListener('click', greenIfFilteredOdds);
 
       // Append the inputs and button to the odds filter div
       oddsFilterDiv.appendChild(minOddsInput);
@@ -856,6 +902,7 @@ function fillFilterValues(){
     bestApplyButton.addEventListener('click', function () {
           fetchDataAndUpdateTable();
     });
+    bestApplyButton.addEventListener('click', greenIfFilteredOdds);
 
       // Append the inputs and button to the odds filter div
       bestOddsFilterDiv.appendChild(bestMinOddsInput);
