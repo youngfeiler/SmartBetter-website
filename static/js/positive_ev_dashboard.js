@@ -25,8 +25,6 @@ function updateButton({ buttonEl, isDark }) {
 
 
 function updateTable(data) {
-  //Todo  
-
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -39,7 +37,7 @@ function updateTable(data) {
 
   boolin = true;
 
-  
+
   if (!(data.length === 1 && data[0].update === false) && boolin) {
     const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
     table_row_to_append_to.innerHTML = '';
@@ -592,7 +590,26 @@ function fetchDataAndUpdateTable() {
     ascendingBool = false;
   }
 
+  //Getting min and max values:
+  //TODO: Add an active thing so you can tell which is selected
+  var activeElementsOdds = document.querySelectorAll('#min-odds-filter')
+  temp = activeElementsOdds[0].querySelectorAll('input')
+  minOddsInput = temp[0].value
+  maxOddsInput = temp[1].value
+
   innerTextDictionary['sort-by'] = [document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("id"), ascendingBool]
+  innerTextDictionary['odds-filter'] = {'minodds': minOddsInput,'maxodds':maxOddsInput}
+  //Getting min and max values of other odds filter:
+  var activeElementsBestOdds = document.querySelectorAll('#best-odds-filter')
+  temp2 = activeElementsBestOdds[0].querySelectorAll('input')
+  minBestOddsInput = temp2[0].value
+  maxBestOddsInput = temp2[1].value
+
+  innerTextDictionary['sort-by'] = [document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("id"), ascendingBool]
+  innerTextDictionary['odds-filter'] = {'minodds': minOddsInput,'maxodds':maxOddsInput}
+  innerTextDictionary['best-odds-filter'] = {'minodds': minBestOddsInput, 'maxodds': maxBestOddsInput}
+  
+  
   //finding the things that are active:
   console.log(innerTextDictionary)
   // Get the last segment (element) of the URL
@@ -791,6 +808,67 @@ function fillFilterValues(){
         gameDateFilterDiv.appendChild(filterValue)
       })
 
+      var oddsFilterDiv = document.getElementById('min-odds-filter');
+      var minOddsInput = document.createElement('input');
+      minOddsInput.type = 'number';
+      minOddsInput.placeholder = 'Min Odds';
+
+      // Create the input for maximum odds
+      var maxOddsInput = document.createElement('input');
+      maxOddsInput.type = 'number';
+      maxOddsInput.placeholder = 'Max Odds';
+
+      // Create the Apply button
+      var applyButton = document.createElement('button');
+      applyButton.innerHTML = 'Apply';
+      applyButton.addEventListener('click', function () {
+          fetchDataAndUpdateTable();
+      });
+
+      // Append the inputs and button to the odds filter div
+      oddsFilterDiv.appendChild(minOddsInput);
+      oddsFilterDiv.appendChild(maxOddsInput);
+      oddsFilterDiv.appendChild(applyButton);
+      minOddsInput.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+    
+    maxOddsInput.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+
+
+    //second odds filter
+
+    var bestOddsFilterDiv = document.getElementById('best-odds-filter');
+    var bestMinOddsInput = document.createElement('input');
+    bestMinOddsInput.type = 'number';
+    bestMinOddsInput.placeholder = 'Min Odds';
+
+      // Create the input for maximum odds
+    var bestMaxOddsInput = document.createElement('input');
+    bestMaxOddsInput.type = 'number';
+    bestMaxOddsInput.placeholder = 'Max Odds';
+
+      // Create the Apply button
+    var bestApplyButton = document.createElement('button');
+    bestApplyButton.innerHTML = 'Apply';
+    bestApplyButton.addEventListener('click', function () {
+          fetchDataAndUpdateTable();
+    });
+
+      // Append the inputs and button to the odds filter div
+      bestOddsFilterDiv.appendChild(bestMinOddsInput);
+      bestOddsFilterDiv.appendChild(bestMaxOddsInput);
+      bestOddsFilterDiv.appendChild(bestApplyButton);
+      bestMinOddsInput.addEventListener('click', function (event) {
+        event.stopPropagation();
+      });
+    
+      bestMaxOddsInput.addEventListener('click', function (event) {
+        event.stopPropagation();
+      });
+
       var sportsbookFilterDiv = document.getElementById("sportsbook-filter");
       data['sportsbooks_used'].forEach(function(league){
         var filterValue = document.createElement('a');
@@ -870,6 +948,21 @@ $(document).ready(function(){
       })
   });
 
+  var dropdownBtnsOdds = document.querySelectorAll('.dropbtnodds');
+
+  dropdownBtnsOdds.forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      var container = this.closest('.filter-container'); 
+      if (container) {
+        var siblingElement = container.querySelector('.dropdown-content-odds');
+        var titleElement = container.querySelector('.filter-dropdown-label-odds');
+        if (siblingElement) {
+          siblingElement.classList.toggle('show');
+        }
+      }
+      })
+  });
+
   window.addEventListener('click', function(event) {
     dropdownBtns.forEach(function(btn) {
       var container = btn.closest('.filter-container');
@@ -881,7 +974,18 @@ $(document).ready(function(){
       }
     });
   });
-
+  window.addEventListener('click', function(event) {
+    dropdownBtnsOdds.forEach(function(btn) {
+      var container = btn.closest('.filter-container');
+      if (container) {
+        var siblingElement = container.querySelector('.dropdown-content-odds');
+        if (siblingElement && siblingElement.classList.contains("show") && !btn.contains(event.target)) {
+          siblingElement.classList.remove('show');
+        }
+      }
+    });
+  });
+ 
   fillFilterValues();
 
     /** 

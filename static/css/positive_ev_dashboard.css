@@ -916,6 +916,10 @@ option {
   border: none;
   cursor: pointer;
 }
+.dropbtnodds {
+  border: none;
+  cursor: pointer;
+}
 
 .dropdown{
   margin-left: 10px;
@@ -924,6 +928,18 @@ option {
 
 /* Dropdown content (hidden by default) */
 .dropdown-content{
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 80px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  font-size: 36px;
+  border: 2px solid var(--nav-border);
+  background-color: var(--table-thead-bg);
+}
+.dropdown-content-odds{
   display: none;
   position: absolute;
   background-color: #ffffff;
@@ -954,8 +970,18 @@ option {
 .dropbtn path{
   fill:var(--table-thead-color);
 }
+.dropbtnodds path{
+  fill:var(--table-thead-color);
+}
 
 .filter-dropdown-label{
+  font-size: 0.65rem;
+  color: var(--table-thead-color);
+  background-color: var(--table-thead-bg);
+  text-align: center;
+  text-decoration: underline;
+}
+.filter-dropdown-label-odds{
   font-size: 0.65rem;
   color: var(--table-thead-color);
   background-color: var(--table-thead-bg);
