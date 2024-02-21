@@ -17,6 +17,7 @@ from functionality.models import LoginInfo  # Import your SQLAlchemy model
 from sqlalchemy.orm.exc import NoResultFound
 from ast import literal_eval
 import pytz
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 # Configure the logging level for the stripe module
@@ -62,6 +63,7 @@ class database():
        new_user = User(username)
 
        print("adding user")
+       password = generate_password_hash(password, method='pbkdf2:sha256')
 
        new_user.create_user(firstname, lastname, username, password, phone, bankroll, sign_up_date, payed,how_heard, referral_name, other_source, self.db_manager)
 
@@ -107,12 +109,10 @@ class database():
         # Query the user by username
         try:
             user = session.query(LoginInfo).filter_by(username=username).one()
-            print(user)
-            print("WAHOOOO STEFAN SUCKS BALLS")
         except NoResultFound:
             return False
-# Check if the password matches
-        if user.password == password:
+# Check if the password matches     
+        if check_password_hash(user.password, password):
             return True
         else:
             return False
