@@ -594,6 +594,7 @@ function fetchDataAndUpdateTable() {
 
   try {
     var ascendingBool = document.querySelector('svg.active').parentNode.getAttribute("ascending");
+    console.log(document.querySelector('svg.active').parentNode)
   } catch (error) {
     console.log(error);
   }
@@ -1098,7 +1099,6 @@ function addDynamicOddsInputDisplayFunction(){
       }else{
         var lengthRequired = 3;
       }
-
       if(maxOddsInput.value.length >= lengthRequired){
         fetchDataAndUpdateTable();
       }
@@ -1117,9 +1117,7 @@ function addSortListeners(){
 
       var path = this.querySelector('.arrow-head');
 
-
       var isActive = this.classList.contains('active');
-
 
       if (isActive) {
           //if currently clicked
@@ -1210,7 +1208,7 @@ function addSortByDiv(){
     var newValAscending = icon.parentNode.cloneNode(true);
 
     var newValDescending = icon.parentNode.cloneNode(true);
-//&& !newValAscending.innerText.toUpperCase().includes("%")
+
     if(!newValAscending.innerText.toUpperCase().includes("MIN.")){
 
     newValAscending.setAttribute('ascending', true);
@@ -1285,21 +1283,30 @@ function addSortByDiv(){
       activeElements.forEach(function(icon){
         icon.classList.remove('active');
         icon.parentNode.classList.remove("green");
-        
+    
       });
       this.querySelector('svg').classList.add('active');
       this.classList.add("green");
       showSortBy();
-
       fetchDataAndUpdateTable();
     });
 
-
   }
 
-  
-
   });
+
+  document.querySelectorAll("svg.active").forEach(function(svg){
+    svg.classList.remove('active');
+  })
+
+  var elementsWithSameId = document.querySelectorAll('#bet_amount');
+
+  elementsWithSameId.forEach(function(element) {
+    if (element.parentNode.getAttribute('descending') === 'true') {
+        element.classList.add('active');
+    }
+});
+
 
   
 }
