@@ -98,8 +98,7 @@ function updateTable(data) {
 }
 
 function updateTableFree(data) {
-  console.log(data);
-
+  // console.log(data);
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -406,8 +405,6 @@ function displaySportsbookDropdown(row){
       }
     }
   });
-  
-
 }
 
 function changeRowDisplay(row){
@@ -575,52 +572,75 @@ function getImage(sportsbook_string, row){
 function fetchDataAndUpdateTable() {
   var activeElements = document.querySelectorAll('.filter-dropdown-item.active');
   var innerTextDictionary = {};
-  activeElements.forEach(function(element) {
-    var parentId = element.closest('[id]').id;
-    innerTextDictionary[parentId] = element.innerText;
-  });
 
-  var ascendingBool =  document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("ascending");
+  activeElements.forEach(function(element) {
+    var parentId = element.parentNode.id;
+    var value = element.querySelector('.filter-value-content-a').innerText.trim();
+
+    if (innerTextDictionary.hasOwnProperty(parentId)) {
+
+        if (Array.isArray(innerTextDictionary[parentId])) {
+            innerTextDictionary[parentId].push(value);
+        } else {
+            innerTextDictionary[parentId] = [innerTextDictionary[parentId], value];
+        }
+    } else {
+        innerTextDictionary[parentId] = [value];
+    }
+});
+
+
+  var ascendingBool = null;
+
+  try {
+    var ascendingBool = document.querySelector('svg.active').parentNode.getAttribute("ascending");
+  } catch (error) {
+    console.log(error);
+  }
+
   if(ascendingBool == null){
     ascendingBool = false;
-  }else if(ascendingBool == 'true'){
-    ascendingBool = true;
-  }
-  else if(ascendingBool == 'false'){
-    ascendingBool = false;
+  }else if(ascendingBool == "true"){
+    ascendingBool = true
+  }else{
+    ascendingBool = false
   }
 
   //Getting min and max values:
   //TODO: Add an active thing so you can tell which is selected
-  var activeElementsOdds = document.querySelectorAll('#min-odds-filter')
-  temp = activeElementsOdds[0].querySelectorAll('input')
-  minOddsInput = temp[0].value
-  maxOddsInput = temp[1].value
+  try{
+    var minOddsInput = document.getElementById('min-odds-input').value.trim();
+    var maxOddsInput = document.getElementById('max-odds-input').value.trim();
+    innerTextDictionary['best-odds-filter'] = {'minodds': minOddsInput, 'maxodds': maxOddsInput};
 
-  innerTextDictionary['sort-by'] = [document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("id"), ascendingBool]
-  innerTextDictionary['odds-filter'] = {'minodds': minOddsInput,'maxodds':maxOddsInput}
-  //Getting min and max values of other odds filter:
-  var activeElementsBestOdds = document.querySelectorAll('#best-odds-filter')
-  temp2 = activeElementsBestOdds[0].querySelectorAll('input')
-  minBestOddsInput = temp2[0].value
-  maxBestOddsInput = temp2[1].value
+  }catch(error){
+    console.log(error);
+  }
 
-  innerTextDictionary['sort-by'] = [document.querySelectorAll('svg.sort-icon.active')[0].getAttribute("id"), ascendingBool]
-  innerTextDictionary['odds-filter'] = {'minodds': minOddsInput,'maxodds':maxOddsInput}
-  innerTextDictionary['best-odds-filter'] = {'minodds': minBestOddsInput, 'maxodds': maxBestOddsInput}
-  
-  
+  try{
+    innerTextDictionary['sort-by'] = [document.querySelector('svg.sort-icon.active').getAttribute("id"), ascendingBool];
+  }catch(error){
+    innerTextDictionary['sort-by'] = ['ev', ascendingBool];
+  }
+
   //finding the things that are active:
-  console.log(innerTextDictionary)
   // Get the last segment (element) of the URL
   const url = '/get_positive_ev_dash_data?';
 
   const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
   table_row_to_append_to.innerHTML = '';
   const tr = document.createElement('ul');
+
   tr.classList.add('table-custom__content__rows__row');
-  tr.innerHTML = '<li class="centered"> Updating........ </li>'
+
+  var objectElement = document.createElement('img');
+  
+  objectElement.src = '/static/images/ring-resize.svg'; 
+
+  tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
+
   table_row_to_append_to.appendChild(tr);
+  
 
   fetch(url,{
     method: 'POST',
@@ -631,9 +651,6 @@ function fetchDataAndUpdateTable() {
   })
     .then(response => response.json())
     .then(data => {
-      console.log(userPermissionVar);
-      console.log('here is the data')
-      console.log(data)
       if(userPermissionVar =='standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev'){
         updateTable(data);
       }else{
@@ -690,15 +707,14 @@ function addToBankroll() {
 
 function toggleSport(){
   var currentURL = window.location.href;
+
   var urlSegments = currentURL.split('/');
   
-  // Get the last segment (element) of the URL
   var targetSport = urlSegments[urlSegments.length - 1];
   
   var elements = document.querySelectorAll('[data-sport="' + targetSport + '"]');
 
   if (elements.length > 0) {
-    // Add the "active" class to the first matching element
     elements[0].classList.add('active');
 }
 }
@@ -732,53 +748,20 @@ function greenIfFiltered(event){
 
 }
 }
-function greenIfFilteredOdds(event) {
-  var filterSVG = findCousinWithClass(event.target, 'dropbtnodds');
-  console.log('here is svg')
-  console.log(filterSVG)
-  if (filterSVG) {
-      console.log(filterSVG)
-      var activeElementsOdds = document.querySelectorAll('#min-odds-filter')
-      temp = activeElementsOdds[0].querySelectorAll('input')
-      minOddsInput = temp[0].value
-      maxOddsInput = temp[1].value
-      console.log('here is mion odds ')
-      console.log(minOddsInput)
 
-      if (minOddsInput.value !== '' && maxOddsInput.value !== '') {
-          var paths = filterSVG.querySelectorAll('path');
-          paths.forEach(function (path) {
-              path.style.fill = '#21ce99';
-          });
-      } else {
-          var paths = filterSVG.querySelectorAll('path');
-          paths.forEach(function (path) {
-              path.style.fill = 'var(--table-thead-color)';
-          });
-      }
-
-
-      var activeBestElementsOdds = document.querySelectorAll('#best-odds-filter')
-      temp2 = activeBestElementsOdds[0].querySelectorAll('input')
-      minBestOddsInput = temp2[0].value
-      maxBestOddsInput = temp2[1].value
-
-      if (minBestOddsInput.value !== '' && maxBestOddsInput.value !== '') {
-          var paths2 = filterSVG.querySelectorAll('path');
-          paths2.forEach(function (path2) {
-              path2.style.fill = '#21ce99';
-          });
-      } else {
-          var paths2 = filterSVG.querySelectorAll('path');
-          paths.forEach(function (path) {
-              path.style.fill = 'var(--table-thead-color)';
-          });
-      }
-  }
+function makeSingleFilterValue(value){
+  return `
+  <label class="custom-checkbox">
+    <input type="checkbox">
+      <span class="checkmark"></span>
+      <a class = "filter-value-content-a">
+        ${value.toUpperCase()}
+      </a>
+  </label>`
 }
 
+function fillFilterValues(callback1, callback2){
 
-function fillFilterValues(){
   // for the ones where you can select 
   fetch('/get_filter_dropdown_values',{
     method: 'GET',
@@ -791,156 +774,36 @@ function fillFilterValues(){
 
       var sportLeagueFilterDiv = document.getElementById("sport-league-filter");
       data['sport_league_display'].forEach(function(league){
-        var filterValue = document.createElement('a');
-        filterValue.innerHTML = league
+        var filterValue = document.createElement('div');
         filterValue.classList.add("filter-dropdown-item");
-        if(league == "all"){
-          filterValue.classList.add("active");
-        }
-        filterValue.addEventListener('click', greenIfFiltered);
-        filterValue.addEventListener('click', function(e) {
-          var filterItems = sportLeagueFilterDiv.querySelectorAll('.filter-dropdown-item');
-          filterItems.forEach(function(item) {
-            item.classList.remove('active');
-          });
-          filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
-        });
-
-        sportLeagueFilterDiv.appendChild(filterValue)
+        filterValue.innerHTML = makeSingleFilterValue(league);
+        sportLeagueFilterDiv.appendChild(filterValue);
       })
 
-      var marketFilterDiv = document.getElementById("market-filter");
-      data['market_display'].forEach(function(market){
-        var filterValue = document.createElement('a');
+      var sportLeagueFilterDiv = document.getElementById("market-filter");
+      data['market_display'].forEach(function(league){
+        var filterValue = document.createElement('div');
         filterValue.classList.add("filter-dropdown-item");
-        filterValue.innerHTML = market
-        if(market == "all"){
-          filterValue.classList.add("active");
-        }
-        filterValue.addEventListener('click', greenIfFiltered);
-
-        filterValue.addEventListener('click', function(e) {
-          var filterItems = marketFilterDiv.querySelectorAll('.filter-dropdown-item');
-          filterItems.forEach(function(item) {
-            item.classList.remove('active');
-          });
-          filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
-        });
-        marketFilterDiv.appendChild(filterValue)
+        filterValue.innerHTML = makeSingleFilterValue(league);
+        sportLeagueFilterDiv.appendChild(filterValue);
       })
 
-      var gameDateFilterDiv = document.getElementById("game-date-filter");
-      data['game_date'].forEach(function(league){
-        var filterValue = document.createElement('a');
-        filterValue.innerHTML = league
-        
-        filterValue.classList.add("filter-dropdown-item");
-        if(league == "all"){
-          filterValue.classList.add("active");
-        }
-        filterValue.addEventListener('click', greenIfFiltered);
+      var sportLeagueFilterDiv = document.getElementById("sportsbook-filter");
 
-        filterValue.addEventListener('click', function(e) {
-          var filterItems = gameDateFilterDiv.querySelectorAll('.filter-dropdown-item');
-          filterItems.forEach(function(item) {
-            item.classList.remove('active');
-          });
-          filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
-        });
-        gameDateFilterDiv.appendChild(filterValue)
-      })
-
-      var oddsFilterDiv = document.getElementById('min-odds-filter');
-      var minOddsInput = document.createElement('input');
-      minOddsInput.type = 'number';
-      minOddsInput.placeholder = 'Min Odds';
-
-      // Create the input for maximum odds
-      var maxOddsInput = document.createElement('input');
-      maxOddsInput.type = 'number';
-      maxOddsInput.placeholder = 'Max Odds';
-
-      // Create the Apply button
-      var applyButton = document.createElement('button');
-      applyButton.innerHTML = 'Apply';
-      applyButton.addEventListener('click', function () {
-          fetchDataAndUpdateTable();
-      });
-      applyButton.addEventListener('click', greenIfFilteredOdds);
-
-      // Append the inputs and button to the odds filter div
-      oddsFilterDiv.appendChild(minOddsInput);
-      oddsFilterDiv.appendChild(maxOddsInput);
-      oddsFilterDiv.appendChild(applyButton);
-      minOddsInput.addEventListener('click', function (event) {
-        event.stopPropagation();
-    });
-    
-    maxOddsInput.addEventListener('click', function (event) {
-        event.stopPropagation();
-    });
-
-
-    //second odds filter
-
-    var bestOddsFilterDiv = document.getElementById('best-odds-filter');
-    var bestMinOddsInput = document.createElement('input');
-    bestMinOddsInput.type = 'number';
-    bestMinOddsInput.placeholder = 'Min Odds';
-
-      // Create the input for maximum odds
-    var bestMaxOddsInput = document.createElement('input');
-    bestMaxOddsInput.type = 'number';
-    bestMaxOddsInput.placeholder = 'Max Odds';
-
-      // Create the Apply button
-    var bestApplyButton = document.createElement('button');
-    bestApplyButton.innerHTML = 'Apply';
-    bestApplyButton.addEventListener('click', function () {
-          fetchDataAndUpdateTable();
-    });
-    bestApplyButton.addEventListener('click', greenIfFilteredOdds);
-
-      // Append the inputs and button to the odds filter div
-      bestOddsFilterDiv.appendChild(bestMinOddsInput);
-      bestOddsFilterDiv.appendChild(bestMaxOddsInput);
-      bestOddsFilterDiv.appendChild(bestApplyButton);
-      bestMinOddsInput.addEventListener('click', function (event) {
-        event.stopPropagation();
-      });
-    
-      bestMaxOddsInput.addEventListener('click', function (event) {
-        event.stopPropagation();
-      });
-
-      var sportsbookFilterDiv = document.getElementById("sportsbook-filter");
       data['sportsbooks_used'].forEach(function(league){
-        var filterValue = document.createElement('a');
-        filterValue.innerHTML = league
-        
+        var filterValue = document.createElement('div');
         filterValue.classList.add("filter-dropdown-item");
-        if(league == "all"){
-          filterValue.classList.add("active");
-        }
-        filterValue.addEventListener('click', greenIfFiltered);
-
-        filterValue.addEventListener('click', function(e) {
-          var filterItems = sportsbookFilterDiv.querySelectorAll('.filter-dropdown-item');
-          filterItems.forEach(function(item) {
-            item.classList.remove('active');
-          });
-          filterValue.classList.add('active');
-          fetchDataAndUpdateTable();
-        });
-        sportsbookFilterDiv.appendChild(filterValue)
+        filterValue.innerHTML = makeSingleFilterValue(league);
+        
+        sportLeagueFilterDiv.appendChild(filterValue);
       })
+
+      callback1()
+      callback2()
+
     })
     .catch(error => console.error('Error fetching data:', error));
 }
-
 
 function getUserPermission() {
   return fetch('/get_user_permission', {
@@ -951,6 +814,7 @@ function getUserPermission() {
   })
     .then(response => {
       if (!response.ok) {
+      
         throw new Error('Network response was not ok');
       }
       console.log(response)
@@ -962,15 +826,539 @@ function getUserPermission() {
     });
 }
 
+function makeSlideResponsive(){
+  const leftBox = document.getElementById("full-filter");
+  const rightBox = document.querySelectorAll(".table-custom")[0];
+  function handleTouchStart(event) {
+    startX = event.touches[0].clientX;
+  }
+  function handleTouchMove(event) {
+    const currentX = event.touches[0].clientX;
+    const diffX = currentX - startX;
+    if (diffX < -50) { 
+      rightBox.classList.remove('table-hidden');
+      leftBox.style.transition = 'transform 0.3s ease';
+      leftBox.style.transform = 'translateX(-100%)';
+      rightBox.style.transition = 'flex-grow 0.3s ease';
+      rightBox.style.flexGrow = '100';
+    }
+  }
+
+  function handleTouchEnd() {
+    leftBox.addEventListener('transitionend', function() {
+      leftBox.style.transition = '';
+      leftBox.style.transform = '';
+      leftBox.classList.add('hidden');
+
+      rightBox.style.transition = 'flex-grow 1.3s ease';
+    }, { once: true });
+    rightBox.addEventListener('transitionend', function() {
+
+      rightBox.style.transition = '';
+      rightBox.style.flexGrow = '';
+    }, { once: true });
+  }
+  leftBox.addEventListener('touchstart', handleTouchStart);
+  leftBox.addEventListener('touchmove', handleTouchMove);
+  leftBox.addEventListener('touchend', handleTouchEnd);
+
+}
+
+function showFilter(){
+  if(!document.querySelector('.sort-by-content').classList.contains("mobile-hidden")){
+    document.querySelector('.sort-by-content').classList.add("mobile-hidden");
+  }
+
+  var allFiltersDiv = document.getElementById('full-filter');
+  var tableCustom = document.querySelector('.table-custom__wrapper');
+  allFiltersDiv.classList.toggle('mobile-hidden');
+  tableCustom.classList.toggle('table-hidden');
+
+  var sortByButtonMobile = document.querySelector('.sort-by-button-mobile');
+  var filterButtonMobile = document.querySelector('.filter-button-mobile');
+  sortByButtonMobile.classList.toggle("mobile-hidden");
+  filterButtonMobile.classList.toggle("mobile-hidden");
+
+  var filterValues = document.querySelectorAll('.full-filter-ind-content-values');
+
+  filterValues.forEach(function(filter) {
+    filter.classList.remove('hidden');
+  })
+
+  var evDashHeader = document.getElementById("ev-dash-header");
+
+  var tableheader = document.querySelector(".table-custom__header");
+  document.querySelector(".table-custom__wrapper").classList.toggle("hidden");
+
+  tableheader.classList.add("fixed");
+
+  evDashHeader.classList.add("fixed");
+
+  evDashHeader.querySelector('.ev-dash-title').classList.toggle('hidden');
+
+  var newH2 = document.querySelector('.ev-dash-filters-title');
+
+  newH2.classList.toggle("mobile-hidden");
+
+  evDashHeader.classList.toggle("centered-2");
+
+  document.getElementById('min-odds-input').placeholder = "Min, i.e. -300";
+
+  document.getElementById('max-odds-input').placeholder = "Max, i.e. +200";
+}
+
+function adjustLayout() {
+
+  const screenWidth = window.innerWidth;
+
+  if (screenWidth < 768) {
+    var desktopFilterButton = document.getElementById('all-filters-button-div-li');
+
+    var evDashHeader = document.getElementById("ev-dash-header");
+
+    evDashHeader.appendChild(desktopFilterButton);
+
+    filterSVG = desktopFilterButton.querySelector("svg");
+
+    filterSVG.querySelector("path").style.fill = "var(--table-btn-bg)"
+
+    filterSVG.setAttribute('transform', 'scale(2)');
+
+  } 
+}
+
+function deselectAllAndKeepSelected(checkbox){
+
+  var elements = checkbox.parentNode.parentNode.parentNode.querySelectorAll('.filter-dropdown-item.active');
+
+  var searchString = 'ALL';
+
+  if(checkbox.parentNode.querySelector('a').innerText.trim().toUpperCase() == "ALL"){
+    elements.forEach(function(element) {
+      
+          element.querySelector('input[type="checkbox"]').click();
+
+  });
+  }
+  
+  elements.forEach(function(element) {
+      if (element.innerText.trim().toUpperCase() === searchString) {
+          element.querySelector('input[type="checkbox"]').click();
+      }
+  });
+
+}
+
+function clearFilter(){
+
+  this.parentNode.querySelector('.filter-dropdown-button').innerText = ">";
+
+  var lookingForContentDivToClose = this.parentNode.parentNode.querySelector('.full-filter-ind-content-values');
+
+  if(!lookingForContentDivToClose.classList.contains('hidden')){
+    lookingForContentDivToClose.classList.add('hidden');
+  }
+
+  var values = this.parentNode.parentNode.querySelectorAll('.filter-dropdown-item');
+
+  values.forEach(function(value) {
+    if(value.classList.contains('active')){
+      value.querySelector('input[type="checkbox"]').click();
+    }
+  });
+
+  var inputs = this.parentNode.parentNode.querySelectorAll('input[type="text"]');
+  if(inputs.length > 0){
+    inputs.forEach(function(input) {
+      input.value = '';
+      fetchDataAndUpdateTable();
+    });
+  }
+
+}
+
+function addDropdownListeners(){
+  var dropdownButtons = document.querySelectorAll('.full-filter-ind-content-title');
+
+  dropdownButtons.forEach(btn => {
+    btn.addEventListener('click', showDropdown)
+  });
+
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    
+  checkboxes.forEach(function(checkbox) {
+      if (!checkbox.hasEventListener) {
+          checkbox.addEventListener('click', function(){
+            checkbox.parentNode.parentNode.classList.toggle("active");
+            var selectedCount = checkbox.parentNode.parentNode.parentNode.querySelectorAll('.active').length;
+            checkbox.parentNode.parentNode.parentNode.parentNode.querySelector('.amount-selected a').innerText = selectedCount;
+            deselectAllAndKeepSelected(checkbox);
+            fetchDataAndUpdateTable();
+          });
+          checkbox.hasEventListener = true;
+      }
+  });
+
+
+  var oddsInput = document.querySelectorAll('input[type="text"]');
+
+  oddsInput.forEach(function(input) {
+    if (!input.hasEventListener) {
+      input.addEventListener('click', function(){
+        input.parentNode.parentNode.classList.toggle("active");
+        });
+        input.hasEventListener = true;
+    }
+
+  });
+
+  var clearFilterButtons = document.querySelectorAll('.filter-dropdown-button-close');
+
+  clearFilterButtons.forEach(function(button) {
+      button.addEventListener('click', clearFilter);
+  });
+
+  document.querySelector('.filter-button-mobile').addEventListener('click', showFilter);
+
+}
+
+function showDropdown(event){
+
+  var oddsCloseButton = event.target.closest('.full-filter-ind-content').querySelector('.filter-dropdown-button-close');
+
+  if(oddsCloseButton.classList.contains('hidden')){
+    oddsCloseButton.classList.toggle('hidden');
+  }
+
+  if (!event.target.classList.contains('filter-dropdown-button-close')) {
+    var parentNode = this.parentNode;
+
+    var dropdownOptionsDiv = parentNode.querySelector('.full-filter-ind-content-values');
+
+    dropdownOptionsDiv.classList.toggle('hidden');
+
+    if(this.parentNode.querySelector('.filter-dropdown-button').innerText == ">"){
+
+      this.parentNode.querySelector('.filter-dropdown-button').innerText = "<"
+
+    }else{
+      this.parentNode.querySelector('.filter-dropdown-button').innerText = ">"
+    }
+
+  }else{
+    event.target.classList.toggle('hidden');
+  }
+
+  
+
+  
+}
+
+function addDynamicOddsInputDisplayFunction(){
+  var minOddsInput = document.getElementById('min-odds-input');
+  var minOddsSelected = document.getElementById('min-odds-selected');
+  minOddsInput.addEventListener('input', function() {
+        if (minOddsInput.value.trim() !== '') {
+          minOddsSelected.innerText = minOddsInput.value.trim();
+        } else {
+          minOddsSelected.innerText = minOddsInput.value.trim();
+        }
+        if(minOddsInput.value[0]=='-'){
+          var lengthRequired = 4;
+        }else{
+          var lengthRequired = 3;
+        }
+
+        if(minOddsInput.value.length >= lengthRequired){
+          fetchDataAndUpdateTable();
+        }
+    });
+
+    var maxOddsInput = document.getElementById('max-odds-input');
+    var maxOddsSelected = document.getElementById('max-odds-selected');
+
+    maxOddsInput.addEventListener('input', function() {
+      if (maxOddsInput.value.trim() !== '') {
+        maxOddsSelected.innerText = maxOddsInput.value.trim();
+      }
+      if(maxOddsInput.value[0]=='-'){
+        var lengthRequired = 4;
+      }else{
+        var lengthRequired = 3;
+      }
+      if(maxOddsInput.value.length >= lengthRequired){
+        fetchDataAndUpdateTable();
+      }
+      });
+}
+
+function addSortListeners(){
+
+  var svgs = document.querySelectorAll('.sort-icon');
+
+  svgs.forEach(function(svg) {
+
+    svg.setAttribute('ascending', false);
+
+    svg.addEventListener('click', function() {
+
+      var path = this.querySelector('.arrow-head');
+
+      var isActive = this.classList.contains('active');
+
+      if (isActive) {
+          //if currently clicked
+          var currentD = path.getAttribute('d');
+          //change color
+          var newD = currentD === 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z' ? 'm 2.4925484,0.06306169 c -0.081574,0 -0.1599452,0.03248 -0.2176345,0.0902 L 0.20880797,2.2193567 c -0.1202399,0.120215 -0.1202399,0.315079 0,0.435292 0.1200713,0.120215 0.31523142,0.120215 0.43528867,0 L 2.4925512,0.80619669 4.3408483,2.6546487 c 0.1200713,0.120215 0.3150797,0.120215 0.4352915,0 0.1202399,-0.120212 0.1202399,-0.315079 0,-0.435292 L 2.7101969,0.15325969 c -0.057746,-0.05772 -0.1360602,-0.0902 -0.2176345,-0.0902 z' : 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z';
+          path.setAttribute('d', newD);
+
+          this.setAttribute('ascending', this.getAttribute('ascending') == 'true' ? 'false': 'true');
+        } 
+        else {
+          svgs.forEach(function(s) {
+            s.classList.remove('active');
+            s.setAttribute('ascending', false);
+          })
+          this.classList.toggle('active');
+          this.setAttribute('ascending', false);
+      }
+      fetchDataAndUpdateTable()
+      });
+    });
+
+
+}
+
+function clearAllFilters(){
+  var filterDropdownItems = document.querySelectorAll('.filter-dropdown-item');
+
+  filterDropdownItems.forEach(function(filterItem) {
+    if(filterItem.classList.contains("active")){
+      filterItem.querySelector('label').click();
+    }
+  })
+
+  document.getElementById('min-odds-input').value="";
+  document.getElementById('max-odds-input').value="";
+
+  fetchDataAndUpdateTable();
+
+}
+
+function hideFilter(){
+
+  document.getElementById("full-filter").classList.toggle("mobile-hidden");
+
+
+  document.querySelector('.table-custom__wrapper').classList.toggle("table-hidden");
+
+  var sortByButtonMobile = document.querySelector('.sort-by-button-mobile');
+  var filterButtonMobile = document.querySelector('.filter-button-mobile');
+  sortByButtonMobile.classList.toggle("mobile-hidden");
+  filterButtonMobile.classList.toggle("mobile-hidden");
+
+  /////////
+  var evDashHeader = document.getElementById("ev-dash-header");
+
+  var tableheader = document.querySelector(".table-custom__header");
+  document.querySelector(".table-custom__wrapper").classList.toggle("hidden");
+
+  tableheader.classList.remove("fixed");
+
+  evDashHeader.classList.remove("fixed");
+
+  evDashHeader.querySelector('.ev-dash-title').classList.toggle('hidden');
+
+  var newH2 = document.querySelector('.ev-dash-filters-title');
+
+  newH2.classList.toggle("mobile-hidden");
+
+  evDashHeader.classList.toggle("centered-2");
+
+
+}
+
+function addMobileCloseListeners(){
+  document.querySelector('.done-div-clear-all-button').addEventListener('click', clearAllFilters);
+
+  document.querySelector('.done-div-done-button').addEventListener('click', hideFilter);
+
+}
+
+function addSortByDiv(){
+
+  var sortIcons = document.querySelectorAll('.sort-icon');
+
+  sortIcons.forEach(function(icon){
+
+    var newValAscending = icon.parentNode.cloneNode(true);
+
+    var newValDescending = icon.parentNode.cloneNode(true);
+
+    if(!newValAscending.innerText.toUpperCase().includes("MIN.")){
+
+    newValAscending.setAttribute('ascending', true);
+    newValDescending.setAttribute('ascending', false);
+
+    if(!newValAscending.querySelector('svg').classList.contains('mobile-hidden')){
+        newValAscending.querySelector('svg').classList.add('mobile-hidden');
+        newValDescending.querySelector('svg').classList.add('mobile-hidden');
+      }
+
+      if(!newValAscending.classList.contains('sort-by-filter-container-2')){
+        newValAscending.classList.add('sort-by-filter-container-2');
+        newValDescending.classList.add('sort-by-filter-container-2');
+        newValDescending.classList.add('filter-value-content-b');
+        newValAscending.classList.add('filter-value-content-b');
+      }
+
+
+    var text = newValAscending.innerText;
+    
+    var formattedText = text.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
+        return match.toUpperCase() ;
+    });
+
+    newValAscending.innerText = formattedText;
+
+    newValDescending.innerText = formattedText;
+
+    newValAscending.innerText += "(Low to High)";
+
+    newValDescending.innerText += "(High to Low)";
+
+    var clonedIcon = icon.cloneNode(true); 
+    clonedIcon.classList.add("mobile-hidden");
+    newValAscending.appendChild(clonedIcon); 
+
+    clonedIcon = icon.cloneNode(true); 
+    clonedIcon.classList.add("mobile-hidden");
+    newValDescending.appendChild(clonedIcon); 
+
+    if (!(newValAscending.querySelector('svg').id === "bet_amount" && newValAscending.getAttribute("ascending") === "true") && 
+    !(newValAscending.querySelector('svg').id === "ev" && newValAscending.getAttribute("ascending") === "true")) {
+      document.querySelector('.sort-by-content').appendChild(newValAscending);
+      newValAscending.appendChild(clonedIcon); 
+    }
+
+    if ((newValAscending.querySelector('svg').id === "highest_bettable_odds" && newValAscending.getAttribute("ascending") === "true")) {
+      newValAscending.innerText = "Odds: Low to High";
+      newValDescending.innerText = "Odds: High to Low";
+      newValAscending.appendChild(clonedIcon); 
+      newValDescending.appendChild(clonedIcon); 
+    }
+
+    if ((newValDescending.querySelector('svg').id === "bet_amount" && newValDescending.getAttribute("ascending") === "false")) {
+      newValDescending.innerText = "Best Bets";
+      newValDescending.appendChild(clonedIcon); 
+    }
+
+    try{
+      if (newValDescending.querySelector('svg').id === "ev") {
+          newValDescending.innerText = "%+EV";
+          newValDescending.appendChild(clonedIcon); 
+
+    }
+    }catch(error){}
+
+    clonedIcon = icon.cloneNode(true); 
+    clonedIcon.classList.add("mobile-hidden");
+    newValAscending.appendChild(clonedIcon); 
+
+    clonedIcon = icon.cloneNode(true); 
+    clonedIcon.classList.add("mobile-hidden");
+    newValDescending.appendChild(clonedIcon); 
+
+    document.querySelector('.sort-by-content').appendChild(newValDescending);
+
+    var brElements = newValDescending.querySelectorAll('br');
+
+    brElements.forEach(function(brElement) {
+        brElement.parentNode.removeChild(brElement);
+    });
+    
+    brElements = newValAscending.querySelectorAll('br');
+    brElements.forEach(function(brElement) {
+        brElement.parentNode.removeChild(brElement);
+    });
+
+    newValAscending.addEventListener('click', function() {
+      var activeElements = document.querySelectorAll("svg.active");
+      activeElements.forEach(function(icon){
+        icon.classList.remove('active');
+        icon.parentNode.classList.remove("green");
+      });
+      this.querySelector('svg').classList.add('active');
+      this.classList.add("green");
+      showSortBy();
+      fetchDataAndUpdateTable();
+    });
+  
+    newValDescending.addEventListener('click', function() {
+      var activeElements = document.querySelectorAll("svg.active");
+      activeElements.forEach(function(icon){
+        icon.classList.remove('active');
+        icon.parentNode.classList.remove("green");
+    
+      });
+      this.querySelector('svg').classList.add('active');
+      this.classList.add("green");
+      showSortBy();
+      fetchDataAndUpdateTable();
+    });
+
+  }
+
+  });
+
+  document.querySelectorAll("svg.active").forEach(function(svg){
+    svg.classList.remove('active');
+  })
+
+  var elementsWithSameId = document.querySelectorAll('#bet_amount');
+
+  elementsWithSameId.forEach(function(element) {
+    try{
+      if (element.parentNode.getAttribute('ascending') === 'false') {
+        element.classList.add('active');
+      }
+      else{
+        element.remove();
+      }
+    }
+  catch(error){
+    element.remove();
+  }
+
+  });
+
+    
+}
+
+function showSortBy() {
+  document.querySelector('.sort-by-content').classList.toggle('mobile-hidden');
+  document.querySelector('.table-custom__wrapper').classList.toggle('mobile-hidden');
+  if (document.querySelector('.sort-by-button-mobile a').innerText == ">") {
+    document.querySelector('.sort-by-button-mobile a').innerText = "<";
+  } else {
+    document.querySelector('.sort-by-button-mobile a').innerText = ">";
+  }
+}
+
+function addSortListeners(){
+  addSortByDiv();
+  document.querySelector('.sort-by-button-mobile').addEventListener("click", showSortBy)
+}
+
 
 $(document).ready(function(){
-  //document ready
-  // toggle sidebar
+
   const menuIcon = document.querySelector(".navbar-custom__left i");
   const closeIcon = document.querySelector(".sidebar-custom .close-icon");
   const logo = document.querySelector(".sidebar-custom__logo img");
   menuIcon.addEventListener("click", (e) => {
-    document.querySelector(".sidebar-custom").classList.add("active");
+    document.querySelector(".sidebar-custom").classList.toggle("active");
   });
 
   closeIcon.addEventListener("click", (e) => {
@@ -978,131 +1366,42 @@ $(document).ready(function(){
   });
 
   const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
-
   
   toggleSport();
 
-  var dropdownBtns = document.querySelectorAll('.dropbtn');
+  addSortListeners();
 
-  dropdownBtns.forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      var container = this.closest('.filter-container'); 
-      if (container) {
-        var siblingElement = container.querySelector('.dropdown-content');
-        if (siblingElement) {
-          siblingElement.classList.toggle('show');
-        }}
-      })
-  });
+  fillFilterValues(addDropdownListeners, addMobileCloseListeners);
 
-  var dropdownBtnsOdds = document.querySelectorAll('.dropbtnodds');
+  addDynamicOddsInputDisplayFunction();
 
-  dropdownBtnsOdds.forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      var container = this.closest('.filter-container'); 
-      if (container) {
-        var siblingElement = container.querySelector('.dropdown-content-odds');
-        var titleElement = container.querySelector('.filter-dropdown-label-odds');
-        if (siblingElement) {
-          siblingElement.classList.toggle('show');
-        }
-      }
-      })
-  });
+  // addMobileCloseListeners();
 
-  window.addEventListener('click', function(event) {
-    dropdownBtns.forEach(function(btn) {
-      var container = btn.closest('.filter-container');
-      if (container) {
-        var siblingElement = container.querySelector('.dropdown-content');
-        if (siblingElement && siblingElement.classList.contains("show") && !btn.contains(event.target)) {
-          siblingElement.classList.remove('show');
-        }
-      }
-    });
-  });
-  window.addEventListener('click', function(event) {
-    dropdownBtnsOdds.forEach(function(btn) {
-      var container = btn.closest('.filter-container');
-      if (container) {
-        var siblingElement = container.querySelector('.dropdown-content-odds');
-        if (siblingElement && siblingElement.classList.contains("show") && !btn.contains(event.target)) {
-          siblingElement.classList.remove('show');
-        }
-      }
-    });
-  });
- 
-  fillFilterValues();
+  
+
+
+  // makeSlideResponsive();
+
+  // window.addEventListener('resize', adjustLayout);
+
+  // adjustLayout();
+
+
 
     /** 
    * 5. Add an event listener to update table and bankroll
    */
     document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
-    var svgs = document.querySelectorAll('.sort-icon');
-    //Each one of the icons for filtering
-    svgs.forEach(function(svg) {
-      svg.setAttribute('ascending', false);
-      svg.addEventListener('click', function() {
-        var content = ''
-        
-
-        // Create a dropdown
-        var dropdown = document.createElement('div');
-        dropdown.className = 'dropdown-content-show';
-        dropdown.id = 'sportsbook-filter'
-        dropdown.innerHTML = '<p style="color:#f7f7f7 ;font-size:14px;">' + content + '</p>'; // Set text color to white
-
-        // Remove existing dropdowns
-        document.querySelectorAll('.dropdown-content-show').forEach(function (existingDropdown) {
-            existingDropdown.remove();
-        });
-
-        // Append the dropdown to the body
-        document.body.appendChild(dropdown);
-
-        // Position the dropdown relative to the clicked SVG
-        var svgRect = this.getBoundingClientRect();
-        dropdown.style.position = 'absolute';
-        dropdown.style.top = svgRect.bottom + 'px';
-        dropdown.style.left = svgRect.left + 'px';
-        var path = this.querySelector('.arrow-head');
-        // svg.addEventListener('click', fetchDataAndUpdateTable);
-        var isActive = this.classList.contains('active');
-        console.log('this is active', isActive)
-        if (isActive) {
-          //if currently clicked
-          var currentD = path.getAttribute('d');
-          //change color
-          var newD = currentD === 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z' ? 'm 2.4925484,0.06306169 c -0.081574,0 -0.1599452,0.03248 -0.2176345,0.0902 L 0.20880797,2.2193567 c -0.1202399,0.120215 -0.1202399,0.315079 0,0.435292 0.1200713,0.120215 0.31523142,0.120215 0.43528867,0 L 2.4925512,0.80619669 4.3408483,2.6546487 c 0.1200713,0.120215 0.3150797,0.120215 0.4352915,0 0.1202399,-0.120212 0.1202399,-0.315079 0,-0.435292 L 2.7101969,0.15325969 c -0.057746,-0.05772 -0.1360602,-0.0902 -0.2176345,-0.0902 z' : 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z';
-          path.setAttribute('d', newD);
-          // TODO: toggle it 
-          this.setAttribute('ascending', this.getAttribute('ascending') == 'true' ? 'false': 'true');
-        } 
-        else {
-          console.log("this is where I thing")
-          svgs.forEach(function(s) {
-            s.classList.remove('active');
-            s.setAttribute('ascending', false);
-          })
-          this.classList.add('active');
-          this.setAttribute('ascending', false);
-      }
-      fetchDataAndUpdateTable()
-      });
-    });
-
     getUserPermission()
     .then(userPermission => {
       userPermissionVar = userPermission.permission;
       console.log(userPermissionVar);
-
       fetchDataAndUpdateTable();
     })
     .catch(error => {
       console.log(error);
     });
 
-    
 });
+
