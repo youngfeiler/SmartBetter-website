@@ -1263,9 +1263,7 @@ function addSortByDiv(){
     brElements.forEach(function(brElement) {
         brElement.parentNode.removeChild(brElement);
     });
-
     brElements = newValAscending.querySelectorAll('br');
-
     brElements.forEach(function(brElement) {
         brElement.parentNode.removeChild(brElement);
     });
