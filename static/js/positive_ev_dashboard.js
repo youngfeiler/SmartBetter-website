@@ -963,14 +963,9 @@ function deselectAllAndKeepSelected(checkbox){
 
 function clearFilter(){
 
-  // this.classList.add('hidden');
-
-  // console.log(this);
-
   this.parentNode.querySelector('.filter-dropdown-button').innerText = ">";
 
   var lookingForContentDivToClose = this.parentNode.parentNode.querySelector('.full-filter-ind-content-values');
-
 
   if(!lookingForContentDivToClose.classList.contains('hidden')){
     lookingForContentDivToClose.classList.add('hidden');
@@ -991,7 +986,6 @@ function clearFilter(){
       fetchDataAndUpdateTable();
     });
   }
-
 
 }
 
@@ -1257,9 +1251,25 @@ function addSortByDiv(){
     clonedIcon = icon.cloneNode(true); 
     clonedIcon.classList.add("mobile-hidden");
     newValDescending.appendChild(clonedIcon); 
+
     document.querySelector('.sort-by-content').appendChild(newValAscending);
 
     document.querySelector('.sort-by-content').appendChild(newValDescending);
+
+    var a = document.getElementById('your_element_id'); // or any other method to select your element
+
+    var brElements = newValDescending.querySelectorAll('br');
+
+    brElements.forEach(function(brElement) {
+        brElement.parentNode.removeChild(brElement);
+    });
+
+    brElements = newValAscending.querySelectorAll('br');
+
+    brElements.forEach(function(brElement) {
+        brElement.parentNode.removeChild(brElement);
+    });
+
 
     newValAscending.addEventListener('click', function() {
       var activeElements = document.querySelectorAll("svg.active");
