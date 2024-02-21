@@ -702,7 +702,6 @@ input[type="text"]::-webkit-inner-spin-button {
 
 #full-filter {
   transition: transform 0.3s ease, opacity 0.3s ease; /* Add transitions for transform and opacity */
-  overflow: scroll;
 }
 
 .table-custom {
