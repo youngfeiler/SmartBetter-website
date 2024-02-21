@@ -1210,8 +1210,8 @@ function addSortByDiv(){
     var newValAscending = icon.parentNode.cloneNode(true);
 
     var newValDescending = icon.parentNode.cloneNode(true);
-
-    if(!newValAscending.innerText.toUpperCase().includes("MIN.") && !newValAscending.innerText.toUpperCase().includes("%")){
+//&& !newValAscending.innerText.toUpperCase().includes("%")
+    if(!newValAscending.innerText.toUpperCase().includes("MIN.")){
 
     newValAscending.setAttribute('ascending', true);
 
@@ -1240,9 +1240,9 @@ function addSortByDiv(){
 
     newValDescending.innerText = formattedText;
 
-    newValAscending.innerText += "(Ascending)";
+    newValAscending.innerText += "(Low to High)";
 
-    newValDescending.innerText += "(Descending)";
+    newValDescending.innerText += "(High to Low)";
 
     var clonedIcon = icon.cloneNode(true); 
     clonedIcon.classList.add("mobile-hidden");
@@ -1278,6 +1278,7 @@ function addSortByDiv(){
       });
       this.querySelector('svg').classList.add('active');
       this.classList.add("green");
+      showSortBy();
       fetchDataAndUpdateTable();
     });
   
@@ -1286,10 +1287,12 @@ function addSortByDiv(){
       activeElements.forEach(function(icon){
         icon.classList.remove('active');
         icon.parentNode.classList.remove("green");
-
+        
       });
       this.querySelector('svg').classList.add('active');
       this.classList.add("green");
+      showSortBy();
+
       fetchDataAndUpdateTable();
     });
 
@@ -1306,7 +1309,6 @@ function addSortByDiv(){
 function showSortBy() {
   document.querySelector('.sort-by-content').classList.toggle('mobile-hidden');
   document.querySelector('.table-custom__wrapper').classList.toggle('mobile-hidden');
-
   if (document.querySelector('.sort-by-button-mobile a').innerText == ">") {
     document.querySelector('.sort-by-button-mobile a').innerText = "<";
   } else {
