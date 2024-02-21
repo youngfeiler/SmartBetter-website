@@ -1568,7 +1568,7 @@ input[type="text"]::-webkit-inner-spin-button {
   }
 
   input, textarea {
-    touch-action: manipulation;
+    touch-action: manipulation !important;
 }
 
 
