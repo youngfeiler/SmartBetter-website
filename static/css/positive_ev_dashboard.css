@@ -2015,12 +2015,12 @@ input[type="text"]::-webkit-inner-spin-button {
 
   #max-odds-input{
     margin-left: 0px;
-    font-size: 1.0rem;
+    font-size: 17px;
   }
 
   #min-odds-input{
     margin-right: 0px;
-    font-size: 1.0rem;
+    font-size: 17px;
   }
 
 
