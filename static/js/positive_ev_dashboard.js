@@ -749,6 +749,7 @@ function greenIfFiltered(event){
       paths.forEach(function(path) {
         path.style.fill = 'var(--table-thead-color)';
     });
+
 }
 }
 
@@ -762,6 +763,7 @@ function makeSingleFilterValue(value){
       </a>
   </label>`
 }
+
 
 function fillFilterValues(callback1, callback2){
 
