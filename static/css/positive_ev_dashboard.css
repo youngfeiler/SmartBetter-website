@@ -1567,9 +1567,9 @@ input[type="text"]::-webkit-inner-spin-button {
     font-weight: bold;
   }
 
-  input, textarea {
+  /* input, textarea {
     touch-action: manipulation !important;
-}
+} */
 
 
 
