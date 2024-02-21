@@ -599,6 +599,7 @@ option {
   cursor: pointer;
   margin: 10px;
   position: relative;
+  padding-left: 14px;
 }
 
 .amount-selected{
@@ -1387,11 +1388,6 @@ input[type="text"]::-webkit-inner-spin-button {
     height: 20px;
     border: 1px solid #ccc;
   }
-  .checkmark::after {
-    content: '\2714'; /* Unicode character for checkmark */
-    text-align: center;
-    display: none;
-  }
   
   .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
     display: flex;
@@ -1429,6 +1425,13 @@ input[type="text"]::-webkit-inner-spin-button {
     height: 101px;
   }
 
+  .ev-dash-filters-title{
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+    padding-top: 0px !important;
+  }
+
 
   .fixed{
     height: 101px;
@@ -1456,6 +1459,7 @@ input[type="text"]::-webkit-inner-spin-button {
     text-align:center;
     flex-direction: row;
     justify-content: center !important;
+    gap: 0 !important;
   }
 
   .filter-dropdown-button{
@@ -1513,12 +1517,13 @@ input[type="text"]::-webkit-inner-spin-button {
     margin-top:0px;
     border-radius: 0px;
     margin-bottom: 16px;
-    padding-left: 40px;
+    padding-left: 11px;
   }
 
   .filter-value-content-a{
-    font-size: 1.0rem;
+    font-size: 14px;
     text-align: start;
+    padding-left: 4px;
   }
 
   .filter-value-content-b{
@@ -1531,6 +1536,10 @@ input[type="text"]::-webkit-inner-spin-button {
     width: 15px;
   }
 
+  .checkbox{
+    padding: 11px;
+  }
+
   .centered-2{
     display: flex !important;
     flex-direction: row !important;
@@ -1539,7 +1548,10 @@ input[type="text"]::-webkit-inner-spin-button {
   }
 
   .filter-dropdown-label{
-    font-size: 1.0em;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    line-height: 20px;
     text-transform: capitalize !important;
     color:var(--table-btn-bg);
   }
@@ -2015,6 +2027,7 @@ input[type="text"]::-webkit-inner-spin-button {
 
   #max-odds-input{
     margin-left: 0px;
+    margin-right: 14px;
     font-size: 17px;
   }
 
@@ -2051,7 +2064,7 @@ input[type="text"]::-webkit-inner-spin-button {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding-left: 20px;
     padding-right: 20px;
     font-size: 0.8rem;
@@ -2059,15 +2072,24 @@ input[type="text"]::-webkit-inner-spin-button {
   }
 
   .done-div .done-div-clear-all-button{
+    justify-content: center;
+    align-items: center;
     padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .done-div .done-div-done-button{
     border: none;
     border-radius: 12px;
-    padding: 15px;
+    padding: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+
     background-color: white;
     color: var(--table-thead-bg);
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .filter-container-2.sort-by-filter-container-2{
