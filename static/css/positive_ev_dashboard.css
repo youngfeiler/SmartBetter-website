@@ -160,7 +160,7 @@
   margin: 1.875rem;
   border-radius: 21px;
   padding: 1.5rem;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   gap: 2.125rem;
   position: relative;
@@ -280,9 +280,7 @@
 .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__head {
   display: flex;
   width: 100%;
-
-  justify-content: space-evenly;
-  
+  /* justify-content: space-evenly; */
   align-items: center;
   flex-wrap: nowrap;
   background-color: var(--table-thead-bg);
@@ -290,9 +288,11 @@
   border-radius: 10px;
   /* min-width: -moz-max-content;
   min-width: max-content; */
+  overflow: scroll;
 
 }
-.table-custom .table-custom__wrapper .table-custom__content .table-custom__content__head li {
+.table-custom .table-custom__wrapper .table-custom__content .table-custom__content__head li 
+.table-custom__header li{
   /* flex-grow: 1; */
   white-space: normal;
   color: var(--table-thead-color);
@@ -305,6 +305,14 @@
   font-weight: 500;
   gap: 1rem; 
   text-align: center;
+  border: 2px solid #AFBAF6;
+  border-radius: 5px;
+  /* margin-left: 100px; */
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__head li svg {
   cursor: pointer;
@@ -323,6 +331,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
+  overflow:scroll;
 }
 .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows .table-custom__content__rows__row {
   display: flex;
@@ -353,10 +363,9 @@
   overflow: hidden;
   text-wrap: pretty;
 }
-/* .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows .table-custom__content__rows__row li svg {
-  min-width: 1rem;
-  min-height: 1rem;
-} */
+.table-custom__content__rows {
+/* height: 100% !important; */
+}
 .table-custom .table-custom__wrapper .table-custom__content .table-custom__content__rows .table-custom__content__rows__row li {
   display: flex;
   flex-direction: column;
@@ -450,7 +459,7 @@
 
 *::-webkit-scrollbar {
   width: 0px;
-  height: 8px;
+  height: 2px;
 }
 
 *::-webkit-scrollbar-track {
@@ -554,19 +563,207 @@ option {
   overflow: hidden;
   min-height: calc(100vh - 60px);
   overflow-y: scroll;
-}/*# sourceMappingURL=main.css.map */
+  display: flex;
+  flex-direction: row;
+}
+
+.full-filter{
+  width: 100%;
+  /* overflow: scroll; */
+}
+
+
+.full-filter-content{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: visible;
+}
+
+.full-filter-title{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  /* border-bottom: 1px solid white; */
+}
+
+.full-filter-ind-content{
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  margin: 10px;
+  position: relative;
+}
+
+.amount-selected{
+  display: flex;
+  background-color: var(--table-thead-bg);
+  border-radius: 3px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.amount-selected a{
+  font-size: 0.7rem;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.amount-selected-label{
+  font-size: 0.7rem;
+  padding-left: 5px;
+  margin-right: 10px;
+}
+
+.odds-selected{
+  display: flex;
+  flex-direction: row;
+  font-size: 0.7rem;
+}
+
+.odds-selected.filter-dropdown-button{
+  margin-left: 10px;
+}
+
+
+
+.odds-filter-div{
+  display: flex;
+  flex-direction: column;
+  /* background-color: red; */
+  font-size: 0.65rem;
+}
+
+input[type="number"], 
+input[type="text"]{
+  width: 30%;
+  margin-left: 10px;
+  background-color: white;
+  outline: 1px solid var(--table-thead-color);
+  border: none; 
+  border-radius: 2px;
+  padding: 3px;
+  font-size: 0.7rem;
+}
+
+
+input[type="text"]::-webkit-outer-spin-button,
+input[type="text"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.odds-filter-checkbox{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+}
+
+
+
+
+.swipeable {
+  transition: transform 0.3s ease; /* Add smooth transition for swiping */
+}
+
+
+.full-filter-ind-content-values{
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+  background-color: var(--table-thead-bg);
+  opacity: 95%;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.full-filter-ind-content-title{
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  align-items: center;
+  padding: 4px;
+  border: 2px solid var(--table-thead-bg);;
+  border-radius: 5px;
+}
+
+
+#full-filter {
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Add transitions for transform and opacity */
+}
+
+.table-custom {
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Add transitions for transform and opacity */
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (min-width: 767px) {
+  .desktop-no-display-2{
+    display: none;
+  }
+
+} 
+
+
+
+
+.filter-dropdown-button{
+  cursor: pointer;
+  transform: rotate(90deg);
+  color: var(--table-thead-color);
+  margin-right: 10px;
+  font-size: 0.8rem;
+}
+
+.filter-dropdown-button-close{
+  cursor: pointer;
+  color: var(--table-thead-color);
+  margin-right: 10px;
+  font-size: 0.65rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 
 .add-to-betslip-button{
   cursor:pointer;
 }
 
 .centered{
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   text-align: center;
   font-family: "Inter", sans-serif !important;
   color: var(--table-p-color);
   padding-top: 150px;
   padding-bottom: 150px;
+  width: 100%;
+}
+
+.centered li{
+  width: 100%;
+}
+
+.centered img{
+  height: 20px;
+}
+
+.centered-flex{
+  display: flex;
 }
 
 .paragraph-container {
@@ -916,6 +1113,10 @@ option {
   border: none;
   cursor: pointer;
 }
+.dropbtnodds {
+  border: none;
+  cursor: pointer;
+}
 
 .dropdown{
   margin-left: 10px;
@@ -924,6 +1125,31 @@ option {
 
 /* Dropdown content (hidden by default) */
 .dropdown-content{
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 80px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  font-size: 36px;
+  border: 2px solid var(--nav-border);
+  background-color: var(--table-thead-bg);
+}
+.dropdown-content-odds{
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 80px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  font-size: 36px;
+  border: 2px solid var(--nav-border);
+  background-color: var(--table-thead-bg);
+}
+
+.full-dropdown{
   display: none;
   position: absolute;
   background-color: #ffffff;
@@ -950,12 +1176,27 @@ option {
   stroke:none;
 }
 
+.table-custom__content__head li{
+  cursor: pointer;
+}
+
 
 .dropbtn path{
   fill:var(--table-thead-color);
 }
+.dropbtnodds path{
+  fill:var(--table-thead-color);
+}
 
 .filter-dropdown-label{
+  font-size: .7rem;
+  color: var(--table-thead-color);
+  text-align: center;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.filter-dropdown-label-odds{
   font-size: 0.65rem;
   color: var(--table-thead-color);
   background-color: var(--table-thead-bg);
@@ -964,20 +1205,62 @@ option {
 }
 
 .filter-dropdown-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   font-size: 0.65rem;
   color: var(--table-thead-color);
-  text-align: left;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  /* border-top: 1px solid red; */
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  width: 20%;
+  /* margin-bottom: 10px; */
+  width: 100%;
+}
+
+.custom-checkbox{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  /* Hide the actual checkbox */
+  position: absolute;
+  opacity: 0;
+  pointer-events: none; /* Ensure clicks are passed through */
+}
+
+.checkmark {
+  position: relative;
+  height: 10px;
+  width: 10px;  
+  display: inline-block;
+  background-color: var(--table-thead-bg);
+  border: 1px solid var(--table-thead-color);
+  border-radius: 2px;
+}
+
+/* Style the custom checkbox when checked */
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #21ce99; /* Change background color when checked */
+}
+
+.filter-value-content-a{
+  margin-left: 10px;
+  color:var(--table-btn-bg);
+}
+
+.filter-value-content-b{
+  margin-left: 10px;
+  color:var(--table-btn-bg);
 }
 
 .filter-dropdown-item:hover{
   font-size: 0.65rem;
   color: var(--table-btn-bg);
-  text-align: left;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -985,7 +1268,7 @@ option {
   font-size: 0.65rem;
   font-weight: bold;
   color: var(--table-btn-bg);
-  text-align: left;
+  text-align: center;
 }
 
 .sort-icon path{
@@ -1072,7 +1355,51 @@ option {
   filter: blur(5px);
 }
 
+.filter-container{
+  color: var(--table-thead-color);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.table-custom__content__head{
+  overflow: hidden !important;
+}
+
+.table-custom{
+  overflow: scroll;
+}
+
+
+/* .custom-checkbox input[type="checkbox"] {
+  display: none;
+} */
+
+
+
+
+
+
 @media (max-width: 767px) {
+  .checkmark {
+    top: 0;
+    left: 0;
+    width: 20px; /* Adjust the size of the checkmark */
+    height: 20px;
+    border: 1px solid #ccc;
+  }
+  .checkmark::after {
+    content: '\2714'; /* Unicode character for checkmark */
+    text-align: center;
+    display: none;
+  }
+  
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--table-bg);
+  }
+
   .table-custom .table-custom__wrapper,
   .table-custom__content {
     width: 100%;
@@ -1086,6 +1413,161 @@ option {
     align-items: center;
     width: 50% !important;
   }
+
+  #ev-dash-header{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 25px;
+    width: 100%;
+    background-color: var(--table-bg);
+  }
+
+  #ev-dash-header.fixed{
+    position: fixed;
+    z-index: 999;
+    margin-bottom: 20px;
+    height: 101px;
+  }
+
+
+  .fixed{
+    height: 101px;
+  }
+
+  .filter-sort-by-mobile-container{
+    flex-direction: row;
+    justify-content: flex-start !important;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    gap: 0 !important;
+  }
+
+  .filter-button-mobile,
+  .sort-by-button-mobile
+  {
+    margin-left: 10px;
+    border: 2px solid #2e3534 !important;
+    padding: 2px;
+    align-items: center;
+    border-radius: 5px;
+    width:30%;
+    align-items: center;
+    justify-content: center;
+    text-align:center;
+    flex-direction: row;
+    justify-content: center !important;
+  }
+
+  .filter-dropdown-button{
+    width: auto;
+  }
+
+
+  .filter-button-mobile p,
+  .sort-by-button-mobile p{
+    align-items: center;
+    margin: 6px;
+    color:  white !important;
+  }
+
+  .sort-by-button-mobile{
+    margin-left: 10px;
+  }
+
+
+  .full-filter-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+
+  .full-filter-ind-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    cursor: pointer;
+    margin: 0px;
+    position: relative;
+    border-radius: 0px;
+    border-bottom: 1px solid var(--table-thead-color);
+
+  }
+
+  .full-filter-ind-content-title{
+    width: 100%;
+    background-color: var(--table-bg);
+    border: none;
+    border-radius: 0px;
+    padding-left: 5px;
+    font-weight: bold;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    
+  }
+
+  .full-filter-ind-content-values{
+    position: relative;
+    background-color: var(--table-bg);
+    margin-top:0px;
+    border-radius: 0px;
+    margin-bottom: 16px;
+    padding-left: 40px;
+  }
+
+  .filter-value-content-a{
+    font-size: 1.0rem;
+    text-align: start;
+  }
+
+  .filter-value-content-b{
+    font-size: 1.0rem;
+    text-align: start;
+  }
+
+  .checkmark{
+    height: 15px;
+    width: 15px;
+  }
+
+  .centered-2{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .filter-dropdown-label{
+    font-size: 1.0em;
+    text-transform: capitalize !important;
+    color:var(--table-btn-bg);
+  }
+
+  .filter-dropdown-item{
+    padding: 15px;
+  }
+
+  .sort-by-content{
+    width: 100%;
+    background-color: var(--table-bg);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid var(--table-thead-color) ;
+    border-bottom: 1px solid var(--table-thead-color) ;
+  }
+
+  .filter-container-2 {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .green{
+    font-weight: bold;
+  }
+
+
 
 
   #dropdown-options.adding-to-bet-tracker{
@@ -1103,10 +1585,14 @@ option {
     margin-left: 0px !important;
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
-    width: 100% !important;
+    /* width: 100% ; */
     table-layout: fixed !important;
     align-items: center;
     scroll-snap-type: y mandatory !important;
+    border: none;
+    margin: 0 !important;
+    display: block;
+    padding-top: 0px;
 
   }
   .desktop-no-display{
@@ -1119,6 +1605,7 @@ option {
     /* overflow-x: auto;   */
     flex-wrap: nowrap;
     white-space: nowrap; 
+    background-color: #011e16;
   }
   .table-custom__content__rows {
     height: 1000px !important;
@@ -1380,6 +1867,7 @@ option {
 
   .navbar-custom{
     background: var(--nav-bg-mobile);
+    z-index: 999;
   }
 
   .sportsbook-li{
@@ -1403,7 +1891,8 @@ option {
 
   .table-custom__content__head{
     height: auto !important;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
+    justify-content: flex-end !important;
   }
 
   .table-custom__content__head li
@@ -1431,7 +1920,7 @@ option {
 
   .filter-container-2 a{
     order: 2;
-    font-size: 0.5rem !important;
+    font-size: 0.8rem !important;
   }
   .filter-container-2 svg{
     order: 1;
@@ -1460,6 +1949,128 @@ option {
     justify-content: center;
   }
 
+  .table-hidden{
+    display:none;
+  }
+
+  .table-custom__header{
+    background-color: var(--table-bg) !important;
+    width: 100%;
+    z-index: 999;
+  }
+
+
+  .table-custom__header h2{
+    padding-top: 35px;
+    /* padding-bottom: 35px; */
+  }
+
+
+  .table-custom .table-custom__header{
+    gap: 0rem !important;
+  }
+  
+  .mobile-hidden{
+    display: none !important;
+  }
+
+  #odds-ind-content{
+    order: -1;
+  }
+
+  #odds-filter{
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .odds-filter-div{
+    display: flex;
+    flex-direction: row;
+    font-size: 0.65rem;
+    margin-bottom: 10px;
+  }
+
+  .odds-filter-checkbox{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+    padding-right: 0px;
+    margin: 10px;
+
+  }
+
+  .odds-filter-checkbox input{
+    /* background-color: inherit; */
+    width: 100%;
+    padding: 15px;
+    outline: none;
+    font-size: 1.0rem;
+    color: var(--table-thead-bg);
+    color: #363c3b;
+  }
+
+  #max-odds-input{
+    margin-left: 0px;
+    font-size: 1.0rem;
+  }
+
+  #min-odds-input{
+    margin-right: 0px;
+    font-size: 1.0rem;
+  }
+
+
+
+
+
+  #max-odds-input::placeholder,
+  #min-odds-input::placeholder{
+    font-size: 1.0rem;
+    color: var(--table-thead-bg);
+    color: #808080;
+
+  }
+
+  .done-div{
+    position: fixed;
+    width: 100%;
+    bottom: 0%;
+    z-index: 999;
+    background-color: var(--table-bg);
+    display:flex;
+    flex-direction: row;
+    border-top: 1px solid var(--table-thead-color);
+    padding: 20px;
+  }
+
+  .done-div-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 0.8rem;
+    color: var(--table-btn-bg);
+  }
+
+  .done-div .done-div-clear-all-button{
+    padding: 10px;
+  }
+
+  .done-div .done-div-done-button{
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    background-color: white;
+    color: var(--table-thead-bg);
+  }
+
+  .filter-container-2.sort-by-filter-container-2{
+    justify-content: flex-start !important;
+    flex-direction: row  !important;
+  }
+  
 }
 
 .clearfix::after {

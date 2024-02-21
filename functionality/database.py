@@ -532,17 +532,18 @@ class database():
        df['game_date']= (df['game_date'] - pd.Timedelta(hours=6)).dt.strftime('%A, %B %d, %Y')
 
        df['sportsbooks_used_formatted'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
-
        if len(filters) > 1:
-          if filters['sport-league-filter'].upper() != 'ALL':
-            df = df[df['sport_league_display'] == filters['sport-league-filter']]
-          if filters['market-filter'].upper() != 'ALL':
-            df = df[df['market_display'] == filters['market-filter'].title()]
-          if filters['game-date-filter'].upper() != 'ALL':
-            df = df[df['game_date']== filters['game-date-filter'].title()]
-          if filters['sportsbook-filter'].upper() != 'ALL':
-            df = df[df['sportsbooks_used_formatted'].apply(lambda x: filters['sportsbook-filter'].title() in x)]
-          
+          if filters.get('sport-league-filter') and "ALL" not in [filter.upper() for filter in filters['sport-league-filter']]:
+            df = df[df['sport_league_display'].isin(filters['sport-league-filter'])]
+
+          if filters.get('market-filter') and "ALL" not in [filter.upper() for filter in filters['market-filter']]:
+            df = df[df['market_display'].isin(filters['market-filter'])]
+
+          if filters.get('sportsbook-filter') and "ALL" not in [filter.upper() for filter in filters['sportsbook-filter']]:
+
+            df = df[df['sportsbooks_used_formatted'].apply(lambda x: any(item.title() in x for item in filters['sportsbook-filter']))]
+
+    
        df.drop(columns=['sportsbooks_used_formatted'], inplace=True)
 
        df_no_duplicates = df.drop_duplicates()
@@ -564,7 +565,17 @@ class database():
        
        if not first_20_rows.empty:
         first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
-
+       if len(filters) > 1:
+          # if filters['odds-filter']['minodds'] != '':
+          #   first_20_rows = first_20_rows[first_20_rows['highest_acceptable_odds'] >= int(filters['odds-filter']['minodds'])]
+          # if filters['odds-filter']['maxodds'] != '':
+          #   first_20_rows = first_20_rows[first_20_rows['highest_acceptable_odds'] <= int(filters['odds-filter']['maxodds'])]
+          if filters.get('best-odds-filter') and len(filters['best-odds-filter']['minodds']) > 2 and filters['best-odds-filter']['minodds']!='':
+             first_20_rows = first_20_rows[first_20_rows['highest_bettable_odds'] >= int(filters['best-odds-filter']['minodds'])]
+          if filters.get('best-odds-filter') and len(filters['best-odds-filter']['maxodds']) > 2 and filters['best-odds-filter']['maxodds']!='':
+             first_20_rows = first_20_rows[first_20_rows['highest_bettable_odds'] <= int(filters['best-odds-filter']['maxodds'])]
+ 
+          
        current_time = datetime.now() 
 
        first_20_rows['current_time'] = current_time #- pd.Timedelta(hours=7)
