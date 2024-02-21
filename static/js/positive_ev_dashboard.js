@@ -1270,7 +1270,6 @@ function addSortByDiv(){
         brElement.parentNode.removeChild(brElement);
     });
 
-
     newValAscending.addEventListener('click', function() {
       var activeElements = document.querySelectorAll("svg.active");
       activeElements.forEach(function(icon){
@@ -1291,8 +1290,6 @@ function addSortByDiv(){
       });
       this.querySelector('svg').classList.add('active');
       this.classList.add("green");
-
-      
       fetchDataAndUpdateTable();
     });
 
@@ -1308,6 +1305,8 @@ function addSortByDiv(){
 
 function showSortBy() {
   document.querySelector('.sort-by-content').classList.toggle('mobile-hidden');
+  document.querySelector('.table-custom__wrapper').classList.toggle('mobile-hidden');
+
   if (document.querySelector('.sort-by-button-mobile a').innerText == ">") {
     document.querySelector('.sort-by-button-mobile a').innerText = "<";
   } else {
