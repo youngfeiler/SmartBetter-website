@@ -594,7 +594,6 @@ function fetchDataAndUpdateTable() {
 
   try {
     var ascendingBool = document.querySelector('svg.active').parentNode.getAttribute("ascending");
-    console.log(document.querySelector('svg.active').parentNode)
   } catch (error) {
     console.log(error);
   }
@@ -624,10 +623,6 @@ function fetchDataAndUpdateTable() {
     innerTextDictionary['sort-by'] = ['ev', ascendingBool];
   }
 
-  console.log(innerTextDictionary);
-
-  
-  
   //finding the things that are active:
   // Get the last segment (element) of the URL
   const url = '/get_positive_ev_dash_data?';
@@ -765,7 +760,6 @@ function makeSingleFilterValue(value){
   </label>`
 }
 
-
 function fillFilterValues(callback1, callback2){
 
   // for the ones where you can select 
@@ -793,8 +787,6 @@ function fillFilterValues(callback1, callback2){
         filterValue.innerHTML = makeSingleFilterValue(league);
         sportLeagueFilterDiv.appendChild(filterValue);
       })
-
-      console.log(data);
 
       var sportLeagueFilterDiv = document.getElementById("sportsbook-filter");
 
@@ -833,7 +825,6 @@ function getUserPermission() {
       throw error; // Re-throw the error to handle it outside this function if needed
     });
 }
-
 
 function makeSlideResponsive(){
   const leftBox = document.getElementById("full-filter");
@@ -877,6 +868,7 @@ function showFilter(){
   if(!document.querySelector('.sort-by-content').classList.contains("mobile-hidden")){
     document.querySelector('.sort-by-content').classList.add("mobile-hidden");
   }
+
   var allFiltersDiv = document.getElementById('full-filter');
   var tableCustom = document.querySelector('.table-custom__wrapper');
   allFiltersDiv.classList.toggle('mobile-hidden');
@@ -910,11 +902,9 @@ function showFilter(){
 
   evDashHeader.classList.toggle("centered-2");
 
-  document.getElementById('min-odds-input').placeholder = "Minimum Odds";
+  document.getElementById('min-odds-input').placeholder = "Min, i.e. -300";
 
-  document.getElementById('max-odds-input').placeholder = "Maximum Odds";
-
-
+  document.getElementById('max-odds-input').placeholder = "Max, i.e. +200";
 }
 
 function adjustLayout() {
@@ -942,9 +932,6 @@ function deselectAllAndKeepSelected(checkbox){
   var elements = checkbox.parentNode.parentNode.parentNode.querySelectorAll('.filter-dropdown-item.active');
 
   var searchString = 'ALL';
-
-
-  console.log(checkbox);
 
   if(checkbox.parentNode.querySelector('a').innerText.trim().toUpperCase() == "ALL"){
     elements.forEach(function(element) {
@@ -1212,7 +1199,6 @@ function addSortByDiv(){
     if(!newValAscending.innerText.toUpperCase().includes("MIN.")){
 
     newValAscending.setAttribute('ascending', true);
-
     newValDescending.setAttribute('ascending', false);
 
     if(!newValAscending.querySelector('svg').classList.contains('mobile-hidden')){
@@ -1229,7 +1215,7 @@ function addSortByDiv(){
 
 
     var text = newValAscending.innerText;
-
+    
     var formattedText = text.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
         return match.toUpperCase() ;
     });
@@ -1250,17 +1236,48 @@ function addSortByDiv(){
     clonedIcon.classList.add("mobile-hidden");
     newValDescending.appendChild(clonedIcon); 
 
-    document.querySelector('.sort-by-content').appendChild(newValAscending);
+    if (!(newValAscending.querySelector('svg').id === "bet_amount" && newValAscending.getAttribute("ascending") === "true") && 
+    !(newValAscending.querySelector('svg').id === "ev" && newValAscending.getAttribute("ascending") === "true")) {
+      document.querySelector('.sort-by-content').appendChild(newValAscending);
+      newValAscending.appendChild(clonedIcon); 
+    }
+
+    if ((newValAscending.querySelector('svg').id === "highest_bettable_odds" && newValAscending.getAttribute("ascending") === "true")) {
+      newValAscending.innerText = "Odds: Low to High";
+      newValDescending.innerText = "Odds: High to Low";
+      newValAscending.appendChild(clonedIcon); 
+      newValDescending.appendChild(clonedIcon); 
+    }
+
+    if ((newValDescending.querySelector('svg').id === "bet_amount" && newValDescending.getAttribute("ascending") === "false")) {
+      newValDescending.innerText = "Best Bets";
+      newValDescending.appendChild(clonedIcon); 
+    }
+
+    try{
+      if (newValDescending.querySelector('svg').id === "ev") {
+          newValDescending.innerText = "%+EV";
+          newValDescending.appendChild(clonedIcon); 
+
+    }
+    }catch(error){}
+
+    clonedIcon = icon.cloneNode(true); 
+    clonedIcon.classList.add("mobile-hidden");
+    newValAscending.appendChild(clonedIcon); 
+
+    clonedIcon = icon.cloneNode(true); 
+    clonedIcon.classList.add("mobile-hidden");
+    newValDescending.appendChild(clonedIcon); 
 
     document.querySelector('.sort-by-content').appendChild(newValDescending);
-
-    var a = document.getElementById('your_element_id'); // or any other method to select your element
 
     var brElements = newValDescending.querySelectorAll('br');
 
     brElements.forEach(function(brElement) {
         brElement.parentNode.removeChild(brElement);
     });
+    
     brElements = newValAscending.querySelectorAll('br');
     brElements.forEach(function(brElement) {
         brElement.parentNode.removeChild(brElement);
@@ -1302,13 +1319,21 @@ function addSortByDiv(){
   var elementsWithSameId = document.querySelectorAll('#bet_amount');
 
   elementsWithSameId.forEach(function(element) {
-    if (element.parentNode.getAttribute('descending') === 'true') {
+    try{
+      if (element.parentNode.getAttribute('ascending') === 'false') {
         element.classList.add('active');
+      }
+      else{
+        element.remove();
+      }
     }
-});
+  catch(error){
+    element.remove();
+  }
 
+  });
 
-  
+    
 }
 
 function showSortBy() {
@@ -1325,8 +1350,6 @@ function addSortListeners(){
   addSortByDiv();
   document.querySelector('.sort-by-button-mobile').addEventListener("click", showSortBy)
 }
-
-
 
 
 $(document).ready(function(){
