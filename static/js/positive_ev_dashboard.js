@@ -869,6 +869,8 @@ function showFilter(){
     document.querySelector('.sort-by-content').classList.add("mobile-hidden");
   }
 
+  document.querySelector('.navbar-custom').classList.toggle("mobile-hidden");
+
   var allFiltersDiv = document.getElementById('full-filter');
   var tableCustom = document.querySelector('.table-custom__wrapper');
   allFiltersDiv.classList.toggle('mobile-hidden');
@@ -1150,6 +1152,7 @@ function hideFilter(){
 
   document.getElementById("full-filter").classList.toggle("mobile-hidden");
 
+  document.querySelector('.navbar-custom').classList.toggle('mobile-hidden');
 
   document.querySelector('.table-custom__wrapper').classList.toggle("table-hidden");
 

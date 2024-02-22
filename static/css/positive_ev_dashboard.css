@@ -699,13 +699,12 @@ input[type="text"]::-webkit-inner-spin-button {
   border-radius: 5px;
 }
 
-
 #full-filter {
-  transition: transform 0.3s ease, opacity 0.3s ease; /* Add transitions for transform and opacity */
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .table-custom {
-  transition: transform 0.3s ease, opacity 0.3s ease; /* Add transitions for transform and opacity */
+  transition: transform 0.3s ease, opacity 0.3s ease; 
 }
 
 .hidden {
@@ -718,8 +717,6 @@ input[type="text"]::-webkit-inner-spin-button {
   }
 
 } 
-
-
 
 
 .filter-dropdown-button{
@@ -1387,6 +1384,10 @@ input[type="text"]::-webkit-inner-spin-button {
     width: 20px; /* Adjust the size of the checkmark */
     height: 20px;
     border: 1px solid #ccc;
+  }
+
+  .main-custom{
+    height: 100%;
   }
   
   .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
