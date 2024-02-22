@@ -569,7 +569,6 @@ option {
 
 .full-filter{
   width: 100%;
-  /* overflow: scroll; */
 }
 
 
@@ -1569,6 +1568,11 @@ input[type="text"]::-webkit-inner-spin-button {
     margin-bottom: 20px;
     border-top: 1px solid var(--table-thead-color) ;
     border-bottom: 1px solid var(--table-thead-color) ;
+  }
+
+  .full-filter{
+  overflow: scroll;
+
   }
 
   .filter-container-2 {
