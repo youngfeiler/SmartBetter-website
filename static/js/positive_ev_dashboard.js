@@ -593,13 +593,23 @@ function fetchDataAndUpdateTable() {
   var ascendingBool = null;
 
   try {
+
     var ascendingBool = document.querySelector('svg.active').parentNode.getAttribute("ascending");
+
+    if(ascendingBool == null){
+      try{
+        var ascendingBool = document.querySelector('svg.active').getAttribute("ascending");
+        console.log(ascendingBool);
+      }catch(error){
+        console.log(error);
+      }
+    }
   } catch (error) {
     console.log(error);
   }
 
   if(ascendingBool == null){
-    ascendingBool = false;
+      ascendingBool = false;
   }else if(ascendingBool == "true"){
     ascendingBool = true
   }else{
@@ -640,6 +650,8 @@ function fetchDataAndUpdateTable() {
   tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
 
   table_row_to_append_to.appendChild(tr);
+
+  console.log(innerTextDictionary);
   
 
   fetch(url,{
@@ -1094,7 +1106,7 @@ function addDynamicOddsInputDisplayFunction(){
       });
 }
 
-function addSortListeners(){
+function addSortListenersDesktop(){
 
   var svgs = document.querySelectorAll('.sort-icon');
 
@@ -1114,7 +1126,6 @@ function addSortListeners(){
           //change color
           var newD = currentD === 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z' ? 'm 2.4925484,0.06306169 c -0.081574,0 -0.1599452,0.03248 -0.2176345,0.0902 L 0.20880797,2.2193567 c -0.1202399,0.120215 -0.1202399,0.315079 0,0.435292 0.1200713,0.120215 0.31523142,0.120215 0.43528867,0 L 2.4925512,0.80619669 4.3408483,2.6546487 c 0.1200713,0.120215 0.3150797,0.120215 0.4352915,0 0.1202399,-0.120212 0.1202399,-0.315079 0,-0.435292 L 2.7101969,0.15325969 c -0.057746,-0.05772 -0.1360602,-0.0902 -0.2176345,-0.0902 z' : 'm 2.4925484,13.778706 c -0.081574,0 -0.1599452,-0.03248 -0.2176345,-0.0902 L 0.20880797,11.622411 c -0.1202399,-0.120215 -0.1202399,-0.315079 0,-0.435292 0.1200713,-0.120215 0.31523142,-0.120215 0.43528867,0 l 1.84845456,1.848452 1.8482971,-1.848452 c 0.1200713,-0.120215 0.3150797,-0.120215 0.4352915,0 0.1202399,0.120212 0.1202399,0.315079 0,0.435292 l -2.0659429,2.066097 c -0.057746,0.05772 -0.1360602,0.0902 -0.2176345,0.0902 z';
           path.setAttribute('d', newD);
-
           this.setAttribute('ascending', this.getAttribute('ascending') == 'true' ? 'false': 'true');
         } 
         else {
@@ -1161,7 +1172,6 @@ function hideFilter(){
   sortByButtonMobile.classList.toggle("mobile-hidden");
   filterButtonMobile.classList.toggle("mobile-hidden");
 
-  /////////
   var evDashHeader = document.getElementById("ev-dash-header");
 
   var tableheader = document.querySelector(".table-custom__header");
@@ -1349,7 +1359,7 @@ function showSortBy() {
   }
 }
 
-function addSortListeners(){
+function addSortListenersMobile(){
   addSortByDiv();
   document.querySelector('.sort-by-button-mobile').addEventListener("click", showSortBy)
 }
@@ -1372,16 +1382,19 @@ $(document).ready(function(){
   
   toggleSport();
 
-  addSortListeners();
+  if(window.innerWidth <= 768){
+    addSortListenersMobile();
+  }else{
+    addSortListenersDesktop();
+  }
 
   fillFilterValues(addDropdownListeners, addMobileCloseListeners);
 
   addDynamicOddsInputDisplayFunction();
 
+  // addDesktopSortListeners();
+
   // addMobileCloseListeners();
-
-  
-
 
   // makeSlideResponsive();
 
@@ -1389,6 +1402,7 @@ $(document).ready(function(){
 
   // adjustLayout();
 
+  //
 
 
     /** 
