@@ -1366,6 +1366,10 @@ input[type="text"]::-webkit-inner-spin-button {
   overflow: scroll;
 }
 
+.filter-container-2 {
+  align-items: center;
+}
+
 
 /* .custom-checkbox input[type="checkbox"] {
   display: none;
