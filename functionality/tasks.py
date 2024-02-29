@@ -61,20 +61,18 @@ def start_model_runner():
 @celery.task
 def start_dashboard_runner():
   
-    
     live_nba_dashboard_runner_instance = live_nba_dashboard_runner()
-    live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
+    # live_nfl_dashboard_runner_instance = live_nfl_dashboard_runner()
     live_nhl_dashboard_runner_instance = live_nhl_dashboard_runner()
 
     pregame_nhl_dashboard_runner_instance = pregame_nhl_dashboard_runner()
     pregame_nba_dashboard_runner_instance = pregame_nba_dashboard_runner()
-    pregame_nfl_dashboard_runner_instance = pregame_nfl_dashboard_runner()
+    # pregame_nfl_dashboard_runner_instance = pregame_nfl_dashboard_runner()
 
     result_updater_instance = result_updater()
 
     observation_compiler_instace = observation_compiler()
     observation_compiler_instace.compile_observations()
-
 
     while True:
 
@@ -90,12 +88,12 @@ def start_dashboard_runner():
 
         pregame_nba_dashboard_runner_instance.make_live_dash_data()
 
-        pregame_nfl_dashboard_runner_instance.make_live_dash_data()
+        # pregame_nfl_dashboard_runner_instance.make_live_dash_data()
 
         live_nba_dashboard_runner_instance.make_live_dash_data()
         observation_compiler_instace.compile_observations()
 
-        live_nfl_dashboard_runner_instance.make_live_dash_data()
+        # live_nfl_dashboard_runner_instance.make_live_dash_data()
         observation_compiler_instace.compile_observations()
 
         live_nhl_dashboard_runner_instance.make_live_dash_data()

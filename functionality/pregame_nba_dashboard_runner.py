@@ -396,7 +396,7 @@ class pregame_nba_dashboard_runner():
        def drop_unnecesary_columns(df):
         df = df.drop(columns=['commence_time', 'game_id', 'my_game_id', 'ev', 'target'])
 
-        print(df.columns.tolist())
+        # print(df.columns.tolist())
         time_columns = [col for col in df.columns if 'time' in col]
         return_df = df.drop(columns=time_columns)
 
@@ -485,11 +485,11 @@ class pregame_nba_dashboard_runner():
           input_tensor = torch.tensor(self.final_data_for_model, dtype=torch.float32)
           strategy_dict['model'].eval()
           predictions = strategy_dict['model'](input_tensor)
-          print(predictions)
-          print(strategy_dict['pred_thresh'])
+          # print(predictions)
+          # print(strategy_dict['pred_thresh'])
           predictions_array = predictions.detach().numpy()
-          print(predictions_array)
-          print(strategy_dict['pred_thresh'])
+          # print(predictions_array)
+          # print(strategy_dict['pred_thresh'])
           mask = predictions_array > strategy_dict['pred_thresh']
   #        mask = predictions_array > 0.95
 
@@ -503,7 +503,7 @@ class pregame_nba_dashboard_runner():
 
             existing_df = pd.read_csv('users/model_obs_nba_pregame.csv')
 
-            print(filtered_df[['game_id', 'home_away_neutral']])
+            # print(filtered_df[['game_id', 'home_away_neutral']])
 
             result_df = pd.concat([existing_df, filtered_df], ignore_index=True)
 
