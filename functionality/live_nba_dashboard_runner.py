@@ -470,7 +470,7 @@ class live_nba_dashboard_runner():
           return [process_column_header(col) for col in bettable_books if row[col+'_1_odds'] == row['highest_bettable_odds']]
       
 
-      print('nba running')
+      print('nba live running')
       market_odds_df = self.get_nfl_odds()
 
       # Makes self.filtered_df
