@@ -11,6 +11,15 @@ class ChatQuestions(Base):
     response = Column(Text, nullable=True)
     worked_bool = Column(Boolean, nullable=True)
 
+
+class VerificationCode(Base):
+    __tablename__ = 'verification_codes'
+
+    username = Column(String(255), primary_key=True)
+    code = Column(Integer, primary_key=True)
+    time_allowed = Column(DateTime, nullable=False)
+    used = Column(Boolean, nullable=False)
+
 class MasterModelObservations(Base):
     __tablename__ = 'master_model_observations'
     new_column = Column(String(255), primary_key=True)

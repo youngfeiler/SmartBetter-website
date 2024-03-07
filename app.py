@@ -20,10 +20,16 @@ import time
 import atexit
 from functionality.db_manager import DBManager
 from functionality.models import LoginInfo  
+from functionality.models import VerificationCode
 import warnings
 warnings.filterwarnings("ignore")
 from flask_socketio import SocketIO
 from chat import Chat
+import random
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
@@ -551,11 +557,182 @@ def get_user_permission():
      else:
          return jsonify({'permission': 'free'})
      
-# @app.route("/blogs", methods=['GET'])
-# def blogs_test():
-  #  return render_template('test.html')
-    
+@app.route('/reset_password_page')
+def reset_password_page():
+    msg = request.args.get('msg')
+    return render_template('reset_password.html', msg = msg)
 
+@app.route('/reset_password', methods=['POST','GET'])
+def reset_password():
+    my_db = database(app.db_manager)
+    username = request.form.get('username')
+    def generate_random_code():
+    # Generate a random 6-digit code
+        return str(random.randint(100000, 999999))
+
+    def send_email(email, code):
+        print('got here')
+        sender_email = 'getsmartbettor@gmail.com'
+        sender_password = 'faoc tjlz nclr iwht'
+
+    # Create a MIMEText object for the email body
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = email
+        message['Subject'] = f'Your Smartbettor Verification Code: {code}'
+        body = f'Your Smartbettor Verification Code: {code}'
+    # Attach the body to the email
+        message.attach(MIMEText(body, 'plain'))
+
+    # Establish a connection to the SMTP server
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        # Start TLS for security
+            server.starttls()
+
+        # Login to your email account
+            server.login(sender_email, sender_password)
+
+        # Send the email
+            server.sendmail(sender_email, email, message.as_string())
+        
+
+        print(f"Verification code sent to {username}")
+
+    def password_function(email):
+        try:
+        # Create a session
+            session = app.db_manager.create_session()
+
+        # Query the user's record by username
+            user = session.query(LoginInfo).filter_by(username=username).first()
+            
+            if user != None:
+                code = generate_random_code()
+                send_email(email, code)
+                return code
+            else:
+                #TODO: test
+                return 0
+        except Exception as e:
+            print(e)
+            return str(e)
+        finally:
+            session.close()
+    def set_reset_instance(code,username):
+        if code != 0:
+            try:
+            # Create a session
+                session = app.db_manager.create_session()
+                current_datetime = datetime.now()
+
+    # Add 5 minutes to the current datetime
+                time_plus_5 = current_datetime + timedelta(minutes=5)
+
+                new_code = VerificationCode(username=username, code=code, time_allowed=time_plus_5, used = False)
+
+
+                # Add the new user to the session and commit the transaction
+                session.add(new_code)
+                session.commit()
+            except Exception as e:
+                print(e)
+                return str(e)
+            finally:
+                session.close()
+
+
+    code = password_function(username)
+    if code == 0:
+        error_message = "Email not found in the database. If you have paid through stripe, please complete registration."
+        return render_template('register.html', incorrect_password=True, form_data={}, error_message=error_message) 
+    set_reset_instance(code,username)
+    return redirect(url_for('confirm_password', username=username))
+
+@app.route('/confirm_password')
+def confirm_password():
+    username = request.args.get('username')
+    if request.referrer and 'reset_password' in request.referrer:
+        # Proceed with the confirm password logic
+        return render_template('confirm_password.html', username = username)
+    else:
+        # Redirect to login page if the referrer is not reset_password
+        return redirect(url_for('login'))
+@app.route('/confirm_password_button/<string:username>/<string:code>', methods=['GET', 'POST'])
+def confirm_password_button(username, code):
+    try:
+        # Create a session
+        session = app.db_manager.create_session()
+        code = int(code)
+
+        # Fetch the verification code from the database
+        verification_code = session.query(VerificationCode).filter_by(username=username, code=code).first()
+
+        if verification_code:
+            current_datetime = datetime.now()
+
+            # Check if the code is still valid
+            if verification_code.time_allowed > current_datetime and not verification_code.used:
+                # Set the code as used and commit the transaction
+                session.delete(verification_code)
+                session.commit()
+                return redirect(url_for('set_new_password', username=username))
+            else:
+                #TODO: test
+                msg = "Code expired or already used"
+                return redirect(url_for('reset_password_page',msg=msg))
+        else:
+            msg= "Invalid code for the given username"
+            return redirect(url_for('reset_password_page',msg=msg))
+      
+
+    except Exception as e:
+        print(e)
+        return jsonify({"success": False, "message": str(e)})
+    finally:
+        session.close()
+@app.route('/set_new_password')
+def set_new_password():
+    username = request.args.get('username')
+    if request.referrer and 'confirm_password' in request.referrer:
+        # Proceed with the confirm password logic
+        return render_template('set_new_password.html', username = username)
+    else:
+        # Redirect to login page if the referrer is not reset_password
+        return redirect(url_for('login'))
+@app.route('/set_new_password_db/<string:username>/<string:password>', methods=['GET', 'POST'])
+def set_new_password_db(username, password):
+    try:
+        # Create a session
+        session = app.db_manager.create_session()
+
+        # Fetch the user from the database
+        this_user = session.query(LoginInfo).filter_by(username=username).first()
+
+        if this_user:
+            # Set the new password for the user
+            this_user.password = generate_password_hash(password)  # Use your preferred password hashing method
+
+            # Commit the transaction
+            session.commit()
+
+            # Flash success message and redirect to login or any other page
+            msg = "Password updated successfully please return to Smartbettor.ai home page and log in with new credentials."
+            print('Password updated successfully')
+            return redirect(url_for('reset_password_page',msg=msg))
+
+        else:
+            # Flash error message for invalid username
+            flash("Invalid username", "error")
+
+    except Exception as e:
+        print(e)
+        flash(str(e), "error")
+
+    finally:
+        session.close()
+
+    # Redirect to an appropriate page on failure
+    return redirect(url_for('login'))  # Change 'login' to the appropriate endpoint
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, use_reloader=False)
