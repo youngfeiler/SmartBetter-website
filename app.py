@@ -40,7 +40,7 @@ def create_app():
 
 app = create_app()
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
-app.config['STRIPE_PRIVATE_KEY'] = os.environ.get("STRIPE_API_KEY")
+app.config['STRIPE_PRIVATE_KEY'] = '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'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
 
 @atexit.register
@@ -88,7 +88,6 @@ def pregame_beta():
 @app.route('/positive_ev')
 def positive_ev():
     is_logged_in = True if 'user_id' in session else False
-    print(is_logged_in)
     return render_template('positive_ev_dashboard.html', is_logged_in = is_logged_in)
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
@@ -370,7 +369,6 @@ def show_nfl():
 
     return render_template('nfl.html', is_logged_in = is_logged_in)
     
-    
 @app.route('/nba')
 def show_nba():
     is_logged_in = True if 'user_id' in session else False
@@ -397,15 +395,12 @@ def handle_chat():
     
     return f"{response} "
 
-
-
 @app.route('/nhl')
 def show_nhl():
     is_logged_in = True if 'user_id' in session else False
 
     return render_template('nhl.html', is_logged_in = is_logged_in)
     
-
 @app.route('/get_performance_data', methods=["POST", "GET"])
 def get_performance_data():
     print("-------------------")   
