@@ -381,11 +381,12 @@ def show_nfl():
 def show_nba():
     is_logged_in = True if 'user_id' in session else False
 
-    # Set to false for prod
+    # Set to false for prod only if we want to show the loom video 
     show_div = False
 
-    if request.referrer and (request.referrer.endswith('/login') or request.referrer.endswith('/register')):
-        show_div = True
+    #Uncomment only if we want to show the loom video
+    # if request.referrer and (request.referrer.endswith('/login') or request.referrer.endswith('/register')):
+    #     show_div = True
 
     return render_template('nba.html', show_div=show_div, is_logged_in = is_logged_in)
    
@@ -571,9 +572,8 @@ def reset_password():
         return str(random.randint(100000, 999999))
 
     def send_email(email, code):
-        print('got here')
-        sender_email = 'getsmartbettor@gmail.com'
-        sender_password = 'faoc tjlz nclr iwht'
+        sender_email = 'admin@smartbettor.ai'
+        sender_password = 'Gracie4241$'
 
     # Create a MIMEText object for the email body
         message = MIMEMultipart()
@@ -585,27 +585,16 @@ def reset_password():
         message.attach(MIMEText(body, 'plain'))
 
     # Establish a connection to the SMTP server
-        with smtplib.SMTP('smtp.gmail.com', 587) as server:
-        # Start TLS for security
+        with smtplib.SMTP('smtp.office365.com', 587) as server:
             server.starttls()
-
-        # Login to your email account
             server.login(sender_email, sender_password)
-
-        # Send the email
             server.sendmail(sender_email, email, message.as_string())
-        
-
         print(f"Verification code sent to {username}")
 
     def password_function(email):
         try:
-        # Create a session
             session = app.db_manager.create_session()
-
-        # Query the user's record by username
             user = session.query(LoginInfo).filter_by(username=username).first()
-            
             if user != None:
                 code = generate_random_code()
                 send_email(email, code)
@@ -646,21 +635,38 @@ def reset_password():
         error_message = "Email not found in the database. If you have paid through stripe, please complete registration."
         return render_template('register.html', incorrect_password=True, form_data={}, error_message=error_message) 
     set_reset_instance(code,username)
+    print("USRNAMEH ERE ")
+    print(username)
     return redirect(url_for('confirm_password', username=username))
 
 @app.route('/confirm_password')
 def confirm_password():
     username = request.args.get('username')
+    print(request.args)
+    try:
+        msg = request.args.get('msg')
+    except:
+        msg = ''
+
     if request.referrer and 'reset_password' in request.referrer:
-        # Proceed with the confirm password logic
         return render_template('confirm_password.html', username = username)
+    
+    elif request.referrer and 'confirm_password' in request.referrer:
+        return render_template('confirm_password.html', username = username, msg = msg)
     else:
         # Redirect to login page if the referrer is not reset_password
         return redirect(url_for('login'))
+    
+
 @app.route('/confirm_password_button/<string:username>/<string:code>', methods=['GET', 'POST'])
 def confirm_password_button(username, code):
+    print("--------")
+    print("args below: ")
+    print(request.args)
+    print(username)
+    print(code)
+    print("--------")
     try:
-        # Create a session
         session = app.db_manager.create_session()
         code = int(code)
 
@@ -682,7 +688,7 @@ def confirm_password_button(username, code):
                 return redirect(url_for('reset_password_page',msg=msg))
         else:
             msg= "Invalid code for the given username"
-            return redirect(url_for('reset_password_page',msg=msg))
+            return redirect(url_for('confirm_password',msg=msg, username=username))
       
 
     except Exception as e:
@@ -690,6 +696,7 @@ def confirm_password_button(username, code):
         return jsonify({"success": False, "message": str(e)})
     finally:
         session.close()
+
 @app.route('/set_new_password')
 def set_new_password():
     username = request.args.get('username')
@@ -699,6 +706,9 @@ def set_new_password():
     else:
         # Redirect to login page if the referrer is not reset_password
         return redirect(url_for('login'))
+    
+
+
 @app.route('/set_new_password_db/<string:username>/<string:password>', methods=['GET', 'POST'])
 def set_new_password_db(username, password):
     try:
