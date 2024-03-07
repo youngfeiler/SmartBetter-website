@@ -561,7 +561,7 @@ def get_user_permission():
 @app.route('/reset_password_page')
 def reset_password_page():
     msg = request.args.get('msg')
-    if msg.contains('successfully'):
+    if msg and 'successfully' in msg:
         return redirect(url_for('password_update_successful'))
     else:
         return render_template('reset_password.html', msg = msg)
@@ -584,7 +584,17 @@ def reset_password():
         message['From'] = sender_email
         message['To'] = email
         message['Subject'] = f'Your Smartbettor Verification Code: {code}'
-        body = f'Your Smartbettor Verification Code: {code}'
+        body = f"""Hey Valued SmartBettor User,
+
+        To verify your password reset request please enter the following code when prompted:
+
+        {code}
+
+        Please note that this code is only valid for the next 5 minutes.
+
+        Thank you!
+        """
+        
     # Attach the body to the email
         message.attach(MIMEText(body, 'plain'))
 
