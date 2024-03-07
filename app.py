@@ -561,7 +561,11 @@ def get_user_permission():
 @app.route('/reset_password_page')
 def reset_password_page():
     msg = request.args.get('msg')
-    return render_template('reset_password.html', msg = msg)
+    if msg.contains('successfully'):
+        return redirect(url_for('password_update_successful'))
+    else:
+        return render_template('reset_password.html', msg = msg)
+    
 
 @app.route('/reset_password', methods=['POST','GET'])
 def reset_password():
@@ -635,14 +639,11 @@ def reset_password():
         error_message = "Email not found in the database. If you have paid through stripe, please complete registration."
         return render_template('register.html', incorrect_password=True, form_data={}, error_message=error_message) 
     set_reset_instance(code,username)
-    print("USRNAMEH ERE ")
-    print(username)
     return redirect(url_for('confirm_password', username=username))
 
 @app.route('/confirm_password')
 def confirm_password():
     username = request.args.get('username')
-    print(request.args)
     try:
         msg = request.args.get('msg')
     except:
@@ -660,12 +661,6 @@ def confirm_password():
 
 @app.route('/confirm_password_button/<string:username>/<string:code>', methods=['GET', 'POST'])
 def confirm_password_button(username, code):
-    print("--------")
-    print("args below: ")
-    print(request.args)
-    print(username)
-    print(code)
-    print("--------")
     try:
         session = app.db_manager.create_session()
         code = int(code)
@@ -727,7 +722,6 @@ def set_new_password_db(username, password):
 
             # Flash success message and redirect to login or any other page
             msg = "Password updated successfully please return to Smartbettor.ai home page and log in with new credentials."
-            print('Password updated successfully')
             return redirect(url_for('reset_password_page',msg=msg))
 
         else:
@@ -743,6 +737,10 @@ def set_new_password_db(username, password):
 
     # Redirect to an appropriate page on failure
     return redirect(url_for('login'))  # Change 'login' to the appropriate endpoint
+
+@app.route('/password_update_successful')
+def password_update_successful():
+    return render_template('password_update_successful.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080, use_reloader=False)

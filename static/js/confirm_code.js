@@ -29,13 +29,17 @@ inputElements.forEach((ele,index)=>{
 function onSubmit(e) {
   const form = document.getElementById('registration-form-2');
 
+  const username = form.getAttribute('data-username');
+
   const inputElements = Array.from(document.querySelectorAll('.code-input'));
 
   e.preventDefault();
 
   const code = inputElements.map(({ value }) => value).join('');
 
-  form.action = `/confirm_password_button/{{ username }}/${code}`;
+  form.action = `/confirm_password_button/${username}/${code}`;
 
   form.submit();
+
+  console.log(username);
 }
