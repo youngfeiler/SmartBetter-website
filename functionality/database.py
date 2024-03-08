@@ -519,7 +519,7 @@ class database():
           kelly_percentage = ((win_probability * odds) - 1) / (odds-1)
           return kelly_percentage * user_bankroll * 0.25
 
-       df = pd.read_csv("users/positive_ev_dash_data.csv")
+       df = pd.read_csv("pos_ev_data/pos_ev_dash_data.csv")
 
        df = df[df['highest_bettable_odds'] > 1.01]
 
@@ -1148,7 +1148,7 @@ class database():
 
     def get_filter_dropdown_values(self):
 
-       df = pd.read_csv('users/positive_ev_dash_data.csv')
+       df = pd.read_csv('pos_ev_data/pos_ev_dash_data.csv')
 
        df['game_date'] = pd.to_datetime(df['game_date'])
 
