@@ -534,10 +534,10 @@ class database():
        df['sportsbooks_used_formatted'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
        if len(filters) > 1:
           if filters.get('sport-league-filter') and "ALL" not in [filter.upper() for filter in filters['sport-league-filter']]:
-            df = df[df['sport_league_display'].isin(filters['sport-league-filter'])]
+            df = df[df['sport_league_display'].str.upper().isin(filters['sport-league-filter'])]
 
-          if filters.get('market-filter') and "ALL" not in [filter.upper() for filter in filters['market-filter']]:
-            df = df[df['market_display'].isin(filters['market-filter'])]
+          if 'market-filter' in filters and "ALL" not in [filter.upper() for filter in filters['market-filter']]:
+            df = df[df['market_display'].str.upper().isin(filters['market-filter'])]
 
           if filters.get('sportsbook-filter') and "ALL" not in [filter.upper() for filter in filters['sportsbook-filter']]:
 
@@ -566,10 +566,6 @@ class database():
        if not first_20_rows.empty:
         first_20_rows['highest_acceptable_odds']= first_20_rows.apply(calculate_accepted_bettable_odds, axis=1)
        if len(filters) > 1:
-          # if filters['odds-filter']['minodds'] != '':
-          #   first_20_rows = first_20_rows[first_20_rows['highest_acceptable_odds'] >= int(filters['odds-filter']['minodds'])]
-          # if filters['odds-filter']['maxodds'] != '':
-          #   first_20_rows = first_20_rows[first_20_rows['highest_acceptable_odds'] <= int(filters['odds-filter']['maxodds'])]
           if filters.get('best-odds-filter') and len(filters['best-odds-filter']['minodds']) > 2 and filters['best-odds-filter']['minodds']!='':
              first_20_rows = first_20_rows[first_20_rows['highest_bettable_odds'] >= int(filters['best-odds-filter']['minodds'])]
           if filters.get('best-odds-filter') and len(filters['best-odds-filter']['maxodds']) > 2 and filters['best-odds-filter']['maxodds']!='':
