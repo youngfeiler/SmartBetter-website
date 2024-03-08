@@ -12,7 +12,7 @@ def copy_csv(source, destination):
 while True:
     current_datetime = datetime.datetime.now()
 
-    formatted_datetime = current_datetime.strftime("%d_%m_%Y_%H_%M_%S")
+    formatted_datetime = current_datetime.strftime("%m_%d_%Y_%H_%M_%S")
     
     destination_csv = f'pos_ev_data/pos_ev_data_{formatted_datetime}.csv'
 
