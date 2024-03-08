@@ -14,12 +14,14 @@ while True:
 
     formatted_datetime = current_datetime.strftime("%d%m%Y_%H_%M_%S")
     
-    destination_csv = f'pos_ev_data_{formatted_datetime}.csv'
-    
-    copy_csv(source_csv, destination_csv)
+    destination_csv = f'pos_ev_data/pos_ev_data_{formatted_datetime}.csv'
 
-    print(f"CSV copied successfully to {destination_csv}.")
+    try:
+      copy_csv(source_csv, destination_csv)
+      print(f"CSV copied successfully to {destination_csv}.")
+      time.sleep(5 * 60)
+    except Exception as e:
+       print(e)
     
-    time.sleep(5 * 60)
 
     
