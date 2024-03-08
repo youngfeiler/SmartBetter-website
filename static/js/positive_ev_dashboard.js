@@ -1443,6 +1443,48 @@ function addSortListenersMobile(){
   document.querySelector('.sort-by-button-mobile').addEventListener("click", showSortBy)
 }
 
+function addWholePageClickListenerToCloseActiveDropdowns() {
+
+  function getLengthOfClassWithoutAnotherClass(className) {
+
+    const elements = document.querySelectorAll('.' + className);
+
+    let count = 0;
+
+    elements.forEach(function(element) {
+        if (!element.classList.contains('hidden')) {
+            count++;
+        }
+    });
+    return count;
+}
+
+
+  function handleClick(event) {
+      // Checks to see if we have an open filter div 
+      if(getLengthOfClassWithoutAnotherClass('full-filter-ind-content-values') > 0){
+        // if we do, check if we're clicking in that filter div
+        const clickedElement = event.target;
+        
+      if (clickedElement.closest('.full-filter-ind-content-values') || clickedElement.closest('.full-filter-ind-content-title')) {
+          return;
+      }
+
+
+      document.querySelectorAll('.full-filter-ind-content-values').forEach(function(element) {
+          if (!element.classList.contains('hidden')) {
+              element.parentNode.querySelector('.filter-dropdown-button').click();
+          }
+      });
+      }
+      return 
+  }
+
+  document.addEventListener('click', handleClick);
+}
+
+
+
 
 $(document).ready(function(){
 
@@ -1465,11 +1507,13 @@ $(document).ready(function(){
     addSortListenersMobile();
   }else{
     addSortListenersDesktop();
+  addWholePageClickListenerToCloseActiveDropdowns();
   }
 
   fillFilterValues(addDropdownListeners, addMobileCloseListeners);
 
   addDynamicOddsInputDisplayFunction();
+
 
   // addDesktopSortListeners();
 
