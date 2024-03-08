@@ -16,7 +16,7 @@ while True:
 
     formatted_datetime = current_datetime.strftime("%d%m%Y_%H_%M_%S")
     
-    destination_csv = f'../pos_ev_data_{formatted_datetime}.csv'
+    destination_csv = f'./pos_ev_data_{formatted_datetime}.csv'
     
     copy_csv(source_csv, destination_csv)
 
