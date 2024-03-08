@@ -654,22 +654,55 @@ function fetchDataAndUpdateTable() {
   console.log(innerTextDictionary);
   
 
-  fetch(url,{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({filters: innerTextDictionary}),
+  fetchDataWithRetry(url, innerTextDictionary)
+  .then(data => {
+    if (userPermissionVar == 'standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev') {
+      updateTable(data);
+    } else {
+      updateTableFree(data);
+    }
   })
-    .then(response => response.json())
-    .then(data => {
-      if(userPermissionVar =='standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev'){
-        updateTable(data);
-      }else{
-        updateTableFree(data);
-      }
-    })
-    .catch(error => console.error('Error fetching data:', error));
+  .catch(error => console.error('Error fetching data with retry:', error));
+
+}
+
+function fetchDataWithRetry(url, innerTextDictionary, retryLimit = 3) {
+  return new Promise((resolve, reject) => {
+    const fetchData = (retryCount) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ filters: innerTextDictionary }),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          resolve(data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          if (retryCount > 0) {
+            console.log(`Retrying... ${retryCount} retries left.`);
+            fetchData(retryCount - 1);
+          } else {
+            reject(new Error('Retry limit exceeded'));
+          }
+        });
+    };
+
+    fetchData(retryLimit);
+  });
+}
+
+
+function retryFetchData(){
+
 }
 
 function addToBankroll() {
@@ -1486,6 +1519,8 @@ function addWholePageClickListenerToCloseActiveDropdowns() {
 
 
 
+
+
 $(document).ready(function(){
 
   const menuIcon = document.querySelector(".navbar-custom__left i");
@@ -1507,7 +1542,8 @@ $(document).ready(function(){
     addSortListenersMobile();
   }else{
     addSortListenersDesktop();
-  addWholePageClickListenerToCloseActiveDropdowns();
+    addWholePageClickListenerToCloseActiveDropdowns();
+
   }
 
   fillFilterValues(addDropdownListeners, addMobileCloseListeners);
