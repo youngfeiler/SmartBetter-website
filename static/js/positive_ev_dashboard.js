@@ -64,7 +64,7 @@ function updateTable(data) {
 
       <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
 
-      <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+      <li data-before="No Vig" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
 
       <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
 
@@ -143,7 +143,7 @@ function updateTableFree(data) {
 
       <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
 
-      <li data-before="Min" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+      <li data-before="No Vig" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
 
       <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
 
