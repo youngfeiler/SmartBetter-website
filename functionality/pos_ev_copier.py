@@ -3,7 +3,7 @@ import pandas as pd
 import time
 import shutil
 
-source_csv = 'users/positive_ev_dash_data.csv'
+source_csv = 'pos_ev_data/pos_ev_dash_data.csv'
 
 def copy_csv(source, destination):
     df = pd.read_csv(source)

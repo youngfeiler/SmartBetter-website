@@ -664,4 +664,7 @@ if __name__ == '__main__':
    obj = PositiveEVDashboardRunner()
 
    while True:
-      obj.make_live_dash_data()
+      try:
+         obj.make_live_dash_data()
+      except Exception as e:
+         print(e)
