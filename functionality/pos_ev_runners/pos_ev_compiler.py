@@ -42,8 +42,8 @@ if __name__ == "__main__":
         else:
             print("Not updated")
 
-      except pd.errors.EmptyDataError:
-          pass
+      except Exception as e:
+          print(e)
           
 
       
