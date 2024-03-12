@@ -25,7 +25,6 @@ function updateButton({ buttonEl, isDark }) {
 
 
 function updateTable(data) {
-  console.log(data);
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -63,12 +62,15 @@ function updateTable(data) {
         </div>
       </li>
 
-      <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
+      <li class="sportsbook-li">
+        <div class="tooltip" id="sportsbook-2">
+                    <span class="tooltiptext"></span>
+        </div>
+      </li>
 
-      <li data-before="No Vig" id = "min-odds">${addSign(row.highest_acceptable_odds)}</li>
+      <li data-before="No Vig" id = "min-odds">${addSign(row.highest_bettable_odds)}</li>
 
-      <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds)}</li>
-
+      <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds_other_X)}</li>
       <li before-data="+EV%: " id="ev">${row.ev}%</li>
 
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
@@ -82,10 +84,22 @@ function updateTable(data) {
       ;
       table_row_to_append_to.appendChild(tr);
 
-      table_row_to_append_to.appendChild(returnMarketView(row));
+      const clickDiv = document.createElement("div");
+
+      clickDiv.classList.add("hidden");
+
+      clickDiv.classList.add("arb-dropdown");
+
+
+      clickDiv.appendChild(returnMarketView(row));
+
+      clickDiv.appendChild(returnCalculatorView(row));
+
+      table_row_to_append_to.appendChild(clickDiv);
 
       tr.addEventListener('click', toggleAllBooksView);
       getImage(row.sportsbooks_used, tr);
+      getImageOther(row.sportsbooks_used_other_X, tr);
     });
   }
   else
@@ -165,6 +179,7 @@ function updateTableFree(data) {
       ;
       table_row_to_append_to.appendChild(tr);
       getImage(row.sportsbooks_used, tr);
+      getImageOther(row.sportsbooks_used_other_X, tr);
       i+=1;
       }else if(i==1){
         tr.innerHTML = `
@@ -250,7 +265,7 @@ function returnMarketView(data){
   const sportsbooksAlreadyDisplayed = []
 
   const returnDiv = document.createElement("div");
-  returnDiv.classList.add('hidden');
+  // returnDiv.classList.add('hidden');
   returnDiv.classList.add('market-view');
 
 
@@ -260,33 +275,7 @@ function returnMarketView(data){
 
   const blank = document.createElement("div");
   blank.classList.add("blank");
-  // blank.style.width = "10%";
   sportsbookRow.appendChild(blank);
-
-  const bestOddsTitle = document.createElement("div");
-  const bestOddsTitleValue = document.createElement("p");
-  bestOddsTitle.appendChild(bestOddsTitleValue);
-  bestOddsTitleValue.innerText = "Best Odds";
-  bestOddsTitle.classList.add("market-view-best-odds-title");
-  bestOddsTitle.classList.add("all-books-ind-logo");
-  bestOddsTitle.classList.add("all-books-ind-value");
-
-
-  // bestOddsTitle.style.width = "10%";
-
-  const avgOddsTitle = document.createElement("div");
-  const avgOddsTitleValue = document.createElement("p");
-  avgOddsTitle.appendChild(avgOddsTitleValue);
-  avgOddsTitleValue.innerText = "Avg Odds";
-  avgOddsTitle.classList.add("market-view-best-odds-title");
-  avgOddsTitle.classList.add("all-books-ind-logo");
-  avgOddsTitle.classList.add("all-books-ind-value");
-
-
-  // avgOddsTitle.style.width = "10%";
-  
-  sportsbookRow.appendChild(avgOddsTitle);
-  sportsbookRow.appendChild(bestOddsTitle);
 
 
   const firstValuesRow = document.createElement("div");
@@ -294,11 +283,17 @@ function returnMarketView(data){
   firstValuesRow.classList.add("mobile-no-display");
   const info_1 = blank.cloneNode(true);
   const info_1Value = document.createElement("p");
+
   info_1Value.textContent = data['wager_display']
 
   info_1.appendChild(info_1Value);
   firstValuesRow.appendChild(info_1);
 
+
+  // const blank = document.createElement("div");
+  // blank.classList.add("blank");
+  // blank.style.width = "100px";
+  // sportsbookRow.appendChild(blank);
   const secondValuesRow = document.createElement("div");
   secondValuesRow.classList.add("all-books-view");
   secondValuesRow.classList.add("mobile-no-display");
@@ -306,62 +301,12 @@ function returnMarketView(data){
   info_2.textContent = data['wager_display_other']
   secondValuesRow.appendChild(info_2);
 
-  const averageOddsDiv = document.createElement("div");
-  averageOddsDiv.classList.add("all-books-ind-value");
-  const averageOddsValue = document.createElement("div");
-  var averageOddsDisplay = parseInt(decimalToAmerican(data['average_market_odds']));
-  if(averageOddsDisplay < 0){
-    averageOddsValue.innerText = averageOddsDisplay;
-  }else{
-    averageOddsValue.innerText = "+" + averageOddsDisplay;
-  }
-  averageOddsDiv.appendChild(averageOddsValue);
-
-  const bestOddsDiv = document.createElement("div");
-  bestOddsDiv.classList.add("all-books-ind-value");
-
-  const bestOddsValue = document.createElement("div");
-  var bestOddsDisplay = parseInt(data['highest_bettable_odds']);
-  if(bestOddsDisplay < 0){
-    bestOddsValue.innerText = bestOddsDisplay;
-  }else{
-    bestOddsValue.innerText = "+" + bestOddsDisplay;
-  }
-  
-  bestOddsDiv.appendChild(bestOddsValue);
-
-  firstValuesRow.appendChild(averageOddsDiv);
-  firstValuesRow.appendChild(bestOddsDiv);
-
-
-  const averageOddsDivOther = document.createElement("div");
-  averageOddsDivOther.classList.add("all-books-ind-value");
-  const averageOddsValueOther = document.createElement("div");
-  if(parseInt(decimalToAmerican(data['other_average_market_odds'])) > 0){
-    averageOddsValueOther.innerText = "+" + parseInt(decimalToAmerican(data['other_average_market_odds']));
-  }else{
-    averageOddsValueOther.innerText = parseInt(decimalToAmerican(data['other_average_market_odds']));
-  }
-  
-  averageOddsDivOther.appendChild(averageOddsValueOther);
-
-  const bestOddsDivOther = document.createElement("div");
-  bestOddsDivOther.classList.add("all-books-ind-value");
-
-  const bestOddsValueOther = document.createElement("div");
-  bestOddsValueOther.innerText = decimalToAmerican(data['highest_bettable_odds_other_X']);
-  bestOddsDivOther.appendChild(bestOddsValueOther);
-
-  secondValuesRow.appendChild(averageOddsDivOther);
-  secondValuesRow.appendChild(bestOddsDivOther);
-
-
   for (const key in data) {
 
     if (data.hasOwnProperty(key) && (sportsbooksForDisplay.includes(key) |  sportsbooksForDisplay.includes(key.split("_other_X")[0])) && data[key] > 1.01){
 
-      if(!sportsbooksAlreadyDisplayed.includes(key.split("_other_X")[0])) {
-
+      if((!sportsbooksAlreadyDisplayed.includes(key.split("_other_X")[0])) && (data[key] == data['highest_bettable_odds_dec'] || data[key] == data['highest_bettable_odds_other_X']))
+      {
 
       sportsbooksAlreadyDisplayed.push(key.split("_other_X")[0]);
 
@@ -386,31 +331,182 @@ function returnMarketView(data){
 
       firstValuesRow.appendChild(valueDiv);
       secondValuesRow.appendChild(valueDiv2);
-      
-      }
 
       if(key.includes("_other_X")){
-          valueDiv2P.textContent = decimalToAmerican(data[key]);
-          secondValuesRow.appendChild(valueDiv2);
-        } else{
-        valueDivP.textContent = decimalToAmerican(data[key]);
-        firstValuesRow.appendChild(valueDiv);
+        valueDiv2P.textContent = decimalToAmerican(data[key]);
+        secondValuesRow.appendChild(valueDiv2);
+      } else{
+      valueDivP.textContent = decimalToAmerican(data[key]);
+      firstValuesRow.appendChild(valueDiv);
+    }      
       }
-
-
       }
-
-
     }
 
     returnDiv.appendChild(sportsbookRow);
     returnDiv.appendChild(firstValuesRow);
     returnDiv.appendChild(secondValuesRow);
     
-
-
 return returnDiv
+}
 
+function returnCalculatorView(data){
+
+  // Full container
+  const calculatorContainer = document.createElement("div");
+  calculatorContainer.classList.add("calculator-container");
+
+  // Title: "Calculator"
+  const calculatorTitleDiv = document.createElement("div");
+  calculatorTitleDiv.classList.add("calc-title-div-1");
+  const calculatorTitle = document.createElement("p");
+  calculatorTitle.innerText = "Arbitrage Calculator";
+  calculatorTitleDiv.appendChild(calculatorTitle);
+
+  // First row: "Odds, oddsinput, oddsinput"
+  const firstRow = document.createElement("div");
+  firstRow.classList.add("first-row");
+  const odds = document.createElement("p");
+  odds.innerText = "Odds";
+  const odds1Input = document.createElement('input');
+  const odds2Input = document.createElement('input');
+
+  odds1Input.value = data['highest_bettable_odds'];
+  odds2Input.value = decimalToAmerican(data['highest_bettable_odds_other_X']);
+
+  odds1Input.classList.add("odds-input");
+  odds2Input.classList.add("odds-input");
+
+
+
+  firstRow.appendChild(odds);
+  firstRow.appendChild(odds1Input);
+  firstRow.appendChild(odds2Input);
+
+  // Second row: "Odds, oddsinput, oddsinput"
+  const secondRow = document.createElement("div");
+  secondRow.classList.add("second-row");
+  const stake = document.createElement("p");
+  stake.innerText = "Stake";
+
+  const stake1InputDiv = document.createElement("div");
+  stake1InputDiv.classList.add("stake-input-div");
+  const stake1InputDivDollar = document.createElement("p");
+  stake1InputDivDollar.innerText = "$";
+  stake1InputDiv.appendChild(stake1InputDivDollar);
+  const stake1Input = document.createElement('input');
+  stake1InputDiv.appendChild(stake1Input);
+
+  const stake2InputDiv = document.createElement("div");
+  stake2InputDiv.classList.add("stake-input-div");
+  const stake2InputDivDollar = document.createElement("p");
+  stake2InputDivDollar.innerText = "$";
+  stake2InputDiv.appendChild(stake2InputDivDollar);
+  const stake2Input = document.createElement('input');
+  stake2InputDiv.appendChild(stake2Input);
+
+  stake1Input.value = data['bankroll']/4;
+  stake2Input.value = calcOtherStakeBoxValue(odds2Input, calcPayout(odds1Input.value, stake1Input.value));
+
+  secondRow.appendChild(stake);
+  secondRow.appendChild(stake1InputDiv);
+  secondRow.appendChild(stake2InputDiv);
+
+  // Third row: "Odds, oddsinput, oddsinput"
+  const thirdRow = document.createElement("div");
+  thirdRow.classList.add("third-row");
+  const payout = document.createElement("p");
+  payout.innerText = "Payout";
+  const payout1 = document.createElement('div');
+  const payout1Value = document.createElement("p");
+  payout1.appendChild(payout1Value);
+  payout1.classList.add("payout")
+
+
+  const payout2 = document.createElement('div');
+  payout2.classList.add("payout")
+
+  const payout2Value = document.createElement("p");
+  payout2.appendChild(payout2Value);
+
+  var calculatedPayout1 = calcPayout(odds1Input.value, stake1Input.value);
+  var calculatedPayout2 = calcPayout(odds2Input.value, stake2Input.value);
+  payout1Value.innerText = calculatedPayout1;
+  payout2Value.innerText = calculatedPayout2;
+
+  thirdRow.appendChild(payout);
+  thirdRow.appendChild(payout1);
+  thirdRow.appendChild(payout2);
+
+  // Fourth row: "Odds, oddsinput, oddsinput"
+  const fourthRow = document.createElement("div");
+  fourthRow.classList.add("fourth-row");
+
+  const totalStakeDiv = document.createElement("div");
+  totalStakeDiv.classList.add("total-stake-div");
+  const totalStakeTitle = document.createElement("p");
+  totalStakeTitle.innerText = "Total Stake";
+  const totalStakeValue = document.createElement("p");
+  totalStakeValue.classList.add("total-stake-value")
+  totalStakeValue.innerText = parseFloat(stake1Input.value) + parseFloat(stake2Input.value);
+
+  totalStakeDiv.appendChild(totalStakeTitle);
+  totalStakeDiv.appendChild(totalStakeValue);
+
+
+  const totalPayoutDiv = document.createElement("div");
+  totalPayoutDiv.classList.add("total-payout-div");
+  const totalPayoutTitle = document.createElement("p");
+  totalPayoutTitle.innerText = "Total Payout";
+
+  const totalPayoutValue = document.createElement("p");
+  totalPayoutValue.classList.add("total-payout-value")
+  totalPayoutValue.innerText = parseFloat(calculatedPayout1);
+
+  totalPayoutDiv.appendChild(totalPayoutTitle);
+  totalPayoutDiv.appendChild(totalPayoutValue);
+
+  const profitDiv = document.createElement("div");
+  profitDiv.classList.add("profit-div");
+
+  const profitDivValue = document.createElement("p");
+  profitDivValue.innerText = (parseFloat(calculatedPayout1) - (parseFloat(stake1Input.value) + parseFloat(stake2Input.value))).toFixed(2);
+
+  const profitDivTitle = document.createElement("p");
+  profitDivTitle.innerText = "Profit (" + calcPercPayout(
+    parseFloat(totalPayoutValue.innerText),
+    parseFloat(profitDivValue.innerText),
+    ) + "%)"
+
+  profitDiv.appendChild(profitDivTitle);
+  profitDiv.appendChild(profitDivValue);
+
+
+  fourthRow.appendChild(totalStakeDiv);
+  fourthRow.appendChild(totalPayoutDiv);
+  fourthRow.appendChild(profitDiv);
+
+  // Adding the title and the 3 next rows to the full container
+  calculatorContainer.appendChild(calculatorTitleDiv);
+  calculatorContainer.appendChild(firstRow);
+  calculatorContainer.appendChild(secondRow);
+  calculatorContainer.appendChild(thirdRow);
+  calculatorContainer.appendChild(fourthRow);
+
+  return calculatorContainer;
+
+}
+
+function calcPayout(odds, stake) {
+  return (americanToDecimal(odds) * stake).toFixed(2);
+}
+
+function calcPercPayout(totalStake, totalProfit){
+
+  console.log(totalProfit);
+  console.log(totalStake);
+
+  return ((totalProfit / totalStake) * 100).toFixed(2);
 }
 
 function decimalToAmerican(decimalOddsString) {
@@ -490,11 +586,6 @@ function toggleAllBooksView(){
   const nextSibling = this.nextElementSibling;
 
   nextSibling.classList.toggle('hidden');
-
-
-  // Function that preloads all of the sportsbook logos
-
-  // 
 
 }
 
@@ -945,6 +1036,63 @@ function getImage(sportsbook_string, row){
   }
 }
 
+function getImageOther(sportsbook_string, row){
+
+  var imageContainer = row.querySelector('#sportsbook-2');
+
+  imageContainer.classList.add("tooltip");
+
+  var sportsbookP = document.createElement('p');
+
+  sportsbookP.innerText = sportsbook_string;
+  sportsbookP.classList.add("tooltiptext_img");
+  imageContainer.appendChild(sportsbookP);
+
+  // Check if the image container exists before setting its style
+  if (imageContainer) {
+
+    var imageDictionary = {
+      Pointsbetus: '/static/images/pointsbetus.webp',
+      Barstool: '/static/images/barstool.webp',
+      Draftkings: '/static/images/draftkings.webp',
+      Fanduel: '/static/images/fanduel.webp',
+      Betus: '/static/images/betus.webp',
+      Wynnbet: '/static/images/wynnbet.webp',
+      Mybookieag: '/static/images/mybookieag.webp',
+      Betonlineag: '/static/images/betonlineag.webp',
+      Betrivers: '/static/images/betrivers.webp',
+      Unibet_Us: '/static/images/unibetus.webp',
+      Pinnacle: '/static/images/pinnacle.webp',
+      Betmgm: '/static/images/betmgm.webp',
+      Williamhill_Us: '/static/images/williamhillus.webp',
+      Bovada: '/static/images/bovada.webp',
+      Lowvig: '/static/images/lowvig.webp',
+      Superbook: '/static/images/superbook.webp',
+    };
+
+    var sportsBooks = sportsbook_string.split(', ');
+
+    sportsBooks.forEach(sportsbook_other_X_String => {
+
+      var sportsbook = sportsbook_other_X_String.split("_other_X")[0];
+
+      var imageUrl = imageDictionary[sportsbook];
+      if (imageUrl) { // Check if the URL exists in the dictionary
+        var imgElement = document.createElement('img');
+        imgElement.src = imageUrl;
+        imgElement.alt = sportsbook;
+        imgElement.height = 32;
+        imgElement.width = 32;
+        imageContainer.appendChild(imgElement);
+      } else {
+        console.error('Image URL not found for:', sportsbook);
+      }
+    });
+  } else {
+    console.error('Image container not found.');
+  }
+}
+
 function getImageSportsbookRow(sportsbook_string){
 
   var imageDictionary = {
@@ -1061,7 +1209,7 @@ function fetchDataAndUpdateTable() {
 
   //finding the things that are active:
   // Get the last segment (element) of the URL
-  const url = '/get_positive_ev_dash_data?';
+  const url = '/get_arbitrage_dash_data?';
 
   const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
   table_row_to_append_to.innerHTML = '';
@@ -1076,14 +1224,19 @@ function fetchDataAndUpdateTable() {
   tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
 
   table_row_to_append_to.appendChild(tr);
+
+  console.log(innerTextDictionary);
   
+
   fetchDataWithRetry(url, innerTextDictionary)
   .then(data => {
     if (userPermissionVar == 'standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev') {
+      console.log(data);
       updateTable(data);
     } else {
       updateTableFree(data);
     }
+    addArbCalcInputListeners();
   })
   .catch(error => console.error('Error fetching data with retry:', error));
 
@@ -1935,6 +2088,60 @@ function addWholePageClickListenerToCloseActiveDropdowns() {
   document.addEventListener('click', handleClick);
 }
 
+function addArbCalcInputListeners(){
+
+  const calcContainers = document.querySelectorAll(".calculator-container");
+
+  calcContainers.forEach(container => {
+    var inputs = container.querySelectorAll('input'); // Use querySelectorAll to get all input elements
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+
+        const odds1InputBox = container.querySelector('.first-row').querySelectorAll('input')[0]
+        const odds2InputBox = container.querySelector('.first-row').querySelectorAll('input')[1]
+
+        const stake1InputBox = container.querySelector('.second-row').querySelectorAll('input')[0]
+        const stake2InputBox = container.querySelector('.second-row').querySelectorAll('input')[1]
+
+        const payout1 = container.querySelector('.third-row').querySelectorAll('.payout')[0]
+        const payout2 = container.querySelector('.third-row').querySelectorAll('.payout')[1]
+
+
+        if(input === odds1InputBox || input === stake1InputBox){
+          var otherStakeBox = stake2InputBox;
+          var otherOddsBox = odds2InputBox;
+          var thisStake = calcPayout(odds1InputBox.value, stake1InputBox.value);
+        }else{
+          var otherStakeBox = stake1InputBox;
+          var otherOddsBox = odds1InputBox;
+          var thisStake = calcPayout(odds2InputBox.value, stake2InputBox.value);
+        }
+
+        otherStakeBox.value = calcOtherStakeBoxValue(otherOddsBox, thisStake);
+        payout1.innerText = calcPayout(odds1InputBox.value, stake1InputBox.value);
+        payout2.innerText = calcPayout(odds2InputBox.value, stake2InputBox.value);
+
+        container.querySelector('.total-stake-value').innerText = parseFloat(stake1InputBox.value) + parseFloat(stake2InputBox.value);
+
+        container.querySelector('.total-payout-value').innerText = parseFloat(payout1.innerText);
+
+        container.querySelectorAll('.profit-div p')[0].innerText = "Profit (" + 
+        parseFloat(
+          ((parseFloat(container.querySelector('.total-payout-value').innerText) - parseFloat(container.querySelector('.total-stake-value').innerText)) / parseFloat(container.querySelector('.total-stake-value').innerText) * 100).toFixed(0)
+        ) + "%)"
+
+      });
+    });
+  });
+}
+
+function calcOtherStakeBoxValue(otherOddsBox, stake){
+
+  var odds = americanToDecimal(otherOddsBox.value);
+
+  return (stake / odds).toFixed(2);
+}
+
 
 $(document).ready(function(){
 
@@ -1964,8 +2171,6 @@ $(document).ready(function(){
   fillFilterValues(addDropdownListeners, addMobileCloseListeners);
 
   addDynamicOddsInputDisplayFunction();
-
-
 
   // addDesktopSortListeners();
 

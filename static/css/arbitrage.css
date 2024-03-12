@@ -202,7 +202,7 @@
   padding: 1rem 1.5rem;
   color: var(--table-btn-font-color);
   background-color:var(--table-btn-bg);
-  border-radius: 21px;
+  border-radius: 1000px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -915,7 +915,8 @@ input[type="text"]::-webkit-inner-spin-button {
   text-transform: none !important;
 }
 
-#sportsbook{
+#sportsbook,
+#sportsbook-2{
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -924,13 +925,15 @@ input[type="text"]::-webkit-inner-spin-button {
   overflow-y: visible;
 }
 
-#sportsbook img{
+#sportsbook img,
+#sportsbook-2 img{
   margin-right: 1%;
   border-radius: 10px;
   height: auto;
 }
 
-#sportsbook .tooltiptext_img {
+#sportsbook .tooltiptext_img,
+#sportsbook-2 .tooltiptext_img {
   display: flex;
   text-wrap: wrap;
   overflow: auto;
@@ -947,7 +950,8 @@ input[type="text"]::-webkit-inner-spin-button {
   transition: opacity 0.4s ease;
 }
 
-#sportsbook:hover .tooltiptext_img {
+#sportsbook:hover .tooltiptext_img,
+#sportsbook-2:hover .tooltiptext_img{
   /* visibility: visible; */
   opacity: 1;
 }
@@ -1177,11 +1181,18 @@ input[type="text"]::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
+.arb-dropdown{
+  display: flex;
+  flex-direction: row;
+  background-color: var(--nav-border);
+
+}
+
 .market-view{
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 21px;
-  background-color: var(--nav-border);
+  width: 50%;
 }
 
 .market-view > :nth-child(2) {
@@ -1247,16 +1258,125 @@ input[type="text"]::-webkit-inner-spin-button {
   color: white;
 }
 
-.market-view-best-odds-title p{
-  height: auto !important;
-  font-weight:bold ;
+.calculator-container{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: white;
+  width: 50%;
 }
 
-.market-view-best-odds-title{
-  padding-bottom: 10px !important;
+.first-row,
+.second-row,
+.third-row,
+.fourth-row{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.first-row{
+  border-top: 1px solid white;
+}
+
+.first-row p,
+.second-row p,
+.third-row p{
+  padding: 20px;
+  width: 10%;
+  max-width: 10%;
+}
+
+.first-row input,
+.second-row input,
+.third-row input{
+  height: 30px;
+  max-width: 11%;
+  border: 1px solid white;
+  color: var(--nav-bg); 
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px;
+  text-align: left;
+}
+
+.odds-input{
+  width: 11%;
+}
+
+.first-row :nth-child(2),
+.second-row :nth-child(2){
+  margin-right: 10px;
+}
+
+.stake-input-div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
+  background-color: white;
+  width: 11%;
+  border-radius: 8px;
+  color: black;
+}
+
+.stake-input-div p{
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0px !important;
+  font-size:10px;
 }
 
 
+.stake-input-div input{
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0px !important;
+  max-width: 100%;
+  width: 100%;
+}
+
+.stake-input-div input:focus{
+  outline: none;
+
+}
+
+.payout{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 30px;
+  background-color: white;
+  width: 11%;
+  border-radius: 8px;
+  color: black;
+}
+
+.payout p{
+  padding: 0px;
+}
+
+.fourth-row-inner-1{
+  display: flex;
+  flex-direction: row;
+}
+
+.total-stake-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.total-stake-div,
+.total-payout-div,
+.profit-div{
+  margin-left: 5px;
+  padding: 10px;
+}
+
+.total-payout-div{
+  border-right: 1px solid white;
+}
 
 .dropbtn path{
   fill:var(--table-thead-color);
@@ -1461,10 +1581,12 @@ input[type="text"]::-webkit-inner-spin-button {
 
 }
 
-.market-view-best-odds-title{
+.calc-title-div-1{
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  height: 96px;
 }
 
 

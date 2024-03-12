@@ -598,6 +598,138 @@ class database():
 
        return first_20_rows.head(200)
   
+    def get_arbitrage_dash_data(self, filters, user_bankroll):
+       
+       def minutes_seconds(row):
+          seconds = int(float(row['time_difference_seconds']))
+          if seconds < 60:
+            row['time_difference_formatted'] = f'{seconds} sec'
+
+          elif seconds >= 60 and seconds < 3600:
+            minutes = math.floor(seconds / 60)
+            new_seconds = (seconds % 60)
+            row['time_difference_formatted'] = f'{minutes} min {new_seconds} sec'
+             
+          else:
+            hours = math.floor(seconds / 3600)
+            seconds_after_hour = seconds % 3600
+            new_minutes = math.floor(seconds_after_hour / 60)
+            new_seconds = seconds_after_hour % 60
+            row['time_difference_formatted'] = f'{hours} hours {new_minutes} min {new_seconds} sec'
+          
+          return row
+
+       def format_list_of_strings(strings):
+           return ', '.join(strings[0])
+      
+       def calculate_accepted_bettable_odds(row):
+
+        pwin = row['no_vig_prob_1']
+        plose = 1-row['no_vig_prob_1']
+        winnings_needed = plose/pwin
+        decimal_odds = winnings_needed + 1
+        if decimal_odds > 2:
+           return int((decimal_odds - 1) * 100)
+        else:
+           return int(-100 / (decimal_odds - 1))
+      
+       def decimal_to_american(decimal_odds):
+        american_odds = np.where(decimal_odds >= 2.0, (decimal_odds - 1) * 100, -100 / (decimal_odds - 1))
+        return american_odds.astype(int) 
+       
+       def calculate_bet_amount(row, user_bankroll):
+          user_bankroll = float(user_bankroll)
+          odds = row['highest_bettable_odds'] 
+          win_probability = row['no_vig_prob_1']
+          kelly_percentage = ((win_probability * odds) - 1) / (odds-1)
+          return kelly_percentage * user_bankroll * 0.25
+
+       df = pd.read_csv("arb_data/arb_data.csv")
+
+       df = df[df['highest_bettable_odds'] > 1.01]
+
+       df['game_date'] = pd.to_datetime(df['game_date'])
+
+       current_time_gmt = datetime.now(pytz.timezone('GMT'))
+
+       df = df[df['game_date'] >= current_time_gmt]
+
+       df['game_date']= (df['game_date'] - pd.Timedelta(hours=6)).dt.strftime('%A, %B %d, %Y')
+
+       df['sportsbooks_used_formatted'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
+
+       if len(filters) > 1:
+          if filters.get('sport-league-filter') and "ALL" not in [filter.upper() for filter in filters['sport-league-filter']]:
+            df = df[df['sport_league_display'].str.upper().isin(filters['sport-league-filter'])]
+
+          if 'market-filter' in filters and "ALL" not in [filter.upper() for filter in filters['market-filter']]:
+            df = df[df['market_display'].str.upper().isin(filters['market-filter'])]
+
+          if filters.get('sportsbook-filter') and "ALL" not in [filter.upper() for filter in filters['sportsbook-filter']]:
+
+            df = df[df['sportsbooks_used_formatted'].apply(lambda x: any(item.title() in x for item in filters['sportsbook-filter']))]
+
+    
+       df.drop(columns=['sportsbooks_used_formatted'], inplace=True)
+
+       df_no_duplicates = df.drop_duplicates()
+
+       df_no_duplicates['bet_amount'] = 0
+
+       df_no_duplicates['bet_amount'] = df_no_duplicates['bet_amount'].round(2)
+
+      # Apply the conversion function using NumPy vectorization
+       
+       df_no_duplicates['highest_bettable_odds_dec'] = df_no_duplicates['highest_bettable_odds'].copy()
+
+       df_no_duplicates['highest_bettable_odds'] = decimal_to_american(df_no_duplicates['highest_bettable_odds'])
+
+       first_20_rows = df_no_duplicates
+
+       if 'team' in first_20_rows.columns:
+          first_20_rows['team_1'] = first_20_rows['team']
+       else:
+          pass
+       
+       if not first_20_rows.empty:
+        first_20_rows['highest_acceptable_odds']= 0
+       if len(filters) > 1:
+          if filters.get('best-odds-filter') and len(filters['best-odds-filter']['minodds']) > 2 and filters['best-odds-filter']['minodds']!='':
+             first_20_rows = first_20_rows[first_20_rows['highest_bettable_odds'] >= int(filters['best-odds-filter']['minodds'])]
+          if filters.get('best-odds-filter') and len(filters['best-odds-filter']['maxodds']) > 2 and filters['best-odds-filter']['maxodds']!='':
+             first_20_rows = first_20_rows[first_20_rows['highest_bettable_odds'] <= int(filters['best-odds-filter']['maxodds'])]
+ 
+          
+       current_time = datetime.now() 
+
+       first_20_rows['current_time'] = current_time #- pd.Timedelta(hours=7)
+
+       first_20_rows['snapshot_time'].apply(pd.to_datetime)
+
+       first_20_rows['current_time'] = pd.to_datetime(first_20_rows['current_time'])
+
+       first_20_rows['snapshot_time'] = pd.to_datetime(first_20_rows['snapshot_time'])
+
+       first_20_rows['game_date'] = first_20_rows['game_date'].apply(lambda x: pd.to_datetime(x).strftime('%a %b %d, %Y'))
+
+       first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
+        
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
+       first_20_rows['sportsbooks_used_other_X'] = first_20_rows['sportsbooks_used_other_X'].apply(ast.literal_eval)
+
+
+       first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
+       first_20_rows['sportsbooks_used_other_X'] = first_20_rows['sportsbooks_used_other_X'].apply(lambda x: format_list_of_strings([x]))
+       
+       first_20_rows = first_20_rows.apply(minutes_seconds, axis=1)
+
+       first_20_rows['ev'] = round(df['arb_perc'] * 100, 2)
+
+       first_20_rows.sort_values(filters['sort-by'][0], ascending = filters['sort-by'][1], inplace= True)
+
+       return first_20_rows.head(200)
+  
+
     def get_unsettled_bet_data(self, user):
       try:
         session = self.db_manager.create_session()

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>SmartBettor - Arbitrage</title>
+  <link rel="stylesheet" href="static/css/arbitrage.css" />
+  <link rel="icon" type="image/x-icon" href="static/images/logo.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- reddit ads -->
+  <script>
+    !function (w, d) { if (!w.rdt) { var p = w.rdt = function () { p.sendEvent ? p.sendEvent.apply(p, arguments) : p.callQueue.push(arguments) }; p.callQueue = []; var t = d.createElement("script"); t.src = "https://www.redditstatic.com/ads/pixel.js", t.async = !0; var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(t, s) } }(window, document); rdt('init', 'a2_e3xug8b0s3bp', { "useDecimalCurrencyValues": true, "email": "<EMAIL-HERE>" });
+  </script>
+  <script>
+    rdt('track', 'ViewContent', {
+      "products": [
+        {
+          "name": "positive_ev",
+        },
+        // additional products can be added here
+      ]
+    });
+  </script>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/all.js');
+    fbq('init', '388817483493656');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=388817483493656&ev=PageView&noscript=1" /></noscript>
+  <script>
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
+
+  <meta name="theme-color" content="var(--theme-color)" />
+
+</head>
+{% include "sidebar.html" %}
+
+<body>
+  <div class="container-custom">
+
+    <main class="main-custom">
+
+      <nav class="navbar-custom">
+        <div class="navbar-custom__left">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <div class="navbar-custom__right">
+          <div class="navbar-custom__toggle-theme">
+
+          </div>
+        </div>
+      </nav>
+
+      <div class="content-custom">
+
+
+        <!-- <img src = '/static/ring-resi'> -->
+
+
+        <div class="table-custom">
+
+          <div class="table-custom__header">
+            <div id="ev-dash-header">
+              <h2 class="ev-dash-title">Arbitrage Dashboard</h2>
+              <button class="mobile-no-display" id="fetch-button">Update Table</button>
+              <h2 class="ev-dash-filters-title desktop-no-display mobile-hidden">Filters</h2>
+            </div>
+            <div class="filter-sort-by-mobile-container desktop-no-display">
+              <div class="filter-button-mobile">
+                <p>Filter</p>
+                <a class="filter-dropdown-button"> > </a>
+              </div>
+              <div class="sort-by-button-mobile">
+                <p>Sort By</p>
+                <a class="filter-dropdown-button"> > </a>
+              </div>
+            </div>
+
+            <div class="sort-by-content desktop-no-display mobile-hidden">
+
+
+            </div>
+          </div>
+
+          <div class="full-filter mobile-hidden" id="full-filter">
+            <div class="full-filter-content">
+
+              <div class="full-filter-ind-content">
+                <div class="full-filter-ind-content-title">
+                  <a class="filter-dropdown-label">SPORT LEAGUE</a>
+                  <div class="amount-selected mobile-no-display">
+                    <a> 0 </a>
+                  </div>
+                  <a class="amount-selected-label mobile-no-display"> Selected </a>
+                  <a class="filter-dropdown-button  mobile-no-display"> > </a>
+                  <a class="odds-selected filter-dropdown-button-close hidden mobile-no-display desktop-no-display"> X </a>
+
+                </div>
+                <div class="full-filter-ind-content-values hidden" id="sport-league-filter">
+                </div>
+              </div>
+
+              <div class="full-filter-ind-content">
+                <div class="full-filter-ind-content-title">
+                  <a class="filter-dropdown-label">MARKET</a>
+                  <div class="amount-selected mobile-no-display">
+                    <a> 0 </a>
+                  </div>
+                  <a class="amount-selected-label mobile-no-display"> Selected </a>
+                  <a class="filter-dropdown-button  mobile-no-display"> > </a>
+                  <a class="odds-selected filter-dropdown-button-close hidden mobile-no-display desktop-no-display"> X </a>
+                </div>
+                <div class="full-filter-ind-content-values hidden" id="market-filter">
+                </div>
+              </div>
+
+              <div class="full-filter-ind-content">
+                <div class="full-filter-ind-content-title">
+                  <a class="filter-dropdown-label">SPORTSBOOK</a>
+                  <div class="amount-selected mobile-no-display">
+                    <a> 0 </a>
+                  </div>
+                  <a class="amount-selected-label mobile-no-display"> Selected </a>
+                  <a class="filter-dropdown-button  mobile-no-display"> > </a>
+                  <a class="odds-selected filter-dropdown-button-close hidden mobile-no-display desktop-no-display"> X </a>
+                </div>
+                <div class="full-filter-ind-content-values hidden" id="sportsbook-filter">
+                </div>
+              </div>
+
+              <div class="full-filter-ind-content" id="odds-ind-content">
+                <div class="full-filter-ind-content-title">
+                  <a class="filter-dropdown-label">ODDS</a>
+                  <div class="odds-selected mobile-no-display">
+                    <div class="min-odds-selected" id="min-odds-selected">
+                      <a>Min</a>
+                    </div>
+                    <a class="odds-selected-slash mobile-no-display"> / </a>
+                    <div class="max-odds-selected mobile-no-display" id="max-odds-selected">
+                      <a>Max</a>
+                    </div>
+                  </div>
+
+                  <a class="odds-selected filter-dropdown-button  mobile-no-display"> > </a>
+                  <a class="odds-selected filter-dropdown-button-close hidden mobile-no-display mobile-no-display desktop-no-display"> X
+                  </a>
+
+                </div>
+                <div class="full-filter-ind-content-values hidden" id="odds-filter">
+                  <div class="odds-filter-div">
+                    <label class="custom-checkbox odds-filter-checkbox">
+                      <a class="filter-value-content-a mobile-no-display">Minimum Odds</a>
+                      <input type="text" placeholder="Min" id="min-odds-input">
+                    </label>
+                    <label class="custom-checkbox odds-filter-checkbox">
+                      <a class="filter-value-content-a mobile-no-display">Maximum Odds</a>
+                      <input type="text" placeholder="Max" id="max-odds-input">
+                    </label>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <div class="dropdown-content-odds" id="best-odds-filter">
+                    <a class="filter-dropdown-label-odds"> Best Odds </a>
+                  </div>
+                </div>
+              </div>
+              <div class="done-div">
+                <div class="done-div-container">
+                  <h2 class="done-div-clear-all-button desktop-no-display">Clear All</h2>
+                  <h2 class="done-div-done-button desktop-no-display">Done</h2>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          </div>
+          <div class="table-custom__wrapper">
+            <div class="table-custom__content">
+              <ul class="table-custom__content__head">
+                <li style="display: flex;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Sport League </a>
+                    </div>
+                    <div class="dropdown">
+                      <div class="dropdown-content">
+                        <a class="filter-dropdown-label"> Sport League </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Market </a>
+                    </div>
+                    <div class="dropdown">
+                      <div class="dropdown-content" id="">
+                        <a class="filter-dropdown-label"> Market </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a>Game</a>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Game Date </a>
+                    </div>
+                    <div class="dropdown">
+                      <div class="dropdown-content" id="">
+                        <a class="filter-dropdown-label"> Game Date </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Arb Sportsbook 1</a>
+                    </div>
+                    <div class="dropdown">
+                      <div class="dropdown-content" id="">
+                        <a class="filter-dropdown-label"> Sportsbook </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Arb Sportsbook 2 </a>
+                    </div>
+                    <div class="dropdown">
+                      <div class="dropdown-content-odds" id="min-odds-filter">
+                        <a class="filter-dropdown-label-odds"> Lowest +EV Odds </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Arb Odds 1 </a>
+                    </div>
+                    <div class="dropdown">
+                      <div class="dropdown-content-odds" id="best-odds-filter">
+                        <a class="filter-dropdown-label-odds"> Best Odds </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Arb Odds 2 </a>
+                    </div>
+                  </div>
+                </li>
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a> Arb % </a>
+                      <svg fill="currentColor" height="16" width="16" version="1.1"  viewBox="0 0 6.02438 6.02438" xmlns="http://www.w3.org/2000/svg" class = "sort-icon active" id = "ev">
+                        <defs id="defs6">&#10; &#10; &#10; &#10; &#10; &#10; &#10;</defs>
+                        <path
+                          d="M 3.1089849,0.3901716 V 0.1950858 C 3.1089849,0.08733992 3.0216449,0 2.9138991,0 H 0.1950858 C 0.08733991,0 0,0.08733992 0,0.1950858 v 0.1950858 c 0,0.10774589 0.08733991,0.1950858 0.1950858,0.1950858 h 2.7188133 c 0.1077458,0 0.1950858,-0.0873399 0.1950858,-0.1950858 z"
+                          id="path1" style="stroke-width:0.0" />
+                        <path
+                          d="M 2.5475474,1.2290405 H 0.1950858 C 0.08733991,1.2290405 0,1.3163805 0,1.4241263 V 1.6192121 C 0,1.726958 0.08733991,1.8142979 0.1950858,1.8142979 h 2.3524616 c 0.1077459,0 0.1950858,-0.08734 0.1950858,-0.1950858 V 1.4241263 c 0,-0.1077458 -0.08734,-0.1950858 -0.1950858,-0.1950858 z"
+                          id="path2" style="stroke-width:0.0" />
+                        <path
+                          d="M 2.1811568,2.4580811 H 0.1950858 C 0.08733991,2.4580811 0,2.545421 0,2.6531669 v 0.1950858 c 0,0.1077459 0.08733991,0.1950858 0.1950858,0.1950858 h 1.986071 c 0.1077459,0 0.1950858,-0.08734 0.1950858,-0.1950858 V 2.6531669 c 0,-0.1077459 -0.08734,-0.1950858 -0.1950858,-0.1950858 z"
+                          id="path3" style="stroke-width:0.0" />
+                        <path
+                          d="M 1.8147857,3.8236817 H 0.1950858 C 0.08733991,3.8236817 0,3.9110216 0,4.0187675 v 0.1950858 c 0,0.1077459 0.08733991,0.1950858 0.1950858,0.1950858 h 1.6196999 c 0.1077263,0 0.1950858,-0.08734 0.1950858,-0.1950858 V 4.0187675 c 0,-0.1077459 -0.08734,-0.1950858 -0.1950858,-0.1950858 z"
+                          id="path4" style="stroke-width:0.0" />
+                        <path
+                          d="M 1.448395,5.0527222 H 0.1950858 C 0.08733991,5.0527222 0,5.1400621 0,5.247808 V 5.4428938 C 0,5.5506397 0.08733991,5.6379796 0.1950858,5.6379796 H 1.448395 c 0.1077264,0 0.1950858,-0.08734 0.1950858,-0.1950858 V 5.247808 c 0,-0.1077459 -0.08734,-0.1950858 -0.1950858,-0.1950858 z"
+                          id="path5" style="stroke-width:0.0" />
+                        <path
+                          d="M 5.8192143,4.1580783 5.6812692,4.0201331 c -0.036579,-0.036579 -0.086208,-0.057141 -0.1379452,-0.057141 -0.051737,0 -0.1013666,0.020562 -0.1379647,0.057141 L 4.7344007,4.6910917 v -4.398463 c 0,-0.10774588 -0.08734,-0.1950858 -0.1950858,-0.1950858 H 4.3442291 c -0.1077459,0 -0.1950858,0.08733992 -0.1950858,0.1950858 V 4.6910722 L 3.4781847,4.0201136 c -0.036598,-0.036579 -0.086208,-0.057141 -0.1379451,-0.057141 -0.051737,0 -0.1013666,0.020562 -0.1379452,0.057141 L 3.0643297,4.1580587 c -0.076161,0.076181 -0.076161,0.1997094 0,0.2758904 l 1.2394972,1.2394971 c 0.0381,0.0381 0.088023,0.057141 0.1379451,0.057141 0.049923,0 0.099864,-0.01904 0.1379452,-0.057141 L 5.8192143,4.4339491 c 0.076181,-0.076181 0.076181,-0.1997093 0,-0.2758708 z"
+                          id="path6" style="stroke-width:0.0" />&#10;
+                      </svg>
+                    </div>
+                  </div>
+                </li>
+
+                <li style="display: flex; justify-content: center;" class="mobile-no-display">
+                  <div class="filter-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="filter-container-2"
+                      style="display: flex; flex-direction: row; width: 100%; justify-content: space-evenly;">
+                      <a>Time Since Update </a>
+                      <div class="tooltip">
+                        <span id='edgeToolTip' class="tooltiptext lowercase">Time elapsed since our algorithm found this
+                          bet with the posted odds</span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+
+              </ul>
+              <div class="table-custom__content__rows">
+              </div>
+            </div>
+            <div class="table-custom__footer">
+              <p class="footer-to-make-innerhtml"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% include "footer.html" %}
+
+    </main>
+
+
+  </div>
+  </div>
+
+
+  {% include "sportsbook_selection_dropdown.html" %}
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="static/js/arbitrage.js"></script>
+<script src="static/js/sidebar.js"></script>
+
+
+</html>
