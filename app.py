@@ -41,6 +41,7 @@ def create_app():
     app.db = database(app.db_manager)
     app.celery = celery
     app.chat = Chat()
+    print(os.environ.get("database_endpoint"))
     return app
 
 
@@ -95,6 +96,11 @@ def pregame_beta():
 def positive_ev():
     is_logged_in = True if 'user_id' in session else False
     return render_template('positive_ev_dashboard.html', is_logged_in = is_logged_in)
+
+@app.route('/arbitrage')
+def arbitrage():
+    is_logged_in = True if 'user_id' in session else False
+    return render_template('arbitrage.html', is_logged_in = is_logged_in)
 
 @app.route('/get_team_vals_for_scenarios', methods=['GET', 'POST'])
 def get_team_vals_for_scenarios():
@@ -222,6 +228,29 @@ def get_positive_ev_data():
     data = app.db.get_live_dash_data(session['user_id'], sport_title)
 
     print(data)
+    if data.empty:
+        data = pd.DataFrame(columns=['bankroll', 'update'])
+        data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
+    else:
+        data['bankroll'] = bankroll
+    data_json = data.to_dict(orient='records')
+
+    return jsonify(data_json)
+
+@app.route('/get_arbitrage_dash_data', methods=['POST'])
+def get_arbitrage_dash_data():
+
+    data = request.get_json()
+    
+    filters = data.get('filters', '')
+
+    try:
+        bankroll = app.db.get_user_bank_roll(session["user_id"])
+    except KeyError:
+        bankroll = 5000
+
+    data = app.db.get_arbitrage_dash_data(filters, bankroll)
+    
     if data.empty:
         data = pd.DataFrame(columns=['bankroll', 'update'])
         data = data.append({'bankroll': bankroll, 'update': False}, ignore_index=True)
