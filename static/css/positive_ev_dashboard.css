@@ -1785,6 +1785,14 @@ input[type="text"]::-webkit-inner-spin-button {
     border-right: 1px solid white;
   }
 
+  .market-view p{
+    text-align: center;
+  }
+
+  .table-custom__content__rows__row:hover {
+    background-color: var(--table-bg);
+}
+
 
   .market-view div:nth-child(3) div.blank{
     border-right: 1px solid white;
