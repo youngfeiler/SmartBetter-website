@@ -2274,20 +2274,8 @@ input[type="text"]::-webkit-inner-spin-button {
     justify-content: flex-start !important;
     flex-direction: row  !important;
   }
-  
-}
 
-.clearfix::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.arb{
-  background-color: red !important;
-}
-
-input[type="color"],
+  input[type="color"],
 input[type="date"],
 input[type="datetime"],
 input[type="datetime-local"],
@@ -2305,5 +2293,19 @@ select:focus,
 textarea {
   font-size: 16px;
 }
+  
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.arb{
+  background-color: red !important;
+}
+
+
 
 
