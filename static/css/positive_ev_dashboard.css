@@ -2303,13 +2303,13 @@ input[type="url"],
 input[type="week"],
 select:focus,
 textarea {
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 select,
   textarea,
   input {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 
   @media (hover:none) {
@@ -2318,7 +2318,7 @@ select,
     input[type=”datetime”], input[type=”datetime-local”],
     input[type=”date”], input[type=”month”], input[type=”time”],
     input[type=”week”], input[type=”number”], input[type=”email”],
-    input[type=”url”]{ font-size: 16px; }
+    input[type=”url”]{ font-size: 16px !important; }
     /* end mobile styles */
     }
     
