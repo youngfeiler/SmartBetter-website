@@ -2214,6 +2214,18 @@ input[type="text"]::-webkit-inner-spin-button {
     font-size: 17px;
   }
 
+  #max-odds-input:focus{
+    font-size: 17px;
+  }
+
+  #min-odds-input:focus{
+    font-size: 17px;
+  }
+
+  
+
+
+
 
 
 
