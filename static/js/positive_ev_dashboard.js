@@ -82,9 +82,17 @@ function updateTable(data) {
       ;
       table_row_to_append_to.appendChild(tr);
 
-      table_row_to_append_to.appendChild(returnMarketView(row));
+      const marketViewDiv = document.createElement("ul");
+
+      marketViewDiv.classList.add("hidden");
+      marketViewDiv.classList.add("market-view-div");
+
+      marketViewDiv.appendChild(returnMarketView(row));
+
+      table_row_to_append_to.appendChild(marketViewDiv);
 
       tr.addEventListener('click', toggleAllBooksView);
+
       getImage(row.sportsbooks_used, tr);
     });
   }
@@ -250,13 +258,13 @@ function returnMarketView(data){
   const sportsbooksAlreadyDisplayed = []
 
   const returnDiv = document.createElement("div");
-  returnDiv.classList.add('hidden');
+  // returnDiv.classList.add('hidden');
   returnDiv.classList.add('market-view');
 
 
   const sportsbookRow = document.createElement("div");
   sportsbookRow.classList.add("all-books-view");
-  sportsbookRow.classList.add("mobile-no-display");
+  // sportsbookRow.classList.add("mobile-no-display");
 
   const blank = document.createElement("div");
   blank.classList.add("blank");
@@ -291,7 +299,7 @@ function returnMarketView(data){
 
   const firstValuesRow = document.createElement("div");
   firstValuesRow.classList.add("all-books-view");
-  firstValuesRow.classList.add("mobile-no-display");
+  // firstValuesRow.classList.add("mobile-no-display");
   const info_1 = blank.cloneNode(true);
   const info_1Value = document.createElement("p");
   info_1Value.textContent = data['wager_display']
@@ -301,9 +309,12 @@ function returnMarketView(data){
 
   const secondValuesRow = document.createElement("div");
   secondValuesRow.classList.add("all-books-view");
-  secondValuesRow.classList.add("mobile-no-display");
+  // secondValuesRow.classList.add("mobile-no-display");
   const info_2 = blank.cloneNode(true);
-  info_2.textContent = data['wager_display_other']
+  const info_2Value = document.createElement("p");
+
+  info_2Value.textContent = data['wager_display_other']
+  info_2.appendChild(info_2Value);
   secondValuesRow.appendChild(info_2);
 
   const averageOddsDiv = document.createElement("div");
@@ -477,13 +488,6 @@ return rowDiv;
 
 }
 
-// Function that makes the row grid: Top row should be blank then all the sportsbooks 
-// Next row should be a cell for every cell above it
-// Next row should be a cell for every cell above it
-
-// When we load the data, load and insert the two bottom rows for each data row 
-// When we click, check if the sportsbook logo row is within this element. If so, toggle hidden,
-// if not, duplicate it and append it
 
 function toggleAllBooksView(){
 
