@@ -2325,5 +2325,11 @@ select,
 }
 
 
-
+@supports (-webkit-overflow-scrolling: touch) {
+  select,
+  textarea,
+  input {
+    font-size: 16px;
+  }
+}
 
