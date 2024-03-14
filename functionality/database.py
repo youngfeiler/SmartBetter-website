@@ -571,7 +571,6 @@ class database():
           if filters.get('best-odds-filter') and len(filters['best-odds-filter']['maxodds']) > 2 and filters['best-odds-filter']['maxodds']!='':
              first_20_rows = first_20_rows[first_20_rows['highest_bettable_odds'] <= int(filters['best-odds-filter']['maxodds'])]
  
-          
        current_time = datetime.now() 
 
        first_20_rows['current_time'] = current_time #- pd.Timedelta(hours=7)

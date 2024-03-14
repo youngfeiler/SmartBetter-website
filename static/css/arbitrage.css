@@ -1184,15 +1184,18 @@ input[type="text"]::-webkit-inner-spin-button {
 .arb-dropdown{
   display: flex;
   flex-direction: row;
-  background-color: var(--nav-border);
-
+  background-color: var(--row-box-special-color);
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
 }
 
 .market-view{
-  margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 21px;
   width: 50%;
+  border-right: 1px solid white;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .market-view > :nth-child(2) {
@@ -1201,9 +1204,9 @@ input[type="text"]::-webkit-inner-spin-button {
 
 .all-books-view{
   display: flex;
-  flex-direction: row;
-  color: white;
-  justify-content: flex-start;
+    flex-direction: row;
+    color: white;
+    justify-content: flex-start;
 }
 
 .all-books-ind-value,
@@ -1212,6 +1215,7 @@ input[type="text"]::-webkit-inner-spin-button {
   align-items: center;
   justify-content: center;
   width: 128px;
+  font-size: 0.75rem;
 }
 
 .all-books-ind-logo img{
@@ -1242,6 +1246,7 @@ input[type="text"]::-webkit-inner-spin-button {
   padding-right: 0px;
   width: 10%;
   max-width: 10%;
+  font-size: 0.75rem;
   /* font-weight: 400; */
 }
 
@@ -1259,10 +1264,10 @@ input[type="text"]::-webkit-inner-spin-button {
 }
 
 .calculator-container{
-  margin-top: 10px;
   margin-bottom: 10px;
   color: white;
   width: 50%;
+  font-size: 0.75rem;
 }
 
 .first-row,
@@ -1278,6 +1283,7 @@ input[type="text"]::-webkit-inner-spin-button {
 
 .first-row{
   border-top: 1px solid white;
+  padding-top: 20px;
 }
 
 .first-row p,
@@ -1286,6 +1292,9 @@ input[type="text"]::-webkit-inner-spin-button {
   padding: 20px;
   width: 10%;
   max-width: 10%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
 }
 
 .first-row input,
@@ -1293,41 +1302,48 @@ input[type="text"]::-webkit-inner-spin-button {
 .third-row input{
   height: 30px;
   max-width: 11%;
-  border: 1px solid white;
-  color: var(--nav-bg); 
+  border: none;
+  color: var(--table-thead-color); 
   border-radius: 8px;
   text-align: center;
   padding: 10px;
   text-align: left;
+  background-color: var(--table-thead-bg);
 }
+
+
 
 .odds-input{
   width: 11%;
 }
 
 .first-row :nth-child(2),
-.second-row :nth-child(2){
+.second-row :nth-child(2),
+.third-row :nth-child(2){
   margin-right: 10px;
 }
 
-.stake-input-div{
+.stake-input-div,
+.payout-div{
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 30px;
-  background-color: white;
+  background-color: var(--table-thead-bg);
   width: 11%;
   border-radius: 8px;
   color: black;
 }
 
-.stake-input-div p{
+.stake-input-div p,
+.payout-div p{
   margin-left: 5px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
   padding: 0px !important;
-  font-size:10px;
-}
+  font-size:13px;
+  color: var(--table-thead-color); 
 
+}
 
 .stake-input-div input{
   margin-left: 5px;
@@ -1346,16 +1362,17 @@ input[type="text"]::-webkit-inner-spin-button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 30px;
-  background-color: white;
   width: 11%;
   border-radius: 8px;
-  color: black;
+  color: white;
 }
 
-.payout p{
-  padding: 0px;
+.first-row div:nth-child(1),
+.second-row div:nth-child(1),
+.third-row div:nth-child(1){
+  width: 75px;
 }
+
 
 .fourth-row-inner-1{
   display: flex;
@@ -1371,11 +1388,18 @@ input[type="text"]::-webkit-inner-spin-button {
 .total-payout-div,
 .profit-div{
   margin-left: 5px;
-  padding: 10px;
+  padding: 5px;
 }
 
-.total-payout-div{
+.total-payout-div p{
+  padding-right: 10px;
   border-right: 1px solid white;
+}
+
+.total-stake-value,
+.total-payout-value,
+.profit-div p:nth-child(2){
+  color: var(--table-thead-color);
 }
 
 .dropbtn path{

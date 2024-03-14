@@ -70,12 +70,12 @@ function updateTable(data) {
 
       <li data-before="No Vig" id = "min-odds">${addSign(row.highest_bettable_odds)}</li>
 
-      <li data-before="Best" editable="true" id = "best-odds">${addSign(row.highest_bettable_odds_other_X)}</li>
+      <li data-before="Best" editable="true" id = "best-odds">${decimalToAmerican(row.highest_bettable_odds_other_X)}</li>
       <li before-data="+EV%: " id="ev">${row.ev}%</li>
 
       <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
 
-      <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
+      <li class="desktop-no-display mobile-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
       <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
       <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
 
@@ -366,8 +366,10 @@ function returnCalculatorView(data){
   // First row: "Odds, oddsinput, oddsinput"
   const firstRow = document.createElement("div");
   firstRow.classList.add("first-row");
+  const oddsTitle = document.createElement("div");
   const odds = document.createElement("p");
   odds.innerText = "Odds";
+  oddsTitle.appendChild(odds);
   const odds1Input = document.createElement('input');
   const odds2Input = document.createElement('input');
 
@@ -377,17 +379,17 @@ function returnCalculatorView(data){
   odds1Input.classList.add("odds-input");
   odds2Input.classList.add("odds-input");
 
-
-
-  firstRow.appendChild(odds);
+  firstRow.appendChild(oddsTitle);
   firstRow.appendChild(odds1Input);
   firstRow.appendChild(odds2Input);
 
   // Second row: "Odds, oddsinput, oddsinput"
   const secondRow = document.createElement("div");
   secondRow.classList.add("second-row");
+  const stakeTitle = document.createElement("div");
   const stake = document.createElement("p");
   stake.innerText = "Stake";
+  stakeTitle.appendChild(stake);
 
   const stake1InputDiv = document.createElement("div");
   stake1InputDiv.classList.add("stake-input-div");
@@ -405,38 +407,55 @@ function returnCalculatorView(data){
   const stake2Input = document.createElement('input');
   stake2InputDiv.appendChild(stake2Input);
 
-  stake1Input.value = data['bankroll']/4;
+  
+
+  stake1Input.value = (data['bankroll']/4).toFixed(2);
   stake2Input.value = calcOtherStakeBoxValue(odds2Input, calcPayout(odds1Input.value, stake1Input.value));
 
-  secondRow.appendChild(stake);
+  secondRow.appendChild(stakeTitle);
   secondRow.appendChild(stake1InputDiv);
   secondRow.appendChild(stake2InputDiv);
 
   // Third row: "Odds, oddsinput, oddsinput"
+
   const thirdRow = document.createElement("div");
   thirdRow.classList.add("third-row");
-  const payout = document.createElement("p");
-  payout.innerText = "Payout";
+  
+  const payoutTitleDiv = document.createElement("div");
+  payoutTitleDiv.classList.add('payout')
+  const payoutTitle = document.createElement("p");
+  payoutTitle.innerText = "Payout";
+  payoutTitleDiv.appendChild(payoutTitle);
+
+
+  const payout1Div = document.createElement("div");
+  payout1Div.classList.add("payout-div");
+  const payout1InputDivDollar = document.createElement("p");
+  payout1InputDivDollar.innerText = "$";
   const payout1 = document.createElement('div');
   const payout1Value = document.createElement("p");
-  payout1.appendChild(payout1Value);
-  payout1.classList.add("payout")
+  payout1Div.appendChild(payout1InputDivDollar);
+  payout1Div.appendChild(payout1Value);
 
-
+  const payout2Div = document.createElement("div");
+  payout2Div.classList.add("payout-div");
+  const payout2InputDivDollar = document.createElement("p");
+  payout2InputDivDollar.innerText = "$";
   const payout2 = document.createElement('div');
-  payout2.classList.add("payout")
-
   const payout2Value = document.createElement("p");
-  payout2.appendChild(payout2Value);
+  payout2Div.appendChild(payout2InputDivDollar);
+  payout2Div.appendChild(payout2Value);
+
+
 
   var calculatedPayout1 = calcPayout(odds1Input.value, stake1Input.value);
   var calculatedPayout2 = calcPayout(odds2Input.value, stake2Input.value);
   payout1Value.innerText = calculatedPayout1;
   payout2Value.innerText = calculatedPayout2;
 
-  thirdRow.appendChild(payout);
-  thirdRow.appendChild(payout1);
-  thirdRow.appendChild(payout2);
+  thirdRow.appendChild(payoutTitleDiv);
+  thirdRow.appendChild(payout1Div);
+  thirdRow.appendChild(payout2Div);
 
   // Fourth row: "Odds, oddsinput, oddsinput"
   const fourthRow = document.createElement("div");
@@ -448,7 +467,7 @@ function returnCalculatorView(data){
   totalStakeTitle.innerText = "Total Stake";
   const totalStakeValue = document.createElement("p");
   totalStakeValue.classList.add("total-stake-value")
-  totalStakeValue.innerText = parseFloat(stake1Input.value) + parseFloat(stake2Input.value);
+  totalStakeValue.innerText = "$" + (parseFloat(stake1Input.value) + parseFloat(stake2Input.value)).toFixed(2);
 
   totalStakeDiv.appendChild(totalStakeTitle);
   totalStakeDiv.appendChild(totalStakeValue);
@@ -461,7 +480,7 @@ function returnCalculatorView(data){
 
   const totalPayoutValue = document.createElement("p");
   totalPayoutValue.classList.add("total-payout-value")
-  totalPayoutValue.innerText = parseFloat(calculatedPayout1);
+  totalPayoutValue.innerText = "$" + parseFloat(calculatedPayout1).toFixed(2);
 
   totalPayoutDiv.appendChild(totalPayoutTitle);
   totalPayoutDiv.appendChild(totalPayoutValue);
@@ -470,13 +489,12 @@ function returnCalculatorView(data){
   profitDiv.classList.add("profit-div");
 
   const profitDivValue = document.createElement("p");
-  profitDivValue.innerText = (parseFloat(calculatedPayout1) - (parseFloat(stake1Input.value) + parseFloat(stake2Input.value))).toFixed(2);
+  profitDivValue.innerText = "$"  + (parseFloat(calculatedPayout1) - (parseFloat(stake1Input.value) + parseFloat(stake2Input.value))).toFixed(2);
 
   const profitDivTitle = document.createElement("p");
-  profitDivTitle.innerText = "Profit (" + calcPercPayout(
-    parseFloat(totalPayoutValue.innerText),
-    parseFloat(profitDivValue.innerText),
-    ) + "%)"
+  profitDivTitle.innerText = "Profit (" + 
+    ((calculatedPayout1 - (parseFloat(stake1Input.value) + parseFloat(stake2Input.value))) / calculatedPayout1 * 100).toFixed(2)
+   + "%)"
 
   profitDiv.appendChild(profitDivTitle);
   profitDiv.appendChild(profitDivValue);
@@ -502,10 +520,6 @@ function calcPayout(odds, stake) {
 }
 
 function calcPercPayout(totalStake, totalProfit){
-
-  console.log(totalProfit);
-  console.log(totalStake);
-
   return ((totalProfit / totalStake) * 100).toFixed(2);
 }
 
@@ -997,23 +1011,64 @@ function getImage(sportsbook_string, row){
   if (imageContainer) {
 
     var imageDictionary = {
-      Pointsbetus: '/static/images/pointsbetus.webp',
-      Barstool: '/static/images/barstool.webp',
-      Draftkings: '/static/images/draftkings.webp',
-      Fanduel: '/static/images/fanduel.webp',
-      Betus: '/static/images/betus.webp',
-      Wynnbet: '/static/images/wynnbet.webp',
-      Mybookieag: '/static/images/mybookieag.webp',
-      Betonlineag: '/static/images/betonlineag.webp',
-      Betrivers: '/static/images/betrivers.webp',
-      Unibet_Us: '/static/images/unibetus.webp',
-      Pinnacle: '/static/images/pinnacle.webp',
-      Betmgm: '/static/images/betmgm.webp',
-      Williamhill_Us: '/static/images/williamhillus.webp',
-      Bovada: '/static/images/bovada.webp',
-      Lowvig: '/static/images/lowvig.webp',
-      Superbook: '/static/images/superbook.webp',
-    };
+      'Unibet_Us': '/static/images/sportsbook_logos/unibet.png', 
+      'Bovada': '/static/images/sportsbook_logos/bovada.png', 
+      'Tipico_Us': '/static/images/sportsbook_logos/tipico.png', 
+      'Livescore': '/static/images/sportsbook_logos/livescore.png', 
+      'Livescorebet_Eu': '/static/images/sportsbook_logos/livescore.png',
+      'Matchbook': '/static/images/sportsbook_logos/matchbook.png', 
+      'Betsson': '/static/images/sportsbook_logos/betsson.png', 
+      'Sportsbet': '/static/images/sportsbook_logos/sportsbet.png', 
+      'Fliff': '/static/images/sportsbook_logos/fliff.png', 
+      'Fanduel': '/static/images/sportsbook_logos/fanduel.png', 
+      'Playup': '/static/images/sportsbook_logos/playup.png', 
+      'Windcreek': '/static/images/sportsbook_logos/windcreek.png', 
+      'Twinspires': '/static/images/sportsbook_logos/twinspires.png', 
+      'Pointsbet': '/static/images/sportsbook_logos/pointsbet.png', 
+      'Pointsbetus': '/static/images/sportsbook_logos/pointsbet.png', 
+      'Coolbet': '/static/images/sportsbook_logos/coolbet.png', 
+      'Suprabets': '/static/images/sportsbook_logos/suprabets.png', 
+      'Neds': '/static/images/sportsbook_logos/neds.png', 
+      'Virginbet': '/static/images/sportsbook_logos/virginbet.png', 
+      'Betus': '/static/images/sportsbook_logos/betus.png', 
+      'Betonlineag': '/static/images/sportsbook_logos/betonlineag.png', 
+      'Mybookieag': '/static/images/sportsbook_logos/mybookie.png', 
+      'Draftkings': '/static/images/sportsbook_logos/draftkings.png', 
+      'Nordicbet': '/static/images/sportsbook_logos/nordicbet.png', 
+      'Pinnacle': '/static/images/sportsbook_logos/pinnacle.png', 
+      'Grosvenor': '/static/images/sportsbook_logos/grosvenor.png', 
+      'Topsport': '/static/images/sportsbook_logos/topsport.png', 
+      'Betmgm': '/static/images/sportsbook_logos/betmgm.png', 
+      'Boyle': '/static/images/sportsbook_logos/boyle.png', 
+      'Superbook': '/static/images/sportsbook_logos/superbook.png', 
+      'Espnbet': '/static/images/sportsbook_logos/espnbet.png', 
+      'Betvictor': '/static/images/sportsbook_logos/betvictor.png', 
+      '888Sport': '/static/images/sportsbook_logos/888sport.png', 
+      'Wynnbet': '/static/images/sportsbook_logos/wynnbet.png', 
+      'Betway': '/static/images/sportsbook_logos/betway.png', 
+      'Casumo': '/static/images/sportsbook_logos/casumo.png', 
+      'Betrivers': '/static/images/sportsbook_logos/betrivers.png', 
+      'Betparx': '/static/images/sportsbook_logos/betparx.png', 
+      'Betfair': '/static/images/sportsbook_logos/betfair.png', 
+      'Betfair_Ex_Eu': '/static/images/sportsbook_logos/betfair.png', 
+      'Everygame': '/static/images/sportsbook_logos/everygame.png', 
+      'Marathonbet': '/static/images/sportsbook_logos/marathonbet.png', 
+      'Williamhill_Us': '/static/images/sportsbook_logos/williamhill.png', 
+      'Williamhill': '/static/images/sportsbook_logos/williamhill.png', 
+      'Ladbrokes': '/static/images/sportsbook_logos/ladbrokes.png', 
+      'Paddypower': '/static/images/sportsbook_logos/paddypower.png', 
+      'Si_Sportbsook': '/static/images/sportsbook_logos/si_sportbsook.png', 
+      'Leovegas': '/static/images/sportsbook_logos/leovegas.png', 
+      'Coral': '/static/images/sportsbook_logos/coral.png', 
+      'Betclic': '/static/images/sportsbook_logos/betclic.png', 
+      'Bluebet': '/static/images/sportsbook_logos/bluebet.png', 
+      '1Xbet': '/static/images/sportsbook_logos/1xbet.png', 
+      'Mrgreen': '/static/images/sportsbook_logos/mrgreen.png', 
+      'Betr': '/static/images/sportsbook_logos/betr.png', 
+      'Skybet': '/static/images/sportsbook_logos/skybet.png', 
+      'Unibet_Eu': '/static/images/sportsbook_logos/unibet.png', 
+      'Onexbet': '/static/images/sportsbook_logos/1xbet.png'
+    }
 
     var sportsBooks = sportsbook_string.split(', ');
 
@@ -1052,23 +1107,64 @@ function getImageOther(sportsbook_string, row){
   if (imageContainer) {
 
     var imageDictionary = {
-      Pointsbetus: '/static/images/pointsbetus.webp',
-      Barstool: '/static/images/barstool.webp',
-      Draftkings: '/static/images/draftkings.webp',
-      Fanduel: '/static/images/fanduel.webp',
-      Betus: '/static/images/betus.webp',
-      Wynnbet: '/static/images/wynnbet.webp',
-      Mybookieag: '/static/images/mybookieag.webp',
-      Betonlineag: '/static/images/betonlineag.webp',
-      Betrivers: '/static/images/betrivers.webp',
-      Unibet_Us: '/static/images/unibetus.webp',
-      Pinnacle: '/static/images/pinnacle.webp',
-      Betmgm: '/static/images/betmgm.webp',
-      Williamhill_Us: '/static/images/williamhillus.webp',
-      Bovada: '/static/images/bovada.webp',
-      Lowvig: '/static/images/lowvig.webp',
-      Superbook: '/static/images/superbook.webp',
-    };
+      'Unibet_Us': '/static/images/sportsbook_logos/unibet.png', 
+      'Bovada': '/static/images/sportsbook_logos/bovada.png', 
+      'Tipico_Us': '/static/images/sportsbook_logos/tipico.png', 
+      'Livescore': '/static/images/sportsbook_logos/livescore.png', 
+      'Livescorebet_Eu': '/static/images/sportsbook_logos/livescore.png',
+      'Matchbook': '/static/images/sportsbook_logos/matchbook.png', 
+      'Betsson': '/static/images/sportsbook_logos/betsson.png', 
+      'Sportsbet': '/static/images/sportsbook_logos/sportsbet.png', 
+      'Fliff': '/static/images/sportsbook_logos/fliff.png', 
+      'Fanduel': '/static/images/sportsbook_logos/fanduel.png', 
+      'Playup': '/static/images/sportsbook_logos/playup.png', 
+      'Windcreek': '/static/images/sportsbook_logos/windcreek.png', 
+      'Twinspires': '/static/images/sportsbook_logos/twinspires.png', 
+      'Pointsbet': '/static/images/sportsbook_logos/pointsbet.png', 
+      'Pointsbetus': '/static/images/sportsbook_logos/pointsbet.png', 
+      'Coolbet': '/static/images/sportsbook_logos/coolbet.png', 
+      'Suprabets': '/static/images/sportsbook_logos/suprabets.png', 
+      'Neds': '/static/images/sportsbook_logos/neds.png', 
+      'Virginbet': '/static/images/sportsbook_logos/virginbet.png', 
+      'Betus': '/static/images/sportsbook_logos/betus.png', 
+      'Betonlineag': '/static/images/sportsbook_logos/betonlineag.png', 
+      'Mybookieag': '/static/images/sportsbook_logos/mybookie.png', 
+      'Draftkings': '/static/images/sportsbook_logos/draftkings.png', 
+      'Nordicbet': '/static/images/sportsbook_logos/nordicbet.png', 
+      'Pinnacle': '/static/images/sportsbook_logos/pinnacle.png', 
+      'Grosvenor': '/static/images/sportsbook_logos/grosvenor.png', 
+      'Topsport': '/static/images/sportsbook_logos/topsport.png', 
+      'Betmgm': '/static/images/sportsbook_logos/betmgm.png', 
+      'Boyle': '/static/images/sportsbook_logos/boyle.png', 
+      'Superbook': '/static/images/sportsbook_logos/superbook.png', 
+      'Espnbet': '/static/images/sportsbook_logos/espnbet.png', 
+      'Betvictor': '/static/images/sportsbook_logos/betvictor.png', 
+      '888Sport': '/static/images/sportsbook_logos/888sport.png', 
+      'Wynnbet': '/static/images/sportsbook_logos/wynnbet.png', 
+      'Betway': '/static/images/sportsbook_logos/betway.png', 
+      'Casumo': '/static/images/sportsbook_logos/casumo.png', 
+      'Betrivers': '/static/images/sportsbook_logos/betrivers.png', 
+      'Betparx': '/static/images/sportsbook_logos/betparx.png', 
+      'Betfair': '/static/images/sportsbook_logos/betfair.png', 
+      'Betfair_Ex_Eu': '/static/images/sportsbook_logos/betfair.png', 
+      'Everygame': '/static/images/sportsbook_logos/everygame.png', 
+      'Marathonbet': '/static/images/sportsbook_logos/marathonbet.png', 
+      'Williamhill_Us': '/static/images/sportsbook_logos/williamhill.png', 
+      'Williamhill': '/static/images/sportsbook_logos/williamhill.png', 
+      'Ladbrokes': '/static/images/sportsbook_logos/ladbrokes.png', 
+      'Paddypower': '/static/images/sportsbook_logos/paddypower.png', 
+      'Si_Sportbsook': '/static/images/sportsbook_logos/si_sportbsook.png', 
+      'Leovegas': '/static/images/sportsbook_logos/leovegas.png', 
+      'Coral': '/static/images/sportsbook_logos/coral.png', 
+      'Betclic': '/static/images/sportsbook_logos/betclic.png', 
+      'Bluebet': '/static/images/sportsbook_logos/bluebet.png', 
+      '1Xbet': '/static/images/sportsbook_logos/1xbet.png', 
+      'Mrgreen': '/static/images/sportsbook_logos/mrgreen.png', 
+      'Betr': '/static/images/sportsbook_logos/betr.png', 
+      'Skybet': '/static/images/sportsbook_logos/skybet.png', 
+      'Unibet_Eu': '/static/images/sportsbook_logos/unibet.png', 
+      'Onexbet': '/static/images/sportsbook_logos/1xbet.png'
+    }
 
     var sportsBooks = sportsbook_string.split(', ');
 
@@ -1096,23 +1192,63 @@ function getImageOther(sportsbook_string, row){
 function getImageSportsbookRow(sportsbook_string){
 
   var imageDictionary = {
-    pointsbetus: '/static/images/pointsbetus.webp',
-    barstool: '/static/images/barstool.webp',
-    draftkings: '/static/images/draftkings.webp',
-    fanduel: '/static/images/fanduel.webp',
-    betus: '/static/images/betus.webp',
-    wynnbet: '/static/images/wynnbet.webp',
-    mybookieag: '/static/images/mybookieag.webp',
-    betonlineag: '/static/images/betonlineag.webp',
-    betrivers: '/static/images/betrivers.webp',
-    unibet_us: '/static/images/unibetus.webp',
-    pinnacle: '/static/images/pinnacle.webp',
-    betmgm: '/static/images/betmgm.webp',
-    williamhill_us: '/static/images/williamhillus.webp',
-    bovada: '/static/images/bovada.webp',
-    lowvig: '/static/images/lowvig.webp',
-    superbook: '/static/images/superbook.webp',
-  };
+    'unibet_us': '/static/images/sportsbook_logos/unibet.png', 
+    'bovada': '/static/images/sportsbook_logos/bovada.png', 
+    'tipico_us': '/static/images/sportsbook_logos/tipico.png', 
+    'livescore': '/static/images/sportsbook_logos/livescore.png', 
+    'matchbook': '/static/images/sportsbook_logos/matchbook.png', 
+    'betsson': '/static/images/sportsbook_logos/betsson.png', 
+    'sportsbet': '/static/images/sportsbook_logos/sportsbet.png', 
+    'fliff': '/static/images/sportsbook_logos/fliff.png', 
+    'fanduel': '/static/images/sportsbook_logos/fanduel.png', 
+    'playup': '/static/images/sportsbook_logos/playup.png', 
+    'windcreek': '/static/images/sportsbook_logos/windcreek.png', 
+    'twinspires': '/static/images/sportsbook_logos/twinspires.png', 
+    'pointsbetus': '/static/images/sportsbook_logos/pointsbet.png', 
+    'coolbet': '/static/images/sportsbook_logos/coolbet.png', 
+    'suprabets': '/static/images/sportsbook_logos/suprabets.png', 
+    'neds': '/static/images/sportsbook_logos/neds.png', 
+    'virginbet': '/static/images/sportsbook_logos/virginbet.png', 
+    'betus': '/static/images/sportsbook_logos/betus.png', 
+    'betonlineag': '/static/images/sportsbook_logos/betonlineag.png', 
+    'mybookieag': '/static/images/sportsbook_logos/mybookie.png', 
+    'draftkings': '/static/images/sportsbook_logos/draftkings.png', 
+    'nordicbet': '/static/images/sportsbook_logos/nordicbet.png', 
+    'pinnacle': '/static/images/sportsbook_logos/pinnacle.png', 
+    'grosvenor': '/static/images/sportsbook_logos/grosvenor.png', 
+    'topsport': '/static/images/sportsbook_logos/topsport.png', 
+    'betmgm': '/static/images/sportsbook_logos/betmgm.png', 
+    'boyle': '/static/images/sportsbook_logos/boyle.png', 
+    'superbook': '/static/images/sportsbook_logos/superbook.png', 
+    'espnbet': '/static/images/sportsbook_logos/espnbet.png', 
+    'betvictor': '/static/images/sportsbook_logos/betvictor.png', 
+    '888sport': '/static/images/sportsbook_logos/888sport.png', 
+    'wynnbet': '/static/images/sportsbook_logos/wynnbet.png', 
+    'betway': '/static/images/sportsbook_logos/betway.png', 
+    'casumo': '/static/images/sportsbook_logos/casumo.png', 
+    'betrivers': '/static/images/sportsbook_logos/betrivers.png', 
+    'betparx': '/static/images/sportsbook_logos/betparx.png', 
+    'betfair': '/static/images/sportsbook_logos/betfair.png', 
+    'betfair_ex_eu': '/static/images/sportsbook_logos/betfair.png', 
+    'everygame': '/static/images/sportsbook_logos/everygame.png', 
+    'marathonbet': '/static/images/sportsbook_logos/marathonbet.png', 
+    'williamhill_us': '/static/images/sportsbook_logos/williamhill.png', 
+    'ladbrokes': '/static/images/sportsbook_logos/ladbrokes.png', 
+    'paddypower': '/static/images/sportsbook_logos/paddypower.png', 
+    'si_sportbsook': '/static/images/sportsbook_logos/si_sportbsook.png', 
+    'leovegas': '/static/images/sportsbook_logos/leovegas.png', 
+    'coral': '/static/images/sportsbook_logos/coral.png', 
+    'betclic': '/static/images/sportsbook_logos/betclic.png', 
+    'bluebet': '/static/images/sportsbook_logos/bluebet.png', 
+    '1xbet': '/static/images/sportsbook_logos/1xbet.png', 
+    'mrgreen': '/static/images/sportsbook_logos/mrgreen.png', 
+    'betr': '/static/images/sportsbook_logos/betr.png', 
+    'skybet': '/static/images/sportsbook_logos/skybet.png', 
+    'unibet_eu': '/static/images/sportsbook_logos/unibet.png', 
+    'livescorebet_eu': '/static/images/sportsbook_logos/livescore.png', 
+    'onexbet': '/static/images/sportsbook_logos/1xbet.png',
+    'williamhill': '/static/images/sportsbook_logos/williamhill.png',
+};
 
   const div = document.createElement("div");
   div.classList.add("all-books-ind-logo")
@@ -1679,7 +1815,8 @@ function addDynamicOddsInputDisplayFunction(){
   var minOddsInput = document.getElementById('min-odds-input');
   var minOddsSelected = document.getElementById('min-odds-selected');
   minOddsInput.addEventListener('input', function() {
-        if (minOddsInput.value.trim() !== '') {
+        
+    if (minOddsInput.value.trim() !== '') {
           minOddsSelected.innerText = minOddsInput.value.trim();
         } else {
           minOddsSelected.innerText = minOddsInput.value.trim();
@@ -2102,10 +2239,11 @@ function addArbCalcInputListeners(){
 
         const stake1InputBox = container.querySelector('.second-row').querySelectorAll('input')[0]
         const stake2InputBox = container.querySelector('.second-row').querySelectorAll('input')[1]
+        
 
-        const payout1 = container.querySelector('.third-row').querySelectorAll('.payout')[0]
-        const payout2 = container.querySelector('.third-row').querySelectorAll('.payout')[1]
-
+        const payout1 = container.querySelector('.third-row').querySelectorAll('.payout-div')[0].querySelectorAll('p')[1]
+        const payout2 = container.querySelector('.third-row').querySelectorAll('.payout-div')[1].querySelectorAll('p')[1]
+        
 
         if(input === odds1InputBox || input === stake1InputBox){
           var otherStakeBox = stake2InputBox;
@@ -2116,19 +2254,29 @@ function addArbCalcInputListeners(){
           var otherOddsBox = odds1InputBox;
           var thisStake = calcPayout(odds2InputBox.value, stake2InputBox.value);
         }
-
+        
         otherStakeBox.value = calcOtherStakeBoxValue(otherOddsBox, thisStake);
+
         payout1.innerText = calcPayout(odds1InputBox.value, stake1InputBox.value);
+
         payout2.innerText = calcPayout(odds2InputBox.value, stake2InputBox.value);
 
-        container.querySelector('.total-stake-value').innerText = parseFloat(stake1InputBox.value) + parseFloat(stake2InputBox.value);
+        const stakeValueNumber = (parseFloat(stake1InputBox.value) + parseFloat(stake2InputBox.value)).toFixed(2);
 
-        container.querySelector('.total-payout-value').innerText = parseFloat(payout1.innerText);
+        container.querySelector('.total-stake-value').innerText = "$" + stakeValueNumber;
+
+        const payoutValueNumber = parseFloat(payout1.innerText).toFixed(2);
+
+        const profit = (payoutValueNumber - stakeValueNumber).toFixed(2);
+
+        container.querySelector('.total-payout-value').innerText = "$" + payoutValueNumber;
 
         container.querySelectorAll('.profit-div p')[0].innerText = "Profit (" + 
         parseFloat(
-          ((parseFloat(container.querySelector('.total-payout-value').innerText) - parseFloat(container.querySelector('.total-stake-value').innerText)) / parseFloat(container.querySelector('.total-stake-value').innerText) * 100).toFixed(0)
+          ((profit/stakeValueNumber) * 100).toFixed(1)
         ) + "%)"
+
+        container.querySelectorAll('.profit-div p')[1].innerText = "$" + profit;
 
       });
     });
