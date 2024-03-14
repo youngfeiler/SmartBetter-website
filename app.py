@@ -191,7 +191,7 @@ def create_checkout_session_free_trial(price_id):
         price = 99
     else:
         price = 199
-    trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
+    trial_end_date = int((datetime.utcnow() + timedelta(days=8)).replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
     trakdesk_cid = request.args.get('client_reference_id')
     print(trakdesk_cid)
     checkout_session = stripe.checkout.Session.create(
