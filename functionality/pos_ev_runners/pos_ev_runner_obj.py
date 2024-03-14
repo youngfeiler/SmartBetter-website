@@ -384,7 +384,7 @@ class PositiveEVDashboardRunner():
      df['implied_2'] = 1/df['highest_bettable_odds_other_X']
      df['implied_sum'] = df['implied_1'] + df['implied_2']
 
-     df['arb_perc'] = 1 - df['implied_sum']
+     df['arb_perc'] = (1 - df['implied_sum']) / df['implied_sum']
 
      df = df[df['arb_perc'] > 0]
 
