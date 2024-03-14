@@ -928,6 +928,7 @@ function getImage(sportsbook_string, row) {
       'Windcreek': '/static/images/sportsbook_logos/windcreek.png', 
       'Twinspires': '/static/images/sportsbook_logos/twinspires.png', 
       'Pointsbet': '/static/images/sportsbook_logos/pointsbet.png', 
+      'Pointsbetus': '/static/images/sportsbook_logos/pointsbet.png', 
       'Coolbet': '/static/images/sportsbook_logos/coolbet.png', 
       'Suprabets': '/static/images/sportsbook_logos/suprabets.png', 
       'Neds': '/static/images/sportsbook_logos/neds.png', 
