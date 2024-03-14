@@ -585,7 +585,9 @@ class database():
        first_20_rows['game_date'] = first_20_rows['game_date'].apply(lambda x: pd.to_datetime(x).strftime('%a %b %d, %Y'))
 
        first_20_rows['time_difference_seconds'] = (first_20_rows['current_time'] - first_20_rows['snapshot_time']).dt.total_seconds()
-        
+
+       first_20_rows = first_20_rows[first_20_rows['time_difference_seconds'] < 300]
+
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(ast.literal_eval)
 
        first_20_rows['sportsbooks_used'] = first_20_rows['sportsbooks_used'].apply(lambda x: format_list_of_strings([x]))
