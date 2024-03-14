@@ -495,6 +495,8 @@ function toggleAllBooksView(){
 
   nextSibling.classList.toggle('hidden');
 
+  this.classList.toggle("open");
+
 
   // Function that preloads all of the sportsbook logos
 
