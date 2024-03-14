@@ -596,7 +596,7 @@ class database():
 
        first_20_rows.sort_values(filters['sort-by'][0], ascending = filters['sort-by'][1], inplace= True)
 
-       return first_20_rows.head(200)
+       return first_20_rows.head(50)
   
     def get_arbitrage_dash_data(self, filters, user_bankroll):
        
@@ -1282,6 +1282,8 @@ class database():
 
        df = pd.read_csv('pos_ev_data/pos_ev_dash_data.csv')
 
+       print(df)
+
        df['game_date'] = pd.to_datetime(df['game_date'])
 
        current_time_gmt = datetime.now(pytz.timezone('GMT'))
@@ -1294,6 +1296,8 @@ class database():
 
        df['sportsbooks_used'] = df['sportsbooks_used'].apply(lambda x: literal_eval(x) if isinstance(x, str) else x)
        sportsbook_list = list({element for sublist in df['sportsbooks_used'] for element in sublist})
+       print("HERE")
+       print(sportsbook_list)
 
        return jsonify({
           'sport_league_display': ['all'] + sorted(df['sport_league_display'].unique().tolist()),

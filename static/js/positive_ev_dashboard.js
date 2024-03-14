@@ -1,4 +1,4 @@
-let userPermissionVar; 
+let userPermissionVar;
 //container flex row, overflow scroll, time since update
 /**
  * Utility function to calculate the current theme setting.
@@ -27,7 +27,7 @@ function updateButton({ buttonEl, isDark }) {
 function updateTable(data) {
   console.log(data);
   const footer_to_append_to = document.querySelector('.table-custom__footer');
-  const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
+  const footer_to_change_innerhtml = document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
 
   const tableBody = document.querySelector('.table-custom__content');
@@ -61,6 +61,7 @@ function updateTable(data) {
         <div class="tooltip" id="sportsbook">
                     <span class="tooltiptext"></span>
         </div>
+        <p class = "desktop-no-display time-dif-carrot"> > </p>
       </li>
 
       <li before-data="Recommended Bet Size ($): " editable="true" id="rec-bet-size-number">$ ${row.bet_amount}</li>
@@ -71,15 +72,18 @@ function updateTable(data) {
 
       <li before-data="+EV%: " id="ev">${row.ev}%</li>
 
-      <li before-data="Time Since Odds Update: " id="time-dif">${row.time_difference_formatted}</li>
+      <li before-data="Time Since Odds Update: " id="time-dif">
+        <p id = "time-dif-formatted">${row.time_difference_formatted}</p>
+      </li>
 
       <li class="desktop-no-display" id ="rec-bet-size-text">Rec Bet Size</li>
       <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
       <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
 
-      // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
-      // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
-      ;
+
+        // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+        // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+        ;
       table_row_to_append_to.appendChild(tr);
 
       const marketViewDiv = document.createElement("ul");
@@ -96,15 +100,14 @@ function updateTable(data) {
       getImage(row.sportsbooks_used, tr);
     });
   }
-  else
-  {
+  else {
     tr.innerHTML = `
   <li class="centered">
   No approved bets right now. Check back again soon.
   </li>
   `;
-  footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
-  table_row_to_append_to.appendChild(tr);
+    footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
+    table_row_to_append_to.appendChild(tr);
     console.log('No update');
   }
   footer_to_append_to.appendChild(footer_to_change_innerhtml);
@@ -113,7 +116,7 @@ function updateTable(data) {
 function updateTableFree(data) {
   // console.log(data);
   const footer_to_append_to = document.querySelector('.table-custom__footer');
-  const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
+  const footer_to_change_innerhtml = document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
 
   const tableBody = document.querySelector('.table-custom__content');
@@ -124,19 +127,19 @@ function updateTableFree(data) {
 
   boolin = true;
 
-  
-  if (!(data.length === 1 && data[0].update === false) && boolin ) {
+
+  if (!(data.length === 1 && data[0].update === false) && boolin) {
     const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
     table_row_to_append_to.innerHTML = '';
 
     var i = 0;
 
     data.forEach(row => {
-      if(i==0){
-      const tr = document.createElement('ul');
-      tr.classList.add('table-custom__content__rows__row');
-      tr.classList.add('no-bottom-border');
-      tr.innerHTML = `
+      if (i == 0) {
+        const tr = document.createElement('ul');
+        tr.classList.add('table-custom__content__rows__row');
+        tr.classList.add('no-bottom-border');
+        tr.innerHTML = `
       <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
       <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
 
@@ -168,13 +171,13 @@ function updateTableFree(data) {
       <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
       <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
 
-      // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
-      // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
-      ;
-      table_row_to_append_to.appendChild(tr);
-      getImage(row.sportsbooks_used, tr);
-      i+=1;
-      }else if(i==1){
+          // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+          // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+          ;
+        table_row_to_append_to.appendChild(tr);
+        getImage(row.sportsbooks_used, tr);
+        i += 1;
+      } else if (i == 1) {
         tr.innerHTML = `
   <li class="free-view-login-sign-up-container">
         <div class = "free-view-login-sign-up-buttons-container">
@@ -185,15 +188,15 @@ function updateTableFree(data) {
       <div><p>This is a standard feature. Subscribe to see thousands of +EV bets refresh all day long.</p> <div>
   </li>
   `;
-  footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
-  table_row_to_append_to.appendChild(tr);
-    console.log('No update');
-    i+=1;
-  }else {
-    const tr = document.createElement('ul');
-    tr.classList.add('table-custom__content__rows__row');
-    tr.classList.add('blurred');
-    tr.innerHTML = `
+        footer_to_change_innerhtml.innerHTML = `<p>Showing 1 Entry</p>`;
+        table_row_to_append_to.appendChild(tr);
+        console.log('No update');
+        i += 1;
+      } else {
+        const tr = document.createElement('ul');
+        tr.classList.add('table-custom__content__rows__row');
+        tr.classList.add('blurred');
+        tr.innerHTML = `
     <li class="mobile-no-display" style="display:none;" id="game-id">${row.game_id}</li>
     <li class="mobile-no-display" style="display:none;" id="avg-market-odds">${row.average_market_odds}</li>
 
@@ -225,33 +228,32 @@ function updateTableFree(data) {
     <li before-data="Team: " id ="market" class="desktop-no-display" >${row.market_display} </li>
     <li before-data="Team: " id ="market" class="desktop-no-display" >${row.wager_display} </li>`
 
-    // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
-    // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
-    ;
-    table_row_to_append_to.appendChild(tr);
-    getImage(row.sportsbooks_used, tr);
-    i+=1;
-    }
-  footer_to_append_to.appendChild(footer_to_change_innerhtml);
-      
+          // <li class="desktop-no-display" style="display:none;" id="team">${row.team}</li>
+          // <li style="display:none;" id="sportsbooks-used">${row.sportsbooks_used}</li>
+          ;
+        table_row_to_append_to.appendChild(tr);
+        getImage(row.sportsbooks_used, tr);
+        i += 1;
+      }
+      footer_to_append_to.appendChild(footer_to_change_innerhtml);
+
     });
 
   }
-  else
-  {
+  else {
     tr.innerHTML = `
   <li class="centered">
   No approved bets right now. Check back again soon.
   </li>
   `;
-  footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
-  table_row_to_append_to.appendChild(tr);
+    footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
+    table_row_to_append_to.appendChild(tr);
     console.log('No update');
   }
   footer_to_append_to.appendChild(footer_to_change_innerhtml);
 }
 
-function returnMarketView(data){
+function returnMarketView(data) {
 
   const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'onexbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
@@ -292,7 +294,7 @@ function returnMarketView(data){
 
 
   // avgOddsTitle.style.width = "10%";
-  
+
   sportsbookRow.appendChild(avgOddsTitle);
   sportsbookRow.appendChild(bestOddsTitle);
 
@@ -321,9 +323,9 @@ function returnMarketView(data){
   averageOddsDiv.classList.add("all-books-ind-value");
   const averageOddsValue = document.createElement("div");
   var averageOddsDisplay = parseInt(decimalToAmerican(data['average_market_odds']));
-  if(averageOddsDisplay < 0){
+  if (averageOddsDisplay < 0) {
     averageOddsValue.innerText = averageOddsDisplay;
-  }else{
+  } else {
     averageOddsValue.innerText = "+" + averageOddsDisplay;
   }
   averageOddsDiv.appendChild(averageOddsValue);
@@ -333,12 +335,12 @@ function returnMarketView(data){
 
   const bestOddsValue = document.createElement("div");
   var bestOddsDisplay = parseInt(data['highest_bettable_odds']);
-  if(bestOddsDisplay < 0){
+  if (bestOddsDisplay < 0) {
     bestOddsValue.innerText = bestOddsDisplay;
-  }else{
+  } else {
     bestOddsValue.innerText = "+" + bestOddsDisplay;
   }
-  
+
   bestOddsDiv.appendChild(bestOddsValue);
 
   firstValuesRow.appendChild(averageOddsDiv);
@@ -348,12 +350,12 @@ function returnMarketView(data){
   const averageOddsDivOther = document.createElement("div");
   averageOddsDivOther.classList.add("all-books-ind-value");
   const averageOddsValueOther = document.createElement("div");
-  if(parseInt(decimalToAmerican(data['other_average_market_odds'])) > 0){
+  if (parseInt(decimalToAmerican(data['other_average_market_odds'])) > 0) {
     averageOddsValueOther.innerText = "+" + parseInt(decimalToAmerican(data['other_average_market_odds']));
-  }else{
+  } else {
     averageOddsValueOther.innerText = parseInt(decimalToAmerican(data['other_average_market_odds']));
   }
-  
+
   averageOddsDivOther.appendChild(averageOddsValueOther);
 
   const bestOddsDivOther = document.createElement("div");
@@ -369,58 +371,58 @@ function returnMarketView(data){
 
   for (const key in data) {
 
-    if (data.hasOwnProperty(key) && (sportsbooksForDisplay.includes(key) |  sportsbooksForDisplay.includes(key.split("_other_X")[0])) && data[key] > 1.01){
+    if (data.hasOwnProperty(key) && (sportsbooksForDisplay.includes(key) | sportsbooksForDisplay.includes(key.split("_other_X")[0])) && data[key] > 1.01) {
 
-      if(!sportsbooksAlreadyDisplayed.includes(key.split("_other_X")[0])) {
-
-
-      sportsbooksAlreadyDisplayed.push(key.split("_other_X")[0]);
-
-      sportsbookRow.appendChild(getImageSportsbookRow(key.split("_other_X")[0]));
-
-      var valueDiv = document.createElement("div");
-      var valueDivP = document.createElement("p");
-      valueDiv.appendChild(valueDivP);
-
-      var valueDiv2 = document.createElement("div");
-      var valueDiv2P = document.createElement("p");
-      valueDiv2.appendChild(valueDiv2P);
-
-      valueDiv.classList.add(`${key}`);
-      valueDiv2.classList.add(`${key}`);
-      valueDiv.classList.add("all-books-ind-value");
-      valueDiv2.classList.add("all-books-ind-value");
+      if (!sportsbooksAlreadyDisplayed.includes(key.split("_other_X")[0])) {
 
 
-      valueDivP.innerText = '-'
-      valueDiv2P.innerText = '-'
+        sportsbooksAlreadyDisplayed.push(key.split("_other_X")[0]);
 
-      firstValuesRow.appendChild(valueDiv);
-      secondValuesRow.appendChild(valueDiv2);
-      
+        sportsbookRow.appendChild(getImageSportsbookRow(key.split("_other_X")[0]));
+
+        var valueDiv = document.createElement("div");
+        var valueDivP = document.createElement("p");
+        valueDiv.appendChild(valueDivP);
+
+        var valueDiv2 = document.createElement("div");
+        var valueDiv2P = document.createElement("p");
+        valueDiv2.appendChild(valueDiv2P);
+
+        valueDiv.classList.add(`${key}`);
+        valueDiv2.classList.add(`${key}`);
+        valueDiv.classList.add("all-books-ind-value");
+        valueDiv2.classList.add("all-books-ind-value");
+
+
+        valueDivP.innerText = '-'
+        valueDiv2P.innerText = '-'
+
+        firstValuesRow.appendChild(valueDiv);
+        secondValuesRow.appendChild(valueDiv2);
+
       }
 
-      if(key.includes("_other_X")){
-          valueDiv2P.textContent = decimalToAmerican(data[key]);
-          secondValuesRow.appendChild(valueDiv2);
-        } else{
+      if (key.includes("_other_X")) {
+        valueDiv2P.textContent = decimalToAmerican(data[key]);
+        secondValuesRow.appendChild(valueDiv2);
+      } else {
         valueDivP.textContent = decimalToAmerican(data[key]);
         firstValuesRow.appendChild(valueDiv);
       }
 
 
-      }
-
-
     }
 
-    returnDiv.appendChild(sportsbookRow);
-    returnDiv.appendChild(firstValuesRow);
-    returnDiv.appendChild(secondValuesRow);
-    
+
+  }
+
+  returnDiv.appendChild(sportsbookRow);
+  returnDiv.appendChild(firstValuesRow);
+  returnDiv.appendChild(secondValuesRow);
 
 
-return returnDiv
+
+  return returnDiv
 
 }
 
@@ -429,9 +431,9 @@ function decimalToAmerican(decimalOddsString) {
   var decimalOdds = parseFloat(decimalOddsString);
 
   if (decimalOdds < 2) {
-      return Math.round((-100 / (decimalOdds - 1))).toString()
+    return Math.round((-100 / (decimalOdds - 1))).toString()
   } else {
-      return "+" + Math.round((decimalOdds - 1) * 100).toString();
+    return "+" + Math.round((decimalOdds - 1) * 100).toString();
   }
 }
 
@@ -440,14 +442,14 @@ function americanToDecimal(americanOddsString) {
   var americanOdds = parseInt(americanOddsString);
 
   if (americanOdds < 0) {
-      return (100 / Math.abs(americanOdds)) + 1;
+    return (100 / Math.abs(americanOdds)) + 1;
   } else {
-      return ((americanOdds / 100) + 1);
+    return ((americanOdds / 100) + 1);
   }
 }
 
 
-function returnSportsbookLogoDiv(data){
+function returnSportsbookLogoDiv(data) {
 
   const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'onexbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
@@ -463,7 +465,7 @@ function returnSportsbookLogoDiv(data){
 
   for (const key in data) {
 
-    if (data.hasOwnProperty(key) && (sportsbooksForDisplay.includes(key) |  sportsbooksForDisplay.includes(key.split("_other_X"))) && data[key] > 1.01 && (!sportsbooksAlreadyDisplayed.includes(key.split("_other_X")[0]))) {
+    if (data.hasOwnProperty(key) && (sportsbooksForDisplay.includes(key) | sportsbooksForDisplay.includes(key.split("_other_X"))) && data[key] > 1.01 && (!sportsbooksAlreadyDisplayed.includes(key.split("_other_X")[0]))) {
 
       sportsbooksAlreadyDisplayed.push(key.split("_other_X")[0]);
 
@@ -474,7 +476,7 @@ function returnSportsbookLogoDiv(data){
       columnDiv_1.appendChild(columnDiv)
 
       columnDiv.appendChild(getImageSportsbookRow(key.split("_other_X")[0]))
-      
+
       rowDiv.appendChild(columnDiv);
 
     }
@@ -484,12 +486,12 @@ function returnSportsbookLogoDiv(data){
 
 
 
-return rowDiv;
+  return rowDiv;
 
 }
 
 
-function toggleAllBooksView(){
+function toggleAllBooksView() {
 
   const nextSibling = this.nextElementSibling;
 
@@ -598,7 +600,7 @@ function createSportsBooksViewOther(data) {
       sportsbooksForDisplay.includes(key.split("_other_X")[0]) &&
       data[key] > 1.01 &&
       key.includes("_other_X")
-  ) {
+    ) {
       const columnDiv = document.createElement('div');
       columnDiv.classList.add("sportsbook-view-column");
 
@@ -620,7 +622,7 @@ function createSportsBooksViewOther(data) {
   return rowDiv;
 }
 
-function updatebankroll(data){
+function updatebankroll(data) {
   const bankroll = document.querySelector('#bankroll');
   bankroll.innerHTML = 'These are +EV bets that our market scanning algorithm has identified. EV is calculated based on average implied odds from more than 50 international bookmakers including Pinnacle.';
   // bankroll.innerHTML  += `${data[0].bankroll}`;
@@ -635,7 +637,7 @@ function addSign(input) {
 function getCurrentTime() {
   const currentTime = new Date();
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const options = { timeZone: userTimezone, hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric'};
+  const options = { timeZone: userTimezone, hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
   const formattedTime = currentTime.toLocaleString(undefined, options);
   return `${formattedTime}`;
 }
@@ -673,16 +675,16 @@ function addToBetslip() {
     type: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(data),
-    success: function(response) {
+    success: function (response) {
       console.log(response.message); // Log the response from Flask
     },
-    error: function(error) {
+    error: function (error) {
       console.error('Error adding bet to betslip:', error);
     }
   });
 }
 
-function resetRowView(){
+function resetRowView() {
   location.reload();
 }
 
@@ -692,33 +694,33 @@ function saveRow(row) {
   // make a dict with thte values of each cell in the right spot
 
   var rowDataDict = {
-    'game_id':row.querySelector("#game-id").innerHTML,
+    'game_id': row.querySelector("#game-id").innerHTML,
 
-    'average_market_odds':row.querySelector("#avg-market-odds").innerHTML,
+    'average_market_odds': row.querySelector("#avg-market-odds").innerHTML,
 
-    'team':row.querySelector("#team-bet-on").innerText.replace(/\n/g, ''),
+    'team': row.querySelector("#team-bet-on").innerText.replace(/\n/g, ''),
 
     'sportsbooks_used': row.querySelector("#selected-option img").getAttribute('alt'),
 
-    'bet_amount':row.querySelector("#bet-size-input").value,
+    'bet_amount': row.querySelector("#bet-size-input").value,
 
     'highest_bettable_odds': modifiedNumber,
 
-    'minimum_acceptable_odds':row.querySelector("#min-odds").innerHTML,
+    'minimum_acceptable_odds': row.querySelector("#min-odds").innerHTML,
 
-    'ev':row.querySelector("#ev").innerHTML.replace(/%/g, ''),
+    'ev': row.querySelector("#ev").innerHTML.replace(/%/g, ''),
 
-    'date':row.querySelector("#game-date").innerHTML,
+    'date': row.querySelector("#game-date").innerHTML,
 
-    'time_difference_formatted':row.querySelector("#time-dif").innerHTML,
+    'time_difference_formatted': row.querySelector("#time-dif").innerHTML,
   }
 
   $.ajax({
     url: '/add_saved_bet',
     type: 'POST',
     contentType: 'application/json',
-    data: JSON.stringify(rowDataDict), 
-    success: function(response) {
+    data: JSON.stringify(rowDataDict),
+    success: function (response) {
       if (response.status_code === 'error') {
         console.log('Error saving bet:', response.message);
       } else {
@@ -727,14 +729,14 @@ function saveRow(row) {
         resetRowView();
       }
     },
-    error: function(error) {
+    error: function (error) {
       console.error('Error saving bet:', error);
     }
   });
 }
 
-function displaySportsbookDropdown(row){
-  
+function displaySportsbookDropdown(row) {
+
   var sportsbook = row.querySelector(".sportsbook-li");
   sportsbook.style.position = 'static';
   var sportsBooksStringElement = row.querySelector('#sportsbook p');
@@ -745,10 +747,10 @@ function displaySportsbookDropdown(row){
     var firstSportsbook = sportsBooksString.split(', ')[0];
     var firstImageWithAlt = document.querySelector('img[alt="' + firstSportsbook + '"]');
     firstImageWithAlt.style.borderRadius = "10px";
-  
+
     sportsBooksStringElement.style.display = 'none';
   }
-  
+
   var dropdownOptions = document.getElementById('dropdown-options');
   var dropdownContainer = document.getElementById('dropdown-container');
   dropdownContainer.style.display = "flex";
@@ -760,7 +762,7 @@ function displaySportsbookDropdown(row){
 
   sportsbook.innerHTML = '';
   sportsbook.appendChild(dropdownContainer);
-  
+
   dropdownBtn.addEventListener('click', function () {
     dropdownOptions.classList.add("adding-to-bet-tracker");
   });
@@ -789,7 +791,7 @@ function displaySportsbookDropdown(row){
   });
 }
 
-function changeRowDisplay(row){
+function changeRowDisplay(row) {
   //Change the "Recommened bet size" to "Placed bet size" on MOBILE
   const recBetSize = row.querySelector("#rec-bet-size-text");
   recBetSize.innerText = "Placed Bet Size"
@@ -863,22 +865,22 @@ function toggleOverlay() {
 }
 
 
-function changePlusSignDisplay(row){
+function changePlusSignDisplay(row) {
   buttonLi = row.querySelector("#add-to-betslip-button");
   buttonLi.innerHTML = '';
   buttonEl = document.createElement('button');
-  buttonEl.id= ("save-button");
+  buttonEl.id = ("save-button");
   buttonEl.innerHTML = "Save"
   buttonEl.classList.add("adding-to-bet-tracker");
   buttonLi.appendChild(buttonEl);
-  buttonLi.onclick = function() {
+  buttonLi.onclick = function () {
     saveRow(row);
   }
 }
 
 var unitToggle = true;
 function toggleUnit() {
-  
+
   var li = document.getElementById('rec-bet-size-number');
   var input = li.querySelector('input')
 
@@ -896,7 +898,7 @@ function editRow(button) {
 };
 
 
-function getImage(sportsbook_string, row){
+function getImage(sportsbook_string, row) {
 
   var imageContainer = row.querySelector('#sportsbook');
 
@@ -912,28 +914,13 @@ function getImage(sportsbook_string, row){
   if (imageContainer) {
 
     var imageDictionary = {
-      Pointsbetus: '/static/images/pointsbetus.webp',
-      Barstool: '/static/images/barstool.webp',
-      Draftkings: '/static/images/draftkings.webp',
-      Fanduel: '/static/images/fanduel.webp',
-      Betus: '/static/images/betus.webp',
-      Wynnbet: '/static/images/wynnbet.webp',
-      Mybookieag: '/static/images/mybookieag.webp',
-      Betonlineag: '/static/images/betonlineag.webp',
-      Betrivers: '/static/images/betrivers.webp',
-      Unibet_Us: '/static/images/unibetus.webp',
-      Pinnacle: '/static/images/pinnacle.webp',
-      Betmgm: '/static/images/betmgm.webp',
-      Williamhill_Us: '/static/images/williamhillus.webp',
-      Bovada: '/static/images/bovada.webp',
-      Lowvig: '/static/images/lowvig.webp',
-      Superbook: '/static/images/superbook.webp',
-    };
+      'Unibet_Us': '/static/images/sportsbook_logos/unibet.png', 'Bovada': '/static/images/sportsbook_logos/bovada.png', 'Tipico_Us': '/static/images/sportsbook_logos/tipico.png', 'Livescore': '/static/images/sportsbook_logos/livescore.png', 'Matchbook': '/static/images/sportsbook_logos/matchbook.png', 'Betsson': '/static/images/sportsbook_logos/betsson.png', 'Sportsbet': '/static/images/sportsbook_logos/sportsbet.png', 'Fliff': '/static/images/sportsbook_logos/fliff.png', 'Fanduel': '/static/images/sportsbook_logos/fanduel.png', 'Playup': '/static/images/sportsbook_logos/playup.png', 'Windcreek': '/static/images/sportsbook_logos/windcreek.png', 'Twinspires': '/static/images/sportsbook_logos/twinspires.png', 'Pointsbet': '/static/images/sportsbook_logos/pointsbet.png', 'Coolbet': '/static/images/sportsbook_logos/coolbet.png', 'Suprabets': '/static/images/sportsbook_logos/suprabets.png', 'Neds': '/static/images/sportsbook_logos/neds.png', 'Virginbet': '/static/images/sportsbook_logos/virginbet.png', 'Betus': '/static/images/sportsbook_logos/betus.png', 'Betonlineag': '/static/images/sportsbook_logos/betonlineag.png', 'Mybookieag': '/static/images/sportsbook_logos/mybookie.png', 'Draftkings': '/static/images/sportsbook_logos/draftkings.png', 'Nordicbet': '/static/images/sportsbook_logos/nordicbet.png', 'Pinnacle': '/static/images/sportsbook_logos/pinnacle.png', 'Grosvenor': '/static/images/sportsbook_logos/grosvenor.png', 'Topsport': '/static/images/sportsbook_logos/topsport.png', 'Betmgm': '/static/images/sportsbook_logos/betmgm.png', 'Boyle': '/static/images/sportsbook_logos/boyle.png', 'Superbook': '/static/images/sportsbook_logos/superbook.png', 'Espnbet': '/static/images/sportsbook_logos/espnbet.png', 'Betvictor': '/static/images/sportsbook_logos/betvictor.png', '888Sport': '/static/images/sportsbook_logos/888sport.png', 'Wynnbet': '/static/images/sportsbook_logos/wynnbet.png', 'Betway': '/static/images/sportsbook_logos/betway.png', 'Casumo': '/static/images/sportsbook_logos/casumo.png', 'Betrivers': '/static/images/sportsbook_logos/betrivers.png', 'Betparx': '/static/images/sportsbook_logos/betparx.png', 'Betfair': '/static/images/sportsbook_logos/betfair.png', 'Everygame': '/static/images/sportsbook_logos/everygame.png', 'Marathonbet': '/static/images/sportsbook_logos/marathonbet.png', 'Williamhill_Us': '/static/images/sportsbook_logos/williamhill.png', 'Ladbrokes': '/static/images/sportsbook_logos/ladbrokes.png', 'Paddypower': '/static/images/sportsbook_logos/paddypower.png', 'Si_Sportbsook': '/static/images/sportsbook_logos/si_sportbsook.png', 'Leovegas': '/static/images/sportsbook_logos/leovegas.png', 'Coral': '/static/images/sportsbook_logos/coral.png', 'Betclic': '/static/images/sportsbook_logos/betclic.png', 'Bluebet': '/static/images/sportsbook_logos/bluebet.png', '1Xbet': '/static/images/sportsbook_logos/1xbet.png', 'Mrgreen': '/static/images/sportsbook_logos/mrgreen.png', 'Betr': '/static/images/sportsbook_logos/betr.png', 'Skybet': '/static/images/sportsbook_logos/skybet.png'
+    }
 
     var sportsBooks = sportsbook_string.split(', ');
 
     sportsBooks.forEach(sportsbook => {
-    
+
       var imageUrl = imageDictionary[sportsbook];
       if (imageUrl) { // Check if the URL exists in the dictionary
         var imgElement = document.createElement('img');
@@ -943,7 +930,7 @@ function getImage(sportsbook_string, row){
         imgElement.width = 32;
         imageContainer.appendChild(imgElement);
       } else {
-        console.error('Image URL not found for:', sportsbook);
+        console.error('Image URL not found for: ', sportsbook, " in getImage");
       }
     });
   } else {
@@ -951,53 +938,36 @@ function getImage(sportsbook_string, row){
   }
 }
 
-function getImageSportsbookRow(sportsbook_string){
+function getImageSportsbookRow(sportsbook_string) {
 
-  var imageDictionary = {
-    pointsbetus: '/static/images/pointsbetus.webp',
-    barstool: '/static/images/barstool.webp',
-    draftkings: '/static/images/draftkings.webp',
-    fanduel: '/static/images/fanduel.webp',
-    betus: '/static/images/betus.webp',
-    wynnbet: '/static/images/wynnbet.webp',
-    mybookieag: '/static/images/mybookieag.webp',
-    betonlineag: '/static/images/betonlineag.webp',
-    betrivers: '/static/images/betrivers.webp',
-    unibet_us: '/static/images/unibetus.webp',
-    pinnacle: '/static/images/pinnacle.webp',
-    betmgm: '/static/images/betmgm.webp',
-    williamhill_us: '/static/images/williamhillus.webp',
-    bovada: '/static/images/bovada.webp',
-    lowvig: '/static/images/lowvig.webp',
-    superbook: '/static/images/superbook.webp',
-  };
+  var imageDictionary = {'unibet_us': '/static/images/sportsbook_logos/unibet.png', 'bovada': '/static/images/sportsbook_logos/bovada.png', 'tipico_us': '/static/images/sportsbook_logos/tipico.png', 'livescore': '/static/images/sportsbook_logos/livescore.png', 'matchbook': '/static/images/sportsbook_logos/matchbook.png', 'betsson': '/static/images/sportsbook_logos/betsson.png', 'sportsbet': '/static/images/sportsbook_logos/sportsbet.png', 'fliff': '/static/images/sportsbook_logos/fliff.png', 'fanduel': '/static/images/sportsbook_logos/fanduel.png', 'playup': '/static/images/sportsbook_logos/playup.png', 'windcreek': '/static/images/sportsbook_logos/windcreek.png', 'twinspires': '/static/images/sportsbook_logos/twinspires.png', 'pointsbetus': '/static/images/sportsbook_logos/pointsbet.png', 'coolbet': '/static/images/sportsbook_logos/coolbet.png', 'suprabets': '/static/images/sportsbook_logos/suprabets.png', 'neds': '/static/images/sportsbook_logos/neds.png', 'virginbet': '/static/images/sportsbook_logos/virginbet.png', 'betus': '/static/images/sportsbook_logos/betus.png', 'betonlineag': '/static/images/sportsbook_logos/betonlineag.png', 'mybookieag': '/static/images/sportsbook_logos/mybookie.png', 'draftkings': '/static/images/sportsbook_logos/draftkings.png', 'nordicbet': '/static/images/sportsbook_logos/nordicbet.png', 'pinnacle': '/static/images/sportsbook_logos/pinnacle.png', 'grosvenor': '/static/images/sportsbook_logos/grosvenor.png', 'topsport': '/static/images/sportsbook_logos/topsport.png', 'betmgm': '/static/images/sportsbook_logos/betmgm.png', 'boyle': '/static/images/sportsbook_logos/boyle.png', 'superbook': '/static/images/sportsbook_logos/superbook.png', 'espnbet': '/static/images/sportsbook_logos/espnbet.png', 'betvictor': '/static/images/sportsbook_logos/betvictor.png', '888sport': '/static/images/sportsbook_logos/888sport.png', 'wynnbet': '/static/images/sportsbook_logos/wynnbet.png', 'betway': '/static/images/sportsbook_logos/betway.png', 'casumo': '/static/images/sportsbook_logos/casumo.png', 'betrivers': '/static/images/sportsbook_logos/betrivers.png', 'betparx': '/static/images/sportsbook_logos/betparx.png', 'betfair': '/static/images/sportsbook_logos/betfair.png', 'everygame': '/static/images/sportsbook_logos/everygame.png', 'marathonbet': '/static/images/sportsbook_logos/marathonbet.png', 'williamhill_us': '/static/images/sportsbook_logos/williamhill.png', 'ladbrokes': '/static/images/sportsbook_logos/ladbrokes.png', 'paddypower': '/static/images/sportsbook_logos/paddypower.png', 'si_sportbsook': '/static/images/sportsbook_logos/si_sportbsook.png', 'leovegas': '/static/images/sportsbook_logos/leovegas.png', 'coral': '/static/images/sportsbook_logos/coral.png', 'betclic': '/static/images/sportsbook_logos/betclic.png', 'bluebet': '/static/images/sportsbook_logos/bluebet.png', '1xbet': '/static/images/sportsbook_logos/1xbet.png', 'mrgreen': '/static/images/sportsbook_logos/mrgreen.png', 'betr': '/static/images/sportsbook_logos/betr.png', 'skybet': '/static/images/sportsbook_logos/skybet.png'};
 
   const div = document.createElement("div");
   div.classList.add("all-books-ind-logo")
 
 
   var imageUrl = imageDictionary[sportsbook_string];
-      if (imageUrl) {
-        var imgElement = document.createElement('img');
-        imgElement.src = imageUrl;
-        imgElement.alt = sportsbook_string;
-        imgElement.height = 64;
-        imgElement.width = 64;
+  if (imageUrl) {
+    var imgElement = document.createElement('img');
+    imgElement.src = imageUrl;
+    imgElement.alt = sportsbook_string;
+    imgElement.height = 64;
+    imgElement.width = 64;
 
-        div.appendChild(imgElement);
+    div.appendChild(imgElement);
 
-        return div
-      } else {
-        console.error('Image URL not found for:', sportsbook_string);
-        var imgElement = document.createElement('img');
-        imgElement.height = 32;
-        imgElement.width = 32;
+    return div
+  } else {
+    console.error('Image URL not found for:', sportsbook_string, ' in getImageSportsbookRow');
+    var imgElement = document.createElement('img');
+    imgElement.height = 32;
+    imgElement.width = 32;
 
-        div.appendChild(imgElement);
+    div.appendChild(imgElement);
 
-        return div
+    return div
 
-      }
+  }
 }
 
 
@@ -1005,21 +975,21 @@ function fetchDataAndUpdateTable() {
   var activeElements = document.querySelectorAll('.filter-dropdown-item.active');
   var innerTextDictionary = {};
 
-  activeElements.forEach(function(element) {
+  activeElements.forEach(function (element) {
     var parentId = element.parentNode.id;
     var value = element.querySelector('.filter-value-content-a').innerText.trim();
 
     if (innerTextDictionary.hasOwnProperty(parentId)) {
 
-        if (Array.isArray(innerTextDictionary[parentId])) {
-            innerTextDictionary[parentId].push(value);
-        } else {
-            innerTextDictionary[parentId] = [innerTextDictionary[parentId], value];
-        }
+      if (Array.isArray(innerTextDictionary[parentId])) {
+        innerTextDictionary[parentId].push(value);
+      } else {
+        innerTextDictionary[parentId] = [innerTextDictionary[parentId], value];
+      }
     } else {
-        innerTextDictionary[parentId] = [value];
+      innerTextDictionary[parentId] = [value];
     }
-});
+  });
 
 
   var ascendingBool = null;
@@ -1028,11 +998,11 @@ function fetchDataAndUpdateTable() {
 
     var ascendingBool = document.querySelector('svg.active').parentNode.getAttribute("ascending");
 
-    if(ascendingBool == null){
-      try{
+    if (ascendingBool == null) {
+      try {
         var ascendingBool = document.querySelector('svg.active').getAttribute("ascending");
         console.log(ascendingBool);
-      }catch(error){
+      } catch (error) {
         console.log(error);
       }
     }
@@ -1040,28 +1010,28 @@ function fetchDataAndUpdateTable() {
     console.log(error);
   }
 
-  if(ascendingBool == null){
-      ascendingBool = false;
-  }else if(ascendingBool == "true"){
+  if (ascendingBool == null) {
+    ascendingBool = false;
+  } else if (ascendingBool == "true") {
     ascendingBool = true
-  }else{
+  } else {
     ascendingBool = false
   }
 
   //Getting min and max values:
   //TODO: Add an active thing so you can tell which is selected
-  try{
+  try {
     var minOddsInput = document.getElementById('min-odds-input').value.trim();
     var maxOddsInput = document.getElementById('max-odds-input').value.trim();
-    innerTextDictionary['best-odds-filter'] = {'minodds': minOddsInput, 'maxodds': maxOddsInput};
+    innerTextDictionary['best-odds-filter'] = { 'minodds': minOddsInput, 'maxodds': maxOddsInput };
 
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
 
-  try{
+  try {
     innerTextDictionary['sort-by'] = [document.querySelector('svg.sort-icon.active').getAttribute("id"), ascendingBool];
-  }catch(error){
+  } catch (error) {
     innerTextDictionary['sort-by'] = ['ev', ascendingBool];
   }
 
@@ -1076,22 +1046,22 @@ function fetchDataAndUpdateTable() {
   tr.classList.add('table-custom__content__rows__row');
 
   var objectElement = document.createElement('img');
-  
-  objectElement.src = '/static/images/ring-resize.svg'; 
+
+  objectElement.src = '/static/images/ring-resize.svg';
 
   tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
 
   table_row_to_append_to.appendChild(tr);
-  
+
   fetchDataWithRetry(url, innerTextDictionary)
-  .then(data => {
-    if (userPermissionVar == 'standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev') {
-      updateTable(data);
-    } else {
-      updateTableFree(data);
-    }
-  })
-  .catch(error => console.error('Error fetching data with retry:', error));
+    .then(data => {
+      if (userPermissionVar == 'standard' || userPermissionVar == 'premium' || userPermissionVar == 'ev') {
+        updateTable(data);
+      } else {
+        updateTableFree(data);
+      }
+    })
+    .catch(error => console.error('Error fetching data with retry:', error));
 
 }
 
@@ -1142,7 +1112,7 @@ function addToBankroll() {
   if (existingSaveButton) {
     bankrollP.removeChild(existingSaveButton);
   }
-    
+
   const input = document.createElement('input');
   input.type = 'number';
   input.placeholder = "Amount to add or subtract from bankroll";
@@ -1155,7 +1125,7 @@ function addToBankroll() {
   saveButton.classList.add('live-button'); // Add class to button
   bankrollP.appendChild(saveButton);
 
-  saveButton.addEventListener("click", function() {
+  saveButton.addEventListener("click", function () {
     const amount = parseFloat(input.value);
 
 
@@ -1166,27 +1136,27 @@ function addToBankroll() {
       },
       body: JSON.stringify({ amount }),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Server response:', data);
-      bankrollP.removeChild(input);
-      bankrollP.removeChild(saveButton);
-    });
+      .then(response => response.json())
+      .then(data => {
+        console.log('Server response:', data);
+        bankrollP.removeChild(input);
+        bankrollP.removeChild(saveButton);
+      });
   });
 }
 
-function toggleSport(){
+function toggleSport() {
   var currentURL = window.location.href;
 
   var urlSegments = currentURL.split('/');
-  
+
   var targetSport = urlSegments[urlSegments.length - 1];
-  
+
   var elements = document.querySelectorAll('[data-sport="' + targetSport + '"]');
 
   if (elements.length > 0) {
     elements[0].classList.add('active');
-}
+  }
 }
 
 function findAncestorWithClass(element, className) {
@@ -1202,24 +1172,25 @@ function findCousinWithClass(element, className) {
   }
 }
 
-function greenIfFiltered(event){
+function greenIfFiltered(event) {
   var filterSVG = findCousinWithClass(event.target, 'dropbtn');
 
   if (filterSVG && event.target.innerText !== 'ALL') {
-      var paths = filterSVG.querySelectorAll('path');
-      paths.forEach(function(path) {
-        path.style.fill = '#21ce99';
-    })}
-    else if (filterSVG && event.target.innerText == 'ALL') {
-      var paths = filterSVG.querySelectorAll('path');
-      paths.forEach(function(path) {
-        path.style.fill = 'var(--table-thead-color)';
+    var paths = filterSVG.querySelectorAll('path');
+    paths.forEach(function (path) {
+      path.style.fill = '#21ce99';
+    })
+  }
+  else if (filterSVG && event.target.innerText == 'ALL') {
+    var paths = filterSVG.querySelectorAll('path');
+    paths.forEach(function (path) {
+      path.style.fill = 'var(--table-thead-color)';
     });
 
-}
+  }
 }
 
-function makeSingleFilterValue(value){
+function makeSingleFilterValue(value) {
   return `
   <label class="custom-checkbox">
     <input type="checkbox">
@@ -1230,10 +1201,10 @@ function makeSingleFilterValue(value){
   </label>`
 }
 
-function fillFilterValues(callback1, callback2){
+function fillFilterValues(callback1, callback2) {
 
   // for the ones where you can select 
-  fetch('/get_filter_dropdown_values',{
+  fetch('/get_filter_dropdown_values', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -1241,9 +1212,8 @@ function fillFilterValues(callback1, callback2){
   })
     .then(response => response.json())
     .then(data => {
-
       var sportLeagueFilterDiv = document.getElementById("sport-league-filter");
-      data['sport_league_display'].forEach(function(league){
+      data['sport_league_display'].forEach(function (league) {
         var filterValue = document.createElement('div');
         filterValue.classList.add("filter-dropdown-item");
         filterValue.innerHTML = makeSingleFilterValue(league);
@@ -1251,7 +1221,7 @@ function fillFilterValues(callback1, callback2){
       })
 
       var sportLeagueFilterDiv = document.getElementById("market-filter");
-      data['market_display'].forEach(function(league){
+      data['market_display'].forEach(function (league) {
         var filterValue = document.createElement('div');
         filterValue.classList.add("filter-dropdown-item");
         filterValue.innerHTML = makeSingleFilterValue(league);
@@ -1260,11 +1230,12 @@ function fillFilterValues(callback1, callback2){
 
       var sportLeagueFilterDiv = document.getElementById("sportsbook-filter");
 
-      data['sportsbooks_used'].forEach(function(league){
+      data['sportsbooks_used'].forEach(function (league) {
+        console.log(league);
         var filterValue = document.createElement('div');
         filterValue.classList.add("filter-dropdown-item");
         filterValue.innerHTML = makeSingleFilterValue(league);
-        
+
         sportLeagueFilterDiv.appendChild(filterValue);
       })
 
@@ -1284,7 +1255,7 @@ function getUserPermission() {
   })
     .then(response => {
       if (!response.ok) {
-      
+
         throw new Error('Network response was not ok');
       }
       console.log(response)
@@ -1296,7 +1267,7 @@ function getUserPermission() {
     });
 }
 
-function makeSlideResponsive(){
+function makeSlideResponsive() {
   const leftBox = document.getElementById("full-filter");
   const rightBox = document.querySelectorAll(".table-custom")[0];
   function handleTouchStart(event) {
@@ -1305,7 +1276,7 @@ function makeSlideResponsive(){
   function handleTouchMove(event) {
     const currentX = event.touches[0].clientX;
     const diffX = currentX - startX;
-    if (diffX < -50) { 
+    if (diffX < -50) {
       rightBox.classList.remove('table-hidden');
       leftBox.style.transition = 'transform 0.3s ease';
       leftBox.style.transform = 'translateX(-100%)';
@@ -1315,14 +1286,14 @@ function makeSlideResponsive(){
   }
 
   function handleTouchEnd() {
-    leftBox.addEventListener('transitionend', function() {
+    leftBox.addEventListener('transitionend', function () {
       leftBox.style.transition = '';
       leftBox.style.transform = '';
       leftBox.classList.add('hidden');
 
       rightBox.style.transition = 'flex-grow 1.3s ease';
     }, { once: true });
-    rightBox.addEventListener('transitionend', function() {
+    rightBox.addEventListener('transitionend', function () {
 
       rightBox.style.transition = '';
       rightBox.style.flexGrow = '';
@@ -1334,8 +1305,8 @@ function makeSlideResponsive(){
 
 }
 
-function showFilter(){
-  if(!document.querySelector('.sort-by-content').classList.contains("mobile-hidden")){
+function showFilter() {
+  if (!document.querySelector('.sort-by-content').classList.contains("mobile-hidden")) {
     document.querySelector('.sort-by-content').classList.add("mobile-hidden");
   }
 
@@ -1355,7 +1326,7 @@ function showFilter(){
 
   var filterValues = document.querySelectorAll('.full-filter-ind-content-values');
 
-  filterValues.forEach(function(filter) {
+  filterValues.forEach(function (filter) {
     filter.classList.remove('hidden');
   })
 
@@ -1398,52 +1369,52 @@ function adjustLayout() {
 
     filterSVG.setAttribute('transform', 'scale(2)');
 
-  } 
+  }
 }
 
-function deselectAllAndKeepSelected(checkbox){
+function deselectAllAndKeepSelected(checkbox) {
 
   var elements = checkbox.parentNode.parentNode.parentNode.querySelectorAll('.filter-dropdown-item.active');
 
   var searchString = 'ALL';
 
-  if(checkbox.parentNode.querySelector('a').innerText.trim().toUpperCase() == "ALL"){
-    elements.forEach(function(element) {
-      
-          element.querySelector('input[type="checkbox"]').click();
+  if (checkbox.parentNode.querySelector('a').innerText.trim().toUpperCase() == "ALL") {
+    elements.forEach(function (element) {
 
-  });
+      element.querySelector('input[type="checkbox"]').click();
+
+    });
   }
-  
-  elements.forEach(function(element) {
-      if (element.innerText.trim().toUpperCase() === searchString) {
-          element.querySelector('input[type="checkbox"]').click();
-      }
+
+  elements.forEach(function (element) {
+    if (element.innerText.trim().toUpperCase() === searchString) {
+      element.querySelector('input[type="checkbox"]').click();
+    }
   });
 
 }
 
-function clearFilter(){
+function clearFilter() {
 
   this.parentNode.querySelector('.filter-dropdown-button').innerText = ">";
 
   var lookingForContentDivToClose = this.parentNode.parentNode.querySelector('.full-filter-ind-content-values');
 
-  if(!lookingForContentDivToClose.classList.contains('hidden')){
+  if (!lookingForContentDivToClose.classList.contains('hidden')) {
     lookingForContentDivToClose.classList.add('hidden');
   }
 
   var values = this.parentNode.parentNode.querySelectorAll('.filter-dropdown-item');
 
-  values.forEach(function(value) {
-    if(value.classList.contains('active')){
+  values.forEach(function (value) {
+    if (value.classList.contains('active')) {
       value.querySelector('input[type="checkbox"]').click();
     }
   });
 
   var inputs = this.parentNode.parentNode.querySelectorAll('input[type="text"]');
-  if(inputs.length > 0){
-    inputs.forEach(function(input) {
+  if (inputs.length > 0) {
+    inputs.forEach(function (input) {
       input.value = '';
       fetchDataAndUpdateTable();
     });
@@ -1451,7 +1422,7 @@ function clearFilter(){
 
 }
 
-function addDropdownListeners(){
+function addDropdownListeners() {
   var dropdownButtons = document.querySelectorAll('.full-filter-ind-content-title');
 
   dropdownButtons.forEach(btn => {
@@ -1459,48 +1430,48 @@ function addDropdownListeners(){
   });
 
   var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    
-  checkboxes.forEach(function(checkbox) {
-      if (!checkbox.hasEventListener) {
-          checkbox.addEventListener('click', function(){
-            checkbox.parentNode.parentNode.classList.toggle("active");
-            var selectedCount = checkbox.parentNode.parentNode.parentNode.querySelectorAll('.active').length;
-            checkbox.parentNode.parentNode.parentNode.parentNode.querySelector('.amount-selected a').innerText = selectedCount;
-            deselectAllAndKeepSelected(checkbox);
-            fetchDataAndUpdateTable();
-          });
-          checkbox.hasEventListener = true;
-      }
+
+  checkboxes.forEach(function (checkbox) {
+    if (!checkbox.hasEventListener) {
+      checkbox.addEventListener('click', function () {
+        checkbox.parentNode.parentNode.classList.toggle("active");
+        var selectedCount = checkbox.parentNode.parentNode.parentNode.querySelectorAll('.active').length;
+        checkbox.parentNode.parentNode.parentNode.parentNode.querySelector('.amount-selected a').innerText = selectedCount;
+        deselectAllAndKeepSelected(checkbox);
+        fetchDataAndUpdateTable();
+      });
+      checkbox.hasEventListener = true;
+    }
   });
 
 
   var oddsInput = document.querySelectorAll('input[type="text"]');
 
-  oddsInput.forEach(function(input) {
+  oddsInput.forEach(function (input) {
     if (!input.hasEventListener) {
-      input.addEventListener('click', function(){
+      input.addEventListener('click', function () {
         input.parentNode.parentNode.classList.toggle("active");
-        });
-        input.hasEventListener = true;
+      });
+      input.hasEventListener = true;
     }
 
   });
 
   var clearFilterButtons = document.querySelectorAll('.filter-dropdown-button-close');
 
-  clearFilterButtons.forEach(function(button) {
-      button.addEventListener('click', clearFilter);
+  clearFilterButtons.forEach(function (button) {
+    button.addEventListener('click', clearFilter);
   });
 
   document.querySelector('.filter-button-mobile').addEventListener('click', showFilter);
 
 }
 
-function showDropdown(event){
+function showDropdown(event) {
 
   var oddsCloseButton = event.target.closest('.full-filter-ind-content').querySelector('.filter-dropdown-button-close');
 
-  if(oddsCloseButton.classList.contains('hidden')){
+  if (oddsCloseButton.classList.contains('hidden')) {
     oddsCloseButton.classList.toggle('hidden');
   }
 
@@ -1511,62 +1482,62 @@ function showDropdown(event){
 
     dropdownOptionsDiv.classList.toggle('hidden');
 
-    if(this.parentNode.querySelector('.filter-dropdown-button').innerText == ">"){
+    if (this.parentNode.querySelector('.filter-dropdown-button').innerText == ">") {
 
       this.parentNode.querySelector('.filter-dropdown-button').innerText = "<"
 
-    }else{
+    } else {
       this.parentNode.querySelector('.filter-dropdown-button').innerText = ">"
     }
 
-  }else{
+  } else {
     event.target.classList.toggle('hidden');
   }
 
-  
 
-  
+
+
 }
 
-function addDynamicOddsInputDisplayFunction(){
+function addDynamicOddsInputDisplayFunction() {
   var minOddsInput = document.getElementById('min-odds-input');
   var minOddsSelected = document.getElementById('min-odds-selected');
-  minOddsInput.addEventListener('input', function() {
-        if (minOddsInput.value.trim() !== '') {
-          minOddsSelected.innerText = minOddsInput.value.trim();
-        } else {
-          minOddsSelected.innerText = minOddsInput.value.trim();
-        }
-        if(minOddsInput.value[0]=='-'){
-          var lengthRequired = 4;
-        }else{
-          var lengthRequired = 3;
-        }
+  minOddsInput.addEventListener('input', function () {
+    if (minOddsInput.value.trim() !== '') {
+      minOddsSelected.innerText = minOddsInput.value.trim();
+    } else {
+      minOddsSelected.innerText = minOddsInput.value.trim();
+    }
+    if (minOddsInput.value[0] == '-') {
+      var lengthRequired = 4;
+    } else {
+      var lengthRequired = 3;
+    }
 
-        if(minOddsInput.value.length >= lengthRequired){
-          fetchDataAndUpdateTable();
-        }
-    });
+    if (minOddsInput.value.length >= lengthRequired) {
+      fetchDataAndUpdateTable();
+    }
+  });
 
-    var maxOddsInput = document.getElementById('max-odds-input');
-    var maxOddsSelected = document.getElementById('max-odds-selected');
+  var maxOddsInput = document.getElementById('max-odds-input');
+  var maxOddsSelected = document.getElementById('max-odds-selected');
 
-    maxOddsInput.addEventListener('input', function() {
-      if (maxOddsInput.value.trim() !== '') {
-        maxOddsSelected.innerText = maxOddsInput.value.trim();
-      }
-      if(maxOddsInput.value[0]=='-'){
-        var lengthRequired = 4;
-      }else{
-        var lengthRequired = 3;
-      }
-      if(maxOddsInput.value.length >= lengthRequired){
-        fetchDataAndUpdateTable();
-      }
-      });
+  maxOddsInput.addEventListener('input', function () {
+    if (maxOddsInput.value.trim() !== '') {
+      maxOddsSelected.innerText = maxOddsInput.value.trim();
+    }
+    if (maxOddsInput.value[0] == '-') {
+      var lengthRequired = 4;
+    } else {
+      var lengthRequired = 3;
+    }
+    if (maxOddsInput.value.length >= lengthRequired) {
+      fetchDataAndUpdateTable();
+    }
+  });
 }
 
-function returnAscendingSvg(){
+function returnAscendingSvg() {
   return `<svg
   width="14"
   height="11"
@@ -1636,22 +1607,22 @@ function returnAscendingSvg(){
 }
 
 
-function addSortListenersDesktop(){
+function addSortListenersDesktop() {
 
   var svgs = document.querySelectorAll('.sort-icon');
 
-  svgs.forEach(function(svg) {
+  svgs.forEach(function (svg) {
 
     svg.setAttribute('ascending', false);
 
-    svg.addEventListener('click', function() {
+    svg.addEventListener('click', function () {
 
       // See if this one is ascending and active
       var isAscending = this.getAttribute('ascending');
       var isActive = this.classList.contains('active');
 
       // Turn all others to inactive
-      svgs.forEach(function(s) {
+      svgs.forEach(function (s) {
         s.classList.remove('active');
         s.setAttribute('ascending', 'false');
         s.querySelector('#path6').setAttribute('d', "M 5.8192143,4.1580783 5.6812692,4.0201331 c -0.036579,-0.036579 -0.086208,-0.057141 -0.1379452,-0.057141 -0.051737,0 -0.1013666,0.020562 -0.1379647,0.057141 L 4.7344007,4.6910917 v -4.398463 c 0,-0.10774588 -0.08734,-0.1950858 -0.1950858,-0.1950858 H 4.3442291 c -0.1077459,0 -0.1950858,0.08733992 -0.1950858,0.1950858 V 4.6910722 L 3.4781847,4.0201136 c -0.036598,-0.036579 -0.086208,-0.057141 -0.1379451,-0.057141 -0.051737,0 -0.1013666,0.020562 -0.1379452,0.057141 L 3.0643297,4.1580587 c -0.076161,0.076181 -0.076161,0.1997094 0,0.2758904 l 1.2394972,1.2394971 c 0.0381,0.0381 0.088023,0.057141 0.1379451,0.057141 0.049923,0 0.099864,-0.01904 0.1379452,-0.057141 L 5.8192143,4.4339491 c 0.076181,-0.076181 0.076181,-0.1997093 0,-0.2758708 z");
@@ -1665,35 +1636,35 @@ function addSortListenersDesktop(){
         this.querySelector('#path6').setAttribute('d', "M 5.8192143,4.1580783 5.6812692,4.0201331 c -0.036579,-0.036579 -0.086208,-0.057141 -0.1379452,-0.057141 -0.051737,0 -0.1013666,0.020562 -0.1379647,0.057141 L 4.7344007,4.6910917 v -4.398463 c 0,-0.10774588 -0.08734,-0.1950858 -0.1950858,-0.1950858 H 4.3442291 c -0.1077459,0 -0.1950858,0.08733992 -0.1950858,0.1950858 V 4.6910722 L 3.4781847,4.0201136 c -0.036598,-0.036579 -0.086208,-0.057141 -0.1379451,-0.057141 -0.051737,0 -0.1013666,0.020562 -0.1379452,0.057141 L 3.0643297,4.1580587 c -0.076161,0.076181 -0.076161,0.1997094 0,0.2758904 l 1.2394972,1.2394971 c 0.0381,0.0381 0.088023,0.057141 0.1379451,0.057141 0.049923,0 0.099864,-0.01904 0.1379452,-0.057141 L 5.8192143,4.4339491 c 0.076181,-0.076181 0.076181,-0.1997093 0,-0.2758708 z");
       }
 
-      else if(isActive && isAscending === 'false'){
+      else if (isActive && isAscending === 'false') {
         this.setAttribute('ascending', 'true');
         this.querySelector('#path6').setAttribute('d', "M 5.8192143,1.6700518 5.6812692,1.807997 C 5.6446902,1.844576 5.5950612,1.865138 5.543324,1.865138 5.491587,1.865138 5.4419574,1.844576 5.4053593,1.807997 L 4.7344007,1.1370384 v 4.398463 c 0,0.1077459 -0.08734,0.1950858 -0.1950858,0.1950858 H 4.3442291 c -0.1077459,0 -0.1950858,-0.08734 -0.1950858,-0.1950858 V 1.1370579 L 3.4781847,1.8080165 c -0.036598,0.036579 -0.086208,0.057141 -0.1379451,0.057141 -0.051737,0 -0.1013666,-0.020562 -0.1379452,-0.057141 L 3.0643297,1.6700714 c -0.076161,-0.076181 -0.076161,-0.1997094 0,-0.2758904 L 4.3038269,0.1546839 c 0.0381,-0.0381 0.088023,-0.057141 0.1379451,-0.057141 0.049923,0 0.099864,0.01904 0.1379452,0.057141 L 5.8192143,1.394181 c 0.076181,0.076181 0.076181,0.1997093 0,0.2758708 z");
       }
       fetchDataAndUpdateTable()
-      });
-
     });
+
+  });
 
 
 }
 
-function clearAllFilters(){
+function clearAllFilters() {
   var filterDropdownItems = document.querySelectorAll('.filter-dropdown-item');
 
-  filterDropdownItems.forEach(function(filterItem) {
-    if(filterItem.classList.contains("active")){
+  filterDropdownItems.forEach(function (filterItem) {
+    if (filterItem.classList.contains("active")) {
       filterItem.querySelector('label').click();
     }
   })
 
-  document.getElementById('min-odds-input').value="";
-  document.getElementById('max-odds-input').value="";
+  document.getElementById('min-odds-input').value = "";
+  document.getElementById('max-odds-input').value = "";
 
   fetchDataAndUpdateTable();
 
 }
 
-function hideFilter(){
+function hideFilter() {
 
   document.getElementById("full-filter").classList.toggle("mobile-hidden");
 
@@ -1729,34 +1700,34 @@ function hideFilter(){
 
 }
 
-function addMobileCloseListeners(){
+function addMobileCloseListeners() {
   document.querySelector('.done-div-clear-all-button').addEventListener('click', clearAllFilters);
 
   document.querySelector('.done-div-done-button').addEventListener('click', hideFilter);
 
 }
 
-function addSortByDiv(){
+function addSortByDiv() {
 
   var sortIcons = document.querySelectorAll('.sort-icon');
 
-  sortIcons.forEach(function(icon){
+  sortIcons.forEach(function (icon) {
 
     var newValAscending = icon.parentNode.cloneNode(true);
 
     var newValDescending = icon.parentNode.cloneNode(true);
 
-    if(!newValAscending.innerText.toUpperCase().includes("MIN.")){
+    if (!newValAscending.innerText.toUpperCase().includes("MIN.")) {
 
-    newValAscending.setAttribute('ascending', true);
-    newValDescending.setAttribute('ascending', false);
+      newValAscending.setAttribute('ascending', true);
+      newValDescending.setAttribute('ascending', false);
 
-    if(!newValAscending.querySelector('svg').classList.contains('mobile-hidden')){
+      if (!newValAscending.querySelector('svg').classList.contains('mobile-hidden')) {
         newValAscending.querySelector('svg').classList.add('mobile-hidden');
         newValDescending.querySelector('svg').classList.add('mobile-hidden');
       }
 
-      if(!newValAscending.classList.contains('sort-by-filter-container-2')){
+      if (!newValAscending.classList.contains('sort-by-filter-container-2')) {
         newValAscending.classList.add('sort-by-filter-container-2');
         newValDescending.classList.add('sort-by-filter-container-2');
         newValDescending.classList.add('filter-value-content-b');
@@ -1764,126 +1735,126 @@ function addSortByDiv(){
       }
 
 
-    var text = newValAscending.innerText;
-    
-    var formattedText = text.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
-        return match.toUpperCase() ;
-    });
+      var text = newValAscending.innerText;
 
-    newValAscending.innerText = formattedText;
+      var formattedText = text.toLowerCase().replace(/(?:^|\s)\w/g, function (match) {
+        return match.toUpperCase();
+      });
 
-    newValDescending.innerText = formattedText;
+      newValAscending.innerText = formattedText;
 
-    newValAscending.innerText += "(Low to High)";
+      newValDescending.innerText = formattedText;
 
-    newValDescending.innerText += "(High to Low)";
+      newValAscending.innerText += "(Low to High)";
 
-    var clonedIcon = icon.cloneNode(true); 
-    clonedIcon.classList.add("mobile-hidden");
-    newValAscending.appendChild(clonedIcon); 
+      newValDescending.innerText += "(High to Low)";
 
-    clonedIcon = icon.cloneNode(true); 
-    clonedIcon.classList.add("mobile-hidden");
-    newValDescending.appendChild(clonedIcon); 
+      var clonedIcon = icon.cloneNode(true);
+      clonedIcon.classList.add("mobile-hidden");
+      newValAscending.appendChild(clonedIcon);
 
-    if (!(newValAscending.querySelector('svg').id === "bet_amount" && newValAscending.getAttribute("ascending") === "true") && 
-    !(newValAscending.querySelector('svg').id === "ev" && newValAscending.getAttribute("ascending") === "true")) {
-      document.querySelector('.sort-by-content').appendChild(newValAscending);
-      newValAscending.appendChild(clonedIcon); 
-    }
+      clonedIcon = icon.cloneNode(true);
+      clonedIcon.classList.add("mobile-hidden");
+      newValDescending.appendChild(clonedIcon);
 
-    if ((newValAscending.querySelector('svg').id === "highest_bettable_odds" && newValAscending.getAttribute("ascending") === "true")) {
-      newValAscending.innerText = "Odds: Low to High";
-      newValDescending.innerText = "Odds: High to Low";
-      newValAscending.appendChild(clonedIcon); 
-      newValDescending.appendChild(clonedIcon); 
-    }
+      if (!(newValAscending.querySelector('svg').id === "bet_amount" && newValAscending.getAttribute("ascending") === "true") &&
+        !(newValAscending.querySelector('svg').id === "ev" && newValAscending.getAttribute("ascending") === "true")) {
+        document.querySelector('.sort-by-content').appendChild(newValAscending);
+        newValAscending.appendChild(clonedIcon);
+      }
 
-    if ((newValDescending.querySelector('svg').id === "bet_amount" && newValDescending.getAttribute("ascending") === "false")) {
-      newValDescending.innerText = "Best Bets";
-      newValDescending.appendChild(clonedIcon); 
-    }
+      if ((newValAscending.querySelector('svg').id === "highest_bettable_odds" && newValAscending.getAttribute("ascending") === "true")) {
+        newValAscending.innerText = "Odds: Low to High";
+        newValDescending.innerText = "Odds: High to Low";
+        newValAscending.appendChild(clonedIcon);
+        newValDescending.appendChild(clonedIcon);
+      }
 
-    try{
-      if (newValDescending.querySelector('svg').id === "ev") {
+      if ((newValDescending.querySelector('svg').id === "bet_amount" && newValDescending.getAttribute("ascending") === "false")) {
+        newValDescending.innerText = "Best Bets";
+        newValDescending.appendChild(clonedIcon);
+      }
+
+      try {
+        if (newValDescending.querySelector('svg').id === "ev") {
           newValDescending.innerText = "%+EV";
-          newValDescending.appendChild(clonedIcon); 
+          newValDescending.appendChild(clonedIcon);
+
+        }
+      } catch (error) { }
+
+      clonedIcon = icon.cloneNode(true);
+      clonedIcon.classList.add("mobile-hidden");
+      newValAscending.appendChild(clonedIcon);
+
+      clonedIcon = icon.cloneNode(true);
+      clonedIcon.classList.add("mobile-hidden");
+      newValDescending.appendChild(clonedIcon);
+
+      document.querySelector('.sort-by-content').appendChild(newValDescending);
+
+      var brElements = newValDescending.querySelectorAll('br');
+
+      brElements.forEach(function (brElement) {
+        brElement.parentNode.removeChild(brElement);
+      });
+
+      brElements = newValAscending.querySelectorAll('br');
+      brElements.forEach(function (brElement) {
+        brElement.parentNode.removeChild(brElement);
+      });
+
+      newValAscending.addEventListener('click', function () {
+        var activeElements = document.querySelectorAll("svg.active");
+        activeElements.forEach(function (icon) {
+          icon.classList.remove('active');
+          icon.parentNode.classList.remove("green");
+        });
+        this.querySelector('svg').classList.add('active');
+        this.classList.add("green");
+        showSortBy();
+        fetchDataAndUpdateTable();
+      });
+
+      newValDescending.addEventListener('click', function () {
+        var activeElements = document.querySelectorAll("svg.active");
+        activeElements.forEach(function (icon) {
+          icon.classList.remove('active');
+          icon.parentNode.classList.remove("green");
+
+        });
+        this.querySelector('svg').classList.add('active');
+        this.classList.add("green");
+        showSortBy();
+        fetchDataAndUpdateTable();
+      });
 
     }
-    }catch(error){}
-
-    clonedIcon = icon.cloneNode(true); 
-    clonedIcon.classList.add("mobile-hidden");
-    newValAscending.appendChild(clonedIcon); 
-
-    clonedIcon = icon.cloneNode(true); 
-    clonedIcon.classList.add("mobile-hidden");
-    newValDescending.appendChild(clonedIcon); 
-
-    document.querySelector('.sort-by-content').appendChild(newValDescending);
-
-    var brElements = newValDescending.querySelectorAll('br');
-
-    brElements.forEach(function(brElement) {
-        brElement.parentNode.removeChild(brElement);
-    });
-    
-    brElements = newValAscending.querySelectorAll('br');
-    brElements.forEach(function(brElement) {
-        brElement.parentNode.removeChild(brElement);
-    });
-
-    newValAscending.addEventListener('click', function() {
-      var activeElements = document.querySelectorAll("svg.active");
-      activeElements.forEach(function(icon){
-        icon.classList.remove('active');
-        icon.parentNode.classList.remove("green");
-      });
-      this.querySelector('svg').classList.add('active');
-      this.classList.add("green");
-      showSortBy();
-      fetchDataAndUpdateTable();
-    });
-  
-    newValDescending.addEventListener('click', function() {
-      var activeElements = document.querySelectorAll("svg.active");
-      activeElements.forEach(function(icon){
-        icon.classList.remove('active');
-        icon.parentNode.classList.remove("green");
-    
-      });
-      this.querySelector('svg').classList.add('active');
-      this.classList.add("green");
-      showSortBy();
-      fetchDataAndUpdateTable();
-    });
-
-  }
 
   });
 
-  document.querySelectorAll("svg.active").forEach(function(svg){
+  document.querySelectorAll("svg.active").forEach(function (svg) {
     svg.classList.remove('active');
   })
 
   var elementsWithSameId = document.querySelectorAll('#bet_amount');
 
-  elementsWithSameId.forEach(function(element) {
-    try{
+  elementsWithSameId.forEach(function (element) {
+    try {
       if (element.parentNode.getAttribute('ascending') === 'false') {
         element.classList.add('active');
       }
-      else{
+      else {
         element.remove();
       }
     }
-  catch(error){
-    element.remove();
-  }
+    catch (error) {
+      element.remove();
+    }
 
   });
 
-    
+
 }
 
 function showSortBy() {
@@ -1896,7 +1867,7 @@ function showSortBy() {
   }
 }
 
-function addSortListenersMobile(){
+function addSortListenersMobile() {
   addSortByDiv();
   document.querySelector('.sort-by-button-mobile').addEventListener("click", showSortBy)
 }
@@ -1909,40 +1880,40 @@ function addWholePageClickListenerToCloseActiveDropdowns() {
 
     let count = 0;
 
-    elements.forEach(function(element) {
-        if (!element.classList.contains('hidden')) {
-            count++;
-        }
+    elements.forEach(function (element) {
+      if (!element.classList.contains('hidden')) {
+        count++;
+      }
     });
     return count;
-}
+  }
 
 
   function handleClick(event) {
-      // Checks to see if we have an open filter div 
-      if(getLengthOfClassWithoutAnotherClass('full-filter-ind-content-values') > 0){
-        // if we do, check if we're clicking in that filter div
-        const clickedElement = event.target;
-        
+    // Checks to see if we have an open filter div 
+    if (getLengthOfClassWithoutAnotherClass('full-filter-ind-content-values') > 0) {
+      // if we do, check if we're clicking in that filter div
+      const clickedElement = event.target;
+
       if (clickedElement.closest('.full-filter-ind-content-values') || clickedElement.closest('.full-filter-ind-content-title')) {
-          return;
+        return;
       }
 
 
-      document.querySelectorAll('.full-filter-ind-content-values').forEach(function(element) {
-          if (!element.classList.contains('hidden')) {
-              element.parentNode.querySelector('.filter-dropdown-button').click();
-          }
+      document.querySelectorAll('.full-filter-ind-content-values').forEach(function (element) {
+        if (!element.classList.contains('hidden')) {
+          element.parentNode.querySelector('.filter-dropdown-button').click();
+        }
       });
-      }
-      return 
+    }
+    return
   }
 
   document.addEventListener('click', handleClick);
 }
 
 
-$(document).ready(function(){
+$(document).ready(function () {
 
   const menuIcon = document.querySelector(".navbar-custom__left i");
   const closeIcon = document.querySelector(".sidebar-custom .close-icon");
@@ -1956,12 +1927,12 @@ $(document).ready(function(){
   });
 
   const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
-  
+
   toggleSport();
 
-  if(window.innerWidth <= 768){
+  if (window.innerWidth <= 768) {
     addSortListenersMobile();
-  }else{
+  } else {
     addSortListenersDesktop();
     addWholePageClickListenerToCloseActiveDropdowns();
 
@@ -1986,12 +1957,12 @@ $(document).ready(function(){
   //
 
 
-    /** 
-   * 5. Add an event listener to update table and bankroll
-   */
-    document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
+  /** 
+ * 5. Add an event listener to update table and bankroll
+ */
+  document.getElementById('fetch-button').addEventListener('click', fetchDataAndUpdateTable);
 
-    getUserPermission()
+  getUserPermission()
     .then(userPermission => {
       userPermissionVar = userPermission.permission;
       console.log(userPermissionVar);
