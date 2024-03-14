@@ -1764,7 +1764,7 @@ input[type="text"]::-webkit-inner-spin-button {
     background-color: none;
     margin-bottom: 0px;
     background-color: var(--table-bg);
-
+    font-weight: bold;
   }
 
   .market-view-div{
