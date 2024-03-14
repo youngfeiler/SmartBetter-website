@@ -1182,7 +1182,9 @@ input[type="text"]::-webkit-inner-spin-button {
   margin-bottom: 10px;
   border-radius: 21px;
   background-color: #32433e;
+  color: white;
 }
+
 
 .market-view > :nth-child(2) {
   border-top: 1px solid white;
@@ -1191,7 +1193,7 @@ input[type="text"]::-webkit-inner-spin-button {
 .all-books-view{
   display: flex;
   flex-direction: row;
-  color: white;
+  /* color: white; */
   justify-content: flex-start;
 }
 
@@ -1458,7 +1460,6 @@ input[type="text"]::-webkit-inner-spin-button {
 
 .table-custom__content__rows__row:hover{
   background-color: #02694C;
-
 }
 
 .market-view-best-odds-title{
@@ -1734,29 +1735,54 @@ input[type="text"]::-webkit-inner-spin-button {
     max-width: 100% !important;
     min-width: 80% !important;
     padding-right: 0 !important;
-    border: 1px solid var(--table-trow-border) !important;
+    border: 1px solid var(--table-trow-border);
     border-radius: 10px 10px 10px 10px;
-    margin-bottom: 5% !important;
+    margin-bottom: 5%;
     padding-bottom: 1vh !important;
     padding-top: 1vh !important;
     align-items: stretch !important;
+  }
+
+  .open{
+    margin-bottom: 0px;
+    border-bottom: none !important;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .table-custom__content__rows__row.open li:nth-child(7),
+  .table-custom__content__rows__row.open li:nth-child(12){
+    display: none !important;
+  }
+
+  .table-custom__content__rows__row.open{
+    padding-bottom: 0px !important;
   }
 
   .market-view{
     margin-top: 0px;
     background-color: none;
     margin-bottom: 0px;
+    background-color: var(--table-bg);
+
   }
 
   .market-view-div{
-    margin-top: 10px;
+    /* margin-top: 10px; */
     margin-bottom: 10px;
     border-radius: 21px;
     display: flex;
-    background-color: #32433e;
+    border: 1px solid var(--table-trow-border);
+    border-top: none;
+    /* background-color: #32433e; */
+    background-color: var(--table-bg);
     min-height: 25%;
     overflow: auto;
     scroll-snap-type: x mandatory;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top: 1px solid white;
+
   }
   .table-custom__content__rows__row,
   .market-view-div{
@@ -1767,18 +1793,18 @@ input[type="text"]::-webkit-inner-spin-button {
     padding-bottom: 20px;
   display: table;
   font-size: small;
+  border-radius: 0px;
   }
 
   .market-view div{
     scroll-snap-align: start;
   }
   .all-books-view div:nth-child(2){
-    margin-left: 150px;
+    margin-left: 130px;
   }
 
   .market-view div:nth-child(1) div.blank{
     height: 96px;
-    border-top-left-radius: 21px;
   }
 
   .market-view div:nth-child(2) div.blank{
@@ -1791,7 +1817,25 @@ input[type="text"]::-webkit-inner-spin-button {
 
   .table-custom__content__rows__row:hover {
     background-color: var(--table-bg);
-}
+  }
+
+.market-view div:nth-child(1).all-books-view,
+.market-view div:nth-child(1).all-books-view div.blank{
+    background-color: var(--row-box-special-color);
+    color: var(--table-trow-special-color);
+
+  }
+
+
+  .market-view div:nth-child(2).all-books-view,
+  .market-view div:nth-child(2).all-books-view div.blank
+  .market-view div:nth-child(3).all-books-view,
+  .market-view div:nth-child(3).all-books-view div.blank,
+  .market-view-div,
+  .market-view{
+      background-color: var(--row-box-special-color) !important;
+      color: var(--table-trow-special-color) !important;
+    }
 
 
   .market-view div:nth-child(3) div.blank{
@@ -1804,6 +1848,17 @@ input[type="text"]::-webkit-inner-spin-button {
     width: 96px;
   }
 
+  .market-view-best-odds-title
+  {
+    display: flex;
+    justify-content: center;
+  }
+
+  .all-books-view div:nth-child(2),
+  .all-books-view div:nth-child(3){
+    max-width: 50px;
+  }
+
   .blank{
     width: 130px;
     max-width: 130px;
@@ -1811,12 +1866,13 @@ input[type="text"]::-webkit-inner-spin-button {
     position: absolute;
     z-index: 9;
     background-color: #32433e;
+    background-color: var(--row-box-special-color);
     font-size: small;
     padding-bottom: 20px;
     padding-top: 20px;
     padding-left: 5px;
     padding-right: 5px;
-
+    /* color: white; */
   }
 
   .blank p{
@@ -2320,6 +2376,11 @@ select,
     input[type=”week”], input[type=”number”], input[type=”email”],
     input[type=”url”]{ font-size: 16px !important; }
     /* end mobile styles */
+    }
+
+    *::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
     }
     
     
