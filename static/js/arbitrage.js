@@ -260,7 +260,7 @@ function updateTableFree(data) {
 
 function returnMarketView(data){
 
-  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'onexbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
+  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
   const sportsbooksAlreadyDisplayed = []
 
@@ -548,7 +548,7 @@ function americanToDecimal(americanOddsString) {
 
 function returnSportsbookLogoDiv(data){
 
-  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'onexbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
+  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
   const rowDiv = document.createElement('div');
 
@@ -605,7 +605,7 @@ function toggleAllBooksView(){
 
 
 function createSportsBooksView(data) {
-  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'onexbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
+  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
   const rowDiv = document.createElement('div');
 
@@ -660,7 +660,7 @@ function createSportsBooksView(data) {
 }
 
 function createSportsBooksViewOther(data) {
-  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'onexbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
+  const sportsbooksForDisplay = ['betclic', 'betfair_ex_au', 'betfair_ex_eu', 'betfair_ex_uk', 'betfair_sb_uk', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'livescorebet', 'livescorebet_eu', 'lowvig', 'marathonbet', 'matchbook', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
   const rowDiv = document.createElement('div');
 
