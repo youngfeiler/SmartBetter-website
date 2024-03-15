@@ -589,6 +589,11 @@ class PositiveEVDashboardRunner():
    df = pd.read_csv(self.file_output_path)
    df = df[df['game_id'] != game_id]
    df.to_csv(self.file_output_path, index= False)
+
+   df = pd.read_csv(self.arb_file_output_path)
+   df = df[df['game_id'] != game_id]
+   df.to_csv(self.arb_file_output_path, index= False)
+
    return 
    
   def make_live_dash_data(self):
