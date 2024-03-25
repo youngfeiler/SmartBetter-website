@@ -31,8 +31,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from werkzeug.security import generate_password_hash, check_password_hash
-from amplitude import Amplitude
-from amplitude import BaseEvent
+# from amplitude import Amplitude
+# from amplitude import BaseEvent
 
 
 
@@ -44,11 +44,11 @@ def create_app():
     app.db = database(app.db_manager)
     app.celery = celery
     app.chat = Chat()
-    app.amplitude = Amplitude("f3e43aeacf3279a00145b345a0fc8861")
-    app.amplitude.include_utm = True
-    app.amplitude.include_referrer = True
-    app.amplitude.include_gclid = True
-    app.amplitude.include_fbclid = True
+    # app.amplitude = Amplitude("f3e43aeacf3279a00145b345a0fc8861")
+    # app.amplitude.include_utm = True
+    # app.amplitude.include_referrer = True
+    # app.amplitude.include_gclid = True
+    # app.amplitude.include_fbclid = True
 
     return app
 
@@ -229,17 +229,17 @@ def free_success_checkout():
     customer_email = checkout_session['customer_details']['email']
 
 
-    app.amplitude.track(
-        BaseEvent(
-            event_type="Sign Up",
-            device_id=customer_email,
-            event_properties={
-                "price": 'free',
-                "checkout_id": checkout_session_id,
-                "customer_email": customer_email
-            }
-        )
-    )
+    # app.amplitude.track(
+    #     BaseEvent(
+    #         event_type="Sign Up",
+    #         device_id=customer_email,
+    #         event_properties={
+    #             "price": 'free',
+    #             "checkout_id": checkout_session_id,
+    #             "customer_email": customer_email
+    #         }
+    #     )
+    # )
     return redirect(url_for('register', _external=True) + f'?session_id={checkout_session_id}&price={price}')
 
 @app.route('/success_checkout')
@@ -249,17 +249,17 @@ def success_checkout():
     checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer_email = checkout_session['customer_details']['email']
 
-    app.amplitude.track(
-        BaseEvent(
-            event_type="Sign Up",
-            device_id=customer_email,
-            event_properties={
-                "price": 'free',
-                "checkout_id": checkout_session_id,
-                "customer_email": customer_email
-            }
-        )
-    )
+    # app.amplitude.track(
+    #     BaseEvent(
+    #         event_type="Sign Up",
+    #         device_id=customer_email,
+    #         event_properties={
+    #             "price": 'free',
+    #             "checkout_id": checkout_session_id,
+    #             "customer_email": customer_email
+    #         }
+    #     )
+    # )
     return redirect(url_for('register', _external=True) + f'?session_id={checkout_session_id}&price={price}')
 
 
