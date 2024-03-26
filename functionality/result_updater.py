@@ -9,6 +9,7 @@ class result_updater():
   def __init__ (self):
       self.db_manager = DBManager()
       self.API_KEY = os.environ.get("THE_ODDS_API_KEY")
+      print(f"API KEY: {self.API_KEY}")
       self.MARKETS = 'h2h'
       self.REGIONS = 'us,eu,uk'
       self.ODDS_FORMAT = 'decimal'

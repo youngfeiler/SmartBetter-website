@@ -723,7 +723,7 @@ input[type="text"]::-webkit-inner-spin-button {
   transform: rotate(90deg);
   color: var(--table-thead-color);
   margin-right: 10px;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
 }
 
 .filter-dropdown-button-close{
@@ -1569,6 +1569,10 @@ input[type="text"]::-webkit-inner-spin-button {
     gap: 0 !important;
   }
 
+  .filter-button-mobile{
+    margin-left: 0px;
+  }
+
   .filter-dropdown-button{
     width: auto;
   }
@@ -1615,7 +1619,6 @@ input[type="text"]::-webkit-inner-spin-button {
     font-weight: bold;
     margin-top: 22px;
     margin-bottom: 10px;
-    
   }
 
   .full-filter-ind-content-values{
@@ -1631,6 +1634,14 @@ input[type="text"]::-webkit-inner-spin-button {
     font-size: 14px;
     text-align: start;
     padding-left: 4px;
+  }
+
+  .odds-filter-div input{
+    height: 40;
+  }
+
+  #max-odds-input{
+    font-size: 17px !important;
   }
 
   .filter-value-content-b{
@@ -2056,6 +2067,7 @@ input[type="text"]::-webkit-inner-spin-button {
   margin-left: auto;
   writing-mode: vertical-rl; /* For modern browsers */
   transform: rotate(0deg);
+  font-size: 2rem;
 }
 
 .open .time-dif-carrot{
