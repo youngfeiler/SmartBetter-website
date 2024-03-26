@@ -448,7 +448,7 @@ def login():
             remember_token = my_db.generate_secure_token()
             my_db.store_remember_token(username, remember_token)
             response = make_response(redirect(url_for('positive_ev')))
-            response.set_cookie('remember_token', remember_token, max_age=60 * 60 * 24 * 3)
+            response.set_cookie('remember_token', remember_token, max_age=60 * 60 * 24 * 10)
             return response
         else:
             return redirect(url_for('positive_ev'))
