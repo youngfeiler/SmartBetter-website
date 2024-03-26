@@ -4,6 +4,7 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS  # Import Flask-CORS
 from flask_wtf.csrf import CSRFProtect
+from flask import make_response
 import plotly.graph_objects as go
 import plotly as plotly
 from functionality.user import User
@@ -40,6 +41,8 @@ import time
 import mysql.connector
 import pandas as pd
 import flock as flock
+# from amplitude import Amplitude
+# from amplitude import BaseEvent
 
 
 
@@ -51,6 +54,13 @@ def create_app():
     app.db = database(app.db_manager)
     app.celery = celery
     # app.chat = Chat()
+    app.chat = Chat()
+    # app.amplitude = Amplitude("f3e43aeacf3279a00145b345a0fc8861")
+    # app.amplitude.include_utm = True
+    # app.amplitude.include_referrer = True
+    # app.amplitude.include_gclid = True
+    # app.amplitude.include_fbclid = True
+
     return app
 
 app = create_app()
@@ -191,7 +201,7 @@ def create_checkout_session(price_id):
         ],
         mode='subscription',
         client_reference_id=trakdesk_cid,
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
+       success_url=url_for('success_checkout', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
 
     )
@@ -217,13 +227,55 @@ def create_checkout_session_free_trial(price_id):
         ],
         mode='subscription',
         client_reference_id=trakdesk_cid,
-        success_url=url_for('register', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
+        success_url=url_for('free_success_checkout', _external=True) + '?session_id={CHECKOUT_SESSION_ID}' + f'&price={price}',
         cancel_url=url_for('index', _external=True),
         subscription_data = {
              'trial_end': trial_end_date
         }
     )
     return redirect(checkout_session.url,code=302)
+
+@app.route('/free_success_checkout')
+def free_success_checkout():
+    checkout_session_id = request.args.get('session_id')
+    price = request.args.get('price')
+    checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
+    customer_email = checkout_session['customer_details']['email']
+
+
+    # app.amplitude.track(
+    #     BaseEvent(
+    #         event_type="Sign Up",
+    #         device_id=customer_email,
+    #         event_properties={
+    #             "price": 'free',
+    #             "checkout_id": checkout_session_id,
+    #             "customer_email": customer_email
+    #         }
+    #     )
+    # )
+    return redirect(url_for('register', _external=True) + f'?session_id={checkout_session_id}&price={price}')
+
+@app.route('/success_checkout')
+def success_checkout():
+    checkout_session_id = request.args.get('session_id')
+    price = request.args.get('price')
+    checkout_session = stripe.checkout.Session.retrieve(checkout_session_id)
+    customer_email = checkout_session['customer_details']['email']
+
+    # app.amplitude.track(
+    #     BaseEvent(
+    #         event_type="Sign Up",
+    #         device_id=customer_email,
+    #         event_properties={
+    #             "price": 'free',
+    #             "checkout_id": checkout_session_id,
+    #             "customer_email": customer_email
+    #         }
+    #     )
+    # )
+    return redirect(url_for('register', _external=True) + f'?session_id={checkout_session_id}&price={price}')
+
 
 @app.route('/get_positive_ev_data')
 def get_positive_ev_data():
@@ -376,15 +428,25 @@ def register():
 def login():
   user_id = session.get('user_id')
   my_db = database(app.db_manager)
+  remember_token = request.cookies.get('remember_token')
+  print(remember_token, 'is here')
+  if remember_token:
+        my_db = database(app.db_manager)
+        username = my_db.get_username_by_remember_token(remember_token)
+        if username:
+             print(username, 'is here')
+             permission = my_db.get_permission(username.lower())
+             session['user_id'] = username
+             session['permission'] = permission
+             return redirect(url_for('positive_ev'))
 
-#   if (user_id is not None):
-#       payed = my_db.check_account(user_id)
-#       if payed:
-#         return redirect(url_for('show_nba'))
-      
+
+
+
   if request.method == 'POST':
     username = request.form.get('username')
     password = request.form.get('password')
+    remember = request.form.get('remember')
     
     login_allowed = my_db.check_login_credentials(username, password)
     
@@ -396,8 +458,14 @@ def login():
         print(f"app permission: {permission}")
         session['user_id'] = username
         session['permission'] = permission
-        
-        return redirect(url_for('positive_ev'))
+        if remember:
+            remember_token = my_db.generate_secure_token()
+            my_db.store_remember_token(username, remember_token)
+            response = make_response(redirect(url_for('positive_ev')))
+            response.set_cookie('remember_token', remember_token, max_age=60 * 60 * 24 * 10)
+            return response
+        else:
+            return redirect(url_for('positive_ev'))
     
     elif not login_allowed:
         return render_template('login.html', incorrect_password=True, form_data=request.form)
@@ -568,10 +636,37 @@ def market_view():
     except:
         return redirect(url_for('register'))
 
+# @app.route('/logout')
+# def logout():
+#     session.clear()
+#     return redirect(url_for('index'))
 @app.route('/logout')
 def logout():
+    # session.pop('user_id', None)
+    # session.pop('permission', None)
     session.clear()
+
+    # if 'remember_token' in request.cookies:
+    #     response = make_response(redirect(url_for('login')))
+    #     response.set_cookie('remember_token', '', expires=0)  # Delete the remember token cookie
+    #     return response
+    # else:
+    
     return redirect(url_for('index'))
+
+@app.route('/change_account')
+def change_account():
+    session.pop('user_id', None)
+    session.pop('permission', None)
+    session.clear()
+
+    if 'remember_token' in request.cookies:
+        response = make_response(redirect(url_for('login')))
+        response.set_cookie('remember_token', '', expires=0)  # Delete the remember token cookie
+        return response
+    else:
+        return redirect(url_for('login'))
+
 
 @app.route('/learn')
 def learn():
@@ -624,7 +719,7 @@ def reset_password():
 
     def send_email(email, code):
         sender_email = 'admin@smartbettor.ai'
-        sender_password = 'Gracie4241$'
+        sender_password = os.environ.get("email_pass")
 
     # Create a MIMEText object for the email body
         message = MIMEMultipart()
@@ -656,6 +751,7 @@ def reset_password():
         try:
             session = app.db_manager.create_session()
             user = session.query(LoginInfo).filter_by(username=username).first()
+            print(user)
             if user != None:
                 code = generate_random_code()
                 send_email(email, code)

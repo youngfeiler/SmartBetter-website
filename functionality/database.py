@@ -13,13 +13,15 @@ import ast
 import stripe
 import logging
 import json
+from functionality.models import RememberToken
 from functionality.models import LoginInfo  # Import your SQLAlchemy model
 from sqlalchemy.orm.exc import NoResultFound
 from ast import literal_eval
 import pytz
 from werkzeug.security import generate_password_hash, check_password_hash
 import flock as flock
-
+import secrets
+import hashlib
 
 # Configure the logging level for the stripe module
 logging.getLogger("stripe").setLevel(logging.ERROR)
@@ -178,6 +180,13 @@ class database():
                           highest_price_status = highest_price_subscription.get('status')
                           if highest_price_status == 'trialing':
                             highest_price_status = 'active'
+                          if highest_price_status == 'incomplete':
+                                        # Handle payment failure case
+                            return ({
+                              'status': highest_price_status,
+                              'permission': 'payment_failed'
+                             })
+
                           return({
                             'status':highest_price_status,
                             'permission':self.get_plan_from_price_id(highest_price_price_id)
@@ -1312,3 +1321,50 @@ class database():
           'game_date': ['all'] + df['game_date'].unique().tolist(),
           'sportsbooks_used': ['all'] + sorted(sportsbook_list),
         })
+    
+    def generate_secure_token(self):
+      token = secrets.token_urlsafe(16)  # Generate a random 16-byte token
+      salt = secrets.token_urlsafe(16)  # Generate a random salt
+      hash_obj = hashlib.sha256()
+      hash_obj.update(token.encode('utf-8') + salt.encode('utf-8'))
+      hashed_token = hash_obj.hexdigest()
+      return hashed_token
+    def store_remember_token(self, username, remember_token):
+      print(remember_token)
+      expiration_timestamp = datetime.utcnow() + timedelta(days=10)
+
+    # Create a new RememberToken instance
+      new_token = RememberToken(
+        username=username,
+        remember_token=remember_token,
+        expiration_timestamp=expiration_timestamp
+      )
+      try:
+        session = self.db_manager.create_session()
+
+    # Add the new token to the database session and commit the changes
+        session.add(new_token)
+      except Exception as e:
+        print(e)
+        return str(e)
+      finally:
+        session.commit()
+        session.close()
+        return
+    def get_username_by_remember_token(self, remember_token):
+      try:
+            session = self.db_manager.create_session()
+            token_data = session.query(RememberToken).filter_by(remember_token=remember_token).first()
+            if token_data:
+              return token_data.username
+            else:
+              return None
+      except Exception as e:
+            print(e)
+            return str(e)
+      finally:
+            session.close()
+
+
+       
+

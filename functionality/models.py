@@ -3,6 +3,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+class RememberToken(Base):
+    __tablename__ = 'remember_tokens'
+    id = Column(Integer, primary_key=True, autoincrement = True)
+    username = Column(String(255), nullable=False)
+    remember_token = Column(String(255), nullable=False)
+    expiration_timestamp = Column(DateTime, nullable=False)
+
 class ChatQuestions(Base):
     __tablename__ = 'chat_questions'
 
@@ -46,6 +53,9 @@ class LoginInfo(Base):
     bankroll = Column(String(255))
     payed = Column(Integer)
     date_signed_up = Column(String(255))
+    how_heard = Column(String(255))
+    referral_name = Column(String(255))
+    other_source = Column(String(255))
 
 class MlbExtraInfo(Base):
     __tablename__ = 'mlb_extra_info'
