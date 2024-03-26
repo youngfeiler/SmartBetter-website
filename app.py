@@ -1,5 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
+from flask_cors import CORS  # Import Flask-CORS
 from flask_wtf.csrf import CSRFProtect
 from flask import make_response
 import plotly.graph_objects as go
@@ -31,6 +34,13 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, render_template, jsonify
+from flask_socketio import SocketIO
+from threading import Thread
+import time
+import mysql.connector
+import pandas as pd
+import flock as flock
 # from amplitude import Amplitude
 # from amplitude import BaseEvent
 
@@ -43,6 +53,7 @@ def create_app():
     app.db_manager = DBManager()
     app.db = database(app.db_manager)
     app.celery = celery
+    # app.chat = Chat()
     app.chat = Chat()
     # app.amplitude = Amplitude("f3e43aeacf3279a00145b345a0fc8861")
     # app.amplitude.include_utm = True
@@ -52,8 +63,11 @@ def create_app():
 
     return app
 
-
 app = create_app()
+
+socketio = SocketIO(app)
+
+
 app.config['STRIPE_PUBLIC_KEY'] = 'pk_live_51Nm0vBHM5Jv8uc5M5hu3bxlKg6soYb2v9xSg5O7a9sXi6JQJpl7nPWiNKrNHGlXf5g8PFnN6sn0wcLOrixvxF8VH00nVoyGtCk'
 app.config['STRIPE_PRIVATE_KEY'] = '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'
 stripe.api_key = app.config['STRIPE_PRIVATE_KEY']
@@ -610,6 +624,17 @@ def bet_tracker():
             return render_template('bet_tracker.html', is_logged_in = is_logged_in)
     except:
         return redirect(url_for('register'))
+    
+@app.route('/market_view')
+def market_view():
+
+    is_logged_in = True if 'user_id' in session else False
+
+    try:
+        if session['user_id'] is not None:
+            return render_template('market_view.html', is_logged_in = is_logged_in)
+    except:
+        return redirect(url_for('register'))
 
 # @app.route('/logout')
 # def logout():
@@ -786,7 +811,6 @@ def confirm_password():
         # Redirect to login page if the referrer is not reset_password
         return redirect(url_for('login'))
     
-
 @app.route('/confirm_password_button/<string:username>/<string:code>', methods=['GET', 'POST'])
 def confirm_password_button(username, code):
     try:
@@ -830,8 +854,6 @@ def set_new_password():
         # Redirect to login page if the referrer is not reset_password
         return redirect(url_for('login'))
     
-
-
 @app.route('/set_new_password_db/<string:username>/<string:password>', methods=['GET', 'POST'])
 def set_new_password_db(username, password):
     try:
@@ -864,13 +886,153 @@ def set_new_password_db(username, password):
         session.close()
 
     # Redirect to an appropriate page on failure
-    return redirect(url_for('login'))  # Change 'login' to the appropriate endpoint
+    return redirect(url_for('login'))  # Change 'login' to the appropriate endpoin
 
 @app.route('/password_update_successful')
 def password_update_successful():
     return render_template('password_update_successful.html')
 
+@app.route('/load_initial_market_view_data', methods=['GET', 'POST'])
+def load_initial_market_view_data():
+
+    with open('market_view_data/market_view_data.csv', 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            df = pd.read_csv(f)
+
+    df['hashable_id_copy'] = df['hashable_id'].copy()
+
+    df.set_index('hashable_id_copy', inplace=True)
+
+    return df.to_json(orient='records')
+
+
+    
+def get_team_vals_for_scenarios():
+       teams = pd.read_csv('../extra_info_sheets/teams.csv')
+       teams.sort_values(by="team", inplace=True)
+       return teams.to_json(orient='records', date_format='iso')
+
+
+def get_all_market_view_data():
+    try:
+
+        filename = 'market_view_data/market_view_data.csv'
+
+        with open(filename, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+    
+         with lock:
+            df = pd.read_csv(f)
+
+        if df.empty or len(df.columns) == 0:
+            print("DataFrame is empty or has no columns.")
+            return get_all_market_view_data()
+
+        df['hashable_id_copy'] = df['hashable_id'].copy()
+        df.set_index('hashable_id_copy', inplace=True)
+
+        return df
+
+    except pd.errors.EmptyDataError:
+        print("File 'market_view_data/market_view_data.csv' is empty.")
+        return get_all_market_view_data()
+
+    except pd.errors.ParserError:
+        print("Error parsing 'market_view_data/market_view_data.csv'.")
+        return get_all_market_view_data()
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return get_all_market_view_data()
+
+
+def find_modified_rows(df1, df2):
+    # Find common indices
+    common_indices = df1['hashable_id'].isin(df2['hashable_id'])
+
+    # Initialize an empty DataFrame to store modified rows
+    modified_rows_df2 = pd.DataFrame(columns=df2.columns)
+
+    # Iterate through common indices and compare rows
+    for idx in df1.loc[common_indices, 'hashable_id']:
+        row_df1 = df1[df1['hashable_id'] == idx].iloc[0]
+        row_df2 = df2[df2['hashable_id'] == idx].iloc[0]
+
+        # Compare rows
+        if not row_df1.equals(row_df2):
+            modified_rows_df2 = modified_rows_df2.append(row_df2)
+
+    return modified_rows_df2
+
+def compare_dataframes(df1, df2):
+    if 'hashable_id' not in df1.columns or 'hashable_id' not in df2.columns:
+        raise ValueError("Both DataFrames must have a 'hashable_id' column.")
+
+    added_rows = df2.loc[~df2.index.isin(df1.index)]
+
+    deleted_rows = df1.loc[~df1.index.isin(df2.index)]
+
+    changed_rows = find_modified_rows(df1, df2)
+
+    return {
+        'added_rows': added_rows,
+        'deleted_rows': deleted_rows,
+        'changed_rows': changed_rows
+    }
+
+def listen_for_updates():
+
+    old_data = get_all_market_view_data()
+
+    old_data['hashable_id_copy'] = old_data['hashable_id'].copy()
+
+    old_data.set_index('hashable_id_copy', inplace=True)
+
+    while True:
+
+        start_time = time.time()
+
+        new_data = get_all_market_view_data()
+
+        differences = compare_dataframes(old_data, new_data)
+
+        try:
+            json_dfs = {
+                key: value.to_json(orient='records') if isinstance(value, pd.DataFrame) else None
+                for key, value in differences.items()
+            }
+
+            socketio.emit('update_data', json_dfs, namespace='/')
+        except AttributeError as e:
+            print(f"Unable to send data: {e}")
+
+        old_data = new_data.copy()
+
+        end_time = time.time()
+
+        elapsed_time = end_time - start_time
+
+        print("Elapsed time:", elapsed_time, "seconds")
+
+        time.sleep(1)  # Polling interval
+
+@socketio.on('connect')
+def handle_connect():
+    print("-------------")
+    print('Client connected 65')
+    print("-------------")
+
 if __name__ == '__main__':
-    app.run(debug=True, port=8080, use_reloader=False)
+    # Start background thread for listening to updates
+    update_listener_thread = Thread(target=listen_for_updates)
+    update_listener_thread.daemon = True
+    update_listener_thread.start()
+
+    socketio.run(app, debug=True, port=8080, use_reloader=False)
+
+
+    # Start Flask application
+    # socketio.run(app, debug=True)
 
     
