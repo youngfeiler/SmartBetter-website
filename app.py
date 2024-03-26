@@ -694,7 +694,7 @@ def reset_password():
 
     def send_email(email, code):
         sender_email = 'admin@smartbettor.ai'
-        sender_password = 'Gracie4241$'
+        sender_password = os.environ.get("email_pass")
 
     # Create a MIMEText object for the email body
         message = MIMEMultipart()
@@ -726,6 +726,7 @@ def reset_password():
         try:
             session = app.db_manager.create_session()
             user = session.query(LoginInfo).filter_by(username=username).first()
+            print(user)
             if user != None:
                 code = generate_random_code()
                 send_email(email, code)
