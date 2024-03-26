@@ -3,6 +3,8 @@ import os
 import pandas as pd
 import numpy as np
 from pos_ev_runner_obj import PositiveEVDashboardRunner
+pd.options.mode.chained_assignment = None
+
 
 if __name__ == '__main__':
    obj = PositiveEVDashboardRunner("NCAAB")

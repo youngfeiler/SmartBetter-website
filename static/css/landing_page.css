@@ -78,6 +78,11 @@ div.actions-2 div.button-2-1 a[href="/#pricing"] {
   border-color: white;
 }
 
+.navbar-hm{
+  background-image: url("/static/images/dark-gradient.png"); 
+  background-size: cover;
+}
+
 .home .container {
   align-items: center;
   justify-content: space-between;

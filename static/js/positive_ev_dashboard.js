@@ -321,7 +321,7 @@ function returnMarketView(data) {
 
   const averageOddsDiv = document.createElement("div");
   averageOddsDiv.classList.add("all-books-ind-value");
-  const averageOddsValue = document.createElement("div");
+  const averageOddsValue = document.createElement("p");
   var averageOddsDisplay = parseInt(decimalToAmerican(data['average_market_odds']));
   if (averageOddsDisplay < 0) {
     averageOddsValue.innerText = averageOddsDisplay;
@@ -333,7 +333,7 @@ function returnMarketView(data) {
   const bestOddsDiv = document.createElement("div");
   bestOddsDiv.classList.add("all-books-ind-value");
 
-  const bestOddsValue = document.createElement("div");
+  const bestOddsValue = document.createElement("p");
   var bestOddsDisplay = parseInt(data['highest_bettable_odds']);
   if (bestOddsDisplay < 0) {
     bestOddsValue.innerText = bestOddsDisplay;
@@ -420,10 +420,7 @@ function returnMarketView(data) {
   returnDiv.appendChild(firstValuesRow);
   returnDiv.appendChild(secondValuesRow);
 
-
-
   return returnDiv
-
 }
 
 function decimalToAmerican(decimalOddsString) {
@@ -1010,6 +1007,8 @@ function getImageSportsbookRow(sportsbook_string) {
     'windcreek': '/static/images/sportsbook_logos/windcreek.png', 
     'twinspires': '/static/images/sportsbook_logos/twinspires.png', 
     'pointsbetus': '/static/images/sportsbook_logos/pointsbet.png', 
+    'pointsbetau': '/static/images/sportsbook_logos/pointsbet.png', 
+
     'coolbet': '/static/images/sportsbook_logos/coolbet.png', 
     'suprabets': '/static/images/sportsbook_logos/suprabets.png', 
     'neds': '/static/images/sportsbook_logos/neds.png', 
@@ -1027,7 +1026,7 @@ function getImageSportsbookRow(sportsbook_string) {
     'superbook': '/static/images/sportsbook_logos/superbook.png', 
     'espnbet': '/static/images/sportsbook_logos/espnbet.png', 
     'betvictor': '/static/images/sportsbook_logos/betvictor.png', 
-    '888sport': '/static/images/sportsbook_logos/888sport.png', 
+    'sport888': '/static/images/sportsbook_logos/888sport.png', 
     'wynnbet': '/static/images/sportsbook_logos/wynnbet.png', 
     'betway': '/static/images/sportsbook_logos/betway.png', 
     'casumo': '/static/images/sportsbook_logos/casumo.png', 
@@ -1053,6 +1052,18 @@ function getImageSportsbookRow(sportsbook_string) {
     'livescorebet_eu': '/static/images/sportsbook_logos/livescore.png', 
     'onexbet': '/static/images/sportsbook_logos/1xbet.png',
     'williamhill': '/static/images/sportsbook_logos/williamhill.png',
+    'sisportsbook': '/static/images/sportsbook_logos/si_sportsbook.png',
+    'betfair_ex_uk': '/static/images/sportsbook_logos/betfair.png',
+    'betfair_sb_uk': '/static/images/sportsbook_logos/betfair.png',
+    'betfair_ex_au': '/static/images/sportsbook_logos/betfair.png',
+    'betr_au': '/static/images/sportsbook_logos/betr.png',
+    'boylesports': '/static/images/sportsbook_logos/boyle.png',
+    'ladbrokes_uk': '/static/images/sportsbook_logos/ladbrokes.png',
+    'ladbrokes_au': '/static/images/sportsbook_logos/ladbrokes.png',
+    'livescorebet': '/static/images/sportsbook_logos/livescore.png',
+    'unibet_uk': '/static/images/sportsbook_logos/unibet.png',
+    'unibet_uk': '/static/images/sportsbook_logos/unibet.png',
+    'unibet': '/static/images/sportsbook_logos/unibet.png',
 };
 
   const div = document.createElement("div");
@@ -2033,6 +2044,10 @@ $(document).ready(function () {
   const logo = document.querySelector(".sidebar-custom__logo img");
   menuIcon.addEventListener("click", (e) => {
     document.querySelector(".sidebar-custom").classList.toggle("active");
+
+    document.querySelectorAll('.open').forEach(el =>{
+      el.classList.toggle('open')
+    })
   });
 
   closeIcon.addEventListener("click", (e) => {

@@ -4,6 +4,9 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import traceback
+import json
+import flock as flock
+
 
 
 class PositiveEVDashboardRunner():
@@ -25,6 +28,12 @@ class PositiveEVDashboardRunner():
        "NCAAB": "arb_data/ncaab_arb_data.csv",
        }
     
+    self.market_view_sport_path = {
+       "NBA": "market_view_data/nba_market_view_data.csv",
+       "NHL": "market_view_data/nhl_market_view_data.csv",
+       "NCAAB": "market_view_data/ncaab_market_view_data.csv",
+       }
+    
     self.sport_names = {
        "NBA": "basketball_nba",
        "NHL": "icehockey_nhl",
@@ -33,21 +42,28 @@ class PositiveEVDashboardRunner():
 
     self.sports = [self.sport_names[self.sport]]
 
-    print(f"SPORT: {self.sports}")
-
     self.file_output_path = self.sport_path[self.sport]
 
     self.arb_file_output_path = self.arb_sport_path[self.sport]
 
-    
+    self.market_view_file_output_path = self.market_view_sport_path[self.sport]
+
     self.markets_sports = {
        'americanfootball_ncaaf': ['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals','player_pass_tds', 'player_pass_yds', 'player_pass_completions', 'player_pass_attempts', 'player_pass_interceptions', 'player_pass_longest_completion', 'player_rush_yds', 'player_rush_attempts', 'player_rush_longest', 'player_receptions', 'player_reception_yds', 'player_reception_longest', 'player_kicking_points', 'player_field_goals', 'player_tackles_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'],
 
        'americanfootball_nfl': ['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals','player_pass_tds', 'player_pass_yds', 'player_pass_completions', 'player_pass_attempts', 'player_pass_interceptions', 'player_pass_longest_completion', 'player_rush_yds', 'player_rush_attempts', 'player_rush_longest', 'player_receptions', 'player_reception_yds', 'player_reception_longest', 'player_kicking_points', 'player_field_goals', 'player_tackles_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'],
 
-       'basketball_nba': ['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals', 'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'],
+       'basketball_nba': [
+          'h2h',
+          'spreads', 
+          'totals', 'alternate_spreads', 'alternate_totals','team_totals', 'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'
+          ],
 
-       'basketball_ncaab':['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals', 'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'],
+       'basketball_ncaab':[
+          'h2h', 
+         'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 
+         'team_totals', 'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'
+                           ],
 
        'basketball_euroleague':['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals'],
 
@@ -74,7 +90,8 @@ class PositiveEVDashboardRunner():
     self.game_period_markets = [
        'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'h2h_p1',
        'h2h_p2', 'h2h_p3', 'spreads_q1', 'spreads_q2', 'spreads_q3', 'spreads_q4',
-       'spreads_h1', 'spreads_h2', 'spreads_p1', 'spreads_p2', 'spreads_p3', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2', 'totals_p1', 'totals_p2', 'totals_p3']
+       'spreads_h1', 'spreads_h2', 'spreads_p1', 'spreads_p2', 'spreads_p3', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2', 'totals_p1', 'totals_p2', 'totals_p3'
+       ]
 
     self.nfl_ncaaf_player_props_markets = [
         'player_pass_tds',
@@ -284,7 +301,6 @@ class PositiveEVDashboardRunner():
         odds_df[bookmaker['key']] = 0
         for line in bookmaker['markets']:
            for each in line['outcomes']:
-              
               if 'point' not in each:
                  wager_key = f"{each['name']}"
                  bet_type = self.market_type_dict.get(market)
@@ -305,7 +321,6 @@ class PositiveEVDashboardRunner():
 
      odds_df.fillna(0, inplace=True)
 
-
      if len(odds_df) > 0:
 
       odds_df['average_market_odds'] = (odds_df.iloc[:, 1:].sum(axis=1) / (odds_df.iloc[:, 1:] != 0).sum(axis=1).replace(0, np.nan))
@@ -320,7 +335,7 @@ class PositiveEVDashboardRunner():
 
       odds_df['highest_bettable_odds'] = odds_df[selected_columns].max(axis=1)
 
-      odds_df, arb_df = self.calc_evs(odds_df, bet_type)
+      odds_df, arb_df, market_view_df = self.calc_evs(odds_df, bet_type)
 
       odds_df.sort_values(by='ev', ascending=False, inplace=True)
 
@@ -332,13 +347,13 @@ class PositiveEVDashboardRunner():
          odds_df['game_date'] = game_date
          odds_df['home_team'] =odds['home_team']
          odds_df['away_team'] =odds['away_team']
-
          odds_df = self.map_display_data('sport_title', odds_df)
          odds_df = self.map_display_data('market', odds_df)
          odds_df = self.map_display_data('wager', odds_df)
          self.handle_positive_ev_observations(odds_df)
+
+         
       if len(arb_df) > 0:
-         print("Arb found")
          arb_df['sport_title'] = sport
          arb_df['game_id'] = game_id
          arb_df['market'] = market
@@ -346,13 +361,30 @@ class PositiveEVDashboardRunner():
          arb_df['game_date'] = game_date
          arb_df['home_team'] = odds['home_team']
          arb_df['away_team'] = odds['away_team']
-
          arb_df = self.map_display_data('sport_title', arb_df)
          arb_df = self.map_display_data('market', arb_df)
          arb_df = self.map_display_data('wager', arb_df)
          self.handle_arb_observations(arb_df)
 
+      if len(market_view_df) > 0:
+         market_view_df['sport_title'] = sport
+         market_view_df['game_id_market'] = game_id + market
+         market_view_df['game_id'] = game_id
+         market_view_df['market'] = market
+         market_view_df['wager'] = market_view_df['wagers']
+         market_view_df['game_date'] = game_date
+         market_view_df['home_team'] = odds['home_team']
+         market_view_df['away_team'] = odds['away_team']
+         market_view_df = self.map_display_data('sport_title', market_view_df)
+         market_view_df = self.map_display_data('market', market_view_df)
+         market_view_df = self.map_display_data('wager', market_view_df)
+         self.handle_market_view_observations(market_view_df)
 
+
+      elif len(market_view_df) == 0:
+         self.clear_market_view_observations(game_id, market)
+
+     
   def calc_evs(self, df, type):
      if type == "moneyline":
         df = self.get_other_side_moneyline(df)
@@ -362,11 +394,12 @@ class PositiveEVDashboardRunner():
         df = self.get_other_side_brown(df)
      elif type == "green":
         df = self.get_other_side_green(df)
+
      ev_df = self.calc_ev(df)
 
      arb_df = self.calc_arb(df)
      
-     return ev_df, arb_df
+     return ev_df, arb_df, df
   
   def calc_ev(self, df):
      df['no_vig_prob_1'] = (1 / df['average_market_odds']) / ((1 / df['average_market_odds']) + (1 / df['other_average_market_odds']))
@@ -529,8 +562,6 @@ class PositiveEVDashboardRunner():
 
     result = pd.merge(result, result.copy(), left_on='wagers', right_on="wagers_other", suffixes=('', '_other_X'))
 
-    result.to_csv("RESULT_ST_test.csv", index=False)
-
     return result
   
   def find_matching_columns(self, row, bettable_books):
@@ -551,7 +582,10 @@ class PositiveEVDashboardRunner():
 
      df['snapshot_time'] = pd.to_datetime(datetime.now())
 
-     full_df = pd.read_csv(self.file_output_path)
+     with open(self.file_output_path, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            full_df = pd.read_csv(f)
 
      all_columns = full_df.columns
 
@@ -559,11 +593,14 @@ class PositiveEVDashboardRunner():
 
      result = pd.concat([full_df, df], ignore_index=True).fillna(0)
 
-     result.to_csv(self.file_output_path, index=False)
+     with open(self.file_output_path, 'w') as f:
+         lock = flock.Flock(f, flock.LOCK_EX)
+         with lock:
+            result.to_csv(self.file_output_path, index= False)
  
   def handle_arb_observations(self, df):
      
-     bettable_books_full = ['betclic', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betsson', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'marathonbet', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
+     bettable_books_full = ['betclic', 'betmgm', 'betonlineag', 'betparx', 'betr_au', 'betrivers', 'betus', 'betvictor', 'betway', 'bluebet', 'bovada', 'boylesports', 'casumo', 'coolbet', 'coral', 'draftkings', 'espnbet', 'everygame', 'fanduel', 'fliff', 'grosvenor', 'ladbrokes_au', 'ladbrokes_uk', 'leovegas', 'mrgreen', 'mybookieag', 'neds', 'nordicbet', 'paddypower', 'pinnacle', 'playup', 'pointsbetau', 'pointsbetus', 'sisportsbook', 'skybet', 'sport888', 'sportsbet', 'superbook', 'suprabets', 'tipico_us', 'topsport', 'twinspires', 'unibet', 'unibet_eu', 'unibet_uk', 'unibet_us', 'virginbet', 'williamhill', 'williamhill_us', 'windcreek', 'wynnbet']
 
      bettable_books = [col for col in df.columns if col in bettable_books_full]
 
@@ -575,7 +612,10 @@ class PositiveEVDashboardRunner():
 
      df['snapshot_time'] = pd.to_datetime(datetime.now())
 
-     full_df = pd.read_csv(self.arb_file_output_path)
+     with open(self.arb_file_output_path, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            full_df = pd.read_csv(f)
 
      all_columns = full_df.columns
 
@@ -583,16 +623,101 @@ class PositiveEVDashboardRunner():
 
      result = pd.concat([full_df, df], ignore_index=True).fillna(0)
 
-     result.to_csv(self.arb_file_output_path, index=False)
+     with open(self.arb_file_output_path, 'w') as f:
+         lock = flock.Flock(f, flock.LOCK_EX)
+         with lock:
+            result.to_csv(self.arb_file_output_path, index=False)
 
+  def handle_market_view_observations(self, df):
+     df['concatenated'] = np.where(df['wagers'] < df['wagers_other'], df['wagers'] + df['wagers_other'], df['wagers_other'] + df['wagers'])
+
+     df.drop_duplicates(subset=['concatenated'], keep='first', inplace=True)
+     
+     df['market_reduced'] = df['market'].copy()
+     
+     df['market_reduced'] = df['market'].replace('alternate_totals', 'totals')
+
+     df['market_reduced'] = df['market_reduced'].replace('alternate_spreads', 'spreads')
+
+     df['market_reduced'] = np.where(df['market_reduced'].str.contains('player'), 
+                                df['market_reduced'] + df['wager'], 
+                                df['market_reduced'])
+     def count_non_zero(row):
+        return (row != 0).sum()
+     
+     grouped = df.groupby('market_reduced')
+
+     max_non_zero_idxs = grouped.apply(lambda group: group.apply(count_non_zero, axis=1).idxmax())
+
+     df['is_most'] = False
+     for group, max_idx in max_non_zero_idxs.items():
+         group_mask = df['market_reduced'] == group
+         df.loc[group_mask, 'is_most'] = df.loc[group_mask].index == max_idx
+
+     df['is_most'] = df['is_most'].astype(int)
+
+     df['hashable_id'] = df['game_id'] + df['concatenated']
+
+     df['snapshot_time'] = pd.to_datetime(datetime.now())
+
+     with open(self.market_view_file_output_path, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            stored_data = pd.read_csv(f)
+
+     stored_data_without_market = stored_data[stored_data['game_id_market'] != df['game_id_market'].iloc[0]]
+
+     new_df = pd.concat([stored_data_without_market, df], ignore_index=True)
+
+     new_df.fillna(0, inplace=True)
+
+     with open(self.market_view_file_output_path, 'w') as f:
+         lock = flock.Flock(f, flock.LOCK_EX)
+         with lock:
+            new_df.to_csv(self.market_view_file_output_path, index=False)
+
+     return
+
+  def clear_market_view_observations(self, game_id, market):
+     
+     with open(self.market_view_file_output_path, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            stored_data = pd.read_csv(f)
+
+     game_id_market = game_id + market
+
+     stored_data_without_market = stored_data[stored_data['game_id_market'] != game_id_market]
+
+     with open(self.market_view_file_output_path, 'w') as f:
+         lock = flock.Flock(f, flock.LOCK_EX)
+         with lock:
+            stored_data_without_market.to_csv(self.market_view_file_output_path, index=False)
+
+     return
+     
   def remove_event_obs(self, game_id):
-   df = pd.read_csv(self.file_output_path)
-   df = df[df['game_id'] != game_id]
-   df.to_csv(self.file_output_path, index= False)
 
-   df = pd.read_csv(self.arb_file_output_path)
+   with open(self.file_output_path, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            df = pd.read_csv(f)
    df = df[df['game_id'] != game_id]
-   df.to_csv(self.arb_file_output_path, index= False)
+
+   with open(self.file_output_path, 'w') as f:
+         lock = flock.Flock(f, flock.LOCK_EX)
+         with lock:
+            df.to_csv(self.file_output_path, index= False)
+
+   with open(self.arb_file_output_path, 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            df = pd.read_csv(f)
+   df = df[df['game_id'] != game_id]
+   with open(self.arb_file_output_path, 'w') as f:
+         lock = flock.Flock(f, flock.LOCK_EX)
+         with lock:
+            df.to_csv(self.arb_file_output_path, index= False)
 
    return 
    
@@ -608,12 +733,15 @@ class PositiveEVDashboardRunner():
         for event in event_list:
           print(event)
           try:
+            # Remove all listings of this event from our EV and Arb files, recalculate and refill
             self.remove_event_obs(event)
             # for each market
             for market in self.markets_sports.get(sport):
+              print(market)
               try:
-                print(market)
+               #  print(market)
                 self.digest_market_odds(sport, event, market)
+
               except Exception as e:
                   print(e)
                   pass
