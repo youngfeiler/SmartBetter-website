@@ -5,15 +5,20 @@ import os
 
 # Define your MySQL database parameters
 mysql_database = os.environ.get("db_name")
+mysql_database = "prod"
+
 endpoint = os.environ.get("database_endpoint")
-username = 'admin'
+username = os.environ.get("db_username")
+username = "admin"
 password = os.environ.get("mysql_pass")
+
 class DBManager:
     def __init__(self):
-        print(password)
         mysql_uri = f'mysql+pymysql://{username}:{password}@{endpoint}/{mysql_database}'
+        print(mysql_uri)
         self.engine = create_engine(mysql_uri, pool_pre_ping=True, poolclass=QueuePool)
         self.Session = sessionmaker(bind=self.engine)
+        print(f"Connecting to: {mysql_database}@{endpoint} as {username}")
 
     def create_session(self):
         return self.Session()
