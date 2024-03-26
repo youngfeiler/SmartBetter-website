@@ -38,7 +38,6 @@ from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO
 from threading import Thread
 import time
-import mysql.connector
 import pandas as pd
 import flock as flock
 # from amplitude import Amplitude
