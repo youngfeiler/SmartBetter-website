@@ -18,6 +18,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from ast import literal_eval
 import pytz
 from werkzeug.security import generate_password_hash, check_password_hash
+import flock as flock
 
 
 # Configure the logging level for the stripe module
@@ -518,8 +519,11 @@ class database():
           win_probability = row['no_vig_prob_1']
           kelly_percentage = ((win_probability * odds) - 1) / (odds-1)
           return kelly_percentage * user_bankroll * 0.25
-
-       df = pd.read_csv("pos_ev_data/pos_ev_dash_data.csv")
+      
+       with open("pos_ev_data/pos_ev_dash_data.csv", 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            df = pd.read_csv(f)
 
        df = df[df['highest_bettable_odds'] > 1.01]
 
@@ -645,7 +649,10 @@ class database():
           kelly_percentage = ((win_probability * odds) - 1) / (odds-1)
           return kelly_percentage * user_bankroll * 0.25
 
-       df = pd.read_csv("arb_data/arb_data.csv")
+       with open("arb_data/arb_data.csv", 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            df = pd.read_csv(f)
 
        df = df[df['highest_bettable_odds'] > 1.01]
 
@@ -1070,8 +1077,6 @@ class database():
        
        df = allowed_or_not[allowed_or_not['allowed'] == 1]
 
-       df.to_csv("test.csv", index=False)
-
        initial_bankroll = 1000
 
        df['decimal_prob'] = 1/df['average_market_odds']
@@ -1280,10 +1285,11 @@ class database():
       return return_df.to_dict(orient='list')        
 
     def get_filter_dropdown_values(self):
-
-       df = pd.read_csv('pos_ev_data/pos_ev_dash_data.csv')
-
-       print(df)
+       
+       with open('pos_ev_data/pos_ev_dash_data.csv', 'r') as f:
+         lock = flock.Flock(f, flock.LOCK_SH)
+         with lock:
+            df = pd.read_csv(f)
 
        df['game_date'] = pd.to_datetime(df['game_date'])
 
