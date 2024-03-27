@@ -182,11 +182,12 @@ def get_scenario_data():
 
 @app.route('/checkout/<string:price_id>')
 def create_checkout_session(price_id):
-    if price_id == "price_1OG9CDHM5Jv8uc5MTtdQOZMv":
-        price = 99
+    if price_id == "price_1OZhXvHM5Jv8uc5MyZO28LI1":
+        price = 15
+    elif price_id == "price_1OZhdhHM5Jv8uc5MaLORELDu":
+        price = 50
     else:
-        price = 199
-    trial_end_date = int((datetime.utcnow() + timedelta(days=7)).timestamp())
+        price = 20
     trakdesk_cid = request.args.get('client_reference_id')
 
     checkout_session = stripe.checkout.Session.create(
@@ -208,10 +209,12 @@ def create_checkout_session(price_id):
 
 @app.route('/checkout_free_trial/<string:price_id>')
 def create_checkout_session_free_trial(price_id):
-    if price_id == "price_1OG9CDHM5Jv8uc5MTtdQOZMv":
-        price = 99
+    if price_id == "price_1OZhXvHM5Jv8uc5MyZO28LI1":
+        price = 15
+    elif price_id == "price_1OZhdhHM5Jv8uc5MaLORELDu":
+        price = 50
     else:
-        price = 199
+        price = 20
     trial_end_date = int((datetime.utcnow() + timedelta(days=8)).replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
     trakdesk_cid = request.args.get('client_reference_id')
     print(trakdesk_cid)
