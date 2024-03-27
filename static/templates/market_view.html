@@ -1,0 +1,89 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Updates</title>
+    <link rel="stylesheet" href="static/css/market_view.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/x-icon" href="static/images/logo.ico" />
+
+</head>
+
+<body>
+    {% include "sidebar.html" %}
+    <div class="container-custom">
+
+        <main class="main-custom">
+            <nav class="navbar-custom">
+                <div class="navbar-custom__left">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+
+                <div class="navbar-custom__right">
+                    <div class="navbar-custom__toggle-theme">
+
+                    </div>
+                </div>
+            </nav>
+            <div class="content-custom">
+                <div class="table-custom">
+                    <div class = "table-custom-header">
+                    <div class="full-filter-content">
+                        <div class="full-filter-ind-content">
+                            <div class="full-filter-ind-content-title">
+                                <a class="filter-dropdown-label">SPORT LEAGUE</a>
+                                <div class="amount-selected mobile-no-display">
+                                    <a> 0 </a>
+                                </div>
+                                <a class="amount-selected-label mobile-no-display"> Selected </a>
+                                <a class="filter-dropdown-button  mobile-no-display"> > </a>
+                            </div>
+                            <div class="full-filter-ind-content-values hidden" id="sport-league-filter">
+                            </div>
+                        </div>
+
+                        <div class="full-filter-ind-content">
+                            <div class="full-filter-ind-content-title">
+                                <a class="filter-dropdown-label">MARKET</a>
+                                <div class="amount-selected mobile-no-display">
+                                    <a> 0 </a>
+                                </div>
+                                <a class="amount-selected-label mobile-no-display"> Selected </a>
+                                <a class="filter-dropdown-button  mobile-no-display"> > </a>
+                            </div>
+                            <div class="full-filter-ind-content-values hidden" id="market-filter">
+                            </div>
+                        </div>
+                    </div>
+                    <ul id = "data-list-header">
+                        <div class = "blank-header">
+                            <p class = "blank-header-content"></p>
+                        </div>
+                    </ul>
+                </div>
+
+
+                    <ul id="data-list"></ul>
+
+        </main>
+
+    </div>
+
+    <!-- <div class = "container-custom">
+
+    
+    </div>
+</div> -->
+
+    <!-- </div> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script src="static/js/liveMarketView.js"></script>
+</body>
+
+</html>

@@ -104,7 +104,7 @@ function updateTable(data) {
   {
     tr.innerHTML = `
   <li class="centered">
-  No approved bets right now. Check back again soon.
+  No live bets right now. Check back again soon.
   </li>
   `;
   footer_to_change_innerhtml.innerHTML = `<p>Showing 0 Entries</p>`;
