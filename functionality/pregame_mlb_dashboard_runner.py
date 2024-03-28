@@ -7,7 +7,7 @@ from datetime import datetime
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 import os
 import warnings
-from util import *
+from .util import *
 warnings.filterwarnings("ignore")
 
 
