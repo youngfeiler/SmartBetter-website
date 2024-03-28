@@ -6,6 +6,8 @@ pkill -f functionality/pos_ev_runners/nhl_pos_ev_runner.py
 
 pkill -f functionality/pos_ev_runners/ncaab_pos_ev_runner.py
 
+pkill -f functionality/pos_ev_runners/mlb_pos_ev_runner.py
+
 pkill -f functionality/pos_ev_copier.py
 
 pkill -f functionality/pos_ev_runners/pos_ev_compiler.py
