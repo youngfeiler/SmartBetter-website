@@ -129,7 +129,7 @@ class pregame_mlb_dashboard_runner():
 
     def add_extra_info(self, df):
       
-      extra_info = pd.read_csv('/Users/stefanfeiler/Desktop/SMARTBETTOR_CODEBASE/mlb_model_building/mlb_extra_info.csv')
+      extra_info = pd.read_csv('mlb_data/')
 
       df['commence_date'] = pd.to_datetime(pd.to_datetime(df['commence_time']).dt.date).dt.strftime('%Y%m%d')
 
