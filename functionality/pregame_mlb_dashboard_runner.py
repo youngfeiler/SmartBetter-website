@@ -160,7 +160,7 @@ class pregame_mlb_dashboard_runner():
       merged_df = merged_df[merged_df['number_of_game_today'] == 0]
 
       # may throw an error, not sure where time comes into play here... 
-      merged_df = merged_df.drop(columns=['commence_date', 'commence_date_df2', 'number_of_game_today', 'date', 'team_1_df2', 'team_2_df2', 'commence_date_df2'])
+      merged_df = merged_df.drop(columns=['commence_date_df2', 'number_of_game_today', 'date', 'team_1_df2', 'team_2_df2', 'commence_date_df2'])
 
       merged_df = merged_df.replace('None', np.nan)
 
@@ -253,7 +253,7 @@ class pregame_mlb_dashboard_runner():
 
       df_stacked['home_away'] = np.where(df_stacked['team_1'] == df_stacked['home_team'], 1, 0)
 
-      cols_to_drop=['commence_time', 'time_pulled', 'home_team', 'away_team']
+      cols_to_drop=['time_pulled', 'home_team', 'away_team']
 
       result = df_stacked.drop(columns=cols_to_drop)
 

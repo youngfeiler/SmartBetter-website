@@ -259,6 +259,8 @@ class observation_compiler():
 
       new_obs['new_column'] = new_obs['game_id'].astype(str) + new_obs['snapshot_time'].astype(str)
 
+      new_obs['ev'] = 0
+
       new_df = pd.DataFrame()
 
       new_df = new_obs[self.schema]

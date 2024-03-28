@@ -84,6 +84,8 @@ def start_dashboard_runner():
 
         result_updater_instance.update_results('basketball_nba')
 
+        result_updater_instance.update_results('baseball_mlb')
+
         result_updater_instance.update_results('icehockey_nhl')
 
         pregame_nhl_dashboard_runner_instance.make_live_dash_data()
