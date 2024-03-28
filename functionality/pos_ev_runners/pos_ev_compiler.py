@@ -20,11 +20,18 @@ if __name__ == "__main__":
     nba_df = pd.read_csv("pos_ev_data/nba_pos_ev_data.csv")
     nhl_df = pd.read_csv("pos_ev_data/nhl_pos_ev_data.csv")
     nncaab_df = pd.read_csv("pos_ev_data/ncaab_pos_ev_data.csv")
+    mlb_df = pd.read_csv("pos_ev_data/mlb_pos_ev_data.csv")
 
-    combined_df = pd.concat([nba_df, nncaab_df, nhl_df], ignore_index=True)
+
+    combined_df = pd.concat([nba_df, nncaab_df, nhl_df, mlb_df], ignore_index=True)
 
     while True:
       try:
+
+        with open("pos_ev_data/mlb_pos_ev_data.csv", 'r') as f:
+            lock = flock.Flock(f, flock.LOCK_SH)
+            with lock:
+                new_mlb_df = pd.read_csv(f)
 
         with open("pos_ev_data/nba_pos_ev_data.csv", 'r') as f:
             lock = flock.Flock(f, flock.LOCK_SH)

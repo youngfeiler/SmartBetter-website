@@ -18,24 +18,28 @@ class PositiveEVDashboardRunner():
 
     self.sport_path = {
        "NBA": "pos_ev_data/nba_pos_ev_data.csv",
+       "MLB": "pos_ev_data/mlb_pos_ev_data.csv",
        "NHL": "pos_ev_data/nhl_pos_ev_data.csv",
        "NCAAB": "pos_ev_data/ncaab_pos_ev_data.csv",
        }
     
     self.arb_sport_path = {
        "NBA": "arb_data/nba_arb_data.csv",
+       "MLB": "arb_data/mlb_arb_data.csv",
        "NHL": "arb_data/nhl_arb_data.csv",
        "NCAAB": "arb_data/ncaab_arb_data.csv",
        }
     
     self.market_view_sport_path = {
        "NBA": "market_view_data/nba_market_view_data.csv",
+       "MLB": "market_view_data/mlb_market_view_data.csv",
        "NHL": "market_view_data/nhl_market_view_data.csv",
        "NCAAB": "market_view_data/ncaab_market_view_data.csv",
        }
     
     self.sport_names = {
        "NBA": "basketball_nba",
+       "MLB": "baseball_mlb",
        "NHL": "icehockey_nhl",
        "NCAAB": "basketball_ncaab",
        }
@@ -54,20 +58,49 @@ class PositiveEVDashboardRunner():
        'americanfootball_nfl': ['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals','player_pass_tds', 'player_pass_yds', 'player_pass_completions', 'player_pass_attempts', 'player_pass_interceptions', 'player_pass_longest_completion', 'player_rush_yds', 'player_rush_attempts', 'player_rush_longest', 'player_receptions', 'player_reception_yds', 'player_reception_longest', 'player_kicking_points', 'player_field_goals', 'player_tackles_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'],
 
        'basketball_nba': [
-          'h2h',
-          'spreads', 
-          'totals', 'alternate_spreads', 'alternate_totals','team_totals', 'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'
+          'h2h','spreads', 'totals', 'alternate_spreads', 'alternate_totals','team_totals', 'alternate_team_totals',
+          
+          'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 
+          
+          'player_points_alternate', 'player_rebounds_alternate', 'player_assists_alternate', 'player_blocks_alternate', 'player_steals_alternate', 'player_steals_alternate', 'player_points_assists_alternate', 'player_points_rebounds_alternate', 'player_rebounds_assists_alternate', 'player_points_rebounds_assists_alternate'
+          
+          'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'
           ],
 
        'basketball_ncaab':[
-          'h2h', 
-         'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 
-         'team_totals', 'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'
+          'h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'alternate_team_totals', 'team_totals', 
+          
+          'player_points', 'player_rebounds', 'player_assists', 'player_threes', 'player_double_double', 'player_blocks', 'player_steals', 'player_turnovers', 'player_points_rebounds_assists', 'player_points_rebounds', 'player_points_assists', 'player_rebounds_assists', 
+          
+          'h2h_q1', 'h2h_q2', 'h2h_q3', 'h2h_q4', 'h2h_h1', 'h2h_h2', 'spreads_q1','spreads_q2', 'spreads_q3', 'spreads_q4', 'spreads_h1', 'spreads_h2', 'totals_q1', 'totals_q2', 'totals_q3', 'totals_q4', 'totals_h1', 'totals_h2'
                            ],
 
        'basketball_euroleague':['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals'],
 
-       'icehockey_nhl':['h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals', 'player_points', 'player_power_play_points', 'player_assists', 'player_blocked_shots', 'player_shots_on_goal', 'player_total_saves', 'h2h_p1', 'h2h_p2', 'h2h_p3', 'spreads_p1', 'spreads_p2', 'spreads_p3', 'totals_p1', 'totals_p2', 'totals_p3'],
+       'icehockey_nhl':[
+          
+          'h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals', 'alternate_team_totals',
+                        
+         'player_points', 'player_power_play_points', 'player_assists', 'player_blocked_shots', 'player_shots_on_goal', 'player_total_saves', 
+
+         'player_points_alternate', 'player_assists_alternate', 'player_power_play_points_alternate', 'player_goals_alternate', 'player_shots_on_goal_alternate', 'player_blocked_shots_alternate', 'player_total_saves_alternate',
+         
+         'h2h_p1', 'h2h_p2', 'h2h_p3', 'spreads_p1', 'spreads_p2', 'spreads_p3', 'totals_p1', 'totals_p2', 'totals_p3',
+         
+         ],
+
+       'baseball_mlb': [
+          'h2h', 'spreads', 'totals', 'alternate_spreads', 'alternate_totals', 'team_totals', 'alternate_team_totals',
+
+         'batter_home_runs', 'batter_hits', 'batter_total_bases', 'batter_rbis', 'batter_runs_scored', 'batter_hits_runs_rbis', 'batter_singles', 'batter_doubles', 'batter_triples', 'batter_walks', 'batter_strikeouts', 'batter_stolen_bases', 'pitcher_strikeouts', 'pitcher_hits_allowed', 'pitcher_walks', 'pitcher_earned_runs', 'pitcher_outs',
+
+         'h2h_1st_1_innings', 'h2h_1st_3_innings', 'h2h_1st_5_innings', 'h2h_1st_7_innings', 'spreads_1st_1_innings', 'spreads_1st_3_innings', 'spreads_1st_5_innings', 'spreads_1st_7_innings', 'alternate_spreads_1st_1_innings', 'alternate_spreads_1st_5_innings',
+
+         'totals_1st_1_innings', 'totals_1st_3_innings', 'totals_1st_5_innings', 'totals_1st_7_innings', 'alternate_totals_1st_5_innings'
+         
+         ]
+
+
     }
 
     self.featured_betting_markets = [
@@ -189,6 +222,53 @@ class PositiveEVDashboardRunner():
        'player_blocked_shots' : 'green',
        'player_shots_on_goal' : 'green',
        'player_total_saves': 'green',
+       'player_points_alternate':'green',
+       'player_rebounds_alternate' :'green', 
+       'player_assists_alternate':'green', 
+       'player_blocks_alternate':'green', 
+       'player_steals_alternate':'green', 
+       'player_steals_alternate':'green', 
+       'player_points_assists_alternate':'green', 
+       'player_points_rebounds_alternate':'green', 
+       'player_rebounds_assists_alternate':'green', 
+       'player_points_rebounds_assists_alternate':'green',
+       'player_power_play_points_alternate' : 'green', 
+       'player_goals_alternate' : 'green', 
+       'player_shots_on_goal_alternate' : 'green', 
+       'player_blocked_shots_alternate' : 'green', 
+       'player_total_saves_alternate' : 'green',
+       'batter_home_runs': 'green',
+       'batter_hits': 'green', 
+       'batter_total_bases': 'green', 
+       'batter_rbis': 'green', 
+       'batter_runs_scored': 'green', 
+       'batter_hits_runs_rbis': 'green', 
+       'batter_singles': 'green', 
+       'batter_doubles': 'green', 
+       'batter_triples': 'green', 
+       'batter_walks': 'green', 
+       'batter_strikeouts': 'green', 
+       'batter_stolen_bases': 'green', 
+       'pitcher_strikeouts': 'green', 
+       'pitcher_hits_allowed': 'green', 
+       'pitcher_walks': 'green', 
+       'pitcher_earned_runs': 'green', 
+       'pitcher_outs': 'green',
+       'totals_1st_1_innings' : 'spreads_and_totals', 
+       'totals_1st_3_innings' : 'spreads_and_totals', 
+       'totals_1st_5_innings' : 'spreads_and_totals', 
+       'totals_1st_7_innings' : 'spreads_and_totals',
+       'alternate_totals_1st_5_innings' : 'spreads_and_totals',
+       'h2h_1st_1_innings' : 'moneyline', 
+       'h2h_1st_3_innings' : 'moneyline',
+       'h2h_1st_5_innings' : 'moneyline',
+       'h2h_1st_7_innings' : 'moneyline', 
+       'spreads_1st_1_innings' : 'brown', 
+       'spreads_1st_3_innings' : 'brown',
+       'spreads_1st_5_innings' : 'brown',
+       'spreads_1st_7_innings' : 'brown',
+       'alternate_spreads_1st_1_innings' : 'brown',
+      'alternate_spreads_1st_5_innings' : 'brown',
        'h2h_q1': 'moneyline',
        'h2h_q2': 'moneyline',
        'h2h_q3': 'moneyline',
@@ -384,7 +464,6 @@ class PositiveEVDashboardRunner():
       elif len(market_view_df) == 0:
          self.clear_market_view_observations(game_id, market)
 
-     
   def calc_evs(self, df, type):
      if type == "moneyline":
         df = self.get_other_side_moneyline(df)
@@ -610,7 +689,12 @@ class PositiveEVDashboardRunner():
 
      df['sportsbooks_used_other_X'] = df.apply(lambda row: self.find_matching_columns_other(row, bettable_books_other), axis=1)
 
+     df = df[df['sportsbooks_used'].apply(lambda x: len(x) > 2)]
+
+     df = df[df['sportsbooks_used_other_X'].apply(lambda x: len(x) > 2)]
+
      df['snapshot_time'] = pd.to_datetime(datetime.now())
+
 
      with open(self.arb_file_output_path, 'r') as f:
          lock = flock.Flock(f, flock.LOCK_SH)
