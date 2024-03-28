@@ -1315,12 +1315,14 @@ function greenIfFiltered(event) {
 }
 
 function makeSingleFilterValue(value) {
+  console.log(value)
   return `
   <label class="custom-checkbox">
     <input type="checkbox">
       <span class="checkmark"></span>
       <a class = "filter-value-content-a">
         ${value.toUpperCase()}
+      
       </a>
   </label>`
 }

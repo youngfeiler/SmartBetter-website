@@ -842,7 +842,8 @@ class PositiveEVDashboardRunner():
            'americanfootball_nfl': 'Pro Football',
            'basketball_nba': 'Pro Basketball',
            'basketball_ncaab': 'College Basketball',
-           'basketball_euroleague':'Pro Basketball'
+           'basketball_euroleague':'Pro Basketball',
+           'baseball_mlb':'Pro Baseball'
         }
         leagues = {
            'icehockey_nhl': 'NHL',
@@ -850,7 +851,8 @@ class PositiveEVDashboardRunner():
            'americanfootball_nfl': 'NFL',
            'basketball_nba': 'NBA',
            'basketball_ncaab': 'NCAAB',
-           'basketball_euroleague':'Euroleague'
+           'basketball_euroleague':'Euroleague',
+           'baseball_mlb':'MLB'
         }
         try:
          df['sport_title_display'] = df['sport_title'].map(sports)
@@ -927,7 +929,52 @@ class PositiveEVDashboardRunner():
             'totals_h2': '2H Total', 
             'totals_p1': '1P Total', 
             'totals_p2': '2P Total', 
-            'totals_p3': '3P Total'
+            'totals_p3': '3P Total',
+
+            'batter_singles': 'Batter Singles', 
+            'pitcher_strikeouts' : 'Pitcher Strikeouts', 
+            'spreads_1st_3_innings' : '1st 3 Inning Spread',
+            'pitcher_outs' : 'Pitcher Outs', 
+            'player_blocked_shots_alternate' : 'Player Alt Blocked Shots',
+            'batter_stolen_bases' : ' Batter Stolen Bases',
+            'h2h_1st_7_innings' : '1st 7 Inning Moneyline', 
+            'player_assists_alternate' : 'Player Alt Assists', 
+            'pitcher_walks' : "Pitcher Walks",
+            'player_blocks_alternate' : "Player Alt Blocks", 
+            'batter_strikeouts' : "Batter Strikeouts",
+            'batter_hits_runs_rbis' : 'Batter Hits + Runs + RBIs',
+            'player_rebounds_alternate' : 'Player Alt Rebounds',
+            'totals_1st_5_innings' : '1st 5 Innings Total', 
+            'alternate_spreads_1st_1_innings' : '1st 5 Innings Alt Spread', 
+            'player_rebounds_assists_alternate' : 'Player Alt Rebounds + Assists',
+            'h2h_1st_5_innings' : '1st 5 Innings Moneylne', 
+            'batter_rbis' : "Batter RBIs", 
+            'batter_doubles' : "Batter Doubles",
+            'spreads_1st_7_innings' : "1st 7 Innings Spread",
+            'totals_1st_3_innings' : '1st 3 Innings Total',
+            'spreads_1st_1_innings' : "1st Inning Total",
+            'player_points_alternate' : 'Player Alt Points',
+            'alternate_totals_1st_5_innings' : '1st 5 Innings Alt Total', 
+            'batter_hits': 'Batter Hits',
+            'batter_total_bases' : "Batter Total Bases",
+            'h2h_1st_1_innings' : "1st Inning Moneyline",
+            'player_total_saves_alternate' : "Player Alt Saves",
+            'alternate_spreads_1st_5_innings' : '1st 5 Innings Alt Spread',
+            'player_points_rebounds_alternate' : "Player Alt Points + Rebounds", 'player_power_play_points_alternate' : "Player Alt Power Play Points",
+            'totals_1st_7_innings' : '1st 7 Innings Total', 
+            'batter_walks' : "Batter Walks", 
+            'pitcher_hits_allowed' : "Pitcher Hits Allowed",
+            'player_points_assists_alternate' : "Player Alt Points + Assists", 
+            'player_steals_alternate' : "Player Alt Steals", 
+            'batter_runs_scored' : "Batter Runs Scored", 
+            'player_points_rebounds_assists_alternate' : "Player Alt Rebounds + Assists", 'player_goals_alternate' : "Player Alt Goals", 
+            'spreads_1st_5_innings' : "1st 5 Innings Spread", 
+            'batter_triples' : "Batter Triples", 
+            'totals_1st_1_innings' : "1st Inning Total", 
+            'pitcher_earned_runs' : "Pitcher Earned Runs", 
+            'batter_home_runs' : "Batter Home Runs", 
+            'player_shots_on_goal_alternate' : "Player Alt Shots on Goal", 
+            'h2h_1st_3_innings' : "1st 3 Innings Moneyline"
         }
 
         try: 
