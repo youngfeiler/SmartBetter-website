@@ -20,6 +20,7 @@ if __name__ == "__main__":
     nba_df = pd.read_csv("pos_ev_data/nba_pos_ev_data.csv")
     nhl_df = pd.read_csv("pos_ev_data/nhl_pos_ev_data.csv")
     nncaab_df = pd.read_csv("pos_ev_data/ncaab_pos_ev_data.csv")
+
     mlb_df = pd.read_csv("pos_ev_data/mlb_pos_ev_data.csv")
 
 
@@ -48,7 +49,7 @@ if __name__ == "__main__":
             with lock:
                 new_nncaab_df = pd.read_csv(f)
 
-        new_combined_df = pd.concat([new_nba_df, new_nncaab_df, new_nhl_df], ignore_index=True)
+        new_combined_df = pd.concat([new_nba_df, new_nncaab_df, new_nhl_df, new_mlb_df], ignore_index=True)
 
         if not are_dataframes_equal(combined_df, new_combined_df):
             combined_df = new_combined_df
