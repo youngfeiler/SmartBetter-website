@@ -672,6 +672,17 @@ input[type="text"]::-webkit-inner-spin-button {
   transition: transform 0.3s ease; /* Add smooth transition for swiping */
 }
 
+@media (min-width: 767px) {
+  .desktop-no-display-2{
+    display: none;
+  }
+
+  .full-filter-ind-content-values{
+    max-height: 200px;
+    overflow-y: scroll;
+  }
+} 
+
 
 .full-filter-ind-content-values{
   display:flex;
@@ -684,8 +695,7 @@ input[type="text"]::-webkit-inner-spin-button {
   opacity: 95%;
   border-radius: 5px;
   margin-top: 10px;
-  max-height: 200px;
-  overflow-y: scroll;
+  
 }
 
 .full-filter-ind-content-title{
