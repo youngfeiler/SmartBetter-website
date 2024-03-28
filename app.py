@@ -925,7 +925,6 @@ def get_all_market_view_data():
             df = pd.read_csv(f)
 
         if df.empty or len(df.columns) == 0:
-            print("DataFrame is empty or has no columns.")
             return get_all_market_view_data()
 
         df['hashable_id_copy'] = df['hashable_id'].copy()
@@ -1024,11 +1023,11 @@ def handle_connect():
 
 if __name__ == '__main__':
     # Start background thread for listening to updates
-    update_listener_thread = Thread(target=listen_for_updates)
-    update_listener_thread.daemon = True
-    update_listener_thread.start()
+    # update_listener_thread = Thread(target=listen_for_updates)
+    # update_listener_thread.daemon = True
+    # update_listener_thread.start()
 
-    socketio.run(app, debug=True, port=5000, use_reloader=False)
+    socketio.run(app, debug=True, port=8080, use_reloader=False)
 
 
     # Start Flask application
