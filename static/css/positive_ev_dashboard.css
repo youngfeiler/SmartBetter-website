@@ -1628,6 +1628,8 @@ input[type="text"]::-webkit-inner-spin-button {
     border-radius: 0px;
     margin-bottom: 16px;
     padding-left: 11px;
+    max-height: 200px;
+    overflow-y: scroll;
   }
 
   .filter-value-content-a{
