@@ -1327,7 +1327,7 @@ function makeSingleFilterValue(value) {
 
 function fillFilterValues(callback1, callback2) {
 
-  // for the ones where you can select 
+  // for the ones where you can selec
   fetch('/get_filter_dropdown_values', {
     method: 'GET',
     headers: {
@@ -2069,20 +2069,6 @@ $(document).ready(function () {
   fillFilterValues(addDropdownListeners, addMobileCloseListeners);
 
   addDynamicOddsInputDisplayFunction();
-
-
-
-  // addDesktopSortListeners();
-
-  // addMobileCloseListeners();
-
-  // makeSlideResponsive();
-
-  // window.addEventListener('resize', adjustLayout);
-
-  // adjustLayout();
-
-  //
 
 
   /** 

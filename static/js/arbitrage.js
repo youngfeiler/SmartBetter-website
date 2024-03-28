@@ -42,6 +42,7 @@ function updateTable(data) {
     const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
     table_row_to_append_to.innerHTML = '';
     data.forEach(row => {
+      console.log(row);
       const tr = document.createElement('ul');
       tr.classList.add('table-custom__content__rows__row');
       tr.innerHTML = `

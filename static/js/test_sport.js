@@ -18,6 +18,7 @@ function updateThemeOnHtmlEl({ theme }) {
 }
 
 function updateTable(data) {
+
   const footer_to_append_to = document.querySelector('.table-custom__footer');
   const footer_to_change_innerhtml= document.querySelector('.footer-to-make-innerhtml');
   footer_to_change_innerhtml.innerHTML = `<p>Showing ${data.length} Entries</p>`;
@@ -25,9 +26,21 @@ function updateTable(data) {
 
   const tableBody = document.querySelector('.table-custom__content');
   const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+
+
   table_row_to_append_to.innerHTML = '';
 
   const tr = document.createElement('ul');
+
+  tr.classList.add('table-custom__content__rows__row');
+
+  var objectElement = document.createElement('img');
+
+  objectElement.src = '/static/images/ring-resize.svg';
+
+  tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
+
+  table_row_to_append_to.appendChild(tr);
 
   boolin = true;
   if (!(data.length === 1 && data[0].update === false) && boolin) {
@@ -718,6 +731,22 @@ function fetchDataAndUpdateTable() {
   // Get the last segment (element) of the URL
   var tabValue = urlSegments[urlSegments.length - 1].toUpperCase();
   const url = '/get_live_dash_data?';
+
+  const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+  table_row_to_append_to.innerHTML = '';
+  const tr = document.createElement('ul');
+
+  tr.classList.add('table-custom__content__rows__row');
+
+  var objectElement = document.createElement('img');
+
+  objectElement.src = '/static/images/ring-resize.svg';
+
+  tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
+
+  table_row_to_append_to.appendChild(tr);
+
+
 
   fetch(url,{
     method: 'POST',

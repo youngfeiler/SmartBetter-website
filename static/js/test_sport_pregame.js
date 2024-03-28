@@ -607,6 +607,22 @@ function fetchDataAndUpdateTable() {
   var tabValue = urlSegments[urlSegments.length - 1].toUpperCase();
   const url = '/get_live_dash_data?';
 
+  const table_row_to_append_to = document.querySelector('.table-custom__content__rows')
+  table_row_to_append_to.innerHTML = '';
+  const tr = document.createElement('ul');
+
+  tr.classList.add('table-custom__content__rows__row');
+
+  var objectElement = document.createElement('img');
+
+  objectElement.src = '/static/images/ring-resize.svg';
+
+  tr.innerHTML = '<li class="centered"><img src="/static/images/ring-resize.svg"></li>';
+
+  table_row_to_append_to.appendChild(tr);
+
+
+
   fetch(url,{
     method: 'POST',
     headers: {

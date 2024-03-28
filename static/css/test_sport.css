@@ -177,6 +177,26 @@
   gap: 1.5rem;
 }
 
+.centered{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  font-family: "Inter", sans-serif !important;
+  color: var(--table-p-color);
+  padding-top: 150px;
+  padding-bottom: 150px;
+  width: 100%;
+}
+
+.centered li{
+  width: 100%;
+}
+
+.centered img{
+  height: 20px;
+}
+
 .table-custom .table-custom__header div h2 {
   font-family: Poppins;
   font-size: 2.125rem;
